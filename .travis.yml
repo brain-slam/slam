@@ -4,9 +4,29 @@ python:
   - "3.6"
 # command to install dependencies
 install:
-  - pip install flake8
   - pip install -r requirements.txt
+# install testing stuff
+- pip install pytest pytest-cov pyassimp==4.1.3
+# coveralls started failing to install on Python 3.4 so make it optional
+- pip install coveralls || true
+# install style checkers
+- pip install -U autopep8 flake8
+
 # command to run tests
 script:
-  - pytest
+# style check
   - flake8 slam/
+  - flake8 examples/
+  - flake8 tests/
+  - autopep8 --recursive --aggressive --diff --exit-code trimesh/
+  - autopep8 --recursive --aggressive --diff --exit-code examples/
+  - autopep8 --recursive --aggressive --diff --exit-code tests/
+  - pytest -W default --cov=trimesh tests/
+
+# make sure examples still work
+  - cd examples
+  - set -xe; for f in *py*; do python ../tests/notebooks.py ci exec "$f"; done
+  - cd ..
+
+after_success:
+    - coveralls || true
