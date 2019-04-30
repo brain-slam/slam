@@ -8,7 +8,7 @@ install:
   # install testing stuff
   - pip install -U pytest pytest-cov
   # coveralls started failing to install on Python 3.4 so make it optional
-  #- pip install coveralls || true
+  - pip install coveralls || true
   # install style checkers
   - pip install -U autopep8 flake8
 
@@ -29,5 +29,5 @@ script:
   #- for f in *py*; do python "$f"; done
   #- cd ..
 
-#after_success:
-#    - coveralls || true
+after_success:
+  - coveralls || true
