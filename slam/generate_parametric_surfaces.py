@@ -10,7 +10,9 @@ def quadric(K1, K2):
     :param K2:
     :return:
     """
+
     def fonction(x, y): return K1 * x ** 2 + K2 * y ** 2
+
     return fonction
 
 
@@ -21,8 +23,12 @@ def quadric_curv_gauss(K1, K2):
     :param K2:
     :return:
     """
-    def curv_gauss(x, y): return -4 * (K1 * K2) / \
-        ((1 + 4 * K1**2 * x**2 + 4 * K2**2 * y**2)**2)
+
+    def curv_gauss(x, y):
+        num = -4 * (K1 * K2)
+        denom = (1 + 4 * K1 ** 2 * x ** 2 + 4 * K2 ** 2 * y ** 2) ** 2
+        return num / denom
+
     return curv_gauss
 
 
@@ -33,8 +39,15 @@ def quadric_curv_mean(K1, K2):
     :param K2:
     :return:
     """
-    def curv_mean(x, y): return -(2 * K2 * (1 + 4 * K1 ** 2 * x ** 2) + 2 * K1 * (1 + 4 * K2 ** 2 * y ** 2)) / (
-        2 * (1 + 4 * K1 ** 2 * x ** 2 + 4 * K2 ** 2 * y ** 2) ** (3 / 2))
+
+    def curv_mean(x, y):
+        num = -(2 * K2 * (1 + 4 * K1 ** 2 * x ** 2) + 2 * K1 *
+                (1 + 4 * K2 ** 2 * y ** 2))
+        denom = 2 * (1 + 4 * K1 ** 2 * x ** 2 +
+                     4 * K2 ** 2 * y ** 2) ** (3 / 2)
+
+        return num / denom
+
     return curv_mean
 
 
@@ -68,7 +81,6 @@ def generate_quadric(Ks, nstep=50):
 
 
 def generate_ellipsiod(a, b, nstep, randomSampling):
-
     # Coordinates
     if randomSampling:
         THETA = (np.random.rand(nstep * nstep, 1) - 1 / 2) * np.pi

@@ -9,10 +9,10 @@ def load(gifti_file):
     :param gifti_file: str, path to the gifti file on the disk
     :return: the corresponding trimesh object
     """
-    coords, faces = nb.gifti.read(gifti_file).getArraysFromIntent(nb.nifti1.intent_codes['NIFTI_INTENT_POINTSET'])[
-        0].data, \
-        nb.gifti.read(gifti_file).getArraysFromIntent(nb.nifti1.intent_codes['NIFTI_INTENT_TRIANGLE'])[
-        0].data
+    coords, faces = nb.gifti.read(gifti_file).getArraysFromIntent(
+        nb.nifti1.intent_codes['NIFTI_INTENT_POINTSET'])[0].data, \
+        nb.gifti.read(gifti_file).getArraysFromIntent(
+            nb.nifti1.intent_codes['NIFTI_INTENT_TRIANGLE'])[0].data
     return trimesh.Trimesh(faces=faces, vertices=coords, process=False)
 
 

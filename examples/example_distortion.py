@@ -1,12 +1,11 @@
 import slam.distortion as sdst
 from trimesh import smoothing as sm
-import nibabel as nb
 import slam.plot as splt
 import slam.io as sio
 import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib
-matplotlib.use('TkAgg')
+# import matplotlib.pyplot as plt
+# import matplotlib
+# matplotlib.use('TkAgg')
 
 if __name__ == '__main__':
 
@@ -26,7 +25,7 @@ if __name__ == '__main__':
 
     vect_col = np.random.random_integers(0, 255, mesh.faces.shape[0])
     print(vect_col.shape)
-    #mesh.visual.vertex_colors = vert_col
+    # mesh.visual.vertex_colors = vert_col
     mesh.visual.faces_colors = vect_col
     mesh.show()
 

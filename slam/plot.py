@@ -11,8 +11,8 @@ def visbrain_plot(mesh, tex=None):
 
     # invert_normals = True -> Light outside
     # invert_normals = False -> Light inside
-    b_obj = BrainObj('gui', vertices=mesh.vertices, faces=mesh.faces, translucent=False,
-                     invert_normals=True)
+    b_obj = BrainObj('gui', vertices=mesh.vertices, faces=mesh.faces,
+                     translucent=False, invert_normals=True)
     if tex is not None:
         b_obj.add_activation(data=tex, cmap='viridis')
     b_obj.preview(bgcolor='white')

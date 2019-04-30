@@ -29,5 +29,5 @@ script:
   #- for f in *py*; do python "$f"; done
   #- cd ..
 
-after_success:
-    - coveralls || true
+#after_success:
+#    - coveralls || true

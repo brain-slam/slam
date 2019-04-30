@@ -58,7 +58,8 @@ if __name__ == '__main__':
     # close mesh holes
     mesh.fill_holes()
 
-    # register to another using iterative ICP initiated by principal axes of intertia
+    # register to another using iterative ICP initiated by principal axes of
+    # intertia
     # mesh.register(other)
 
     m_smooth = mesh.smoothed()
@@ -96,11 +97,12 @@ if __name__ == '__main__':
 
     # if there are multiple bodies in the mesh we can split the mesh by
     # connected components of face adjacency
-    # since this example mesh is a single watertight body we get a list of one mesh
+    # since this example mesh is a single watertight body we get a list of one
+    # mesh
     # mesh.split()
 
     # find groups of coplanar adjacent faces
-    #facets, facets_area = mesh.facets(return_area=True)
+    # facets, facets_area = mesh.facets(return_area=True)
 
     # set each facet to a random color
     # colors are 8 bit RGBA by default (n,4) np.uint8
