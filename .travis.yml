@@ -5,25 +5,26 @@ python:
 # command to install dependencies
 install:
   - pip install -r requirements.txt
-# install testing stuff
-- pip install pytest pytest-cov pyassimp==4.1.3
-# coveralls started failing to install on Python 3.4 so make it optional
-- pip install coveralls || true
-# install style checkers
-- pip install -U autopep8 flake8
+  # install testing stuff
+  - pip install pytest pytest-cov pyassimp==4.1.3
+  # coveralls started failing to install on Python 3.4 so make it optional
+  - pip install coveralls || true
+  # install style checkers
+  - pip install -U autopep8 flake8
 
 # command to run tests
 script:
-# style check
-  - flake8 slam/
-  - flake8 examples/
-  - flake8 tests/
+  # style check
+  #- flake8 slam/
+  #- flake8 examples/
+  #- flake8 tests/
   - autopep8 --recursive --aggressive --diff --exit-code slam/
   - autopep8 --recursive --aggressive --diff --exit-code examples/
   - autopep8 --recursive --aggressive --diff --exit-code tests/
+
   - pytest -W default --cov=slam/
 
-# make sure examples still work
+  # make sure examples still work
   - cd examples
   - for f in *py*; do python "$f"; done
   - cd ..
