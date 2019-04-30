@@ -1,19 +1,18 @@
 import trimesh
 import numpy as np
-import trimesh_extension.trimesh_gifti as tg
-import trimesh_extension.trimesh_plot as tplt
+import slam.io as sio
+import slam.plot as splt
 import nibabel as nb
 from trimesh import smoothing as sm
-import distortion as dst
 
 if __name__ == '__main__':
 
-    mesh = tg.load('example_mesh.gii')
+    mesh = sio.load('example_mesh.gii')
     mesh.apply_transform(mesh.principal_inertia_transform)
     curv_gifti = nb.gifti.read('example_texture.gii')
     curv_tex = curv_gifti.darrays[0].data.squeeze()
 
-    tplt.pyglet_plot(mesh, curv_tex)
+    splt.pyglet_plot(mesh, curv_tex)
 
     mesh_s = sm.filter_laplacian(mesh, iterations=20)
     mesh_s.show()

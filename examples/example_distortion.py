@@ -2,15 +2,15 @@ import matplotlib
 matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 import numpy as np
-import trimesh_extension.trimesh_gifti as tg
-import trimesh_extension.trimesh_plot as tplt
+import slam.io as sio
+import slam.plot as splt
 import nibabel as nb
 from trimesh import smoothing as sm
-import distortion as dst
+import slam.distortion as sdst
 
 if __name__ == '__main__':
 
-    mesh = tg.load('example_mesh.gii')
+    mesh = sio.load('example_mesh.gii')
     mesh.apply_transform(mesh.principal_inertia_transform)
     #mesh.show()
     mesh_s = sm.filter_laplacian(mesh.copy(), iterations=100)
@@ -18,7 +18,7 @@ if __name__ == '__main__':
 
     print(mesh.vertices.shape)
 
-    angle_diff = dst.angle_difference(mesh,mesh_s)
+    angle_diff = sdst.angle_difference(mesh,mesh_s)
     print(angle_diff)
 
     face_angle_dist = np.sum(angle_diff, 1)
@@ -37,4 +37,4 @@ if __name__ == '__main__':
     # ax.grid(True)
     # plt.show()
 
-    tplt.pyglet_plot(mesh_s, face_angle_dist)
+    splt.pyglet_plot(mesh_s, face_angle_dist)

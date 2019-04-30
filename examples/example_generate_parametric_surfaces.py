@@ -1,11 +1,11 @@
 import trimesh
-import trimesh_extension.trimesh_create_parametric_surfaces as tps
+import slam.generate_parametric_surfaces as sps
 import numpy as np
 
 if __name__ == '__main__':
 
     Ks = [[1, 1]]
-    X, Y, faces, Zs = tps.generate_quadric(Ks, nstep=10)
+    X, Y, faces, Zs = sps.generate_quadric(Ks, nstep=10)
     Z =Zs[0]
 
     coords = np.array([X,Y,Z]).transpose()
@@ -37,10 +37,10 @@ if __name__ == '__main__':
     randomSampling=True
     a=2
     b=1
-    ellips = tps.generate_ellipsiod(a, b, nstep, randomSampling)
+    ellips = sps.generate_ellipsiod(a, b, nstep, randomSampling)
     ellips.show()
 
-    sphere = tps.generate_sphere(10)
+    sphere = sps.generate_sphere(10)
     sphere.show()
 
 
