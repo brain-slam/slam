@@ -2,6 +2,7 @@ import numpy as np
 from matplotlib.tri import Triangulation
 import trimesh
 
+
 def quadric(K1, K2):
     """
 

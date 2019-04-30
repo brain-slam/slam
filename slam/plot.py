@@ -1,6 +1,5 @@
 
 
-
 def visbrain_plot(mesh, tex=None):
     """
     Visualize a trimesh object using visbrain core plotting tool
