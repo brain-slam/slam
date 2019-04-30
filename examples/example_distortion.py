@@ -1,30 +1,30 @@
+import slam.distortion as sdst
+from trimesh import smoothing as sm
+import nibabel as nb
+import slam.plot as splt
+import slam.io as sio
+import numpy as np
+import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.use('TkAgg')
-import matplotlib.pyplot as plt
-import numpy as np
-import slam.io as sio
-import slam.plot as splt
-import nibabel as nb
-from trimesh import smoothing as sm
-import slam.distortion as sdst
 
 if __name__ == '__main__':
 
     mesh = sio.load('example_mesh.gii')
     mesh.apply_transform(mesh.principal_inertia_transform)
-    #mesh.show()
+    # mesh.show()
     mesh_s = sm.filter_laplacian(mesh.copy(), iterations=100)
-    #mesh_s.show()
+    # mesh_s.show()
 
     print(mesh.vertices.shape)
 
-    angle_diff = sdst.angle_difference(mesh,mesh_s)
+    angle_diff = sdst.angle_difference(mesh, mesh_s)
     print(angle_diff)
 
     face_angle_dist = np.sum(angle_diff, 1)
     print(face_angle_dist)
 
-    vect_col = np.random.random_integers(0,255,mesh.faces.shape[0])
+    vect_col = np.random.random_integers(0, 255, mesh.faces.shape[0])
     print(vect_col.shape)
     #mesh.visual.vertex_colors = vert_col
     mesh.visual.faces_colors = vect_col

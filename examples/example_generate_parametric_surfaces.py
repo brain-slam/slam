@@ -6,9 +6,9 @@ if __name__ == '__main__':
 
     Ks = [[1, 1]]
     X, Y, faces, Zs = sps.generate_quadric(Ks, nstep=10)
-    Z =Zs[0]
+    Z = Zs[0]
 
-    coords = np.array([X,Y,Z]).transpose()
+    coords = np.array([X, Y, Z]).transpose()
     mesh = trimesh.Trimesh(faces=faces, vertices=coords, process=False)
     mesh.show()
     # Ks = [[1, 1], [1, 0], [0, 0], [-1, 1]]
@@ -31,18 +31,16 @@ if __name__ == '__main__':
     #     ax.set_title(str(K[0])+' '+str(K[1]))
     #     cpt=cpt+1
 
-
     # Ellipsoid Parameters
-    nstep=50
-    randomSampling=True
-    a=2
-    b=1
+    nstep = 50
+    randomSampling = True
+    a = 2
+    b = 1
     ellips = sps.generate_ellipsiod(a, b, nstep, randomSampling)
     ellips.show()
 
     sphere = sps.generate_sphere(10)
     sphere.show()
-
 
     # fig = plt.figure()
     # ax = fig.gca(projection='3d')
@@ -62,7 +60,6 @@ if __name__ == '__main__':
     # ax.plot_trisurf(coords[:, 0], coords[:, 1], coords[:, 2], triangles=Tri.triangles, shade=True)
     # ax.view_init(25, 25)
     # ax.set_aspect('equal')
-
 
 
 #     # # Visualization

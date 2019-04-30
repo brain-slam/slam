@@ -17,7 +17,7 @@ if __name__ == '__main__':
     mesh_s = sm.filter_laplacian(mesh, iterations=20)
     mesh_s.show()
 
-    #mesh.fill_holes()
+    # mesh.fill_holes()
     mesh.edges
     # interesting properties / functions of a mesh
     # see base.py for more details
@@ -55,21 +55,19 @@ if __name__ == '__main__':
 
     mesh.convex_hull.show()
 
-
     # close mesh holes
     mesh.fill_holes()
 
     # register to another using iterative ICP initiated by principal axes of intertia
-    #mesh.register(other)
+    # mesh.register(other)
 
     m_smooth = mesh.smoothed()
-
 
     mesh.show()
     m_smooth.show()
 
     # kdtree of the vertices
-    #mesh.kdtree()
+    # mesh.kdtree()
 
     # mesh refinement by subdivision of face
     mesh.subdivide()
@@ -78,12 +76,12 @@ if __name__ == '__main__':
     mesh.sample(100)
 
     # apply rigid transormation
-    #mesh.apply_transform()
+    # mesh.apply_transform()
 
     mesh.voxelized(2).show()
 
     # boundary of the mesh or list of faces
-    #mesh.outline()
+    # mesh.outline()
 
     # the convex hull is another Trimesh object that is available as a property
     # lets compare the volume of our mesh with the volume of its convex hull
@@ -109,14 +107,14 @@ if __name__ == '__main__':
     # for facet in mesh.facets:
     #     mesh.visual.face_colors[facet] = trimesh.visual.random_color()
 
-
     for vert_ind in range(len(mesh.visual.vertex_colors)):
         mesh.visual.vertex_colors[vert_ind] = trimesh.visual.random_color()
 
     # preview mesh in an opengl window if you installed pyglet with pip
     mesh.show()
 
-    # transform method can be passed a (4,4) matrix and will cleanly apply the transform
+    # transform method can be passed a (4,4) matrix and will cleanly apply the
+    # transform
     mesh.apply_transform(trimesh.transformations.random_rotation_matrix())
 
     # axis aligned bounding box is available
