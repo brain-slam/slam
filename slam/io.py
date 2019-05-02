@@ -1,9 +1,10 @@
 import nibabel as nb
 import trimesh
 import numpy as np
+from slam import texture
 
 
-def load(gifti_file):
+def load_mesh(gifti_file):
     """
     load gifti_file and create a trimesh object
     :param gifti_file: str, path to the gifti file on the disk
@@ -16,7 +17,7 @@ def load(gifti_file):
     return trimesh.Trimesh(faces=faces, vertices=coords, process=False)
 
 
-def write(mesh, gifti_file):
+def write_mesh(mesh, gifti_file):
     """ Create a mesh object from two arrays
 
     fixme:  intent should be set !
@@ -30,3 +31,30 @@ def write(mesh, gifti_file):
     img = nb.gifti.GiftiImage(darrays=[carray, tarray])
 
     nb.gifti.write(img, gifti_file)
+
+
+def load_texture(gifti_file):
+    """
+    load gifti_file and create a TextureND object
+    :param gifti_file: str, path to the gifti file on the disk
+    :return: the corresponding TextureND object
+    """
+    nb_texture = nb.gifti.read(gifti_file)
+
+    return texture.TextureND(darray=nb_texture.darrays[0].data)
+
+
+def write_texture(tex, gifti_file):
+    """
+    write a TextureND object to disk as a gifti file
+    :param gifti_file: str, path to the gifti file on the disk
+    :return: the corresponding TextureND object
+    """
+    darrays_list = []
+    outtexture_data = np.copy(tex.darray)  # or whatever you want to write
+
+    darrays_list.append(nb.GiftiDataArray().from_array(
+        outtexture_data.astype(np.float32), 0))
+    outtexture_gii = nb.GiftiImage(darrays=darrays_list)
+
+    nb.write(outtexture_gii, gifti_file)

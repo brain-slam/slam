@@ -18,6 +18,16 @@ Installation:
 pip install trimesh[easy]
 
 -clone the current repo
+
 -try example scripts located in examples folder
 
 
+------------------
+For contributors:
+------------------
+
+-intall flake8 and autopep8
+pip install -U autopep8 flake8
+
+-install pytest
+pip install -U pytest 

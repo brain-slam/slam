@@ -1,7 +1,7 @@
 from slam import generate_parametric_surfaces as sps
 
 
-def test_generate_ellipsiod():
+def test_generate_ellipsoid():
     nstep = 50
     randomSampling = True
     a = 2

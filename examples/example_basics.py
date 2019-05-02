@@ -7,7 +7,7 @@ from trimesh import smoothing as sm
 
 if __name__ == '__main__':
 
-    mesh = sio.load('example_mesh.gii')
+    mesh = sio.load_mesh('example_mesh.gii')
     mesh.apply_transform(mesh.principal_inertia_transform)
     curv_gifti = nb.gifti.read('example_texture.gii')
     curv_tex = curv_gifti.darrays[0].data.squeeze()
