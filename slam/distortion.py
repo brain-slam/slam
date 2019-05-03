@@ -5,8 +5,7 @@ def angle_difference(mesh1, mesh2):
     return mesh1.face_angles - mesh2.face_angles
 
 
-def area_diffference(mesh1, mesh2):
-
+def area_difference(mesh1, mesh2):
     """
         Compare_mesh_angle
 
