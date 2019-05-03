@@ -14,7 +14,8 @@ def load_mesh(gifti_file):
         nb.nifti1.intent_codes['NIFTI_INTENT_POINTSET'])[0].data, \
         nb.gifti.read(gifti_file).getArraysFromIntent(
             nb.nifti1.intent_codes['NIFTI_INTENT_TRIANGLE'])[0].data
-    return trimesh.Trimesh(faces=faces, vertices=coords, process=False)
+    return trimesh.Trimesh(faces=faces, vertices=coords,
+                           metadata={'filename': gifti_file}, process=False)
 
 
 def write_mesh(mesh, gifti_file):
