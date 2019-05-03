@@ -6,3 +6,7 @@ def test_angle_difference():
 
 def test_area_difference():
     assert True
+
+
+def test_edge_length_difference():
+    assert True
