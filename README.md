@@ -15,6 +15,7 @@ Installation:
 ------------------
 
 -install the lastest version of trimesh in easy (minimal dependency) mode:
+
 pip install trimesh[easy]
 
 -clone the current repo
@@ -27,7 +28,9 @@ For contributors:
 ------------------
 
 -intall flake8 and autopep8
+
 pip install -U autopep8 flake8
 
 -install pytest
+
 pip install -U pytest 
