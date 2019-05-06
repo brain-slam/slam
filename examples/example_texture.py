@@ -8,9 +8,13 @@ if __name__ == '__main__':
     print(tex)
     print(tex.shape)
     print(tex.dtype)
+    print(tex.min())
+    print(tex.max())
 
     darray = np.zeros((2, 3))
     tex2 = texture.TextureND(darray=darray)
     print(tex2)
     print(tex2.shape)
     print(tex2.dtype)
+    print(tex2.min())
+    print(tex2.max())

@@ -5,8 +5,8 @@ def vertex_voronoi(mesh):
     """
     compute vertex voronoi of a mesh as described in
     Meyer, M., Desbrun, M., Schroder, P., Barr, A. (2002).
-    Discrete differential-geometry operators for triangulated 2-manifolds.
-    Visualization and Mathematics, 1–26.
+    Discrete differential geometry operators for triangulated 2manifolds.
+    Visualization and Mathematics, 1..26.
     :param mesh: trimesh object
     :return: numpy array of shape (mesh.vertices.shape[0],)
     """

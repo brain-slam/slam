@@ -93,7 +93,7 @@ class TextureND:
         if self.is_empty:
             return
 
-        ind_infinite = np.isfinite(self.darray)
+        ind_infinite = ~np.isfinite(self.darray)
         darray = self.darray.copy()
         darray[ind_infinite] = 0
         self.update_darray(darray)

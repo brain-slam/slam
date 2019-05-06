@@ -8,15 +8,8 @@ if __name__ == '__main__':
     mesh = sio.load_mesh('example_mesh.gii')
     mesh.apply_transform(mesh.principal_inertia_transform)
     tex = sio.load_texture('example_texture.gii')
-    curv_gifti = nb.gifti.read('example_texture.gii')
-    curv_tex = curv_gifti.darrays[0].data.squeeze()
 
-    print(curv_tex.max())
-    print(curv_tex.min())
-    print(tex.min())
-    print(tex.max())
-
-    splt.pyglet_plot(mesh, curv_tex)
+    splt.pyglet_plot(mesh, tex.darray)
 
     """ set each facet to a random color
     colors are 8 bit RGBA by default (n,4) np.uint8
