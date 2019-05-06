@@ -104,17 +104,6 @@ if __name__ == '__main__':
     # find groups of coplanar adjacent faces
     # facets, facets_area = mesh.facets(return_area=True)
 
-    # set each facet to a random color
-    # colors are 8 bit RGBA by default (n,4) np.uint8
-    # for facet in mesh.facets:
-    #     mesh.visual.face_colors[facet] = trimesh.visual.random_color()
-
-    for vert_ind in range(len(mesh.visual.vertex_colors)):
-        mesh.visual.vertex_colors[vert_ind] = trimesh.visual.random_color()
-
-    # preview mesh in an opengl window if you installed pyglet with pip
-    mesh.show()
-
     # transform method can be passed a (4,4) matrix and will cleanly apply the
     # transform
     mesh.apply_transform(trimesh.transformations.random_rotation_matrix())

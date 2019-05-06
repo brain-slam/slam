@@ -9,7 +9,7 @@ import numpy as np
 
 if __name__ == '__main__':
 
-    mesh = sio.load('example_mesh.gii')
+    mesh = sio.load_mesh('example_mesh.gii')
     mesh.apply_transform(mesh.principal_inertia_transform)
     # mesh.show()
     mesh_s = sm.filter_laplacian(mesh.copy(), iterations=100)

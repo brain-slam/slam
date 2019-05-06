@@ -14,6 +14,6 @@ if __name__ == '__main__':
     vert_vor = svv.vertexVoronoi(mesh)
     print(mesh.vertices.shape)
     print(vert_vor.shape)
-    print(np.sum(vert_vor)-mesh.area)
+    print(np.sum(vert_vor) - mesh.area)
 
     splt.pyglet_plot(mesh, vert_vor)

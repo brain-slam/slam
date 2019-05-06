@@ -125,3 +125,12 @@ class TextureND:
         copied.metadata = self.metadata.copy()
 
         return copied
+
+    def min(self):
+        return self.darray.min()
+
+    def max(self):
+        return self.darray.max()
+
+    def mean(self):
+        return self.darray.mean()

@@ -1,5 +1,4 @@
 
-
 def visbrain_plot(mesh, tex=None):
     """
     Visualize a trimesh object using visbrain core plotting tool
@@ -28,11 +27,17 @@ def pyglet_plot(mesh, curv_ref=None):
     """
     import numpy as np
     if curv_ref is not None:
+        # scale the map between 0 and 1
         scaled_curv = curv_ref - curv_ref.min()
         scaled_curv = scaled_curv / scaled_curv.max()
-        vect_col = np.tile(np.round(scaled_curv * 255), (3, 1)).T
+        # convert into uint8 in [0 255]
+        vect_col = np.stack([255 * np.ones(scaled_curv.shape),
+                             np.round(scaled_curv * 255),
+                             np.round(scaled_curv * 255),
+                             255 * np.ones(scaled_curv.shape)],
+                            axis=1).astype(np.uint8)
         if vect_col.shape[0] == mesh.vertices.shape[0]:
-            mesh.visual.vertex_colors = vect_col
+            mesh.visual.vertex_colors = vect_col  # color.to_rgba(vect_col)
         elif vect_col.shape[0] == mesh.faces.shape[0]:
             mesh.visual.face_colors = vect_col
     # call the default trimesh visualization tool using pyglet
