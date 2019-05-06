@@ -1,3 +1,5 @@
+import numpy as np
+
 
 def visbrain_plot(mesh, tex=None):
     """
@@ -17,18 +19,47 @@ def visbrain_plot(mesh, tex=None):
     b_obj.preview(bgcolor='white')
 
 
-def pyglet_plot(mesh, curv_ref=None):
+def linear_interp_rgba_colormap(val_color_a, val_color_b, res=256):
+    """
+    linear interpolation to create colormaps
+    :param val_color_a: list of length 5 setting the value and corresponding
+    RGBA color for the inferior bound ot he colormap.
+    :param val_color_b: list of length 5 setting the value and corresponding
+    RGBA color for the superior bound ot he colormap.
+    :param res: number of intervals in the returned colormap
+    :return: the resulting colormap in the form of a value-RGBAcolor matrix of
+    size res*5 (formatted as list of list)
+    """
+    acolor_a = np.array(val_color_a[1:])
+    acolor_b = np.array(val_color_b[1:])
+    val_a = val_color_a[0]
+    val_b = val_color_b[0]
+    vals = [-np.Inf]
+    for t in range(res - 1):
+        vals.append(val_a + (val_b - val_a) * t / (res - 2))
+
+    colors = list()
+    for t in range(res):
+        colors.append(np.round(acolor_a + (acolor_b - acolor_a)
+                               * t / (res - 1)).tolist())
+    val_colors = []
+    for c, v in zip(colors, vals):
+        val_colors.append([v] + c)
+    return val_colors
+
+
+def pyglet_plot(mesh, map=None):
     """
     Visualize a trimesh object using pyglet as proposed in trimesh
     the added value is for texture visualization
     :param mesh: trimesh object
-    :param curv_ref: numpy array of a texture to be visualized on the mesh
+    :param map: numpy array of a texture to be visualized on the mesh
     :return:
     """
-    import numpy as np
-    if curv_ref is not None:
+
+    if map is not None:
         # scale the map between 0 and 1
-        scaled_curv = curv_ref - curv_ref.min()
+        scaled_curv = map - map.min()
         scaled_curv = scaled_curv / scaled_curv.max()
         # convert into uint8 in [0 255]
         vect_col = np.stack([255 * np.ones(scaled_curv.shape),
@@ -36,8 +67,27 @@ def pyglet_plot(mesh, curv_ref=None):
                              np.round(scaled_curv * 255),
                              255 * np.ones(scaled_curv.shape)],
                             axis=1).astype(np.uint8)
+        mean_map_val = map.mean()
+        max_map_val = np.max(np.abs(map))
+        clmap_neg = linear_interp_rgba_colormap(
+            [-max_map_val, 0, 0, 255, 255],
+            [mean_map_val, 255, 255, 255, 255], res=128)
+        clmap_pos = linear_interp_rgba_colormap(
+            [mean_map_val, 255, 255, 255, 255],
+            [max_map_val, 255, 0, 0, 255], res=128)
+        clmap = clmap_neg
+        clmap.extend(clmap_pos[1:])
+
+        vect_col_map = list()
+        for val in map:
+            for c in clmap:
+                if val > c[0]:  # < c[0]:
+                    color = c[1:]
+            vect_col_map.append(color)
+        vect_col_map = np.array(vect_col_map, dtype=np.uint8)
         if vect_col.shape[0] == mesh.vertices.shape[0]:
-            mesh.visual.vertex_colors = vect_col  # color.to_rgba(vect_col)
+            # vect_col  # color.to_rgba(vect_col)
+            mesh.visual.vertex_colors = vect_col_map
         elif vect_col.shape[0] == mesh.faces.shape[0]:
             mesh.visual.face_colors = vect_col
     # call the default trimesh visualization tool using pyglet

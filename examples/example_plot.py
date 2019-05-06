@@ -3,10 +3,12 @@ import slam.plot as splt
 import slam.io as sio
 
 if __name__ == '__main__':
+    mesh_file = 'example_mesh.gii'
+    texture_file = 'example_texture.gii'
 
-    mesh = sio.load_mesh('example_mesh.gii')
+    mesh = sio.load_mesh(mesh_file)
     mesh.apply_transform(mesh.principal_inertia_transform)
-    tex = sio.load_texture('example_texture.gii')
+    tex = sio.load_texture(texture_file)
 
     splt.pyglet_plot(mesh, tex.darray)
 
