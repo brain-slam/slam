@@ -1,7 +1,6 @@
 import trimesh
 import slam.plot as splt
 import slam.io as sio
-import nibabel as nb
 
 if __name__ == '__main__':
 
