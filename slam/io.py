@@ -10,12 +10,15 @@ def load_mesh(gifti_file):
     :param gifti_file: str, path to the gifti file on the disk
     :return: the corresponding trimesh object
     """
-    coords, faces = nb.gifti.read(gifti_file).getArraysFromIntent(
+    g = nb.gifti.read(gifti_file)
+    coords, faces = g.getArraysFromIntent(
         nb.nifti1.intent_codes['NIFTI_INTENT_POINTSET'])[0].data, \
-        nb.gifti.read(gifti_file).getArraysFromIntent(
+        g.getArraysFromIntent(
             nb.nifti1.intent_codes['NIFTI_INTENT_TRIANGLE'])[0].data
+    metadata = g.get_meta().metadata
+    metadata['filename'] = gifti_file
     return trimesh.Trimesh(faces=faces, vertices=coords,
-                           metadata={'filename': gifti_file}, process=False)
+                           metadata=metadata, process=False)
 
 
 def write_mesh(mesh, gifti_file):
@@ -29,7 +32,7 @@ def write_mesh(mesh, gifti_file):
                                                   "NIFTI_INTENT_POINTSET")
     tarray = nb.gifti.GiftiDataArray().from_array(
         triangles, "NIFTI_INTENT_TRIANGLE")
-    img = nb.gifti.GiftiImage(darrays=[carray, tarray])
+    img = nb.gifti.GiftiImage(darrays=[carray, tarray], meta=mesh.metadata)
 
     nb.gifti.write(img, gifti_file)
 
@@ -42,7 +45,8 @@ def load_texture(gifti_file):
     """
     nb_texture = nb.gifti.read(gifti_file)
 
-    return texture.TextureND(darray=nb_texture.darrays[0].data)
+    return texture.TextureND(darray=nb_texture.darrays[0].data,
+                             metadata=nb_texture.get_meta().metadata)
 
 
 def write_texture(tex, gifti_file):
@@ -52,10 +56,10 @@ def write_texture(tex, gifti_file):
     :return: the corresponding TextureND object
     """
     darrays_list = []
-    outtexture_data = np.copy(tex.darray)  # or whatever you want to write
+    out_texture_data = np.copy(tex.darray)  # or whatever you want to write
 
     darrays_list.append(nb.GiftiDataArray().from_array(
-        outtexture_data.astype(np.float32), 0))
-    outtexture_gii = nb.GiftiImage(darrays=darrays_list)
+        out_texture_data.astype(np.float32), 0))
+    out_texture_gii = nb.GiftiImage(darrays=darrays_list, meta=tex.metadata)
 
-    nb.write(outtexture_gii, gifti_file)
+    nb.write(out_texture_gii, gifti_file)
