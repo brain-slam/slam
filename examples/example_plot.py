@@ -1,6 +1,7 @@
 import trimesh
 import slam.plot as splt
 import slam.io as sio
+import numpy as np
 
 if __name__ == '__main__':
     mesh_file = 'example_mesh.gii'
@@ -10,7 +11,8 @@ if __name__ == '__main__':
     mesh.apply_transform(mesh.principal_inertia_transform)
     tex = sio.load_texture(texture_file)
 
-    splt.pyglet_plot(mesh, tex.darray)
+    #splt.pyglet_plot(mesh, tex.darray)
+    splt.pyglet_plot(mesh, tex.darray, np.min(tex.darray), np.max(tex.darray), plot_colormap=True)
 
     """ set each facet to a random color
     colors are 8 bit RGBA by default (n,4) np.uint8

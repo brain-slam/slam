@@ -48,7 +48,7 @@ def linear_interp_rgba_colormap(val_color_a, val_color_b, res=256):
     return val_colors
 
 
-def pyglet_plot(mesh, map=None, map_min=None, map_max=None):
+def pyglet_plot(mesh, map=None, map_min=None, map_max=None, plot_colormap=False):
     """
     Visualize a trimesh object using pyglet as proposed in trimesh
     the added value is for texture visualization
@@ -99,5 +99,20 @@ def pyglet_plot(mesh, map=None, map_min=None, map_max=None):
             mesh.visual.vertex_colors = vect_col_map
         elif map.shape[0] == mesh.faces.shape[0]:
             mesh.visual.face_colors = vect_col_map
+
+        if plot_colormap:
+            import matplotlib
+            matplotlib.use('TkAgg')
+            import matplotlib.pyplot as plt
+            a_clmap = np.array(clmap)
+            a_clmap = np.array(a_clmap[:, 1:-1])
+            a_clmap = np.array(a_clmap, dtype=np.uint8)
+            img = np.tile(a_clmap, (20,1,1))
+            plt.imshow(img)
+            plt.text(5, 12, '{:0.2f}'.format(min_map_val), color='w')
+            plt.text(230, 12, '{:0.2f}'.format(max_map_val), color='w')
+            plt.axis('off')
+            plt.show()
     # call the default trimesh visualization tool using pyglet
+
     mesh.show()
