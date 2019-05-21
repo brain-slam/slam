@@ -7,9 +7,9 @@ from trimesh import smoothing as sm
 
 if __name__ == '__main__':
 
-    mesh = sio.load_mesh('example_mesh.gii')
+    mesh = sio.load_mesh('/home/laurent/Bureau/Stage/slam/examples/example_mesh.gii')
     mesh.apply_transform(mesh.principal_inertia_transform)
-    curv_gifti = nb.gifti.read('example_texture.gii')
+    curv_gifti = nb.gifti.read('/home/laurent/Bureau/Stage/slam/examples/example_texture.gii')
     curv_tex = curv_gifti.darrays[0].data.squeeze()
 
     splt.pyglet_plot(mesh, curv_tex)

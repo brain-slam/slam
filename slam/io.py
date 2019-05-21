@@ -32,7 +32,7 @@ def write_mesh(mesh, gifti_file):
                                                   "NIFTI_INTENT_POINTSET")
     tarray = nb.gifti.GiftiDataArray().from_array(
         triangles, "NIFTI_INTENT_TRIANGLE")
-    img = nb.gifti.GiftiImage(darrays=[carray, tarray], meta=mesh.metadata)
+    img = nb.gifti.GiftiImage(darrays=[carray, tarray])#, meta=mesh.metadata)
 
     nb.gifti.write(img, gifti_file)
 
@@ -58,8 +58,8 @@ def write_texture(tex, gifti_file):
     darrays_list = []
     out_texture_data = np.copy(tex.darray)  # or whatever you want to write
 
-    darrays_list.append(nb.GiftiDataArray().from_array(
+    darrays_list.append(nb.gifti.GiftiDataArray().from_array(
         out_texture_data.astype(np.float32), 0))
-    out_texture_gii = nb.GiftiImage(darrays=darrays_list, meta=tex.metadata)
+    out_texture_gii = nb.gifti.GiftiImage(darrays=darrays_list)#, meta=str(tex.metadata))
 
-    nb.write(out_texture_gii, gifti_file)
+    nb.gifti.write(out_texture_gii, gifti_file)

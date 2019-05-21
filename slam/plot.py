@@ -48,7 +48,7 @@ def linear_interp_rgba_colormap(val_color_a, val_color_b, res=256):
     return val_colors
 
 
-def pyglet_plot(mesh, map=None):
+def pyglet_plot(mesh, map=None, map_min=None, map_max=None):
     """
     Visualize a trimesh object using pyglet as proposed in trimesh
     the added value is for texture visualization
@@ -62,15 +62,24 @@ def pyglet_plot(mesh, map=None):
         scaled_curv = map - map.min()
         scaled_curv = scaled_curv / scaled_curv.max()
         # convert into uint8 in [0 255]
-        vect_col = np.stack([255 * np.ones(scaled_curv.shape),
-                             np.round(scaled_curv * 255),
-                             np.round(scaled_curv * 255),
-                             255 * np.ones(scaled_curv.shape)],
-                            axis=1).astype(np.uint8)
-        mean_map_val = map.mean()
-        max_map_val = np.max(np.abs(map))
+        # vect_col = np.stack([255 * np.ones(scaled_curv.shape),
+        #                      np.round(scaled_curv * 255),
+        #                      np.round(scaled_curv * 255),
+        #                      255 * np.ones(scaled_curv.shape)],
+        #                     axis=1).astype(np.uint8)
+        mean_map_val = 0
+        if map_max is None:
+            max_map_val = np.max(np.abs(map))
+        else:
+            max_map_val = map_max
+            mean_map_val = map.mean()
+        if map_min is None:
+            min_map_val = -max_map_val
+        else:
+            min_map_val = map_min
+
         clmap_neg = linear_interp_rgba_colormap(
-            [-max_map_val, 0, 0, 255, 255],
+            [min_map_val, 0, 0, 255, 255],
             [mean_map_val, 255, 255, 255, 255], res=128)
         clmap_pos = linear_interp_rgba_colormap(
             [mean_map_val, 255, 255, 255, 255],
@@ -85,10 +94,10 @@ def pyglet_plot(mesh, map=None):
                     color = c[1:]
             vect_col_map.append(color)
         vect_col_map = np.array(vect_col_map, dtype=np.uint8)
-        if vect_col.shape[0] == mesh.vertices.shape[0]:
+        if map.shape[0] == mesh.vertices.shape[0]:
             # vect_col  # color.to_rgba(vect_col)
             mesh.visual.vertex_colors = vect_col_map
-        elif vect_col.shape[0] == mesh.faces.shape[0]:
-            mesh.visual.face_colors = vect_col
+        elif map.shape[0] == mesh.faces.shape[0]:
+            mesh.visual.face_colors = vect_col_map
     # call the default trimesh visualization tool using pyglet
     mesh.show()
