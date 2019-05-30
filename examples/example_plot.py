@@ -4,8 +4,8 @@ import slam.io as sio
 import numpy as np
 
 if __name__ == '__main__':
-    mesh_file = 'example_mesh.gii'
-    texture_file = 'example_texture.gii'
+    mesh_file = 'data/example_mesh.gii'
+    texture_file = 'data/example_texture.gii'
 
     mesh = sio.load_mesh(mesh_file)
     mesh.apply_transform(mesh.principal_inertia_transform)

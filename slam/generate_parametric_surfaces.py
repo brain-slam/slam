@@ -11,7 +11,8 @@ def quadric(K1, K2):
     :return:
     """
 
-    def fonction(x, y): return K1 * x ** 2 + K2 * y ** 2
+    def fonction(x, y):
+        return K1 * x ** 2 + K2 * y ** 2
 
     return fonction
 

@@ -48,25 +48,21 @@ def linear_interp_rgba_colormap(val_color_a, val_color_b, res=256):
     return val_colors
 
 
-def pyglet_plot(mesh, map=None, map_min=None, map_max=None, plot_colormap=False):
+def pyglet_plot(mesh, map=None, map_min=None, map_max=None,
+                plot_colormap=False):
     """
     Visualize a trimesh object using pyglet as proposed in trimesh
     the added value is for texture visualization
     :param mesh: trimesh object
     :param map: numpy array of a texture to be visualized on the mesh
+    :param map_min: min value to clamp the map
+    :param map_max: min value to clamp the map
+    :param plot_colormap: use matplotlib to plot the colorbar of the map
+    on a separate figure
     :return:
     """
 
     if map is not None:
-        # scale the map between 0 and 1
-        scaled_curv = map - map.min()
-        scaled_curv = scaled_curv / scaled_curv.max()
-        # convert into uint8 in [0 255]
-        # vect_col = np.stack([255 * np.ones(scaled_curv.shape),
-        #                      np.round(scaled_curv * 255),
-        #                      np.round(scaled_curv * 255),
-        #                      255 * np.ones(scaled_curv.shape)],
-        #                     axis=1).astype(np.uint8)
         mean_map_val = 0
         if map_max is None:
             max_map_val = np.max(np.abs(map))
@@ -95,7 +91,6 @@ def pyglet_plot(mesh, map=None, map_min=None, map_max=None, plot_colormap=False)
             vect_col_map.append(color)
         vect_col_map = np.array(vect_col_map, dtype=np.uint8)
         if map.shape[0] == mesh.vertices.shape[0]:
-            # vect_col  # color.to_rgba(vect_col)
             mesh.visual.vertex_colors = vect_col_map
         elif map.shape[0] == mesh.faces.shape[0]:
             mesh.visual.face_colors = vect_col_map
@@ -107,7 +102,7 @@ def pyglet_plot(mesh, map=None, map_min=None, map_max=None, plot_colormap=False)
             a_clmap = np.array(clmap)
             a_clmap = np.array(a_clmap[:, 1:-1])
             a_clmap = np.array(a_clmap, dtype=np.uint8)
-            img = np.tile(a_clmap, (20,1,1))
+            img = np.tile(a_clmap, (20, 1, 1))
             plt.imshow(img)
             plt.text(5, 12, '{:0.2f}'.format(min_map_val), color='w')
             plt.text(230, 12, '{:0.2f}'.format(max_map_val), color='w')

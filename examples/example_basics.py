@@ -1,18 +1,13 @@
 import trimesh
 import numpy as np
 import slam.io as sio
-import slam.plot as splt
-import nibabel as nb
 from trimesh import smoothing as sm
 
 if __name__ == '__main__':
+    mesh_file = 'data/example_mesh.gii'
 
-    mesh = sio.load_mesh('/home/laurent/Bureau/Stage/slam/examples/example_mesh.gii')
+    mesh = sio.load_mesh(mesh_file)
     mesh.apply_transform(mesh.principal_inertia_transform)
-    curv_gifti = nb.gifti.read('/home/laurent/Bureau/Stage/slam/examples/example_texture.gii')
-    curv_tex = curv_gifti.darrays[0].data.squeeze()
-
-    splt.pyglet_plot(mesh, curv_tex)
 
     mesh_s = sm.filter_laplacian(mesh, iterations=20)
     mesh_s.show()
