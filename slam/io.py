@@ -26,12 +26,12 @@ def write_mesh(mesh, gifti_file):
 
     fixme:  intent should be set !
     """
-    coord = mesh.faces
-    triangles = mesh.vertices
+    coord = mesh.vertices
+    triangles = mesh.faces
     carray = nb.gifti.GiftiDataArray().from_array(coord.astype(np.float32),
                                                   "NIFTI_INTENT_POINTSET")
     tarray = nb.gifti.GiftiDataArray().from_array(
-        triangles, "NIFTI_INTENT_TRIANGLE")
+        triangles.astype(np.float32), "NIFTI_INTENT_TRIANGLE")
     img = nb.gifti.GiftiImage(darrays=[carray, tarray])
     # , meta=mesh.metadata)
 
