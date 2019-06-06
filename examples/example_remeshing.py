@@ -15,12 +15,14 @@ if __name__ == '__main__':
     source_mesh = sio.load_mesh(source_mesh_file)
     source_tex = sio.load_texture(source_texture_file)
     source_spherical_mesh = sio.load_mesh(source_spherical_mesh_file)
-    splt.pyglet_plot(source_mesh, source_tex.darray, source_tex.min(), source_tex.darray.max())
-    splt.pyglet_plot(source_spherical_mesh, source_tex.darray, source_tex.darray.min(), source_tex.darray.max())
+    splt.pyglet_plot(source_mesh, source_tex.darray)
+    splt.pyglet_plot(source_spherical_mesh, source_tex.darray)
 
     target_mesh = sio.load_mesh(target_mesh_file)
     target_spherical_mesh = sio.load_mesh(target_spherical_mesh_file)
 
     interpolated_tex = \
-        srem.spherical_interpolation_nearest_neigbhor(source_spherical_mesh, target_spherical_mesh, source_tex.darray)
-    splt.pyglet_plot(target_mesh, interpolated_tex, interpolated_tex.min(), interpolated_tex.max())
+        srem.spherical_interpolation_nearest_neigbhor(source_spherical_mesh,
+                                                      target_spherical_mesh,
+                                                      source_tex.darray)
+    splt.pyglet_plot(target_mesh, interpolated_tex, plot_colormap=True)

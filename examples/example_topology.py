@@ -9,10 +9,8 @@ import slam.topology as stop
 
 
 if __name__ == '__main__':
-    mesh = sio.load_mesh('/mnt/data/work/python_sandBox/slam/examples/'
-                         'example_mesh.gii')
-    tex_parcel = sio.load_texture('/mnt/data/work/python_sandBox/slam/'
-                                  'examples/example_texture_parcel.gii')
+    mesh = sio.load_mesh('data/example_mesh.gii')
+    tex_parcel = sio.load_texture('data/example_texture_parcel.gii')
     boundary = stop.texture_boundary(mesh, tex_parcel.darray, 0)
     print(boundary)
     scene_list = [mesh]

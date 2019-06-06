@@ -9,7 +9,7 @@ import numpy as np
 
 if __name__ == '__main__':
 
-    mesh = sio.load_mesh('example_mesh.gii')
+    mesh = sio.load_mesh('data/example_mesh.gii')
     mesh.apply_transform(mesh.principal_inertia_transform)
     # mesh.show()
     mesh_s = sm.filter_laplacian(mesh.copy(), iterations=100)
@@ -36,4 +36,4 @@ if __name__ == '__main__':
     # ax.grid(True)
     # plt.show()
 
-    splt.pyglet_plot(mesh_s, face_angle_dist)
+    splt.pyglet_plot(mesh_s, face_angle_dist, 'hot', True)

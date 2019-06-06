@@ -4,7 +4,7 @@ from slam import io as sio
 
 if __name__ == '__main__':
 
-    tex = sio.load_texture('example_texture.gii')
+    tex = sio.load_texture('data/example_texture.gii')
     print(tex)
     print(tex.shape)
     print(tex.dtype)

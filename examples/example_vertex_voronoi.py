@@ -8,7 +8,7 @@ import numpy as np
 
 if __name__ == '__main__':
 
-    mesh = sio.load_mesh('example_mesh.gii')
+    mesh = sio.load_mesh('data/example_mesh.gii')
     mesh.apply_transform(mesh.principal_inertia_transform)
 
     vert_vor = svv.vertex_voronoi(mesh)
@@ -16,4 +16,4 @@ if __name__ == '__main__':
     print(vert_vor.shape)
     print(np.sum(vert_vor) - mesh.area)
 
-    splt.pyglet_plot(mesh, vert_vor)
+    splt.pyglet_plot(mesh, vert_vor, plot_colormap=True)

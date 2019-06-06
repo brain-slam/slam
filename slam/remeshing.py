@@ -1,4 +1,3 @@
-import numpy as np
 
 
 def spherical_interpolation_nearest_neigbhor(source_spherical_mesh,
