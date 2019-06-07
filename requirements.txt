@@ -2,3 +2,5 @@ numpy
 trimesh
 matplotlib
 nibabel
+cython
+gdist
