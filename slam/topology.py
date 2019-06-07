@@ -185,10 +185,7 @@ def mesh_boundary(mesh):
     :param mesh:
     :return:
     """
-    # see mesh.facets_boundary()
-
-    # adja = meshAdjacencyMatrix(poly) might be replaced by:
-    adja = mesh.vertex_adjacency_graph()
+    adja = edges_to_adjacency_matrix(mesh)
     adja_tri = sparse.triu(adja) + sparse.tril(adja).transpose()
     r = sparse.extract.find(adja_tri)
     li = r[0][np.where(r[2] == 1)]
