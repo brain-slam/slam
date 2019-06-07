@@ -2,4 +2,5 @@ numpy
 trimesh
 matplotlib
 nibabel
+cython
 tvb-gdist
