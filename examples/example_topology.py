@@ -40,12 +40,15 @@ if __name__ == '__main__':
     print(boundary)
     scene_list = [mesh]
     for bound in boundary:
-        points = mesh.vertices[bound]
-        cloud_boundary = trimesh.points.PointCloud(points)
-        cloud_colors = np.array([trimesh.visual.random_color()
-                                 for i in points])
-        cloud_boundary.vertices_color = cloud_colors
-        scene_list.append(cloud_boundary)
+        path_visual = trimesh.load_path(mesh.vertices[bound])
+        path_visual.vertices_color = trimesh.visual.random_color()
+        scene_list.append(path_visual)
+        # points = mesh.vertices[bound]
+        # cloud_boundary = trimesh.points.PointCloud(points)
+        # cloud_colors = np.array([trimesh.visual.random_color()
+        #                          for i in points])
+        # cloud_boundary.vertices_color = cloud_colors
+        # scene_list.append(cloud_boundary)
     # boundary_vertices = stop.texture_boundary_vertices(tex_parcel.darray, 0,
     # mesh.vertex_neighbors)
     # print(boundary_vertices)
@@ -61,7 +64,14 @@ if __name__ == '__main__':
     # cloud_boundary = trimesh.points.PointCloud(mesh.vertices[boundary])
     # scene = trimesh.Scene([cloud_boundary, mesh])
     # scene = trimesh.Scene([mesh, cloud_boundary])
+
+    col = mesh.visual.vertex_colors
+    col[:, 3] = 100
+    mesh.visual.vertex_colors = col
+
+    scene_list.append(path_visual)
+    print(path_visual)
     print([mesh, cloud_boundary])
     print(scene_list)
     scene = trimesh.Scene(scene_list)
-    scene.show()
+    scene.show(smooth=False)
