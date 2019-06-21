@@ -2,3 +2,4 @@ numpy
 trimesh
 matplotlib
 nibabel
+gdist
