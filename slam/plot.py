@@ -24,7 +24,7 @@ def visbrain_plot(mesh, tex=None):
 
 
 def pyglet_plot(mesh, values=None, color_map=None,
-                plot_colormap=False):
+                plot_colormap=False, caption=None):
     """
     Visualize a trimesh object using pyglet as proposed in trimesh
     the added value is for texture visualization
@@ -33,6 +33,7 @@ def pyglet_plot(mesh, values=None, color_map=None,
     :param color_map: str, matplotlib colormap, default is 'jet'
     :param plot_colormap: Boolean, if True use matplotlib to plot the colorbar
      of the map on a separate figure
+    :param caption: Title of window
     :return:
     """
 
@@ -54,16 +55,17 @@ def pyglet_plot(mesh, values=None, color_map=None,
             fig, ax = plt.subplots(1, 1)
             # fig.subplots_adjust(top=0.95, bottom=0.05, left=0.01, right=0.99)
 
+            ax.set_title(caption)
             ax.imshow(gradient, aspect='auto', cmap=plt.get_cmap(color_map))
             pos = list(ax.get_position().bounds)
             y_text = pos[1] + pos[3] / 2.
-            fig.text(pos[0] - 0.01, y_text, '{:0.2f}'.format(np.min(values)),
+            fig.text(pos[0] - 0.01, y_text, '{:0.0000009f}'.format(np.min(values)),
                      va='center', ha='right', fontsize=15, color='k')
             fig.text(pos[2] + pos[0] + 0.01, y_text,
-                     '{:0.2f}'.format(np.max(values)),
+                     '{:0.0000009f}'.format(np.max(values)),
                      va='center', fontsize=15, color='k')
             ax.set_axis_off()
             plt.show()
     # call the default trimesh visualization tool using pyglet
 
-    mesh.show(background=[0, 0, 0, 255])
+    mesh.show(caption=caption, background=[0, 0, 0, 255])
