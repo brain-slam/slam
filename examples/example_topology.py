@@ -71,7 +71,15 @@ if __name__ == '__main__':
 
     scene_list.append(path_visual)
     print(path_visual)
-    print([mesh, cloud_boundary])
-    print(scene_list)
+    scene = trimesh.Scene(scene_list)
+    scene.show(smooth=False)
+
+
+    sub_meshes, sub_tex, sub_corresp = stop.cut_mesh(mesh, tex_parcel.darray)
+    scene_list = list()
+    for s_mesh in sub_meshes:
+        print(s_mesh)
+        s_mesh.visual.vertex_colors = trimesh.visual.random_color()
+        scene_list.append(s_mesh)
     scene = trimesh.Scene(scene_list)
     scene.show(smooth=False)

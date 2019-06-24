@@ -290,7 +290,8 @@ def cut_mesh(mesh, atex):
         (sub_mesh, sub_index) = sub_cut_mesh(mesh, atex, labels[label_ind])
         sub_meshes.append(sub_mesh)
         sub_indexes.append(sub_index.tolist())
-        boundary = texture_boundary(mesh, atex, labels[label_ind])
+        #boundary = texture_boundary(mesh, atex, labels[label_ind])
+        boundary = texture_boundary_vertices(atex, labels[label_ind], mesh.vertex_neighbors)
         atex2[boundary] = last_label
     (sub_mesh, sub_index) = sub_cut_mesh(mesh, atex2, last_label)
     sub_meshes.append(sub_mesh)
@@ -305,10 +306,7 @@ def sub_cut_mesh(mesh, atex, val):
     inds = ismember(poly, tex_val_indices)
     poly_set = poly[inds[:, 0] & inds[:, 1] & inds[:, 2], :]
     #    print( tex_val_indices
-    if np_ver < [1, 6]:
-        (uni, inds) = np.unique1d(poly_set, False, True)
-    else:
-        (uni, inds) = np.unique(poly_set, False, True)
+    (uni, inds) = np.unique(poly_set, False, True)
     submesh = trimesh.Trimesh(faces=np.reshape(inds, poly_set.shape),
                               vertices=vert[uni, :], process=False)
     return submesh, tex_val_indices
