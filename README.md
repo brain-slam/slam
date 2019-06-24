@@ -19,7 +19,12 @@ Installation:
 pip install trimesh[easy]
 
 -install nibabel
+
 conda install nibabel
+
+-install matplotlib
+
+conda install matplotlib
 
 -clone the current repo
 
