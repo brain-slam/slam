@@ -18,6 +18,9 @@ Installation:
 
 pip install trimesh[easy]
 
+-install nibabel
+conda install nibabel
+
 -clone the current repo
 
 -try example scripts located in examples folder
