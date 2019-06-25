@@ -20,7 +20,7 @@ if __name__ == '__main__':
     angle_diff = sdst.angle_difference(mesh, mesh_s)
     print(angle_diff)
 
-    face_angle_dist = np.sum(angle_diff, 1)
+    face_angle_dist = np.sum(np.abs(angle_diff), 1)
     print(face_angle_dist)
 
     vect_col = np.random.random_integers(0, 255, mesh.faces.shape[0])
