@@ -6,7 +6,9 @@ python:
   
 # command to install dependencies
 install:
+  - pip install cython
   - pip install -r requirements.txt
+  
   # install testing stuff
   - pip install -U pytest pytest-cov
   # coveralls started failing to install on Python 3.4 so make it optional
