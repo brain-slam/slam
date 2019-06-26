@@ -59,7 +59,8 @@ def pyglet_plot(mesh, values=None, color_map=None,
             ax.imshow(gradient, aspect='auto', cmap=plt.get_cmap(color_map))
             pos = list(ax.get_position().bounds)
             y_text = pos[1] + pos[3] / 2.
-            fig.text(pos[0] - 0.01, y_text, '{:0.0000009f}'.format(np.min(values)),
+            fig.text(pos[0] - 0.01, y_text,
+                     '{:0.0000009f}'.format(np.min(values)),
                      va='center', ha='right', fontsize=15, color='k')
             fig.text(pos[2] + pos[0] + 0.01, y_text,
                      '{:0.0000009f}'.format(np.max(values)),

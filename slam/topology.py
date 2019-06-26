@@ -3,17 +3,10 @@ import numpy as np
 from scipy import sparse
 import trimesh
 
-np_ver = [1, 6]  # [ int(x) for x in np.__version__.split( '.' ) ]
-
 
 def ismember(ar1, ar2):
-    if np_ver < [1, 6]:
-        (uni, u_inds) = np.unique1d(ar1, False,
-                                    True)  # deprecated since numpy version>1.6
-        inds = np.setmember1d(uni, ar2)
-    else:
-        (uni, u_inds) = np.unique(ar1, False, True)
-        inds = np.in1d(uni, ar2)
+    (uni, u_inds) = np.unique(ar1, False, True)
+    inds = np.in1d(uni, ar2)
     return np.reshape(inds[u_inds], ar1.shape)
 
 
@@ -153,12 +146,12 @@ def edges_to_simple_boundary(li, lj):
     tag[curr_edge_i] = 1
 
     reverse = 1
-    while (np.where(tag == 1)[0].size != tag.size):
+    while np.where(tag == 1)[0].size != tag.size:
         p = boundary[bound_ind][-1]
         curr_edge_i = np.where((li == p) & (tag == 0))[0]
-        if (curr_edge_i.size == 0):
+        if curr_edge_i.size == 0:
             curr_edge_j = np.where((lj == p) & (tag == 0))[0]
-            if (curr_edge_j.size == 0):
+            if curr_edge_j.size == 0:
                 if reverse:
                     boundary[bound_ind].reverse()
                     reverse = 0
@@ -224,10 +217,7 @@ def texture_boundary_vertices(atex, val, vertex_neighbors):
             ne_i = np.array(vertex_neighbors[i])
             # print( ne_i.size
             # print( np.intersect1d_nu(ne_i, tex_val_indices).size
-            if np_ver < [1, 6]:
-                inters_size = np.intersect1d_nu(ne_i, tex_val_indices).size
-            else:
-                inters_size = np.intersect1d(ne_i, tex_val_indices).size
+            inters_size = np.intersect1d(ne_i, tex_val_indices).size
             if inters_size != ne_i.size:
                 bound_verts.append(i)
         return bound_verts
@@ -240,10 +230,9 @@ def texture_boundary(mesh, atex, val):
     :param mesh:
     :param atex:
     :param val:
-    :param neigh:
     :return:
     """
-    # voir mesh.facets_boundary()
+    # see mesh.facets_boundary()
     tex_val_indices = np.where(atex == val)[0]
     if not tex_val_indices.size:
         print('no value ' + str(val) + ' in the input texture!!')
@@ -278,7 +267,7 @@ def cut_mesh(mesh, atex):
     :param atex:
     :return:
     """
-    # voir mesh.submesh(faces_sequence)
+    # see mesh.submesh(faces_sequence)
     atex2 = atex.copy()
     labels = np.around(np.unique(atex))
     labels = labels.tolist()
@@ -290,8 +279,9 @@ def cut_mesh(mesh, atex):
         (sub_mesh, sub_index) = sub_cut_mesh(mesh, atex, labels[label_ind])
         sub_meshes.append(sub_mesh)
         sub_indexes.append(sub_index.tolist())
-        #boundary = texture_boundary(mesh, atex, labels[label_ind])
-        boundary = texture_boundary_vertices(atex, labels[label_ind], mesh.vertex_neighbors)
+        # boundary = texture_boundary(mesh, atex, labels[label_ind])
+        boundary = texture_boundary_vertices(atex, labels[label_ind],
+                                             mesh.vertex_neighbors)
         atex2[boundary] = last_label
     (sub_mesh, sub_index) = sub_cut_mesh(mesh, atex2, last_label)
     sub_meshes.append(sub_mesh)
@@ -305,7 +295,6 @@ def sub_cut_mesh(mesh, atex, val):
     tex_val_indices = np.where(atex == val)[0]
     inds = ismember(poly, tex_val_indices)
     poly_set = poly[inds[:, 0] & inds[:, 1] & inds[:, 2], :]
-    #    print( tex_val_indices
     (uni, inds) = np.unique(poly_set, False, True)
     submesh = trimesh.Trimesh(faces=np.reshape(inds, poly_set.shape),
                               vertices=vert[uni, :], process=False)
