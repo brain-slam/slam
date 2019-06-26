@@ -12,7 +12,7 @@ if __name__ == '__main__':
     print(np.sqrt(np.sum(np.power(sphere_mesh.vertices, 2), 1)))
     z_coord_texture = sphere_mesh.vertices[:, 2]
     splt.pyglet_plot(sphere_mesh, z_coord_texture, caption="Sphere")
-    
+
     # plane_proj_mesh = sphmap.stereo_projection(sphere_mesh, invert=False)
     # splt.pyglet_plot(plane_proj_mesh,
     # z_coord_texture, caption="projected onto a plane")
