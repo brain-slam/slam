@@ -26,6 +26,12 @@ conda install nibabel
 
 conda install matplotlib
 
+-install gdist
+
+pip install cython
+
+pip install gdist
+
 -clone the current repo
 
 -try example scripts located in examples folder
