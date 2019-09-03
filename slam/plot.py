@@ -38,6 +38,7 @@ def pyglet_plot(mesh, values=None, color_map=None,
     """
 
     if values is not None:
+        smooth = True
         if color_map is None:
             color_map = 'jet'
 
@@ -48,6 +49,7 @@ def pyglet_plot(mesh, values=None, color_map=None,
             mesh.visual.vertex_colors = vect_col_map
         elif values.shape[0] == mesh.faces.shape[0]:
             mesh.visual.face_colors = vect_col_map
+            smooth = False
 
         if plot_colormap:
             gradient = np.linspace(0, 1, 256)
@@ -69,4 +71,4 @@ def pyglet_plot(mesh, values=None, color_map=None,
             plt.show()
     # call the default trimesh visualization tool using pyglet
 
-    mesh.show(caption=caption, background=[0, 0, 0, 255])
+    mesh.show(caption=caption, smooth=smooth, background=[0, 0, 0, 255])

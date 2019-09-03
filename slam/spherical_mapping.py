@@ -21,7 +21,7 @@ def mobius_transformation(a, b, c, d, plane_mesh):
     transformed_plane_mesh = \
         trimesh.Trimesh(vertices=np.array([transformed_complex_plane.real,
                                            transformed_complex_plane.imag,
-                                           plane_mesh.vertices[:, 2]]).T,
+                                           plane_mesh.vertices[:, 2]]).T.copy(),
                         faces=plane_mesh.faces.copy(),
                         process=False)
     return transformed_plane_mesh
