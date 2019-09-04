@@ -24,7 +24,8 @@ def visbrain_plot(mesh, tex=None):
 
 
 def pyglet_plot(mesh, values=None, color_map=None,
-                plot_colormap=False, caption=None):
+                plot_colormap=False, caption=None,
+                alpha_transp=255, background_color=None):
     """
     Visualize a trimesh object using pyglet as proposed in trimesh
     the added value is for texture visualization
@@ -34,8 +35,14 @@ def pyglet_plot(mesh, values=None, color_map=None,
     :param plot_colormap: Boolean, if True use matplotlib to plot the colorbar
      of the map on a separate figure
     :param caption: Title of window
+    :param alpha_transp: mesh transparency parameter, 0=fully transparent, 255=solid
+    :param background_color:
     :return:
     """
+    if background_color is not None:
+        background = background_color
+    else:
+        background = [0, 0, 0, 255]
 
     if values is not None:
         smooth = True
@@ -44,7 +51,7 @@ def pyglet_plot(mesh, values=None, color_map=None,
 
         vect_col_map = \
             trimesh.visual.color.interpolate(values, color_map=color_map)
-
+        vect_col_map[:, 3] = alpha_transp
         if values.shape[0] == mesh.vertices.shape[0]:
             mesh.visual.vertex_colors = vect_col_map
         elif values.shape[0] == mesh.faces.shape[0]:
@@ -71,4 +78,4 @@ def pyglet_plot(mesh, values=None, color_map=None,
             plt.show()
     # call the default trimesh visualization tool using pyglet
 
-    mesh.show(caption=caption, smooth=smooth, background=[0, 0, 0, 255])
+    mesh.show(caption=caption, smooth=smooth, background=background)
