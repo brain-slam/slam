@@ -5,6 +5,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
+def save_image(scene, filename):
+    """
+    save a slam figure to disc
+    :param scene:
+    :param filename:
+    :return:
+    """
+    with open(filename, 'wb') as f:
+        f.write(scene.save_image())
+
+
 def visbrain_plot(mesh, tex=None):
     """
     Visualize a trimesh object using visbrain core plotting tool
@@ -75,7 +86,14 @@ def pyglet_plot(mesh, values=None, color_map=None,
                      '{:0.0000009f}'.format(np.max(values)),
                      va='center', fontsize=15, color='k')
             ax.set_axis_off()
+            fig.set_size_inches(18, 3)
             plt.show()
-    # call the default trimesh visualization tool using pyglet
 
-    mesh.show(caption=caption, smooth=smooth, background=background)
+    # call the default trimesh visualization tool using pyglet
+    scene = trimesh.Scene(mesh)
+    scene.show(caption=caption, smooth=smooth, background=background)
+    if fig is None:
+        output = [scene]
+    else:
+        output = [scene, fig]
+    return output
