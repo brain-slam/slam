@@ -36,7 +36,7 @@ def visbrain_plot(mesh, tex=None):
 
 def pyglet_plot(mesh, values=None, color_map=None,
                 plot_colormap=False, caption=None,
-                alpha_transp=255, background_color=None, default_color=[200, 200, 200, 100]):
+                alpha_transp=255, background_color=None, default_color=[200, 200, 200, 20]):
     """
     Visualize a trimesh object using pyglet as proposed in trimesh
     the added value is for texture visualization
@@ -80,24 +80,34 @@ def pyglet_plot(mesh, values=None, color_map=None,
             smooth = False
 
         if plot_colormap:
-            gradient = np.linspace(0, 1, 256)
-            gradient = np.vstack((gradient, gradient))
+            import matplotlib as mpl
+            # fig = plt.figure(figsize=(8, 2))
+            # ax1 = fig.add_axes([0.05, 0.80, 0.9, 0.15])
             fig, ax = plt.subplots(1, 1)
-            # fig.subplots_adjust(top=0.95, bottom=0.05, left=0.01, right=0.99)
-
             ax.set_title(caption)
-            ax.imshow(gradient, aspect='auto', cmap=color_map)
-            pos = list(ax.get_position().bounds)
-            y_text = pos[1] + pos[3] / 2.
-            fig.text(pos[0] - 0.01, y_text,
-                     '{:0.0000009f}'.format(np.min(values[~nan_inds])),
-                     va='center', ha='right', fontsize=15, color='k')
-            fig.text(pos[2] + pos[0] + 0.01, y_text,
-                     '{:0.0000009f}'.format(np.max(values[~nan_inds])),
-                     va='center', fontsize=15, color='k')
-            ax.set_axis_off()
+            norm = mpl.colors.Normalize(vmin=np.min(values[~nan_inds]), vmax=np.max(values[~nan_inds]))
+            cb1 = mpl.colorbar.ColorbarBase(ax, cmap = color_map, norm=norm, orientation='horizontal')
             fig.set_size_inches(18, 3)
             plt.show()
+
+            # gradient = np.linspace(0, 1, 256)
+            # gradient = np.vstack((gradient, gradient))
+            # fig, ax = plt.subplots(1, 1)
+            # # fig.subplots_adjust(top=0.95, bottom=0.05, left=0.01, right=0.99)
+            #
+            # ax.set_title(caption)
+            # ax.imshow(gradient, aspect='auto', cmap=color_map)
+            # pos = list(ax.get_position().bounds)
+            # y_text = pos[1] + pos[3] / 2.
+            # fig.text(pos[0] - 0.01, y_text,
+            #          '{:0.0000009f}'.format(np.min(values[~nan_inds])),
+            #          va='center', ha='right', fontsize=15, color='k')
+            # fig.text(pos[2] + pos[0] + 0.01, y_text,
+            #          '{:0.0000009f}'.format(np.max(values[~nan_inds])),
+            #          va='center', fontsize=15, color='k')
+            # ax.set_axis_off()
+            # fig.set_size_inches(18, 3)
+            # plt.show()
 
     # call the default trimesh visualization tool using pyglet
     #light = trimesh.scene.lighting.DirectionalLight()
