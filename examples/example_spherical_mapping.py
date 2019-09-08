@@ -37,6 +37,7 @@ def meshPolygonAngles(vert, poly):
         angles_out[:, i] = np.arccos(np.sum(pp * qq, 1))
     return angles_out
 
+
 if __name__ == '__main__':
     sphere_mesh = sps.generate_sphere(1000)
     print(np.mean(sphere_mesh.vertices))
@@ -47,7 +48,7 @@ if __name__ == '__main__':
     print(np.max(poly_angles))
     print(np.min(poly_angles))
 
-    #splt.pyglet_plot(sphere_mesh, z_coord_texture, caption="Sphere")
+    # splt.pyglet_plot(sphere_mesh, z_coord_texture, caption="Sphere")
 
     # plane_proj_mesh = sphmap.stereo_projection(sphere_mesh, invert=False)
     # splt.pyglet_plot(plane_proj_mesh,
@@ -87,9 +88,11 @@ if __name__ == '__main__':
         area_diff = sdst.area_difference(sphere_mesh,
                                          sphere_transformed_mesh)
         all_area_diff.append(area_diff)
-        poly_angles = meshPolygonAngles(sphere_transformed_mesh.vertices, sphere_transformed_mesh.faces)
+        poly_angles = meshPolygonAngles(sphere_transformed_mesh.vertices,
+                                        sphere_transformed_mesh.faces)
         print(np.max(sphere_transformed_mesh.face_angles - poly_angles))
-        poly_areas = meshPolygonArea(sphere_transformed_mesh.vertices, sphere_transformed_mesh.faces)
+        poly_areas = meshPolygonArea(sphere_transformed_mesh.vertices,
+                                     sphere_transformed_mesh.faces)
         print(np.max(sphere_transformed_mesh.area_faces - poly_areas))
     splt.pyglet_plot(sphere_transformed_mesh, z_coord_texture,
                      caption="moebius transformed sphere")
