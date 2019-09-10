@@ -6,6 +6,7 @@ definition of the Texture class
 """
 
 import numpy as np
+from scipy import stats as sps
 
 
 class TextureND:
@@ -134,3 +135,23 @@ class TextureND:
 
     def mean(self):
         return self.darray.mean()
+
+    def z_score_filtering(self, z_thresh=3):
+        """
+        Filter out values in darray where z_score > z_thresh
+        The original outlier value is replaced by max(darray[not outlier])
+        :param z_thresh: z_score threshold
+        :return:
+        """
+        filtered_darray = self.darray.copy()
+        z = sps.zscore(self.darray)
+        outliers_pos = z > z_thresh
+        outliers_neg = z < -z_thresh
+        outliers = outliers_pos | outliers_neg
+        replace_value_pos = np.max(self.darray[~outliers])
+        replace_value_neg = np.min(self.darray[~outliers])
+        filtered_darray[outliers_pos] = replace_value_pos
+        filtered_darray[outliers_neg] = replace_value_neg
+        self.darray = filtered_darray
+        self.metadata['z_score_filtered'] = True
+        self.metadata['z_score_threshold'] = z_thresh

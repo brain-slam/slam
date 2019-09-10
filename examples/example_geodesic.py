@@ -9,7 +9,7 @@ if __name__ == '__main__':
     mesh = sio.load_mesh('data/example_mesh.gii')
 
     vert_id = 0
-    max_geodist = 5.0
+    max_geodist = 10
 
     geo_distance = sgeo.compute_gdist(mesh, vert_id)
     splt.pyglet_plot(mesh, geo_distance, plot_colormap=True)
@@ -18,7 +18,8 @@ if __name__ == '__main__':
     print(area_geodist_vi)
 
     area_geodist = sgeo.local_gdist_matrix(mesh, max_geodist)
-    splt.pyglet_plot(mesh, area_geodist[0].toarray(), plot_colormap=True)
+    splt.pyglet_plot(mesh, area_geodist[0].toarray().squeeze(),
+                     plot_colormap=True)
     # print(area_geodist[0].toarray()-geo_distance)
 
     # print the vertex index
