@@ -3,6 +3,7 @@ import numpy as np
 from scipy import sparse
 import trimesh
 
+
 def boundaries_intersection(boundary):
     bound_conn = []
     for bound_ind1 in range(len(boundary) - 1):
@@ -298,4 +299,3 @@ def texture_boundary_vertices(atex, val, vertex_neighbors):
             if inters_size != ne_i.size:
                 bound_verts.append(i)
         return bound_verts
-    

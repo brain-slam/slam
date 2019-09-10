@@ -37,7 +37,7 @@ def visbrain_plot(mesh, tex=None):
 def pyglet_plot(mesh, values=None, color_map=None,
                 plot_colormap=False, caption=None,
                 alpha_transp=255, background_color=None,
-                default_color=[200, 200, 200, 20]):
+                default_color=[100, 100, 100, 200]):
     """
     Visualize a trimesh object using pyglet as proposed in trimesh
     the added value is for texture visualization
@@ -57,8 +57,8 @@ def pyglet_plot(mesh, values=None, color_map=None,
     else:
         background = [0, 0, 0, 255]
     fig = None
+    smooth = True
     if values is not None:
-        smooth = True
         if color_map is None:
             color_map = plt.get_cmap('jet', 12)
         # in case NaN are present in 'values'
@@ -88,8 +88,8 @@ def pyglet_plot(mesh, values=None, color_map=None,
             # ax1 = fig.add_axes([0.05, 0.80, 0.9, 0.15])
             fig, ax = plt.subplots(1, 1)
             ax.set_title(caption)
-            norm = mpl.colors.Normalize(vmin=np.min(values[~nan_inds]),
-                                        vmax=np.max(values[~nan_inds]))
+            norm = mpl.colors.Normalize(vmin=np.around(np.min(values[~nan_inds])),
+                                        vmax=np.around(np.max(values[~nan_inds])))
             mpl.colorbar.ColorbarBase(ax, cmap=color_map, norm=norm,
                                       orientation='horizontal')
             fig.set_size_inches(18, 3)
