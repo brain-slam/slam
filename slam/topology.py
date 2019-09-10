@@ -3,11 +3,57 @@ import numpy as np
 from scipy import sparse
 import trimesh
 
+def boundaries_intersection(boundary):
+    bound_conn = []
+    for bound_ind1 in range(len(boundary) - 1):
+        for bound_ind2 in range(bound_ind1 + 1, len(boundary)):
+            common = set(boundary[bound_ind1]).intersection(
+                set(boundary[bound_ind2]))
+            if common:
+                bound_conn.append([bound_ind1, bound_ind2, list(common)])
+    return bound_conn
 
-def ismember(ar1, ar2):
-    (uni, u_inds) = np.unique(ar1, False, True)
-    inds = np.in1d(uni, ar2)
-    return np.reshape(inds[u_inds], ar1.shape)
+
+def cat_boundary(bound1, bound2):
+    # b_tmp=bound1.copy()
+    # print(bound1)
+    # print(bound2)
+    # for x in bound2:
+    #     bound1.append(x)
+    # print(bound1)
+    bound1.extend(bound2)
+    return bound1
+
+
+def cut_mesh(mesh, atex):
+    """
+    cut a hole in a mesh at nodes defined by value in texture
+    returns two meshes of hole and mesh-hole
+    the hole border belongs to both meshes
+    :param mesh:
+    :param atex:
+    :return:
+    """
+    # see mesh.submesh(faces_sequence)
+    atex2 = atex.copy()
+    labels = np.around(np.unique(atex))
+    labels = labels.tolist()
+    labels.reverse()
+    sub_meshes = list()
+    sub_indexes = list()
+    last_label = labels[-1]
+    for label_ind in range(len(labels) - 1):
+        (sub_mesh, sub_index) = sub_cut_mesh(mesh, atex, labels[label_ind])
+        sub_meshes.append(sub_mesh)
+        sub_indexes.append(sub_index.tolist())
+        # boundary = texture_boundary(mesh, atex, labels[label_ind])
+        boundary = texture_boundary_vertices(atex, labels[label_ind],
+                                             mesh.vertex_neighbors)
+        atex2[boundary] = last_label
+    (sub_mesh, sub_index) = sub_cut_mesh(mesh, atex2, last_label)
+    sub_meshes.append(sub_mesh)
+    sub_indexes.append(sub_index.tolist())
+    return sub_meshes, labels, sub_indexes
 
 
 def edges_to_adjacency_matrix(mesh):
@@ -98,45 +144,6 @@ def edges_to_boundary(li, lj):
     return sort_boundary
 
 
-def list_count(l):
-    """
-    count the occurrences of all items in a list and return a dictionary
-    that is of the form {nb_occurence:list_item}, which is the opposite of
-    standard implementation usually found on the web
-    -----------------------------------------------------------------
-    in python >= 2.7, collections may be used, see example below
-    >> from collections import Counter
-    >> z = ['blue', 'red', 'blue', 'yellow', 'blue', 'red']
-    >> Counter(z)
-    Counter({'blue': 3, 'red': 2, 'yellow': 1})
-    :param l:
-    :return:
-    """
-    return dict((l.count(it), it) for it in l)
-
-
-def cat_boundary(bound1, bound2):
-    # b_tmp=bound1.copy()
-    # print(bound1)
-    # print(bound2)
-    # for x in bound2:
-    #     bound1.append(x)
-    # print(bound1)
-    bound1.extend(bound2)
-    return bound1
-
-
-def boundaries_intersection(boundary):
-    bound_conn = []
-    for bound_ind1 in range(len(boundary) - 1):
-        for bound_ind2 in range(bound_ind1 + 1, len(boundary)):
-            common = set(boundary[bound_ind1]).intersection(
-                set(boundary[bound_ind2]))
-            if common:
-                bound_conn.append([bound_ind1, bound_ind2, list(common)])
-    return bound_conn
-
-
 def edges_to_simple_boundary(li, lj):
     tag = np.zeros(li.size)
     boundary = {}
@@ -172,6 +179,29 @@ def edges_to_simple_boundary(li, lj):
     return boundary
 
 
+def ismember(ar1, ar2):
+    (uni, u_inds) = np.unique(ar1, False, True)
+    inds = np.in1d(uni, ar2)
+    return np.reshape(inds[u_inds], ar1.shape)
+
+
+def list_count(l):
+    """
+    count the occurrences of all items in a list and return a dictionary
+    that is of the form {nb_occurence:list_item}, which is the opposite of
+    standard implementation usually found on the web
+    -----------------------------------------------------------------
+    in python >= 2.7, collections may be used, see example below
+    >> from collections import Counter
+    >> z = ['blue', 'red', 'blue', 'yellow', 'blue', 'red']
+    >> Counter(z)
+    Counter({'blue': 3, 'red': 2, 'yellow': 1})
+    :param l:
+    :return:
+    """
+    return dict((l.count(it), it) for it in l)
+
+
 def mesh_boundary(mesh):
     """
     compute borders of a mesh
@@ -191,36 +221,16 @@ def mesh_boundary(mesh):
         return edges_to_boundary(li, lj)
 
 
-def texture_boundary_vertices(atex, val, vertex_neighbors):
-    """
-    compute indices of vertices that are the boundary of a region defined by
-    value in the texture, without any topological or ordering constraint
-    :param atex:
-    :param val:
-    :param vertex_neighbors:
-    :return:
-    """
+def sub_cut_mesh(mesh, atex, val):
+    poly = mesh.faces
+    vert = mesh.vertices
     tex_val_indices = np.where(atex == val)[0]
-    if not tex_val_indices.size:
-        print('no value ' + str(val) + ' in the input texture!!')
-        return list()
-    else:
-        ####################################################################
-        # print( 'the vertices on the boundary have the same texture value
-        # (boundary inside the patch)'
-        ####################################################################
-        '''identify the vertices that are on the boundary,
-        i.e that have at least one neigbor that has not the same value in the
-        texture '''
-        bound_verts = list()
-        for i in tex_val_indices:
-            ne_i = np.array(vertex_neighbors[i])
-            # print( ne_i.size
-            # print( np.intersect1d_nu(ne_i, tex_val_indices).size
-            inters_size = np.intersect1d(ne_i, tex_val_indices).size
-            if inters_size != ne_i.size:
-                bound_verts.append(i)
-        return bound_verts
+    inds = ismember(poly, tex_val_indices)
+    poly_set = poly[inds[:, 0] & inds[:, 1] & inds[:, 2], :]
+    (uni, inds) = np.unique(poly_set, False, True)
+    submesh = trimesh.Trimesh(faces=np.reshape(inds, poly_set.shape),
+                              vertices=vert[uni, :], process=False)
+    return submesh, tex_val_indices
 
 
 def texture_boundary(mesh, atex, val):
@@ -258,44 +268,34 @@ def texture_boundary(mesh, atex, val):
         return edges_to_boundary(li, lj)
 
 
-def cut_mesh(mesh, atex):
+def texture_boundary_vertices(atex, val, vertex_neighbors):
     """
-    cut a hole in a mesh at nodes defined by value in texture
-    returns two meshes of hole and mesh-hole
-    the hole border belongs to both meshes
-    :param mesh:
+    compute indices of vertices that are the boundary of a region defined by
+    value in the texture, without any topological or ordering constraint
     :param atex:
+    :param val:
+    :param vertex_neighbors:
     :return:
     """
-    # see mesh.submesh(faces_sequence)
-    atex2 = atex.copy()
-    labels = np.around(np.unique(atex))
-    labels = labels.tolist()
-    labels.reverse()
-    sub_meshes = list()
-    sub_indexes = list()
-    last_label = labels[-1]
-    for label_ind in range(len(labels) - 1):
-        (sub_mesh, sub_index) = sub_cut_mesh(mesh, atex, labels[label_ind])
-        sub_meshes.append(sub_mesh)
-        sub_indexes.append(sub_index.tolist())
-        # boundary = texture_boundary(mesh, atex, labels[label_ind])
-        boundary = texture_boundary_vertices(atex, labels[label_ind],
-                                             mesh.vertex_neighbors)
-        atex2[boundary] = last_label
-    (sub_mesh, sub_index) = sub_cut_mesh(mesh, atex2, last_label)
-    sub_meshes.append(sub_mesh)
-    sub_indexes.append(sub_index.tolist())
-    return sub_meshes, labels, sub_indexes
-
-
-def sub_cut_mesh(mesh, atex, val):
-    poly = mesh.faces
-    vert = mesh.vertices
     tex_val_indices = np.where(atex == val)[0]
-    inds = ismember(poly, tex_val_indices)
-    poly_set = poly[inds[:, 0] & inds[:, 1] & inds[:, 2], :]
-    (uni, inds) = np.unique(poly_set, False, True)
-    submesh = trimesh.Trimesh(faces=np.reshape(inds, poly_set.shape),
-                              vertices=vert[uni, :], process=False)
-    return submesh, tex_val_indices
+    if not tex_val_indices.size:
+        print('no value ' + str(val) + ' in the input texture!!')
+        return list()
+    else:
+        ####################################################################
+        # print( 'the vertices on the boundary have the same texture value
+        # (boundary inside the patch)'
+        ####################################################################
+        '''identify the vertices that are on the boundary,
+        i.e that have at least one neigbor that has not the same value in the
+        texture '''
+        bound_verts = list()
+        for i in tex_val_indices:
+            ne_i = np.array(vertex_neighbors[i])
+            # print( ne_i.size
+            # print( np.intersect1d_nu(ne_i, tex_val_indices).size
+            inters_size = np.intersect1d(ne_i, tex_val_indices).size
+            if inters_size != ne_i.size:
+                bound_verts.append(i)
+        return bound_verts
+    
