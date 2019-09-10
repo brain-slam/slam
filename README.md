@@ -22,6 +22,10 @@ pip install trimesh[easy]
 
 conda install nibabel
 
+-install pyglet
+
+conda install -c conda-forge pyglet
+
 -install matplotlib
 
 conda install matplotlib
