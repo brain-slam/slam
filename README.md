@@ -18,22 +18,27 @@ Installation:
     ```
     pip install trimesh[easy]
     ```
-2. install nibabel
+2.install pyglet
+    ```
+    conda install -c conda-forge pyglet
+    ```
+3. install nibabel
     ```
     conda install nibabel
     ```
-3. install matplotlib
+4. install matplotlib
     ```
     conda install matplotlib
     ```
-4. install gdist
+5. install gdist
     ```
     pip install cython
     pip install gdist
     ```
-5. clone the current repo
+6. clone the current repo
 
-6. try example scripts located in examples folder
+7. try example scripts located in examples folder
+
 
 
 ------------------
