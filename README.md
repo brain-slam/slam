@@ -14,41 +14,44 @@ The present module will consist of extensions to adapt Trimesh for the purpose o
 Installation:
 ------------------
 
--install the lastest version of trimesh in easy (minimal dependency) mode:
+1. install the lastest version of trimesh in easy (minimal dependency) mode:
+    ```
+    pip install trimesh[easy]
+    ```
+2.install pyglet
+    ```
+    conda install -c conda-forge pyglet
+    ```
+3. install nibabel
+    ```
+    conda install nibabel
+    ```
+4. install matplotlib
+    ```
+    conda install matplotlib
+    ```
+5. install gdist
+    ```
+    pip install cython
+    pip install gdist
+    ```
+6. clone the current repo
 
-pip install trimesh[easy]
+7. try example scripts located in examples folder
 
--install nibabel
-
-conda install nibabel
-
--install pyglet
-
-conda install -c conda-forge pyglet
-
--install matplotlib
-
-conda install matplotlib
-
--install gdist
-
-pip install cython
-
-pip install gdist
-
--clone the current repo
-
--try example scripts located in examples folder
 
 
 ------------------
 For contributors:
 ------------------
 
--intall flake8 and autopep8
+1. intall flake8 and autopep8
+    ```
+    pip install -U autopep8 flake8
+   ```
 
-pip install -U autopep8 flake8
+2. install pytest
+    ```bash
+    pip install -U pytest 
+    ```
 
--install pytest
-
-pip install -U pytest 
