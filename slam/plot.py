@@ -88,8 +88,9 @@ def pyglet_plot(mesh, values=None, color_map=None,
             # ax1 = fig.add_axes([0.05, 0.80, 0.9, 0.15])
             fig, ax = plt.subplots(1, 1)
             ax.set_title(caption)
-            norm = mpl.colors.Normalize(vmin=np.around(np.min(values[~nan_inds])),
-                                        vmax=np.around(np.max(values[~nan_inds])))
+            vmin = np.around(np.min(values[~nan_inds]))
+            vmax = np.around(np.max(values[~nan_inds]))
+            norm = mpl.colors.Normalize(vmin=vmin, vmax=vmax)
             mpl.colorbar.ColorbarBase(ax, cmap=color_map, norm=norm,
                                       orientation='horizontal')
             fig.set_size_inches(18, 3)
