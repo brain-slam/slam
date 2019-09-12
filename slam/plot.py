@@ -5,15 +5,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def save_image(scene, filename):
+def save_image(scene_viewer, filename):
     """
     save a slam figure to disc
     :param scene:
     :param filename:
     :return:
     """
+    scene = scene_viewer._scene
     with open(filename, 'wb') as f:
-        f.write(scene.save_image())
+        f.write(scene.save_image(background=scene_viewer.background))
 
 
 def visbrain_plot(mesh, tex=None):
@@ -34,10 +35,10 @@ def visbrain_plot(mesh, tex=None):
     b_obj.preview(bgcolor='white')
 
 
-def pyglet_plot(mesh, values=None, color_map=None,
+def pyglet_plot(mesh_in, values=None, color_map=None,
                 plot_colormap=False, caption=None,
                 alpha_transp=255, background_color=None,
-                default_color=[100, 100, 100, 200]):
+                default_color=[100, 100, 100, 200], cmap_bounds=None):
     """
     Visualize a trimesh object using pyglet as proposed in trimesh
     the added value is for texture visualization
@@ -52,13 +53,20 @@ def pyglet_plot(mesh, values=None, color_map=None,
     :param default_color: color of vertices or faces where 'values' is NaN
     :return:
     """
+    # to ensure plotting do not affect the mesh (esp. visual aspects)
+    mesh = mesh_in.copy()
     if background_color is not None:
         background = background_color
     else:
+        # default background color is black
         background = [0, 0, 0, 255]
+        # turn black the background of colormap fig
+        plt.style.use('dark_background')
     fig = None
     smooth = True
-    if values is not None:
+    if values is None:
+        mesh.visual.vertex_colors = default_color
+    else:
         if color_map is None:
             color_map = plt.get_cmap('jet', 12)
         # in case NaN are present in 'values'
@@ -84,16 +92,22 @@ def pyglet_plot(mesh, values=None, color_map=None,
 
         if plot_colormap:
             import matplotlib as mpl
+            mpl.rcParams.update({'font.size': 20})
             # fig = plt.figure(figsize=(8, 2))
             # ax1 = fig.add_axes([0.05, 0.80, 0.9, 0.15])
             fig, ax = plt.subplots(1, 1)
             ax.set_title(caption)
-            vmin = np.around(np.min(values[~nan_inds]))
-            vmax = np.around(np.max(values[~nan_inds]))
-            norm = mpl.colors.Normalize(vmin=vmin, vmax=vmax)
+
+            if cmap_bounds is None:
+                vmin = np.around(np.min(values[~nan_inds]))
+                vmax = np.around(np.max(values[~nan_inds]))
+                norm = mpl.colors.Normalize(vmin=vmin, vmax=vmax)
+            else:
+                norm = mpl.colors.BoundaryNorm(cmap_bounds, color_map.N)
+
             mpl.colorbar.ColorbarBase(ax, cmap=color_map, norm=norm,
                                       orientation='horizontal')
-            fig.set_size_inches(18, 3)
+            fig.set_size_inches(18, 4)
             plt.show()
 
             # gradient = np.linspace(0, 1, 256)
@@ -118,10 +132,23 @@ def pyglet_plot(mesh, values=None, color_map=None,
 
     # call the default trimesh visualization tool using pyglet
     # light = trimesh.scene.lighting.DirectionalLight()
+    # [trimesh.scene.lighting.Light]
+
     scene = trimesh.Scene(mesh)  # , lights=[light])
-    scene.show(caption=caption, smooth=smooth, background=background)
+    # print(scene.graph)
+    # #lights, transforms = lighting.autolight(self)
+    # lights, transforms = trimesh.scene.lighting.autolight(scene)
+    # # assign the transforms to the scene graph
+    # for L, T in zip(lights, transforms):
+    #     L.intensity = 10000
+    #     scene.graph[L.name] = T
+    #     # set the lights
+    # scene._lights = lights
+    scene_viewer = scene.show(caption=caption,
+                              smooth=smooth,
+                              background=background)
     if fig is None:
-        output = [scene]
+        output = [scene_viewer]
     else:
-        output = [scene, fig]
+        output = [scene_viewer, fig]
     return output
