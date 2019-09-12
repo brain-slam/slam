@@ -73,7 +73,7 @@ def pyglet_plot(mesh_in, values=None, color_map=None,
         nan_inds = np.isnan(values)
         if sum(nan_inds) == len(values):
             print('no value in the texture')
-            vect_col_map = np.tile(default_color, (1, len(values)))
+            vect_col_map = np.tile(np.array(default_color, dtype='float'), (1, len(values)))
         else:
 
             vect_col_map_tmp = \
