@@ -17,7 +17,7 @@ def mesh_laplacian_eigenvectors(mesh, nb_vectors=1):
     :return:
     """
     lap, lap_b = compute_mesh_laplacian(mesh, lap_type='fem')
-    w, v = eigsh(lap.tocsr(), nb_vectors+1, M=lap_b.tocsr(),
+    w, v = eigsh(lap.tocsr(), nb_vectors + 1, M=lap_b.tocsr(),
                  sigma=solver_tolerance)
     return v[:, 1:]
 
@@ -104,7 +104,7 @@ def laplacian_smoothing(texture_data, lap, lap_b, nb_iter, dt):
     #    Mtex = tex
     # using Implicit scheme
     # B(X^(n+1)-X^n)/dt+L(X^(n+1))=0
-    M = lap_b+dt*lap
+    M = lap_b + dt * lap
     for i in range(nb_iter):
         texture_data = lap_b * texture_data
         if texture_data.ndim > 1:
@@ -170,7 +170,7 @@ def compute_mesh_weights(mesh, weight_type='conformal', cot_threshold=None,
             pp = vert[poly[:, i2], :] - vert[poly[:, i1], :]
             qq = vert[poly[:, i3], :] - vert[poly[:, i1], :]
             cr = np.cross(pp, qq)
-            area = np.sqrt(np.sum(np.power(cr, 2), 1))/2
+            area = np.sqrt(np.sum(np.power(cr, 2), 1)) / 2
 #             nopp = np.apply_along_axis(np.linalg.norm, 1, pp)
 #             noqq = np.apply_along_axis(np.linalg.norm, 1, qq)
             noqq = np.sqrt(np.sum(qq * qq, 1))
@@ -201,10 +201,10 @@ def compute_mesh_weights(mesh, weight_type='conformal', cot_threshold=None,
                                       shape=(Nbv, Nbv))
             W = W + sparse.coo_matrix((cot, (poly[:, i3], poly[:, i2])),
                                       shape=(Nbv, Nbv))
-            femB = femB + sparse.coo_matrix((area/12,
+            femB = femB + sparse.coo_matrix((area / 12,
                                              (poly[:, i2], poly[:, i3])),
                                             shape=(Nbv, Nbv))
-            femB = femB + sparse.coo_matrix((area/12,
+            femB = femB + sparse.coo_matrix((area / 12,
                                              (poly[:, i3], poly[:, i2])),
                                             shape=(Nbv, Nbv))
 
@@ -217,7 +217,7 @@ def compute_mesh_weights(mesh, weight_type='conformal', cot_threshold=None,
             inds_out = np.where(np.abs(z_weights) > z_threshold)[0]
             W.data[inds_out] = np.mean(W.data)
             print('    -Zscore threshold needed for ', len(inds_out),
-                  ' values = ', 100*len(inds_out)/nnz, ' %')
+                  ' values = ', 100 * len(inds_out) / nnz, ' %')
             # inds_out_inf = np.where(z_weights < -z_thresh)[0]
             # inds_out_sup = np.where(z_weights > z_thresh)[0]
             # val_inf = np.max(W.data[inds_out_inf])
@@ -227,18 +227,18 @@ def compute_mesh_weights(mesh, weight_type='conformal', cot_threshold=None,
             # print('    -Zscore threshold needed for ',
             # len(inds_out_inf)+len(inds_out_sup),' values-')
         print('    -edge length threshold needed for ', threshold_needed,
-              ' values = ', 100*threshold_needed/nnz, ' %')
+              ' values = ', 100 * threshold_needed / nnz, ' %')
         if cot_threshold is not None:
             print('    -cot threshold needed for ', threshold_needed_angle,
-                  ' values = ', 100*threshold_needed_angle/nnz, ' %')
+                  ' values = ', 100 * threshold_needed_angle / nnz, ' %')
 
     li = np.hstack(W.data)
     nb_Nan = len(np.where(np.isnan(li))[0])
     nb_neg = len(np.where(li < 0)[0])
     print('    -number of Nan in weights: ',
-          nb_Nan, ' = ', 100*nb_Nan/nnz, ' %')
+          nb_Nan, ' = ', 100 * nb_Nan / nnz, ' %')
     print('    -number of Negative values in weights: ',
-          nb_neg, ' = ', 100*nb_neg/nnz, ' %')
+          nb_neg, ' = ', 100 * nb_neg / nnz, ' %')
 
     return W.tocsr(), femB.tocsr()
 
@@ -258,7 +258,7 @@ def compute_mesh_laplacian(mesh, weights=None, fem_b=None,
         (weights, fem_b) = compute_mesh_weights(mesh, weight_type=lap_type)
 
     if lap_type == 'fem':
-        weights.data = weights.data/2
+        weights.data = weights.data / 2
 
     N = weights.shape[0]
     sB = fem_b.sum(axis=0)
@@ -289,12 +289,12 @@ def depth_potential_function(mesh, curvature, alphas):
     :return:
     """
     L, LB = compute_mesh_laplacian(mesh, lap_type='fem')
-    B = -LB * (curvature-(np.sum(curvature*LB.diagonal())
+    B = -LB * (curvature - (np.sum(curvature * LB.diagonal())
                           / np.sum(LB.diagonal())))
 
     dpf = []
     for ind, alpha in enumerate(alphas):
-        M = alpha*LB+L/2
+        M = alpha * LB + L / 2
         dpf_t, info = lgmres(M.tocsr(), B, tol=solver_tolerance)
         dpf.append(dpf_t)
 
