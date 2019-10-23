@@ -1,9 +1,9 @@
-
 import matplotlib.pyplot as plt
 import slam.generate_parametric_surfaces as sps
 import numpy as np
+import slam.io as sio
 import slam.plot as splt
-import slam.spherical_mapping as sphmap
+import slam.mapping as smap
 import slam.distortion as sdst
 
 
@@ -39,6 +39,9 @@ def meshPolygonAngles(vert, poly):
 
 
 if __name__ == '__main__':
+    mesh = sio.load_mesh('data/example_mesh.gii')
+    sph = smap.spherical_mapping(mesh)
+    sph.show()
     sphere_mesh = sps.generate_sphere(1000)
     print(np.mean(sphere_mesh.vertices))
     print(np.sqrt(np.sum(np.power(sphere_mesh.vertices, 2), 1)))
@@ -71,15 +74,15 @@ if __name__ == '__main__':
     all_spheres = list()
     all_angle_diff = list()
     all_area_diff = list()
-    plane_proj_mesh = sphmap.stereo_projection(sphere_mesh, invert=False)
+    plane_proj_mesh = smap.stereo_projection(sphere_mesh, invert=False)
     for i in range(8):
         t += step
         all_steps.append(t)
         a = complex(t, 0)
 
-        plan_complex_transfo = sphmap.mobius_transformation(a, b, c, d,
-                                                            plane_proj_mesh)
-        sphere_transformed_mesh = sphmap.inverse_stereo_projection(
+        plan_complex_transfo = smap.moebius_transformation(a, b, c, d,
+                                                           plane_proj_mesh)
+        sphere_transformed_mesh = smap.inverse_stereo_projection(
             plan_complex_transfo, invert=False)
         all_spheres.append(sphere_transformed_mesh)
         angle_diff = sdst.angle_difference(sphere_mesh,
