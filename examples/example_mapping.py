@@ -40,7 +40,7 @@ def meshPolygonAngles(vert, poly):
 
 if __name__ == '__main__':
     mesh = sio.load_mesh('data/example_mesh.gii')
-    sph = smap.spherical_mapping(mesh)
+    sph = smap.spherical_mapping(mesh, mapping_type='combined', nb_it=100)
     sph.show()
     sphere_mesh = sps.generate_sphere(1000)
     print(np.mean(sphere_mesh.vertices))

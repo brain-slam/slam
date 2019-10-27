@@ -7,5 +7,8 @@ if __name__ == '__main__':
     lap, lap_b = sdg.compute_mesh_laplacian(mesh, lap_type='fem')
     print(mesh.vertices.shape)
     print(lap.shape)
+    lap, lap_b = sdg.compute_mesh_laplacian(mesh, lap_type='conformal')
+    lap, lap_b = sdg.compute_mesh_laplacian(mesh, lap_type='meanvalue')
+    lap, lap_b = sdg.compute_mesh_laplacian(mesh, lap_type='authalic')
     # import slam.plot as splt
     # splt.pyglet_plot(mesh, lap[:, 0].todense().squeeze())

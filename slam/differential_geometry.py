@@ -138,6 +138,20 @@ def compute_mesh_weights(mesh, weight_type='conformal', cot_threshold=None,
     W is sparse weight matrix and W(i,j) = 0 is vertex i and vertex j are not
     connected in the mesh.
 
+    details are presented in:
+    Desbrun, M., Meyer, M., & Alliez, P. (2002).
+    Intrinsic parameterizations of surface meshes.
+    Computer Graphics Forum, 21(3), 209–218.
+    https://doi.org/10.1111/1467-8659.00580
+
+    and
+    Reuter, M., Biasotti, S., & Giorgi, D. (2009).
+    Discrete Laplace–Beltrami operators for shape analysis and segmentation.
+    Computers & …, 33(3), 381–390.
+    https://doi.org/10.1016/j.cag.2009.03.005
+
+    additional checks and thresholds are applied to ensure finite values
+
     type is either
         'combinatorial': W(i,j) = 1 is vertex i is conntected to vertex j.
         'distance': W(i,j) = 1/d_ij^2 where d_ij is distance between vertex
@@ -146,14 +160,14 @@ def compute_mesh_weights(mesh, weight_type='conformal', cot_threshold=None,
             beta_ij are the adjacent angle to edge (i,j)
     If options.normalize = 1, the the rows of W are normalize to sum to 1.
     :param mesh:
-    :param weight_type:
+    :param weight_type: choice across conformal, fem, meanvalue, authalic
     :param cot_threshold:
     :param z_threshold:
     :return:
     """
 #    cot_threshold=0.00001
 #   print('angle threshold')
-    print('    Computing mesh weights')
+    print('    Computing mesh weights of type '+weight_type)
     vert = mesh.vertices
     poly = mesh.faces
 
@@ -232,6 +246,60 @@ def compute_mesh_weights(mesh, weight_type='conformal', cot_threshold=None,
             print('    -cot threshold needed for ', threshold_needed_angle,
                   ' values = ', 100 * threshold_needed_angle / nnz, ' %')
 
+    if weight_type == 'meanvalue':
+        for i in range(3):
+            i1 = np.mod(i, 3)
+            i2 = np.mod(i + 1, 3)
+            i3 = np.mod(i + 2, 3)
+            pp = vert[poly[:, i2], :] - vert[poly[:, i1], :]
+            qq = vert[poly[:, i3], :] - vert[poly[:, i1], :]
+            rr = vert[poly[:, i2], :] - vert[poly[:, i3], :]
+            # normalize the vectors
+            noqq = np.sqrt(np.sum(qq * qq, 1))
+            nopp = np.sqrt(np.sum(pp * pp, 1))
+            norr = np.sqrt(np.sum(rr * rr, 1))
+            pp = pp / np.vstack((nopp, np.vstack((nopp, nopp)))).transpose()
+            qq = qq / np.vstack((noqq, np.vstack((noqq, noqq)))).transpose()
+            rr = rr / np.vstack((norr, np.vstack((norr, norr)))).transpose()
+            # compute angles
+            angi1 = np.arccos(np.sum(pp * qq, 1))/2
+            qq = -qq
+            angi2 = np.arccos(np.sum(rr * qq, 1))/2
+            W = W + sparse.coo_matrix((np.tan(angi1)/norr,
+                                       (poly[:, i1], poly[:, i3])),
+                                      shape=(Nbv, Nbv))
+            W = W + sparse.coo_matrix((np.tan(angi2)/norr,
+                                       (poly[:, i3], poly[:, i1])),
+                                      shape=(Nbv, Nbv))
+        nnz = W.nnz
+    if weight_type == 'authalic':
+        for i in range(3):
+            i1 = np.mod(i, 3)
+            i2 = np.mod(i + 1, 3)
+            i3 = np.mod(i + 2, 3)
+            pp = vert[poly[:, i2], :] - vert[poly[:, i1], :]
+            qq = vert[poly[:, i3], :] - vert[poly[:, i1], :]
+            rr = vert[poly[:, i2], :] - vert[poly[:, i3], :]
+            # normalize the vectors
+            noqq = np.sqrt(np.sum(qq * qq, 1))
+            nopp = np.sqrt(np.sum(pp * pp, 1))
+            norr = np.sqrt(np.sum(rr * rr, 1))
+            pp = pp / np.vstack((nopp, np.vstack((nopp, nopp)))).transpose()
+            qq = qq / np.vstack((noqq, np.vstack((noqq, noqq)))).transpose()
+            rr = rr / np.vstack((norr, np.vstack((norr, norr)))).transpose()
+            # compute angles
+            angi1 = np.arccos(np.sum(pp * qq, 1))/2
+            cot1 = 1 / np.tan(angi1)
+            qq = -qq
+            angi2 = np.arccos(np.sum(rr * qq, 1))/2
+            cot2 = 1 / np.tan(angi2)
+            W = W + sparse.coo_matrix((cot1 / norr ** 2,
+                                       (poly[:, i3], poly[:, i1])),
+                                      shape=(Nbv, Nbv))
+            W = W + sparse.coo_matrix((cot2/norr ** 2,
+                                       (poly[:, i1], poly[:, i3])),
+                                      shape=(Nbv, Nbv))
+        nnz = W.nnz
     li = np.hstack(W.data)
     nb_Nan = len(np.where(np.isnan(li))[0])
     nb_neg = len(np.where(li < 0)[0])
@@ -247,13 +315,14 @@ def compute_mesh_laplacian(mesh, weights=None, fem_b=None,
                            lap_type='conformal'):
     """
     compute laplacian of a mesh
+    see compute_mesh_weight for details
     :param mesh:
     :param weights:
     :param fem_b:
     :param lap_type:
     :return:
     """
-    print('    Computing Laplacian')
+    print('  Computing Laplacian')
     if weights is None:
         (weights, fem_b) = compute_mesh_weights(mesh, weight_type=lap_type)
 
@@ -268,9 +337,19 @@ def compute_mesh_laplacian(mesh, weights=None, fem_b=None,
     dia = sparse.dia_matrix((s, 0), shape=(N, N))
     L = sparse.lil_matrix(dia - weights)
 
+    # if symmetrize == 1 & & normalize == 0
+    #     L = diag(sum(W, 2)) - W;
+    # elseif
+    # symmetrize == 1 & & normalize == 1
+    # L = speye(n) - diag(sum(W, 2). ^ (-1 / 2)) * W * diag(
+    #     sum(W, 2). ^ (-1 / 2));
+    # elseif
+    # symmetrize == 0 & & normalize == 1
+    # L = speye(n) - diag(sum(W, 2). ^ (-1)) * W;
+
     li = np.hstack(L.data)
-    print('    -nb Nan in L : ', len(np.where(np.isnan(li))[0]))
-    print('    -nb Inf in L : ', len(np.where(np.isinf(li))[0]))
+    print('    -nb Nan in Laplacian : ', len(np.where(np.isnan(li))[0]))
+    print('    -nb Inf in Laplacian : ', len(np.where(np.isinf(li))[0]))
 
     return L, B
 
