@@ -10,11 +10,16 @@ solver_tolerance = 1e-6
 ########################
 
 
-def spherical_mapping(mesh, mapping_type='laplacian_eigenvectors', conformal_w=1, authalic_w=1, dt=0.01, nb_it=10):
+def spherical_mapping(mesh, mapping_type='laplacian_eigenvectors',
+                      conformal_w=1, authalic_w=1, dt=0.01, nb_it=10):
     """
     ADD REF
     :param mesh:
     :param mapping_type:
+    :param conformal_w:
+    :param authalic_w:
+    :param dt:
+    :param nb_it:
     :return:
     """
     # computing spherical mapping based on laplacian eigenvectors
@@ -30,9 +35,9 @@ def spherical_mapping(mesh, mapping_type='laplacian_eigenvectors', conformal_w=1
 
     if mapping_type == 'conformal':
         """
-        Desbrun, M., Meyer, M., & Alliez, P. (2002). 
-        Intrinsic parameterizations of surface meshes. 
-        Computer Graphics Forum, 21(3), 209–218. 
+        Desbrun, M., Meyer, M., & Alliez, P. (2002).
+        Intrinsic parameterizations of surface meshes.
+        Computer Graphics Forum, 21(3), 209–218.
         https://doi.org/10.1111/1467-8659.00580
         """
 
@@ -54,7 +59,8 @@ def spherical_mapping(mesh, mapping_type='laplacian_eigenvectors', conformal_w=1
     # continue the spherical mappig by minimizig the energy
     for it in range(nb_it):
         print(it)
-        sphere_vertices = sphere_vertices - dt * L.dot(sphere_vertices)#sphere_vertices * L
+        sphere_vertices = sphere_vertices - dt * L.dot(sphere_vertices)
+        # sphere_vertices * L
         norm_sph_vert = np.sqrt(np.sum(sphere_vertices * sphere_vertices, 1))
         sphere_vertices = sphere_vertices / np.tile(norm_sph_vert, (3, 1)).T
     # ind = 0;
