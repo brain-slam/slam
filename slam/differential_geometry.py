@@ -167,7 +167,7 @@ def compute_mesh_weights(mesh, weight_type='conformal', cot_threshold=None,
     """
 #    cot_threshold=0.00001
 #   print('angle threshold')
-    print('    Computing mesh weights of type '+weight_type)
+    print('    Computing mesh weights of type ' + weight_type)
     vert = mesh.vertices
     poly = mesh.faces
 
@@ -262,13 +262,13 @@ def compute_mesh_weights(mesh, weight_type='conformal', cot_threshold=None,
             qq = qq / np.vstack((noqq, np.vstack((noqq, noqq)))).transpose()
             rr = rr / np.vstack((norr, np.vstack((norr, norr)))).transpose()
             # compute angles
-            angi1 = np.arccos(np.sum(pp * qq, 1))/2
+            angi1 = np.arccos(np.sum(pp * qq, 1)) / 2
             qq = -qq
-            angi2 = np.arccos(np.sum(rr * qq, 1))/2
-            W = W + sparse.coo_matrix((np.tan(angi1)/norr,
+            angi2 = np.arccos(np.sum(rr * qq, 1)) / 2
+            W = W + sparse.coo_matrix((np.tan(angi1) / norr,
                                        (poly[:, i1], poly[:, i3])),
                                       shape=(Nbv, Nbv))
-            W = W + sparse.coo_matrix((np.tan(angi2)/norr,
+            W = W + sparse.coo_matrix((np.tan(angi2) / norr,
                                        (poly[:, i3], poly[:, i1])),
                                       shape=(Nbv, Nbv))
         nnz = W.nnz
@@ -288,15 +288,15 @@ def compute_mesh_weights(mesh, weight_type='conformal', cot_threshold=None,
             qq = qq / np.vstack((noqq, np.vstack((noqq, noqq)))).transpose()
             rr = rr / np.vstack((norr, np.vstack((norr, norr)))).transpose()
             # compute angles
-            angi1 = np.arccos(np.sum(pp * qq, 1))/2
+            angi1 = np.arccos(np.sum(pp * qq, 1)) / 2
             cot1 = 1 / np.tan(angi1)
             qq = -qq
-            angi2 = np.arccos(np.sum(rr * qq, 1))/2
+            angi2 = np.arccos(np.sum(rr * qq, 1)) / 2
             cot2 = 1 / np.tan(angi2)
             W = W + sparse.coo_matrix((cot1 / norr ** 2,
                                        (poly[:, i3], poly[:, i1])),
                                       shape=(Nbv, Nbv))
-            W = W + sparse.coo_matrix((cot2/norr ** 2,
+            W = W + sparse.coo_matrix((cot2 / norr ** 2,
                                        (poly[:, i1], poly[:, i3])),
                                       shape=(Nbv, Nbv))
         nnz = W.nnz

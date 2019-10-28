@@ -14,12 +14,12 @@ if __name__ == '__main__':
     # most simple mesh visualization
     splt.pyglet_plot(mesh)
     # with a texture
-    splt.pyglet_plot(mesh, tex.darray, plot_colormap=True)
+    splt.pyglet_plot(mesh, tex.darray[0], plot_colormap=True)
     # change in colormap
-    splt.pyglet_plot(mesh, tex.darray, color_map=plt.get_cmap('hot', 6),
+    splt.pyglet_plot(mesh, tex.darray[0], color_map=plt.get_cmap('hot', 6),
                      plot_colormap=True)
     # to save to disc as png, we need to get the output of the plot function
-    plot_output = splt.pyglet_plot(mesh, tex.darray,
+    plot_output = splt.pyglet_plot(mesh, tex.darray[0],
                                    color_map=plt.get_cmap('hot'),
                                    plot_colormap=True)
     # then save the 3D rendering figure
