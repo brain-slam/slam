@@ -74,7 +74,8 @@ if __name__ == '__main__':
     scene = trimesh.Scene(scene_list)
     scene.show(smooth=False)
 
-    sub_meshes, sub_tex, sub_corresp = stop.cut_mesh(mesh, tex_parcel.darray[0])
+    sub_meshes, sub_tex, sub_corresp = stop.cut_mesh(mesh,
+                                                     tex_parcel.darray[0])
     scene_list = list()
     for s_mesh in sub_meshes:
         print(s_mesh)
