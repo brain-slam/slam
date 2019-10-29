@@ -36,7 +36,7 @@ if __name__ == '__main__':
     tex_parcel = sio.load_texture('data/example_texture_parcel.gii')
     col_map = trimesh.visual.color.interpolate(tex_parcel.darray)
     mesh.visual.vertex_colors = col_map
-    boundary = stop.texture_boundary(mesh, tex_parcel.darray, 0)
+    boundary = stop.texture_boundary(mesh, tex_parcel.darray[0], 0)
     print(boundary)
     scene_list = [mesh]
     for bound in boundary:
@@ -74,7 +74,8 @@ if __name__ == '__main__':
     scene = trimesh.Scene(scene_list)
     scene.show(smooth=False)
 
-    sub_meshes, sub_tex, sub_corresp = stop.cut_mesh(mesh, tex_parcel.darray)
+    sub_meshes, sub_tex, sub_corresp = stop.cut_mesh(mesh,
+                                                     tex_parcel.darray[0])
     scene_list = list()
     for s_mesh in sub_meshes:
         print(s_mesh)

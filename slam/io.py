@@ -44,9 +44,13 @@ def load_texture(gifti_file):
     :param gifti_file: str, path to the gifti file on the disk
     :return: the corresponding TextureND object
     """
+    # read the gifti usinng nibabel
     nb_texture = nb.gifti.read(gifti_file)
-
-    return texture.TextureND(darray=nb_texture.darrays[0].data,
+    # concatenate all the data arrays in a single numpy array
+    cat_darrays = list()
+    for da in nb_texture.darrays:
+        cat_darrays.append(da.data)
+    return texture.TextureND(darray=np.array(cat_darrays),
                              metadata=nb_texture.get_meta().metadata)
 
 def load_texture2(gifti_file):
