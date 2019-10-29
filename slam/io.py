@@ -40,30 +40,17 @@ def write_mesh(mesh, gifti_file):
 
 def load_texture(gifti_file):
     """
-    load gifti_file and create a TextureND object
+    load gifti_file and create a TextureND object (multidimensional)
     :param gifti_file: str, path to the gifti file on the disk
     :return: the corresponding TextureND object
     """
     # read the gifti usinng nibabel
     nb_texture = nb.gifti.read(gifti_file)
     # concatenate all the data arrays in a single numpy array
-    cat_darrays = list()
-    for da in nb_texture.darrays:
-        cat_darrays.append(da.data)
+    cat_darrays = [nb_texture.darrays[i].data
+                   for i in range(len(nb_texture.darrays))]
     return texture.TextureND(darray=np.array(cat_darrays),
                              metadata=nb_texture.get_meta().metadata)
-
-def load_texture2(gifti_file):
-    """
-    load gifti_file and create a TextureND object (multidimensional)
-    :param gifti_file: str, path to the gifti file on the disk
-    :return: the corresponding TextureND object
-    """
-    nb_texture = nb.gifti.read(gifti_file)
-
-    return texture.TextureND(darray=[nb_texture.darrays[i].data for i in range(len(nb_texture.darrays))],
-                         metadata=nb_texture.get_meta().metadata)
-
 
 
 def write_texture(tex, gifti_file):

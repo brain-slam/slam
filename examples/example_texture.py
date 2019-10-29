@@ -18,3 +18,4 @@ if __name__ == '__main__':
     print(tex2.dtype)
     print(tex2.min())
     print(tex2.max())
+    # sio.write_texture(tex2, 'test.gii')
