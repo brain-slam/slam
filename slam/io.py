@@ -49,6 +49,18 @@ def load_texture(gifti_file):
     return texture.TextureND(darray=nb_texture.darrays[0].data,
                              metadata=nb_texture.get_meta().metadata)
 
+def load_texture2(gifti_file):
+    """
+    load gifti_file and create a TextureND object (multidimensional)
+    :param gifti_file: str, path to the gifti file on the disk
+    :return: the corresponding TextureND object
+    """
+    nb_texture = nb.gifti.read(gifti_file)
+
+    return texture.TextureND(darray=[nb_texture.darrays[i].data for i in range(len(nb_texture.darrays))],
+                         metadata=nb_texture.get_meta().metadata)
+
+
 
 def write_texture(tex, gifti_file):
     """
