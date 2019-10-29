@@ -1,6 +1,7 @@
 import numpy as np
 import trimesh
 import slam.differential_geometry as sdg
+import slam.distortion as sdst
 # from scipy import sparse as ssp
 import slam.topology as stop
 from scipy.sparse.linalg import lgmres
@@ -25,8 +26,6 @@ def spherical_mapping(mesh, mapping_type='laplacian_eigenvectors',
     # computing spherical mapping based on laplacian eigenvectors
     sph_vert = sdg.mesh_laplacian_eigenvectors(mesh, nb_vectors=3)
     norm_sph_vert = np.sqrt(np.sum(sph_vert * sph_vert, 1))
-    print(np.tile(norm_sph_vert, (3, 1)).T.shape)
-    print(sph_vert.shape)
     sphere_vertices = sph_vert / np.tile(norm_sph_vert, (3, 1)).T
     if mapping_type == 'laplacian_eigenvectors':
         return trimesh.Trimesh(faces=mesh.faces,
@@ -57,12 +56,23 @@ def spherical_mapping(mesh, mapping_type='laplacian_eigenvectors',
         Laut, Baut = sdg.compute_mesh_laplacian(mesh, lap_type='authalic')
         L = conformal_w * Lconf + authalic_w * Laut
     # continue the spherical mappig by minimizig the energy
+    evol = list()
     for it in range(nb_it):
-        print(it)
         sphere_vertices = sphere_vertices - dt * L.dot(sphere_vertices)
         # sphere_vertices * L
         norm_sph_vert = np.sqrt(np.sum(sphere_vertices * sphere_vertices, 1))
         sphere_vertices = sphere_vertices / np.tile(norm_sph_vert, (3, 1)).T
+        if it % 10 == 0:
+            sph = trimesh.Trimesh(faces=mesh.faces,
+                                  vertices=sphere_vertices,
+                                  process=False)
+            angle_diff = sdst.angle_difference(sph, mesh)
+            area_diff = sdst.area_difference(sph, mesh)
+            edge_diff = sdst.edge_length_difference(sph, mesh)
+            evol.append([np.sum(np.abs(angle_diff.flatten())),
+                         np.sum(np.abs(area_diff.flatten())),
+                         np.sum(np.abs(edge_diff.flatten()))])
+
     # ind = 0;
     # for it=1:nb_it
     # % it = 1;
@@ -110,7 +120,7 @@ def spherical_mapping(mesh, mapping_type='laplacian_eigenvectors',
 
     return trimesh.Trimesh(faces=mesh.faces,
                            vertices=sphere_vertices,
-                           metadata=mesh.metadata, process=False)
+                           metadata=mesh.metadata, process=False), evol
 
 
 def disk_conformal_mapping(mesh, boundary=None, boundary_coords=None):
