@@ -60,10 +60,9 @@ def write_texture(tex, gifti_file):
     :return: the corresponding TextureND object
     """
     darrays_list = []
-    out_texture_data = np.copy(tex.darray)  # or whatever you want to write
-
-    darrays_list.append(nb.gifti.GiftiDataArray().from_array(
-        out_texture_data.astype(np.float32), 0))
+    for d in tex.darray:
+        darrays_list.append(nb.gifti.GiftiDataArray().from_array(
+            d.astype(np.float32), 0))
     out_texture_gii = nb.gifti.GiftiImage(darrays=darrays_list)
     # , meta=str(tex.metadata))
 
