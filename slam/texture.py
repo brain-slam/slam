@@ -17,7 +17,9 @@ class TextureND:
                  metadata=None,
                  **kwargs):
         """
-        A Trimesh object contains a triangular 3D mesh.
+        TODO: better description
+        A TextureND object contains a darray of shape nb texture times the
+         number of vertices of the mesh the texture corresponds to.
 
         Parameters
         ----------

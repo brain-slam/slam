@@ -55,15 +55,24 @@ def load_texture(gifti_file):
 
 def write_texture(tex, gifti_file):
     """
+    TODO manage metadata
     write a TextureND object to disk as a gifti file
     :param gifti_file: str, path to the gifti file on the disk
     :return: the corresponding TextureND object
     """
     darrays_list = []
     for d in tex.darray:
-        darrays_list.append(nb.gifti.GiftiDataArray().from_array(
-            d.astype(np.float32), 0))
+        gdarray = nb.gifti.GiftiDataArray().from_array(
+            d.astype(np.float32), 0)
+        # gdarray.metadata = tex.metadata
+        # print(gdarray.metadata)
+        darrays_list.append(gdarray)
     out_texture_gii = nb.gifti.GiftiImage(darrays=darrays_list)
+    # out_metadata = tex.metadata
+    # print(out_metadata)
+    # out_metadata['Name']=gifti_file
+    # print(out_metadata)
+    # out_texture_gii.set_metadata(nb.gifti.GiftiMetaData(out_metadata))
     # , meta=str(tex.metadata))
 
     nb.gifti.write(out_texture_gii, gifti_file)
