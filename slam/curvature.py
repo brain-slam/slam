@@ -1,6 +1,6 @@
 import numpy as np
 
-def ProjectCurvatureTensor(uf, vf, nf, old_ku, old_kuv, old_kv, up, vp):
+def projectcurvaturetensor(uf, vf, nf, old_ku, old_kuv, old_kv, up, vp):
 	'''
 	ProjectCurvatureTensor performs a projection
 	of the tensor variables to the vertexcoordinate system
@@ -26,7 +26,7 @@ def ProjectCurvatureTensor(uf, vf, nf, old_ku, old_kuv, old_kv, up, vp):
 	return new_ku, new_kuv, new_kv
 
 
-def CalcCurvature(FV, VertexNormals, FaceNormals, Avertex, Acorner, up, vp):
+def calccurvature(FV, VertexNormals, FaceNormals, Avertex, Acorner, up, vp):
 	"""CalcFaceCurvature recives a list of vertices and faces in FV structure
 	and the normal at each vertex and calculates the second fundemental
 	matrix and the curvature using least squares
@@ -99,7 +99,7 @@ def CalcCurvature(FV, VertexNormals, FaceNormals, Avertex, Acorner, up, vp):
 		"Calculate new coordinate system and project the tensor"
 		
 		for j in range(3):
-			new_ku, new_kuv, new_kv = ProjectCurvatureTensor(t, B, nf, x[0][0], x[0][1], x[0][2],
+			new_ku, new_kuv, new_kv = projectcurvaturetensor(t, B, nf, x[0][0], x[0][1], x[0][2],
 			                                                 up[FV.faces[i][j], :], vp[FV.faces[i][j], :])
 			VertexSFM[FV.faces[i][j]] += np.dot(wfp[i][j], np.array([[new_ku, new_kuv], [new_kuv, new_kv]]))
 	
@@ -108,15 +108,15 @@ def CalcCurvature(FV, VertexNormals, FaceNormals, Avertex, Acorner, up, vp):
 	return FaceSFM, VertexSFM, wfp
 
 
-def GetCurvaturesAndDerivatives(FV):
-	FaceNormals = CalcFaceNormals(FV)
-	(VertexNormals, Avertex, Acorner, up, vp) = CalcVertexNormals(FV, FaceNormals)
-	(FaceSFM, VertexSFM, wfp) = CalcCurvature(FV, VertexNormals, FaceNormals, Avertex, Acorner, up, vp)
-	[PrincipalCurvature, PrincipalDi1, PrincipalDi2] = getPrincipalCurvatures(FV, VertexSFM, up, vp)
+def getcurvaturesandderivatives(FV):
+	FaceNormals = calcfacenormals(FV)
+	(VertexNormals, Avertex, Acorner, up, vp) = calcvertexnormals(FV, FaceNormals)
+	(FaceSFM, VertexSFM, wfp) = calccurvature(FV, VertexNormals, FaceNormals, Avertex, Acorner, up, vp)
+	[PrincipalCurvature, PrincipalDi1, PrincipalDi2] = getprincipalcurvatures(FV, VertexSFM, up, vp)
 	return PrincipalCurvature, PrincipalDi1, PrincipalDi2
 
 
-def CalcFaceNormals(FV):
+def calcfacenormals(FV):
 	"""
 	Calculates face normals
 	INPUT :
@@ -130,7 +130,6 @@ def CalcFaceNormals(FV):
 	e1 = FV.vertices[FV.faces[:, 0], :] - FV.vertices[FV.faces[:, 2], :]
 	
 	"Calculate and return normal of face"
-	"FaceNormals = np.cross(e0, e1)"
 	return normr(np.cross(e0, e1))
 
 
@@ -148,7 +147,7 @@ def normr(X):
 		              np.ones((1, a))) * X
 
 
-def CalcVertexNormals(FV, N):
+def calcvertexnormals(FV, N):
 	'''
 	CalcVertexNormals calculates the normals and voronoi areas at each vertex
 	INPUT:
@@ -252,7 +251,7 @@ def CalcVertexNormals(FV, N):
 	return VertexNormals, Avertex, Acorner, up, vp
 
 
-def getPrincipalCurvatures(FV, VertexSFM, up, vp):
+def getprincipalcurvatures(FV, VertexSFM, up, vp):
 	'''
 	Calculates the principal curvatures and prncipal directions 
 	INPUT :
@@ -302,7 +301,7 @@ def getPrincipalCurvatures(FV, VertexSFM, up, vp):
 	return PrincipalCurvature, PrincipalDi1, PrincipalDi2
 
 
-def RotateCoordinateSystem(up, vp, nf):
+def rotatecoordinatesystem(up, vp, nf):
 	'''
 	RotateCoordinateSystem performs the rotation of the vectors up and vp
 	to the plane defined by nf as its normal vector
