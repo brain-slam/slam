@@ -252,21 +252,21 @@ def calcvertexnormals(FV, N):
 
         if ew[0][i] <= 0:
             Acorner[i][1] = -0.25 * l2[i][2] * Af[i] / \
-                            (np.dot(e0[i, :], np.transpose(e2[i, :])))
+                (np.dot(e0[i, :], np.transpose(e2[i, :])))
             Acorner[i][2] = -0.25 * l2[i][1] * Af[i] / \
-                            (np.dot(e0[i, :], np.transpose(e1[i, :])))
+                (np.dot(e0[i, :], np.transpose(e1[i, :])))
             Acorner[i][0] = Af[i] - Acorner[i][2] - Acorner[i][1]
         elif ew[1][i] <= 0:
             Acorner[i][2] = -0.25 * l2[i][0] * Af[i] / \
-                            (np.dot(e1[i, :], np.transpose(e0[i, :])))
+                (np.dot(e1[i, :], np.transpose(e0[i, :])))
             Acorner[i][0] = -0.25 * l2[i][2] * Af[i] / \
-                            (np.dot(e1[i, :], np.transpose(e2[i, :])))
+                (np.dot(e1[i, :], np.transpose(e2[i, :])))
             Acorner[i][1] = Af[i] - Acorner[i][2] - Acorner[i][0]
         elif ew[2][i] <= 0:
             Acorner[i][0] = -0.25 * l2[i][1] * Af[i] / \
-                            (np.dot(e2[i, :], np.transpose(e1[i, :])))
+                (np.dot(e2[i, :], np.transpose(e1[i, :])))
             Acorner[i][1] = -0.25 * l2[i][0] * Af[i] / \
-                            (np.dot(e2[i, :], np.transpose(e0[i, :])))
+                (np.dot(e2[i, :], np.transpose(e0[i, :])))
             Acorner[i][2] = Af[i] - Acorner[i][1] - Acorner[i][0]
         else:
             ewscale = 0.5 * Af[i] / (ew[0][i] + ew[1][i] + ew[2][i])
