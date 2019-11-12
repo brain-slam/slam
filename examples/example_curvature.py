@@ -1,6 +1,6 @@
 import trimesh
 import numpy as np
-import CalculCurvature as CC
+import slam.curvature as get_curvatures
 
 if __name__ == '__main__':
 	
@@ -11,7 +11,7 @@ if __name__ == '__main__':
 	mesh.show()
 	
 	# Calculate Rusinkiewicz estimation of mean and gauss curvatures
-	PrincipalCurvatures, PrincipalDir1, PrincipalDir2 = CC.GetCurvaturesAndDerivatives(mesh)
+	PrincipalCurvatures, PrincipalDir1, PrincipalDir2 = get_curvatures.GetCurvaturesAndDerivatives(mesh)
 	gaussian_curv = PrincipalCurvatures[0, :] * PrincipalCurvatures[1, :]
 	mean_curv = 0.5 * (PrincipalCurvatures[0, :] + PrincipalCurvatures[1, :])
 	
