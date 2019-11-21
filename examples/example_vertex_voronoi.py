@@ -2,9 +2,6 @@ import slam.io as sio
 import slam.plot as splt
 import slam.vertex_voronoi as svv
 import numpy as np
-# import matplotlib.pyplot as plt
-# import matplotlib
-# matplotlib.use('TkAgg')
 
 if __name__ == '__main__':
 
@@ -16,4 +13,7 @@ if __name__ == '__main__':
     print(vert_vor.shape)
     print(np.sum(vert_vor) - mesh.area)
 
-    splt.pyglet_plot(mesh, vert_vor, plot_colormap=True)
+    visb_sc = splt.visbrain_plot(mesh=mesh, tex=vert_vor,
+                                 caption='vertex voronoi',
+                                 cblabel='vertex voronoi')
+    visb_sc.preview()

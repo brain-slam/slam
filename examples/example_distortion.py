@@ -1,19 +1,13 @@
 import slam.distortion as sdst
-from trimesh import smoothing as sm
+import slam.differential_geometry as sdg
 import slam.plot as splt
 import slam.io as sio
 import numpy as np
-# import matplotlib.pyplot as plt
-# import matplotlib
-# matplotlib.use('TkAgg')
 
 if __name__ == '__main__':
 
     mesh = sio.load_mesh('data/example_mesh.gii')
-    mesh.apply_transform(mesh.principal_inertia_transform)
-    # mesh.show()
-    mesh_s = sm.filter_laplacian(mesh.copy(), iterations=100)
-    # mesh_s.show()
+    mesh_s = sdg.laplacian_mesh_smoothing(mesh, nb_iter=50, dt=0.1)
 
     print(mesh.vertices.shape)
 
@@ -25,9 +19,6 @@ if __name__ == '__main__':
 
     vect_col = np.random.random_integers(0, 255, mesh.faces.shape[0])
     print(vect_col.shape)
-    # mesh.visual.vertex_colors = vert_col
-    mesh.visual.faces_colors = vect_col
-    mesh.show()
 
     # f, ax = plt.subplots(1,1)
     # ax.set_title('angles')
@@ -36,4 +27,13 @@ if __name__ == '__main__':
     # ax.grid(True)
     # plt.show()
 
-    splt.pyglet_plot(mesh_s, face_angle_dist, 'hot', True)
+    # splt.pyglet_plot(mesh_s, face_angle_dist, 'hot', True)
+
+    visb_sc = splt.visbrain_plot(mesh=mesh, caption='original mesh')
+    visb_sc = splt.visbrain_plot(mesh=mesh_s, caption='smoothed mesh',
+                                 visb_sc=visb_sc)
+    # TODO plot distortion map onto the mesh
+    # visb_sc = splt.visbrain_plot(mesh=mesh_s, tex=face_angle_dist,
+    # caption='face angle distortions', cblabel='angle distortions',
+    # cmap='hot', visb_sc=visb_sc)
+    visb_sc.preview()

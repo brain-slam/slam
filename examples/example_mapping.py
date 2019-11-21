@@ -40,13 +40,17 @@ def meshPolygonAngles(vert, poly):
 
 if __name__ == '__main__':
     mesh = sio.load_mesh('data/example_mesh.gii')
-    sph, evol = smap.spherical_mapping(mesh, mapping_type='conformal',
-                                       dt=0.01, nb_it=3000)
-    sph.show()
+    sphere, evol = smap.spherical_mapping(mesh, mapping_type='conformal',
+                                          dt=0.01, nb_it=3000)
+    visb_sc = splt.visbrain_plot(mesh=mesh, caption='original mesh')
+    visb_sc = splt.visbrain_plot(mesh=sphere,
+                                 caption='spherical representation',
+                                 visb_sc=visb_sc)
+    visb_sc.preview()
 
-    angle_diff = sdst.angle_difference(sph, mesh)
-    area_diff = sdst.area_difference(sph, mesh)
-    edge_diff = sdst.edge_length_difference(sph, mesh)
+    angle_diff = sdst.angle_difference(sphere, mesh)
+    area_diff = sdst.area_difference(sphere, mesh)
+    edge_diff = sdst.edge_length_difference(sphere, mesh)
 
     aevol = np.array(evol)
     f, ax = plt.subplots(1, 3)
@@ -102,13 +106,17 @@ if __name__ == '__main__':
     sphere_mesh = sps.generate_sphere(1000)
     print(np.mean(sphere_mesh.vertices))
     print(np.sqrt(np.sum(np.power(sphere_mesh.vertices, 2), 1)))
-    z_coord_texture = sphere_mesh.vertices[:, 2]
+    z_coord_texture = np.array(sphere_mesh.vertices[:, 2])
 
     poly_angles = meshPolygonAngles(sphere_mesh.vertices, sphere_mesh.faces)
     print(np.max(poly_angles))
     print(np.min(poly_angles))
 
-    splt.pyglet_plot(sphere_mesh, z_coord_texture, caption="Sphere")
+    visb_sc_2 = splt.visbrain_plot(mesh=sphere_mesh, tex=z_coord_texture,
+                                   caption='parametric sphere',
+                                   cblabel='z coordinate')
+    visb_sc_2.preview()
+
     #
     # # plane_proj_mesh = sphmap.stereo_projection(sphere_mesh, invert=False)
     # # splt.pyglet_plot(plane_proj_mesh,

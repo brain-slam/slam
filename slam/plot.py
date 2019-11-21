@@ -1,8 +1,5 @@
 import trimesh
 import numpy as np
-# import matplotlib
-# matplotlib.use('TkAgg')
-import matplotlib.pyplot as plt
 
 
 def save_image(scene_viewer, filename):
@@ -17,22 +14,46 @@ def save_image(scene_viewer, filename):
         f.write(scene.save_image(background=scene_viewer.background))
 
 
-def visbrain_plot(mesh, tex=None):
+def visbrain_plot(mesh, tex=None, caption=None, cblabel=None, visb_sc=None,
+                  cmap='jet'):
     """
     Visualize a trimesh object using visbrain core plotting tool
     :param mesh: trimesh object
     :param tex: numpy array of a texture to be visualized on the mesh
     :return:
     """
-    from visbrain.objects import BrainObj
+    from visbrain.objects import BrainObj, ColorbarObj, SceneObj
+    b_obj = BrainObj('gui', vertices=np.array(mesh.vertices),
+                     faces=np.array(mesh.faces),
+                     translucent=False)
+    if visb_sc is None:
+        visb_sc = SceneObj(bgcolor='black', size=(1400, 1000))
+        visb_sc.add_to_subplot(b_obj, title=caption)
+        visb_sc_shape = (1, 1)
+    else:
+        visb_sc_shape = get_visb_sc_shape(visb_sc)
+        visb_sc.add_to_subplot(b_obj, row=visb_sc_shape[0]-1,
+                               col=visb_sc_shape[1], title=caption)
 
-    # invert_normals = True -> Light outside
-    # invert_normals = False -> Light inside
-    b_obj = BrainObj('gui', vertices=mesh.vertices, faces=mesh.faces,
-                     translucent=False, invert_normals=True)
     if tex is not None:
-        b_obj.add_activation(data=tex, cmap='viridis')
-    b_obj.preview(bgcolor='white')
+        b_obj.add_activation(data=tex, cmap=cmap,
+                             clim=(np.min(tex), np.max(tex)))
+        CBAR_STATE = dict(cbtxtsz=20, txtsz=20., width=.1, cbtxtsh=3.,
+                          rect=(-.3, -2., 1., 4.), cblabel=cblabel)
+        cbar = ColorbarObj(b_obj, **CBAR_STATE)
+        visb_sc.add_to_subplot(cbar, row=visb_sc_shape[0]-1,
+                               col=visb_sc_shape[1]+1, width_max=200)
+    return visb_sc
+
+
+def get_visb_sc_shape(visb_sc):
+    """
+    get the subplot shape in a visbrain scene
+    :param visb_sc:
+    :return: tuple (number of rows, number of coloumns)
+    """
+    k = list(visb_sc._grid_desc.keys())
+    return k[-1]
 
 
 def pyglet_plot(mesh_in, values=None, color_map=None,
@@ -42,7 +63,7 @@ def pyglet_plot(mesh_in, values=None, color_map=None,
     """
     Visualize a trimesh object using pyglet as proposed in trimesh
     the added value is for texture visualization
-    :param mesh: trimesh object
+    :param mesh_in: trimesh object
     :param values: numpy array of a texture to be visualized on the mesh
     :param color_map: str, matplotlib colormap, default is 'jet'
     :param plot_colormap: Boolean, if True use matplotlib to plot the colorbar
@@ -51,8 +72,10 @@ def pyglet_plot(mesh_in, values=None, color_map=None,
     :param alpha_transp: mesh transparency parameter, 0=transparent, 255=solid
     :param background_color:
     :param default_color: color of vertices or faces where 'values' is NaN
+    :param cmap_bounds : bounds to impose on the colormap
     :return:
     """
+    import matplotlib.pyplot as plt
     # to ensure plotting do not affect the mesh (esp. visual aspects)
     mesh = mesh_in.copy()
     if background_color is not None:

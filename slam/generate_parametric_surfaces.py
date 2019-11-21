@@ -5,7 +5,7 @@ import trimesh
 
 def quadric(K1, K2):
     """
-
+    compute the Z coordinate of a quadric dependeing on X and Y coordinates
     :param K1:
     :param K2:
     :return:
@@ -19,7 +19,7 @@ def quadric(K1, K2):
 
 def quadric_curv_gauss(K1, K2):
     """
-
+    analytical Gaussian curvature of a quadric
     :param K1:
     :param K2:
     :return:
@@ -35,7 +35,7 @@ def quadric_curv_gauss(K1, K2):
 
 def quadric_curv_mean(K1, K2):
     """
-
+    analytical mean curvature of a quadric
     :param K1:
     :param K2:
     :return:
@@ -52,7 +52,13 @@ def quadric_curv_mean(K1, K2):
     return curv_mean
 
 
-def generate_quadric(Ks, nstep=50):
+def generate_quadric(K, nstep=50):
+    """
+    generate a quadric
+    :param K:
+    :param nstep:
+    :return:
+    """
     # Parameters
     xmin, xmax = [-1, 1]
     ymin, ymax = [-1, 1]
@@ -73,15 +79,21 @@ def generate_quadric(Ks, nstep=50):
     Y = Y.flatten()
     Tri = Triangulation(X, Y)
 
-    Zs = list()
-    for K in Ks:
-        Z = quadric(K[0], K[1])(X, Y)
-        Zs.append(Z)
+    Z = quadric(K[0], K[1])(X, Y)
+    coords = np.array([X, Y, Z]).transpose()
 
-    return X, Y, Tri.triangles, Zs
+    return trimesh.Trimesh(faces=Tri.triangles, vertices=coords, process=False)
 
 
 def generate_ellipsiod(a, b, nstep, randomSampling):
+    """
+    generate an ellipsoid
+    :param a:
+    :param b:
+    :param nstep:
+    :param randomSampling:
+    :return:
+    """
     # Coordinates
     if randomSampling:
         THETA = (np.random.rand(nstep * nstep, 1) - 1 / 2) * np.pi
@@ -113,9 +125,9 @@ def tri_from_hull(vertices):
 
 def generate_sphere(n=100):
     """
-
-    :param n:
-    :return:
+    generate a sphere with random sampling
+    :param n: number of vertices
+    :return: Trimesh object of the sphere
     """
     coords = np.zeros((n, 3))
     for i in range(n):

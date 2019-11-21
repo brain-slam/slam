@@ -1,21 +1,28 @@
-import trimesh
+import slam.io as sio
 import slam.plot as splt
-import slam.curvature as get_curvatures
+import slam.curvature as scurv
 
 if __name__ == '__main__':
-    # Generate a sphere
-    mesh = trimesh.creation.icosphere()
-
-    # Show th sphere
-    mesh.show()
+    mesh_file = 'data/example_mesh.gii'
+    mesh = sio.load_mesh(mesh_file)
+    mesh.apply_transform(mesh.principal_inertia_transform)
+    # uncomment if you want to test the code on a sphere
+    # import slam.generate_parametric_surfaces as sgps
+    # mesh = sgps.generate_sphere()
 
     # Calculate Rusinkiewicz estimation of mean and gauss curvatures
     PrincipalCurvatures, PrincipalDir1, PrincipalDir2 = \
-        get_curvatures.getcurvaturesandderivatives(mesh)
+        scurv.getcurvaturesandderivatives(mesh)
     gaussian_curv = PrincipalCurvatures[0, :] * PrincipalCurvatures[1, :]
     mean_curv = 0.5 * (PrincipalCurvatures[0, :] + PrincipalCurvatures[1, :])
 
     # Plot mean curvature
-    splt.pyglet_plot(mesh, mean_curv, plot_colormap=True)
+    visb_sc = splt.visbrain_plot(mesh=mesh, tex=mean_curv,
+                                 caption='mean curvature',
+                                 cblabel='mean curvature')
     # PLot Gauss curvature
-    splt.pyglet_plot(mesh, gaussian_curv, plot_colormap=True)
+    visb_sc = splt.visbrain_plot(mesh=mesh, tex=gaussian_curv,
+                                 caption='Gaussian curvature',
+                                 cblabel='Gaussian curvature',
+                                 cmap='hot', visb_sc=visb_sc)
+    visb_sc.preview()

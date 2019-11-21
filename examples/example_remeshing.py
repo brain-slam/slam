@@ -15,8 +15,6 @@ if __name__ == '__main__':
     source_mesh = sio.load_mesh(source_mesh_file)
     source_tex = sio.load_texture(source_texture_file)
     source_spherical_mesh = sio.load_mesh(source_spherical_mesh_file)
-    splt.pyglet_plot(source_mesh, source_tex.darray[0])
-    splt.pyglet_plot(source_spherical_mesh, source_tex.darray[0])
 
     target_mesh = sio.load_mesh(target_mesh_file)
     target_spherical_mesh = sio.load_mesh(target_spherical_mesh_file)
@@ -25,4 +23,16 @@ if __name__ == '__main__':
         srem.spherical_interpolation_nearest_neigbhor(source_spherical_mesh,
                                                       target_spherical_mesh,
                                                       source_tex.darray[0])
-    splt.pyglet_plot(target_mesh, interpolated_tex_values, plot_colormap=True)
+    # plot
+    visb_sc = splt.visbrain_plot(mesh=source_mesh, tex=source_tex.darray[0],
+                                 caption='source with curvature',
+                                 cblabel='curvature')
+    visb_sc = splt.visbrain_plot(mesh=source_spherical_mesh,
+                                 tex=source_tex.darray[0],
+                                 caption='spherical source mesh',
+                                 cblabel='curvature', visb_sc=visb_sc)
+    visb_sc = splt.visbrain_plot(mesh=target_mesh, tex=interpolated_tex_values,
+                                 caption='target mesh with curvature '
+                                         'from source mesh',
+                                 cblabel='curvature', visb_sc=visb_sc)
+    visb_sc.preview()

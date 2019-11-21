@@ -12,14 +12,21 @@ if __name__ == '__main__':
     max_geodist = 10
 
     geo_distance = sgeo.compute_gdist(mesh, vert_id)
-    splt.pyglet_plot(mesh, geo_distance, plot_colormap=True)
     # get the vertices index in specified geo_distance of vert
     area_geodist_vi = np.where(geo_distance < max_geodist)[0]
     print(area_geodist_vi)
 
     area_geodist = sgeo.local_gdist_matrix(mesh, max_geodist)
-    splt.pyglet_plot(mesh, area_geodist[0].toarray().squeeze(),
-                     plot_colormap=True)
+
+    visb_sc = splt.visbrain_plot(mesh=mesh, tex=geo_distance,
+                                 caption='geodesic distance',
+                                 cblabel='distance')
+    visb_sc = splt.visbrain_plot(mesh=mesh,
+                                 tex=area_geodist[0].toarray().squeeze(),
+                                 caption='local geodesic distance',
+                                 cblabel='distance', visb_sc=visb_sc)
+    visb_sc.preview()
+
     # print(area_geodist[0].toarray()-geo_distance)
 
     # print the vertex index

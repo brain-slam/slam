@@ -10,6 +10,8 @@ https://github.com/mikedh/trimesh
 
 The present module will consist of extensions to adapt Trimesh for the purpose of surface analysis of brain MRI data.
 
+## Visbrain is recommended for visualization
+
 ------------------
 Installation:
 ------------------
@@ -18,7 +20,10 @@ Installation:
     ```
     pip install trimesh[easy]
     ```
-2. install pyglet:
+2. install visbrain (instead of pyglet):
+    ```
+    pip install visbrain
+    ```
     ```
     conda install -c conda-forge pyglet
     ```
@@ -63,7 +68,7 @@ Features (added value compared to Trimesh):
 
 . texture: a class to manage properly vertex-level information.
 
-. plot: extension of Trimesh's pyglet viewer to visualize textures with colorbar.  
+. plot: extension of Trimesh's pyglet viewer to visualize textures with colorbar.
 
 
 ------------------

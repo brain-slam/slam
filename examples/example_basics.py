@@ -4,21 +4,31 @@ import slam.io as sio
 from trimesh import smoothing as sm
 
 if __name__ == '__main__':
+    '''
+    This scripts shows examples of basic functionalities offered by SLAM.
+    Some (most) of these are actually inherited from Trimesh
+    This script does not plot anything, see example_plot.py for that purpose
+    '''
     mesh_file = 'data/example_mesh.gii'
-
+    # loading a mesh stored on the disc as a gifti file,
+    # this is a feature of SLAM
     mesh = sio.load_mesh(mesh_file)
+
+    # affine transformations can be applied to mesh objects
     mesh.apply_transform(mesh.principal_inertia_transform)
-
+    # laplacian smoothing is available in Trimesh
     mesh_s = sm.filter_laplacian(mesh, iterations=20)
-    mesh_s.show()
 
-    # mesh.fill_holes()
-    mesh.edges
+    # mesh.fill_holes() is able to fill missing face but do not handle
+    # larger holes
+
     # interesting properties / functions of a mesh
     # see base.py for more details
     # what's the euler number for the mesh?
-    print(mesh.euler_number)
+    print('mesh.euler_number=', mesh.euler_number)
 
+    # access mesh edges
+    mesh.edges
     # access mesh faces
     mesh.faces
     # access mesh vertice
@@ -27,7 +37,7 @@ if __name__ == '__main__':
     mesh.edges
 
     # what's the area of the mesh
-    print(mesh.area)
+    print('mesh.area=', mesh.area)
 
     # compute the area of each face
     mesh.area_faces
@@ -45,25 +55,11 @@ if __name__ == '__main__':
     # access mesh vertex connectivity
     mesh.vertex_neighbors
 
-    # mesh convex hull
+    # compute mesh convex hull
     c_h_mesh = mesh.convex_hull
 
-    mesh.convex_hull.show()
-
-    # close mesh holes
-    mesh.fill_holes()
-
-    # register to another using iterative ICP initiated by principal axes of
-    # intertia
-    # mesh.register(other)
-
-    m_smooth = mesh.smoothed()
-
-    mesh.show()
-    m_smooth.show()
-
     # kdtree of the vertices
-    # mesh.kdtree()
+    # see example_kdtree.py
 
     # mesh refinement by subdivision of face
     mesh.subdivide()
@@ -71,10 +67,8 @@ if __name__ == '__main__':
     # extract 100 mesh vertices picked at random
     mesh.sample(100)
 
-    # apply rigid transormation
-    # mesh.apply_transform()
-
-    mesh.voxelized(2).show()
+    # voxelize the mesh
+    mesh.voxelized(2)
 
     # boundary of the mesh or list of faces
     # mesh.outline()
@@ -111,12 +105,6 @@ if __name__ == '__main__':
     # faces and vertices from data stored in the 'primitive' attribute
     mesh.bounding_box_oriented.primitive.extents
     mesh.bounding_box_oriented.primitive.transform
-
-    # show the mesh appended with its oriented bounding box
-    # the bounding box is a trimesh.primitives.Box object, which subclasses
-    # Trimesh and lazily evaluates to fill in vertices and faces when requested
-    # (press w in viewer to see triangles)
-    (mesh + mesh.bounding_box_oriented).show()
 
     # bounding spheres and bounding cylinders of meshes are also
     # available, and will be the minimum volume version of each
