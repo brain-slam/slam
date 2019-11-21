@@ -17,13 +17,13 @@ if __name__ == '__main__':
     print(transf_mat)
     print(cost)
     # make the figures
-    joint_mesh = mesh_1+mesh_2
+    joint_mesh = mesh_1 + mesh_2
     joint_tex = np.ones((joint_mesh.vertices.shape[0],))
     joint_tex[:mesh_1.vertices.shape[0]] = 10
     visb_sc = splt.visbrain_plot(mesh=joint_mesh, tex=joint_tex,
                                  caption='before registration')
     mesh_1.apply_transform(transf_mat)
-    joint_mesh = mesh_1+mesh_2
+    joint_mesh = mesh_1 + mesh_2
     visb_sc = splt.visbrain_plot(mesh=joint_mesh, tex=joint_tex,
                                  caption='after registration', visb_sc=visb_sc)
     visb_sc.preview()

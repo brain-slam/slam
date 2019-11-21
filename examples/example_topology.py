@@ -31,7 +31,7 @@ if __name__ == '__main__':
     mesh.visual.vertex_colors = col_map
     boundary = stop.texture_boundary(mesh, tex_parcel.darray[0], 0)
     print(boundary)
-    scene_list = [mesh]
+    # plot
     visb_sc2 = splt.visbrain_plot(mesh=mesh, tex=tex_parcel.darray[0],
                                   caption='texture boundary')
     for bound in boundary:
@@ -41,7 +41,6 @@ if __name__ == '__main__':
         visb_sc2.add_to_subplot(l_obj)
         path_visual = trimesh.load_path(mesh.vertices[bound])
         path_visual.vertices_color = trimesh.visual.random_color()
-        scene_list.append(path_visual)
         # points = mesh.vertices[bound]
         # cloud_boundary = trimesh.points.PointCloud(points)
         # cloud_colors = np.array([trimesh.visual.random_color()
@@ -70,7 +69,7 @@ if __name__ == '__main__':
     sub_meshes, sub_tex, sub_corresp = stop.cut_mesh(mesh,
                                                      tex_parcel.darray[0])
     scene_list = list()
-    joint_mesh = sub_meshes[0]+sub_meshes[1]
+    joint_mesh = sub_meshes[0] + sub_meshes[1]
     joint_tex = np.ones((joint_mesh.vertices.shape[0],))
     joint_tex[:sub_meshes[0].vertices.shape[0]] = 10
     visb_sc = splt.visbrain_plot(mesh=joint_mesh, tex=joint_tex,

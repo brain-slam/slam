@@ -32,7 +32,7 @@ def visbrain_plot(mesh, tex=None, caption=None, cblabel=None, visb_sc=None,
         visb_sc_shape = (1, 1)
     else:
         visb_sc_shape = get_visb_sc_shape(visb_sc)
-        visb_sc.add_to_subplot(b_obj, row=visb_sc_shape[0]-1,
+        visb_sc.add_to_subplot(b_obj, row=visb_sc_shape[0] - 1,
                                col=visb_sc_shape[1], title=caption)
 
     if tex is not None:
@@ -41,8 +41,8 @@ def visbrain_plot(mesh, tex=None, caption=None, cblabel=None, visb_sc=None,
         CBAR_STATE = dict(cbtxtsz=20, txtsz=20., width=.1, cbtxtsh=3.,
                           rect=(-.3, -2., 1., 4.), cblabel=cblabel)
         cbar = ColorbarObj(b_obj, **CBAR_STATE)
-        visb_sc.add_to_subplot(cbar, row=visb_sc_shape[0]-1,
-                               col=visb_sc_shape[1]+1, width_max=200)
+        visb_sc.add_to_subplot(cbar, row=visb_sc_shape[0] - 1,
+                               col=visb_sc_shape[1] + 1, width_max=200)
     return visb_sc
 
 
