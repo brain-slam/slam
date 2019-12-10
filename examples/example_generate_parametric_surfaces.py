@@ -21,6 +21,9 @@ if __name__ == '__main__':
 
     # Sphere
     sphere = sgps.generate_sphere(100)
+    # compare its volume to the analytical one
+    analytical_vol = (4/3)*np.pi
+    print(sphere.volume-analytical_vol)
 
     # plot
     visb_sc = splt.visbrain_plot(mesh=quadric, caption='quadric')

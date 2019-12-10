@@ -11,7 +11,8 @@ solver_tolerance = 1e-6
 
 def mesh_laplacian_eigenvectors(mesh, nb_vectors=1):
     """
-    compute the nb_vectors eigenvectors of the graph Laplacian of mesh
+    compute the nb_vectors first non-null eigenvectors of the graph Laplacian
+     of mesh
     :param mesh:
     :param nb_vectors:
     :return:
@@ -392,3 +393,120 @@ def depth_potential_function(mesh, curvature, alphas):
     #     dpf_t, info = lgmres(M.tocsr(), B, tol=solver_tolerance)
     #     dpf.append(dpf_t)
     return dpf
+
+
+def triangle_gradient(mesh, texture_array):
+    """
+    Compute gradient on a triangular mesh with a scalar function.
+    Gradient is computed on each triangle by the function described in
+    http://dgd.service.tu-berlin.de/wordpress/vismathws10/2012/10/
+    17/gradient-of-scalar-functions/.
+    first version author: Guillaume Vicaigne (Internship 2018)
+    :param mesh: Triangular mesh
+    :param texture_array: Scalar function on Vertices, numpy array
+    :return: Gradient on Triangle
+    :rtype: Matrix of size number of polygons x 3
+    """
+
+    # Initialize Parameters
+    vert = mesh.vertices
+    poly = mesh.faces
+    l_poly = len(poly)
+    n = 0
+    dicgrad = np.zeros([l_poly, 3])
+
+    # Calculate the Gradient
+    for i in range(l_poly):
+
+        # Percentage done
+        if int(i / float(l_poly) * 100) > n:
+            n += 1
+            print(str(n) + ' %')
+        j = []
+        for jj in poly[i]:
+            j.append(jj)
+        eij = [vert[j[1]][0] - vert[j[0]][0], vert[j[1]][1] - vert[j[0]][1],
+               vert[j[1]][2] - vert[j[0]][2]]
+        eki = [vert[j[0]][0] - vert[j[2]][0], vert[j[0]][1] - vert[j[2]][1],
+               vert[j[0]][2] - vert[j[2]][2]]
+        ejk = [vert[j[2]][0] - vert[j[1]][0], vert[j[2]][1] - vert[j[1]][1],
+               vert[j[2]][2] - vert[j[1]][2]]
+        A = 0.5 * np.linalg.norm(np.cross(eij, ejk))
+        N = 0.5 / A * np.cross(ejk, eki)
+        dicgrad[i] = np.cross(0.5 * N / A,
+                              np.multiply(texture_array[j[0]], ejk) +
+                              np.multiply(texture_array[j[1]], eki) +
+                              np.multiply(texture_array[j[2]], eij))
+
+    return dicgrad
+
+
+def gradient(mesh, texture_array):
+    """
+    Compute gradient on a triangular mesh with a scalar function.
+    Gradient is computed on each triangle by the function described in
+    http://dgd.service.tu-berlin.de/wordpress/vismathws10/2012/10/
+    17/gradient-of-scalar-functions/.
+    On each vertex, compute the mean gradient of all triangle with the vertex.
+    first version author: Guillaume Vicaigne (Internship 2018)
+    :param mesh: Triangular mesh
+    :param texture_array: Scalar function on Vertices, numpy array
+    :return: Gradient on Vertices
+    :rtype: Dictionary
+    """
+
+    # Initialize Parameters
+    vert = mesh.vertices
+    l_vert = len(vert)
+    poly = mesh.faces
+    l_poly = len(poly)
+    n = 0
+
+    # Initialize Dictionnary
+    dicgrad = dict()
+    for i in range(l_vert):
+        dicgrad[i] = [0, 0, 0, 0]
+
+    # Calculate the Gradient
+    for i in range(l_poly):
+        # Percentage done
+        if int(i / float(l_poly) * 100) > n:
+            n += 1
+            print(str(n) + ' %')
+        j = []
+        for jj in poly[i]:
+            j.append(jj)
+        grad = [0., 0., 0., 0.]
+        eij = [vert[j[1]][0] - vert[j[0]][0], vert[j[1]][1] - vert[j[0]][1],
+               vert[j[1]][2] - vert[j[0]][2]]
+        eki = [vert[j[0]][0] - vert[j[2]][0], vert[j[0]][1] - vert[j[2]][1],
+               vert[j[0]][2] - vert[j[2]][2]]
+        ejk = [vert[j[2]][0] - vert[j[1]][0], vert[j[2]][1] - vert[j[1]][1],
+               vert[j[2]][2] - vert[j[1]][2]]
+        A = 0.5 * np.linalg.norm(np.cross(eij, ejk))
+        N = 0.5 / A * np.cross(ejk, eki)
+        grad[0:3] = np.cross(0.5 * N / A,
+                             np.multiply(texture_array[j[0]], ejk) +
+                             np.multiply(texture_array[j[1]], eki) +
+                             np.multiply(texture_array[j[2]], eij))
+        grad[3] = 1.
+        for jj in j:
+            dicgrad[jj] = np.add(dicgrad[jj], grad)
+    for i in range(l_vert):
+        dicgrad[i] = np.multiply(dicgrad[i][0:3], 1 / dicgrad[i][3])
+    return dicgrad
+
+
+def norm_gradient(mesh, texture_array):
+    """
+    Compute the norm of a vertex Gradient on vertex
+    first version author: Guillaume Vicaigne (Internship 2018)
+    :param mesh: Triangular mesh
+    :param texture_array: Scalar function on Vertices, numpy array
+    :return: Gradient's Norm
+    """
+
+    # Compute the gradient of the Mesh
+    grad = gradient(mesh, texture_array)
+
+    return np.linalg.norm(np.array(list(grad.values())), 2, 1)

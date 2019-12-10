@@ -24,6 +24,7 @@ Installation:
     ```
     pip install visbrain
     ```
+    for pyglet:
     ```
     conda install -c conda-forge pyglet
     ```
@@ -54,7 +55,7 @@ Features (added value compared to Trimesh):
 
 . geodesics: geodesic distance computation using gdist and networkx
 
-. differential_geometry: several implementations of graph Laplacian (conformal, authalic, FEM...)
+. differential_geometry: several implementations of graph Laplacian (conformal, authalic, FEM...), texture Gradient
 
 . mapping: several types of mapping between the mesh and a sphere, a disc...
 
@@ -68,7 +69,7 @@ Features (added value compared to Trimesh):
 
 . texture: a class to manage properly vertex-level information.
 
-. plot: extension of Trimesh's pyglet viewer to visualize textures with colorbar.
+. plot: extension of pyglet and visbrain viewers to visualize slam objects
 
 
 ------------------
