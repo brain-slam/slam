@@ -1,10 +1,11 @@
 import numpy as np
+from trimesh import util as tut
 
 
-def projectcurvaturetensor(uf, vf, nf, old_ku, old_kuv, old_kv, up, vp):
+def project_curvature_tensor(uf, vf, nf, old_ku, old_kuv, old_kv, up, vp):
     """
-    ProjectCurvatureTensor performs a projection
-    of the tensor variables to the vertexcoordinate system
+    performs a projection of the tensor variables to the vertex
+    coordinate system
     :param uf:face coordinates system
     :param vf:face coordinates system
     :param nf:face normal
@@ -18,7 +19,7 @@ def projectcurvaturetensor(uf, vf, nf, old_ku, old_kuv, old_kv, up, vp):
     The tensor : [[new_ku, new_kuv], [new_kuv, new_kv]]
     """
 
-    r_new_u, r_new_v = rotatecoordinatesystem(up, vp, nf)
+    r_new_u, r_new_v = rotate_coordinate_system(up, vp, nf)
     OldTensor = np.array([[old_ku, old_kuv], [old_kuv, old_kv]])
     u1 = np.dot(r_new_u, uf)
     v1 = np.dot(r_new_u, vf)
@@ -34,7 +35,8 @@ def projectcurvaturetensor(uf, vf, nf, old_ku, old_kuv, old_kv, up, vp):
     return new_ku, new_kuv, new_kv
 
 
-def calccurvature(FV, VertexNormals, FaceNormals, Avertex, Acorner, up, vp):
+def compute_curvature(FV, VertexNormals, FaceNormals,
+                      Avertex, Acorner, up, vp):
     """
     CalcFaceCurvature recives a list of vertices and faces in FV structure
     and the normal at each vertex and calculates the second fundemental
@@ -69,7 +71,7 @@ def calccurvature(FV, VertexNormals, FaceNormals, Avertex, Acorner, up, vp):
     e2 = FV.vertices[FV.faces[:, 1], :] - FV.vertices[FV.faces[:, 0], :]
 
     " Normalize edge vectors "
-    e0_norm = normr(e0)
+    e0_norm = tut.unitize(e0)
     # e1_norm = normr(e1)
     # e2_norm = normr(e2)
 
@@ -119,9 +121,9 @@ def calccurvature(FV, VertexNormals, FaceNormals, Avertex, Acorner, up, vp):
 
         for j in range(3):
             new_ku, new_kuv, new_kv = \
-                projectcurvaturetensor(t, B, nf, x[0][0], x[0][1], x[0][2],
-                                       up[FV.faces[i][j], :],
-                                       vp[FV.faces[i][j], :])
+                project_curvature_tensor(t, B, nf, x[0][0], x[0][1], x[0][2],
+                                         up[FV.faces[i][j], :],
+                                         vp[FV.faces[i][j], :])
             VertexSFM[FV.faces[i][j]] += np.dot(wfp[i][j],
                                                 np.array([[new_ku, new_kuv],
                                                           [new_kuv, new_kv]]))
@@ -131,54 +133,54 @@ def calccurvature(FV, VertexNormals, FaceNormals, Avertex, Acorner, up, vp):
     return FaceSFM, VertexSFM, wfp
 
 
-def getcurvaturesandderivatives(FV):
-    FaceNormals = calcfacenormals(FV)
+def curvatures_and_derivatives(mesh):
     (VertexNormals, Avertex, Acorner, up, vp) = \
-        calcvertexnormals(FV, FaceNormals)
+        calcvertex_normals(mesh, mesh.face_normals)
     (FaceSFM, VertexSFM, wfp) = \
-        calccurvature(FV, VertexNormals, FaceNormals, Avertex, Acorner, up, vp)
+        compute_curvature(mesh, VertexNormals, mesh.face_normals,
+                          Avertex, Acorner, up, vp)
     [PrincipalCurvature, PrincipalDi1, PrincipalDi2] = \
-        getprincipalcurvatures(FV, VertexSFM, up, vp)
+        principal_curvatures(mesh, VertexSFM, up, vp)
     return PrincipalCurvature, PrincipalDi1, PrincipalDi2
 
 
-def calcfacenormals(FV):
-    """
-    Calculates face normals
-    :param FV: face vertex data structure containing a list of vertices and a
-    list of faces
-    :return:
-    Face normals : matrix that contains each faces' normal
-    (dim = number of faces * 3 )
-    """
-
-    "Get all edge vectors"
-    e0 = FV.vertices[FV.faces[:, 2], :] - FV.vertices[FV.faces[:, 1], :]
-    e1 = FV.vertices[FV.faces[:, 0], :] - FV.vertices[FV.faces[:, 2], :]
-
-    "Calculate and return normal of face"
-    return normr(np.cross(e0, e1))
-
-
-def normr(X):
-    """
-    Returns a matrix with the same size where each row normalized to a
-    vector length of 1
-    :param X:
-    :return:
-    """
-
-    if len(np.shape(X)) == 1:
-        return X / np.abs(X)
-    else:
-        a = np.shape(X)[1]
-        b = np.shape(X)[0]
-        return np.dot(np.reshape(np.transpose(
-            np.sqrt(1 / somme_colonnes(np.transpose(X ** 2)))), (b, 1)),
-            np.ones((1, a))) * X
+# def calcfacenormals(FV):
+#     """
+#     Calculates face normals
+#     :param FV: face vertex data structure containing a list of vertices and a
+#     list of faces
+#     :return:
+#     Face normals : matrix that contains each faces' normal
+#     (dim = number of faces * 3 )
+#     """
+#
+#     "Get all edge vectors"
+#     e0 = FV.vertices[FV.faces[:, 2], :] - FV.vertices[FV.faces[:, 1], :]
+#     e1 = FV.vertices[FV.faces[:, 0], :] - FV.vertices[FV.faces[:, 2], :]
+#
+#     "Calculate and return normal of face"
+#     return normr(np.cross(e0, e1))
 
 
-def calcvertexnormals(FV, N):
+# def normr(X):
+#     """
+#     Returns a matrix with the same size where each row normalized to a
+#     vector length of 1
+#     :param X:
+#     :return:
+#     """
+#
+#     if len(np.shape(X)) == 1:
+#         return X / np.abs(X)
+#     else:
+#         a = np.shape(X)[1]
+#         b = np.shape(X)[0]
+#         return np.dot(np.reshape(np.transpose(
+#             np.sqrt(1 / somme_colonnes(np.transpose(X ** 2)))), (b, 1)),
+#             np.ones((1, a))) * X
+
+
+def calcvertex_normals(FV, N):
     """
     CalcVertexNormals calculates the normals and voronoi areas at each vertex
     INPUT:
@@ -201,9 +203,9 @@ def calcvertexnormals(FV, N):
                   - FV.vertices[FV.faces[:, 0], :])
 
     "Normalize edge vectors "
-    e0_norm = normr(e0)
-    e1_norm = normr(e1)
-    e2_norm = normr(e2)
+    e0_norm = tut.unitize(e0)
+    e1_norm = tut.unitize(e1)
+    e2_norm = tut.unitize(e2)
 
     de0 = np.sqrt((e0[:, 0]) ** 2 + (e0[:, 1]) ** 2 + (e0[:, 2]) ** 2)
     de1 = np.sqrt((e1[:, 0]) ** 2 + (e1[:, 1]) ** 2 + (e1[:, 2]) ** 2)
@@ -283,7 +285,7 @@ def calcvertexnormals(FV, N):
         up[FV.faces[i][1], :] = e0_norm[i, :]
         up[FV.faces[i][2], :] = e1_norm[i, :]
 
-    VertexNormals = normr(VertexNormals)
+    VertexNormals = tut.unitize(VertexNormals)
 
     " Calcul initial vertex coordinate system"
 
@@ -296,7 +298,7 @@ def calcvertexnormals(FV, N):
     return VertexNormals, Avertex, Acorner, up, vp
 
 
-def getprincipalcurvatures(FV, VertexSFM, up, vp):
+def principal_curvatures(FV, VertexSFM, up, vp):
     """
     Calculates the principal curvatures and prncipal directions
     :param FV: triangular mesh
@@ -317,7 +319,7 @@ def getprincipalcurvatures(FV, VertexSFM, up, vp):
                                   np.zeros((np.shape(FV.vertices)[0], 3))]
     for i in range(np.shape(FV.vertices)[0]):
         npp = np.cross(up[i, :], vp[i, :])
-        r_old_u, r_old_v = rotatecoordinatesystem(up[i, :], vp[i, :], npp)
+        r_old_u, r_old_v = rotate_coordinate_system(up[i, :], vp[i, :], npp)
         ku = VertexSFM[i][0][0]
         kuv = VertexSFM[i][0][1]
         kv = VertexSFM[i][1][1]
@@ -349,7 +351,7 @@ def getprincipalcurvatures(FV, VertexSFM, up, vp):
     return PrincipalCurvature, PrincipalDi1, PrincipalDi2
 
 
-def rotatecoordinatesystem(up, vp, nf):
+def rotate_coordinate_system(up, vp, nf):
     """
     RotateCoordinateSystem performs the rotation of the vectors up and vp
     to the plane defined by nf as its normal vector
@@ -375,15 +377,15 @@ def rotatecoordinatesystem(up, vp, nf):
     return r_new_u, r_new_v
 
 
-def somme_colonnes(X):
-    """
-
-    INPUT :
-    X : A matrix with any dimension
-    OUTPUT:
-    A row that contains the sum of each column
-    """
-    xx = list()
-    for i in range(np.shape(X)[1]):
-        xx.append(sum(X[:, i]))
-    return np.array(xx)
+# def somme_colonnes(X):
+#     """
+#
+#     INPUT :
+#     X : A matrix with any dimension
+#     OUTPUT:
+#     A row that contains the sum of each column
+#     """
+#     xx = list()
+#     for i in range(np.shape(X)[1]):
+#         xx.append(sum(X[:, i]))
+#     return np.array(xx)

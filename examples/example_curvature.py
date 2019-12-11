@@ -5,6 +5,9 @@ import slam.curvature as scurv
 if __name__ == '__main__':
     mesh_file = 'data/example_mesh.gii'
     mesh = sio.load_mesh(mesh_file)
+    # VertexNormals, Avertex, Acorner, up, vp =
+    # scurv.calcvertex_normals(mesh, mesh.face_normals)
+
     mesh.apply_transform(mesh.principal_inertia_transform)
     # uncomment if you want to test the code on a sphere
     # import slam.generate_parametric_surfaces as sgps
@@ -12,7 +15,7 @@ if __name__ == '__main__':
 
     # Calculate Rusinkiewicz estimation of mean and gauss curvatures
     PrincipalCurvatures, PrincipalDir1, PrincipalDir2 = \
-        scurv.getcurvaturesandderivatives(mesh)
+        scurv.curvatures_and_derivatives(mesh)
     gaussian_curv = PrincipalCurvatures[0, :] * PrincipalCurvatures[1, :]
     mean_curv = 0.5 * (PrincipalCurvatures[0, :] + PrincipalCurvatures[1, :])
 
