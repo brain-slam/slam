@@ -18,13 +18,15 @@ def quadric(K1, K2):
     return fonction
 
 
-def quadric_curv_gauss(K1, K2):
+def quadric_curv_gauss(K):
     """
     analytical Gaussian curvature of a quadric
     :param K1:
     :param K2:
     :return:
     """
+    K1 = K[0]
+    K2 = K[1]
 
     def curv_gauss(x, y):
         num = -4 * (K1 * K2)
@@ -34,13 +36,15 @@ def quadric_curv_gauss(K1, K2):
     return curv_gauss
 
 
-def quadric_curv_mean(K1, K2):
+def quadric_curv_mean(K):
     """
     analytical mean curvature of a quadric
     :param K1:
     :param K2:
     :return:
     """
+    K1 = K[0]
+    K2 = K[1]
 
     def curv_mean(x, y):
         num = -(2 * K2 * (1 + 4 * K1 ** 2 * x ** 2) + 2 * K1 *
@@ -53,7 +57,7 @@ def quadric_curv_mean(K1, K2):
     return curv_mean
 
 
-def generate_quadric(K, nstep=50, ax=1, ay=1, random_sampling=True, ratio=0, random_distribution_type='gaussian'):
+def generate_quadric(K, nstep=50, ax=1, ay=1, random_sampling=True, ratio=0.2, random_distribution_type='gaussian'):
     """
     generate a quadric mesh
     ratio and random_distribution_type parameters are unused if random_sampling is set to False
@@ -78,7 +82,7 @@ def generate_quadric(K, nstep=50, ax=1, ay=1, random_sampling=True, ratio=0, ran
     y = np.linspace(ymin, ymax, nstep)
     X, Y = np.meshgrid(x, y)
     X[::2] += stepx / 2
-    Y += np.sqrt(3) / 2
+    Y *= np.sqrt(3) / 2
     X = X.flatten()
     Y = Y.flatten()
 
