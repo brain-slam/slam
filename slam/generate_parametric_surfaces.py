@@ -1,6 +1,7 @@
 import numpy as np
 from matplotlib.tri import Triangulation
 import trimesh
+from trimesh import creation as tcr
 
 
 def quadric(K1, K2):
@@ -52,50 +53,70 @@ def quadric_curv_mean(K1, K2):
     return curv_mean
 
 
-def generate_quadric(K, nstep=50):
+def generate_quadric(K, nstep=50, ax=1, ay=1, random_sampling=True, ratio=0, random_distribution_type='gaussian'):
     """
-    generate a quadric
+    generate a quadric mesh
+    ratio and random_distribution_type parameters are unused if random_sampling is set to False
     :param K:
     :param nstep:
+    :param ax:
+    :param ay:
+    :param random_sampling:
+    :param ratio:
+    :param random_distribution_type:
     :return:
     """
+
     # Parameters
-    xmin, xmax = [-1, 1]
-    ymin, ymax = [-1, 1]
-    randomSampling = True
+
+    xmin, xmax = [-ax, ax]
+    ymin, ymax = [-ay, ay]
+    sigma = (2 / nstep) * ratio  # characteristic size of the mesh * ratio
 
     # Coordinates
-    if randomSampling:
-        randomCoords = 2 * np.random.rand(nstep * nstep, 2) - 1
-        X = randomCoords[:, 0]
-        Y = randomCoords[:, 1]
-    else:
-        x = np.linspace(xmin, xmax, nstep)
-        y = np.linspace(ymin, ymax, nstep)
-        X, Y = np.meshgrid(x, y)
-
-    # Delaunay triangulation
+    x, stepx = np.linspace(xmin, xmax, nstep, retstep=True)
+    y = np.linspace(ymin, ymax, nstep)
+    X, Y = np.meshgrid(x, y)
+    X[::2] += stepx / 2
+    Y += np.sqrt(3) / 2
     X = X.flatten()
     Y = Y.flatten()
-    Tri = Triangulation(X, Y)
+
+    if random_sampling:
+        if random_distribution_type == 'gamma':
+            theta = np.random.rand(nstep * nstep, ) * np.pi * 2
+            mean = sigma
+            variance = sigma ** 2
+            radius = np.random.gamma(mean ** 2 / variance, variance / mean, nstep * nstep)
+            X = X + radius * np.cos(theta)
+            Y = Y + radius * np.sin(theta)
+        elif random_distribution_type == 'uniform':
+            X = X + np.random.uniform(-1, 1, 100)
+            Y = Y + np.random.uniform(-1, 1, 100)
+        else:
+            X = X + sigma * np.random.randn(nstep * nstep, )
+            Y = Y + sigma * np.random.randn(nstep * nstep, )
+
+    # Delaunay triangulation
+    faces_tri = Triangulation(X, Y)
 
     Z = quadric(K[0], K[1])(X, Y)
     coords = np.array([X, Y, Z]).transpose()
 
-    return trimesh.Trimesh(faces=Tri.triangles, vertices=coords, process=False)
+    return trimesh.Trimesh(faces=faces_tri.triangles, vertices=coords, process=False)
 
 
-def generate_ellipsiod(a, b, nstep, randomSampling):
+def generate_ellipsiod(a, b, nstep, random_sampling=False):
     """
     generate an ellipsoid
     :param a:
     :param b:
     :param nstep:
-    :param randomSampling:
+    :param random_sampling:
     :return:
     """
     # Coordinates
-    if randomSampling:
+    if random_sampling:
         THETA = (np.random.rand(nstep * nstep, 1) - 1 / 2) * np.pi
         PHI = 2 * np.pi * np.random.rand(nstep * nstep, 1)
     else:
@@ -123,15 +144,34 @@ def tri_from_hull(vertices):
     return mesh.convex_hull
 
 
-def generate_sphere(n=100):
+def generate_sphere_random_sampling(vertex_number=100, radius=1.0):
     """
     generate a sphere with random sampling
-    :param n: number of vertices
-    :return: Trimesh object of the sphere
+    :param vertex_number: number of vertices in the output spherical mesh
+    :param radius: radius of the output sphere
+    :return:
     """
-    coords = np.zeros((n, 3))
-    for i in range(n):
+    coords = np.zeros((vertex_number, 3))
+    for i in range(vertex_number):
         M = np.random.normal(size=(3, 3))
         Q, R = np.linalg.qr(M)
         coords[i, :] = Q[:, 0].transpose() * np.sign(R[0, 0])
+    if radius != 1:
+        coords = radius*coords
     return tri_from_hull(coords)
+
+
+def generate_sphere_icosahedron(subdivisions=3, radius=1.0):
+    """
+    generate a sphere by subdividing an icosahedron
+    simply call the trimesh function
+    see trimesh.creation.icosphere for more details
+    :param subdivisions:  int
+      How many times to subdivide the mesh.
+      Note that the number of faces will grow as function of
+      4 ** subdivisions, so you probably want to keep this under ~5
+    :param radius: float
+      Desired radius of sphere
+    :return:
+    """
+    return tcr.icosphere(subdivisions=subdivisions, radius=radius)
