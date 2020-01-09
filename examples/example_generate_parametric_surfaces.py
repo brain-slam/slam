@@ -6,10 +6,10 @@ import numpy as np
 if __name__ == '__main__':
     # Quadric
     K = [1, 1]
-    quadric = sgps.generate_quadric(K, nstep=20)
+    quadric = sgps.generate_quadric(K, nstep=20, ax=3, ay=1, random_sampling=True, ratio=0.3, random_distribution_type='gamma')
     quadric_mean_curv = sgps.quadric_curv_mean(K)(np.array(quadric.vertices[:, 0]), np.array(quadric.vertices[:, 1]))
-    print(np.min(quadric.vertices,0))
-    print(np.max(quadric.vertices,0))
+    # print(np.min(quadric.vertices, 0))
+    # print(np.max(quadric.vertices, 0))
     quadric.show()
     # Ellipsoid Parameters
     nstep = 50
@@ -28,7 +28,6 @@ if __name__ == '__main__':
     print('volume error for random sampling: {:.3f}'.format(sphere_random.volume-analytical_vol))
 
     # plot
-
     visb_sc = splt.visbrain_plot(mesh=quadric, tex=quadric_mean_curv, caption='quadric',
                                  cblabel='mean curvature')
     visb_sc = splt.visbrain_plot(mesh=ellips, caption='ellipsoid',

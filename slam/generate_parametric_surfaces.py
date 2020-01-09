@@ -72,34 +72,38 @@ def generate_quadric(K, nstep=50, ax=1, ay=1, random_sampling=True, ratio=0.2, r
     """
 
     # Parameters
-
     xmin, xmax = [-ax, ax]
     ymin, ymax = [-ay, ay]
-    sigma = (2 / nstep) * ratio  # characteristic size of the mesh * ratio
 
     # Coordinates
-    x, stepx = np.linspace(xmin, xmax, nstep, retstep=True)
-    y = np.linspace(ymin, ymax, nstep)
+    stepx = (xmax-xmin)/nstep
+    x = np.arange(xmin, xmax, stepx)
+    #x, stepx = np.linspace(xmin, xmax, nstep, retstep=True)
+    stepy = stepx * np.sqrt(3) / 2 # to ensure equilateral faces
+    y = np.arange(ymin, ymax, stepy)
+    #y = np.linspace(ymin, ymax, nstep)
     X, Y = np.meshgrid(x, y)
     X[::2] += stepx / 2
-    Y *= np.sqrt(3) / 2
+    #Y += np.sqrt(3) / 2
     X = X.flatten()
     Y = Y.flatten()
 
     if random_sampling:
+        sigma = stepx * ratio  # characteristic size of the mesh * ratio
+        nb_vert = len(x) * len(y)
         if random_distribution_type == 'gamma':
-            theta = np.random.rand(nstep * nstep, ) * np.pi * 2
+            theta = np.random.rand(nb_vert, ) * np.pi * 2
             mean = sigma
             variance = sigma ** 2
-            radius = np.random.gamma(mean ** 2 / variance, variance / mean, nstep * nstep)
+            radius = np.random.gamma(mean ** 2 / variance, variance / mean, nb_vert)
             X = X + radius * np.cos(theta)
             Y = Y + radius * np.sin(theta)
         elif random_distribution_type == 'uniform':
             X = X + np.random.uniform(-1, 1, 100)
             Y = Y + np.random.uniform(-1, 1, 100)
         else:
-            X = X + sigma * np.random.randn(nstep * nstep, )
-            Y = Y + sigma * np.random.randn(nstep * nstep, )
+            X = X + sigma * np.random.randn(nb_vert, )
+            Y = Y + sigma * np.random.randn(nb_vert, )
 
     # Delaunay triangulation
     faces_tri = Triangulation(X, Y)
