@@ -8,7 +8,7 @@
       </MD>
    </MetaData>
    <LabelTable/>
-   <DataArray Intent="NIFTI_INTENT_NONE"
+   <DataArray Intent="NIFTI_INTENT_SHAPE"
               DataType="NIFTI_TYPE_FLOAT32"
               ArrayIndexingOrder="RowMajorOrder"
               Dimensionality="1"
@@ -18,6 +18,6 @@
               ExternalFileName=""
               ExternalFileOffset="">
       <MetaData/>
-      <Data>eJzt2d0KgCAMgFGfrafvsbqIIIb7YejQ+g4EKct5YaCztS86j/uR71qMFSe/AaIia+qJ8/rlmn739fJE+r3/Qua35mzlAwAAADJm7CW1/e6M3NHzwMh8FazzhBY7OneV6nzaHFYcCwAAAACAnfTuV2V7RB0gUzdZof7wF9a9fKRmGBnfW2OZ+a3jAoOlWFM=</Data>
+      <Data>eJztmW0OwyAIhnu19ZfH3G12n11gy9aYVsqLgNZ2GU9iOqmAX10Qp0nD/cY/a+2RDNnR2E8zli/l+Xp8S/m71C3l+zpH7f05cHNIC/d+qyu1R76064nWmGsvwY1L6nOWo/1CbUrvrSw++T217w+/rxLYn6s8y/Z7PAE50tnr0X7RPnJ1brzX/GZ64PkPlJD2aRAEQVBSiy+oTBvbbG3X4gtNqfVf05bTo2OT4pij8cZK1MZoLHN+NGeMfxTt8c0RsSSKd+2+6fjW82iua86YOn9pLp8eGxp0a4Zif86eZQ4svnvZu5o/1Icr2gqCIAiCILgWPc5WLWd1TfuR5z/N3cc/I92fbZ9IZrFP8zlSbof6bVknq752L3vzWhZ7nG1NLqzFvkef9qvFjmdsmdpZvvf3/vGHxr3NjbTkhTy61De+j6V5DXp36j87ozta3N7v1zrPPdbF6mf03afGZ4LzrM0Zyv75u3jLOv9C7uYNz1qu6g==</Data>
    </DataArray>
 </GIFTI>

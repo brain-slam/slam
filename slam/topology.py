@@ -26,32 +26,34 @@ def cat_boundary(bound1, bound2):
     return bound1
 
 
-def cut_mesh(mesh, atex):
+def cut_mesh(mesh, atex_in):
     """
-    cut a hole in a mesh at nodes defined by value in texture
-    returns two meshes of hole and mesh-hole
-    the hole border belongs to both meshes
+    cut the mesh into submeshes following the values in the texture
+    returns as many meshes as the number of different values in the texture
+    the vertices on the border between two submeshes are duplicated into
+    both submeshes
     :param mesh:
-    :param atex:
+    :param atex_in:
     :return:
     """
     # see mesh.submesh(faces_sequence)
+    atex = np.around(atex_in)
     atex2 = atex.copy()
-    labels = np.around(np.unique(atex))
+    labels = np.unique(atex)
     labels = labels.tolist()
     labels.reverse()
     sub_meshes = list()
     sub_indexes = list()
     last_label = labels[-1]
     for label_ind in range(len(labels) - 1):
-        (sub_mesh, sub_index) = sub_cut_mesh(mesh, atex, labels[label_ind])
+        (sub_mesh, sub_index) = simple_cut_mesh(mesh, atex, labels[label_ind])
         sub_meshes.append(sub_mesh)
         sub_indexes.append(sub_index.tolist())
         # boundary = texture_boundary(mesh, atex, labels[label_ind])
         boundary = texture_boundary_vertices(atex, labels[label_ind],
                                              mesh.vertex_neighbors)
         atex2[boundary] = last_label
-    (sub_mesh, sub_index) = sub_cut_mesh(mesh, atex2, last_label)
+    (sub_mesh, sub_index) = simple_cut_mesh(mesh, atex2, last_label)
     sub_meshes.append(sub_mesh)
     sub_indexes.append(sub_index.tolist())
     return sub_meshes, labels, sub_indexes
@@ -222,7 +224,7 @@ def mesh_boundary(mesh):
         return edges_to_boundary(li, lj)
 
 
-def sub_cut_mesh(mesh, atex, val):
+def simple_cut_mesh(mesh, atex, val):
     poly = mesh.faces
     vert = mesh.vertices
     tex_val_indices = np.where(atex == val)[0]
