@@ -2,6 +2,7 @@
 import numpy as np
 from scipy import sparse
 import trimesh
+from trimesh import graph
 
 
 def boundaries_intersection(boundary):
@@ -68,7 +69,11 @@ def edges_to_adjacency_matrix(mesh):
     :param mesh:
     :return:
     """
-    return mesh.edges_sparse.astype('int8')
+    adja = graph.edges_to_coo(mesh.edges,
+                              data=np.ones(len(mesh.edges),
+                                           dtype=np.int8))
+
+    return sparse.triu(adja) + sparse.tril(adja).transpose()
 
 
 def edges_to_boundary(li, lj):
@@ -115,6 +120,7 @@ def edges_to_boundary(li, lj):
     while len(bound_conn) > 0:
         cat_bound = cat_boundary(boundary[bound_conn[0][0]],
                                  boundary[bound_conn[0][1]])
+        #                        ,bound_conn[0][2])
         boundary[bound_conn[0][0]] = cat_bound
         boundary.pop(bound_conn[0][1])
         bound_conn = boundaries_intersection(boundary)
@@ -212,8 +218,7 @@ def mesh_boundary(mesh):
     :return:
     """
     adja = edges_to_adjacency_matrix(mesh)
-    adja_tri = sparse.triu(adja) + sparse.tril(adja).transpose()
-    r = sparse.extract.find(adja_tri)
+    r = sparse.extract.find(adja)
     li = r[0][np.where(r[2] == 1)]
     lj = r[1][np.where(r[2] == 1)]
 
@@ -256,8 +261,7 @@ def texture_boundary(mesh, atex, val):
                                                 mesh.vertex_neighbors)
         # select the edges that are on the boundary in the polygons
         adja = edges_to_adjacency_matrix(mesh)
-        adja_tri = sparse.triu(adja) + sparse.tril(adja).transpose()
-        r = sparse.extract.find(adja_tri)
+        r = sparse.extract.find(adja)
         inr0 = []
         inr1 = []
         for v in bound_verts:

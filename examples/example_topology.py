@@ -38,8 +38,19 @@ if __name__ == '__main__':
     # # here is how to get the vertices that define the boundary of
     # # a texture on a mesh
     mesh = sio.load_mesh('data/example_mesh.gii')
+    m = stop.edges_to_adjacency_matrix(mesh)
+    print(m)
+    sphere_mesh = sps.generate_sphere_random_sampling(vertex_number=5)
+    sio.write_mesh(sphere_mesh,'/mnt/data/work/python_sandBox/slam/examples/data/mini_mesh.gii')
+
+    a=stop.edges_to_adjacency_matrix(sphere_mesh)
+
     tex_parcel = sio.load_texture('data/example_texture_parcel.gii')
-    boundary = stop.texture_boundary(mesh, tex_parcel.darray[0], 0)
+    print(np.unique(tex_parcel.darray[0]))
+    bound_verts = stop.texture_boundary_vertices(tex_parcel.darray[0], 20,
+                                                mesh.vertex_neighbors)
+    print(bound_verts)
+    boundary = stop.texture_boundary(mesh, tex_parcel.darray[0], 20)
     print(boundary)
     # plot
     visb_sc2 = splt.visbrain_plot(mesh=mesh, tex=tex_parcel.darray[0],
@@ -49,16 +60,16 @@ if __name__ == '__main__':
     for bound in boundary:
         s_rad = SourceObj('rad', mesh.vertices[bound], color=cols[ind], symbol='square',
                           radius_min=10)
+        visb_sc2.add_to_subplot(s_rad)
+        lines = Line(pos=mesh.vertices[bound], color=cols[ind], width=10)
+        # wrap the vispy object using visbrain
+        l_obj = VispyObj('line', lines)
+        visb_sc2.add_to_subplot(l_obj)
         ind+=1
         if ind==len(cols):
             ind=0
-        visb_sc2.add_to_subplot(s_rad)
-        #lines = Line(pos=mesh.vertices[bound], color=trimesh.visual.random_color(), width=10)
-        # wrap the vispy object using visbrain
-        #l_obj = VispyObj('line', lines)
-        #visb_sc2.add_to_subplot(l_obj)
-        path_visual = trimesh.load_path(mesh.vertices[bound])
-        path_visual.vertices_color = trimesh.visual.random_color()
+        #path_visual = trimesh.load_path(mesh.vertices[bound])
+        #path_visual.vertices_color = trimesh.visual.random_color()
         # points = mesh.vertices[bound]
         # cloud_boundary = trimesh.points.PointCloud(points)
         # cloud_colors = np.array([trimesh.visual.random_color()
