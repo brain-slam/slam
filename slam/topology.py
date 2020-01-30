@@ -3,6 +3,7 @@ import numpy as np
 from scipy import sparse
 import trimesh
 from trimesh import graph
+import networkx as nx
 
 
 def boundaries_intersection(boundary):
@@ -76,116 +77,29 @@ def edges_to_adjacency_matrix(mesh):
     return sparse.triu(adja) + sparse.tril(adja).transpose()
 
 
-def edges_to_boundary(li, lj):
+def edges_to_boundary(edges):
     """
     build the boundary by traversing edges return list of connected components
     ORDERED ACCORDING TO THEIR LENGTH, i.e. THE FIRST THE SHORTEST
     complex boundary corresponds to multiple holes in the surface or bad shaped
     boundary
-    :param li:
-    :param lj:
+    :param edges:
     :return:
     """
-    tag = np.zeros(li.size)
-    boundary = [[]]
-    bound_ind = 0
-    curr_edge_i = 0
-    boundary[bound_ind].extend([li[curr_edge_i], lj[curr_edge_i]])
-    tag[curr_edge_i] = 1
+    graph = nx.from_edgelist(edges)
+    # import matplotlib.pyplot as plt
+    # plt.subplot(111)
+    # nx.draw(graph, with_labels=True, font_weight='bold')
+    # plt.show()
 
-    reverse = 1
-    while np.where(tag == 1)[0].size != tag.size:
-        p = boundary[bound_ind][-1]
-        curr_edge_i = np.where((li == p) & (tag == 0))[0]
-        if curr_edge_i.size == 0:
-            curr_edge_j = np.where((lj == p) & (tag == 0))[0]
-            if curr_edge_j.size == 0:
-                if reverse:
-                    boundary[bound_ind].reverse()
-                    reverse = 0
-                else:
-                    bound_ind += 1
-                    reverse = 1
-                    new_first = np.where((tag == 0))[0][0]
-                    boundary.append([li[new_first], lj[new_first]])
-                    tag[new_first] = 1
-            else:
-                boundary[bound_ind].append(li[curr_edge_j[0]])
-                tag[curr_edge_j[0]] = 1
-        else:
-            boundary[bound_ind].append(lj[curr_edge_i[0]])
-            tag[curr_edge_i[0]] = 1
-    # concatenate boundary pieces
-    bound_conn = boundaries_intersection(boundary)
-    while len(bound_conn) > 0:
-        cat_bound = cat_boundary(boundary[bound_conn[0][0]],
-                                 boundary[bound_conn[0][1]])
-        #                        ,bound_conn[0][2])
-        boundary[bound_conn[0][0]] = cat_bound
-        boundary.pop(bound_conn[0][1])
-        bound_conn = boundaries_intersection(boundary)
+    sub_graphs = [graph.subgraph(c).copy() for c in nx.connected_components(graph)]
+    sub_graphs_path = list()
+    for sub_graph in sub_graphs:
+        sub_graph_nodes = list(sub_graph.nodes)
+        paths = sorted(list(nx.all_simple_paths(sub_graph, source=sub_graph_nodes[0], target=sub_graph_nodes[1])), key=len, reverse=True)
+        sub_graphs_path.append(paths[0])
 
-    for bound in boundary:
-        if bound[0] == bound[-1]:
-            bound.pop()
-
-    # cut complex boundaries
-    for b_ind, bound in enumerate(boundary):
-        occurence = list_count(bound)
-        if max(occurence.keys()) > 1:
-            print('complex boundary --> cut into simple parts')
-            while max(occurence.keys()) > 1:
-                # find the vertex that is taken more than one time
-                ite = occurence[max(occurence.keys())]
-                first_occ = bound.index(ite)
-                sec_occ = first_occ + 1 + bound[first_occ + 1:].index(ite)
-                # create a new boundary that corresponds to the loop
-                boundary.append(bound[first_occ:sec_occ])
-                # remove the loop from current boundary
-                bound[first_occ:sec_occ] = []
-                occurence = list_count(bound)
-            boundary[b_ind] = bound
-
-    # sort the boundaries the first the longest
-    boundaries_len = [len(bound) for bound in boundary]
-    inx = np.array(boundaries_len).argsort()
-    sort_boundary = [boundary[i] for i in inx]
-    return sort_boundary
-
-
-def edges_to_simple_boundary(li, lj):
-    tag = np.zeros(li.size)
-    boundary = {}
-    bound_ind = 0
-    curr_edge_i = 0
-    boundary[bound_ind] = [li[curr_edge_i], lj[curr_edge_i]]
-    tag[curr_edge_i] = 1
-
-    reverse = 1
-    while np.where(tag == 1)[0].size != tag.size:
-        p = boundary[bound_ind][-1]
-        curr_edge_i = np.where((li == p) & (tag == 0))[0]
-        if curr_edge_i.size == 0:
-            curr_edge_j = np.where((lj == p) & (tag == 0))[0]
-            if curr_edge_j.size == 0:
-                if reverse:
-                    boundary[bound_ind].reverse()
-                    reverse = 0
-                else:  # multiple boundaries in this mesh
-                    if boundary[bound_ind][0] == boundary[bound_ind][-1]:
-                        boundary[bound_ind].pop()
-                    bound_ind += 1
-                    reverse = 1
-                    new_first = np.where((tag == 0))[0][0]
-                    boundary[bound_ind] = [li[new_first], lj[new_first]]
-                    tag[new_first] = 1
-            else:
-                boundary[bound_ind].append(li[curr_edge_j[0]])
-                tag[curr_edge_j[0]] = 1
-        else:
-            boundary[bound_ind].append(lj[curr_edge_i[0]])
-            tag[curr_edge_i[0]] = 1
-    return boundary
+    return sorted(sub_graphs_path, key=len)
 
 
 def ismember(ar1, ar2):
@@ -221,12 +135,20 @@ def mesh_boundary(mesh):
     r = sparse.extract.find(adja)
     li = r[0][np.where(r[2] == 1)]
     lj = r[1][np.where(r[2] == 1)]
-
+    edges_boundary = np.vstack([li, lj]).T
+    """
+    # alternative implementation based on edges and grouping from trimesh
+    # instead of adjacency matrix
+    from trimesh import grouping
+    groups = grouping.group_rows(mesh.edges_sorted, require_count=1)
+    # vertex_boundary = np.unique(open_mesh.edges_sorted[groups])
+    edges_boundary = mesh.edges_sorted[groups]
+    """
     if li.size == 0:
         print('No holes in the surface !!!!')
         return np.array()
     else:
-        return edges_to_boundary(li, lj)
+        return edges_to_boundary(edges_boundary)
 
 
 def simple_cut_mesh(mesh, atex, val):
@@ -271,8 +193,8 @@ def texture_boundary(mesh, atex, val):
         r[2][inr1] = r[2][inr1] + 1
         li = r[0][np.where(r[2] == 4)]
         lj = r[1][np.where(r[2] == 4)]
-
-        return edges_to_boundary(li, lj)
+        edges_boundary = np.vstack([li, lj]).T
+        return edges_to_boundary(edges_boundary)
 
 
 def texture_boundary_vertices(atex, val, vertex_neighbors):

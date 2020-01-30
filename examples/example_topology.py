@@ -8,7 +8,8 @@ from vispy.scene import Line
 from visbrain.objects import VispyObj, SourceObj
 
 if __name__ == '__main__':
-    """ mesh_boundary works fine    
+
+    # mesh_boundary works fine
     # here is how to get the vertices that define the boundary of an open mesh
     K = [1, 1]
     open_mesh = sps.generate_quadric(K, nstep=20)
@@ -19,6 +20,7 @@ if __name__ == '__main__':
           'depending on the topology of the input mesh')
     open_mesh_boundary = stop.mesh_boundary(open_mesh)
     print(open_mesh_boundary)
+
     print('Here the mesh has a single boundary')
  
     # WARNING : BrainObj should be added first before
@@ -34,40 +36,35 @@ if __name__ == '__main__':
         l_obj = VispyObj('line', lines)
         visb_sc.add_to_subplot(l_obj)
     visb_sc.preview()
-    """
+
+
     # # here is how to get the vertices that define the boundary of
     # # a texture on a mesh
     mesh = sio.load_mesh('data/example_mesh.gii')
-    m = stop.edges_to_adjacency_matrix(mesh)
-    print(m)
-    sphere_mesh = sps.generate_sphere_random_sampling(vertex_number=5)
-    sio.write_mesh(sphere_mesh,'/mnt/data/work/python_sandBox/slam/examples/data/mini_mesh.gii')
-
-    a=stop.edges_to_adjacency_matrix(sphere_mesh)
-
     tex_parcel = sio.load_texture('data/example_texture_parcel.gii')
-    print(np.unique(tex_parcel.darray[0]))
-    bound_verts = stop.texture_boundary_vertices(tex_parcel.darray[0], 20,
-                                                mesh.vertex_neighbors)
-    print(bound_verts)
-    boundary = stop.texture_boundary(mesh, tex_parcel.darray[0], 20)
-    print(boundary)
+    # bound_verts = stop.texture_boundary_vertices(tex_parcel.darray[0], 20, mesh.vertex_neighbors)
+    boundaries = list()
+    for val in np.unique(tex_parcel.darray[0]):
+        boundary = stop.texture_boundary(mesh, tex_parcel.darray[0], val)
+        boundaries.append(boundary)
+
     # plot
     visb_sc2 = splt.visbrain_plot(mesh=mesh, tex=tex_parcel.darray[0],
                                   caption='texture boundary')
     cols=['red', 'green', 'yellow', 'blue']
     ind=0
-    for bound in boundary:
-        s_rad = SourceObj('rad', mesh.vertices[bound], color=cols[ind], symbol='square',
-                          radius_min=10)
-        visb_sc2.add_to_subplot(s_rad)
-        lines = Line(pos=mesh.vertices[bound], color=cols[ind], width=10)
-        # wrap the vispy object using visbrain
-        l_obj = VispyObj('line', lines)
-        visb_sc2.add_to_subplot(l_obj)
-        ind+=1
-        if ind==len(cols):
-            ind=0
+    for bound in boundaries:
+        for sub_bound in bound:
+            s_rad = SourceObj('rad', mesh.vertices[sub_bound], color=cols[ind], symbol='square',
+                              radius_min=10)
+            visb_sc2.add_to_subplot(s_rad)
+            lines = Line(pos=mesh.vertices[sub_bound], color=cols[ind], width=10)
+            # wrap the vispy object using visbrain
+            l_obj = VispyObj('line', lines)
+            visb_sc2.add_to_subplot(l_obj)
+            ind+=1
+            if ind==len(cols):
+                ind=0
         #path_visual = trimesh.load_path(mesh.vertices[bound])
         #path_visual.vertices_color = trimesh.visual.random_color()
         # points = mesh.vertices[bound]
@@ -77,25 +74,8 @@ if __name__ == '__main__':
         # cloud_boundary.vertices_color = cloud_colors
         # scene_list.append(cloud_boundary)
     visb_sc2.preview()
-    boundary_vertices = stop.texture_boundary_vertices(tex_parcel.darray, 0,
-    mesh.vertex_neighbors)
-    print(boundary_vertices)
-    path_visual = trimesh.load_path(mesh.vertices[boundary[3]])
-    # create a scene with the mesh, path, and points
-    scene = trimesh.Scene([path_visual, mesh ])
 
-    # trimesh.points.plot_points(points)
-    # plt.show()
-
-    # col = mesh.visual.vertex_colors
-    # col[:, 3] = 100
-    # mesh.visual.vertex_colors = col
-    # scene_list.append(path_visual)
-    # print(path_visual)
-    # scene = trimesh.Scene(scene_list)
-    # scene.show(smooth=False)
-
-    """ cut_mesh works fine!!
+    # cut_mesh works fine!!
     print('================= cut_mesh =================')
     print('Cut he mesh into subparts corresponding to the different values in '
           'the texture tex_parcel')
@@ -123,5 +103,19 @@ if __name__ == '__main__':
         joint_mesh += sub_mesh
         joint_tex = np.hstack((joint_tex, sub_tex))
     visb_sc = splt.visbrain_plot(mesh=joint_mesh, tex=joint_tex, caption='mesh parts shown in different colors')
+    ind=0
+    for bound in boundaries:
+        for sub_bound in bound:
+            s_rad = SourceObj('rad', mesh.vertices[sub_bound], color=cols[ind], symbol='square',
+                              radius_min=10)
+            visb_sc2.add_to_subplot(s_rad)
+            lines = Line(pos=mesh.vertices[sub_bound], color=cols[ind], width=10)
+            # wrap the vispy object using visbrain
+            l_obj = VispyObj('line', lines)
+            visb_sc.add_to_subplot(l_obj)
+            ind += 1
+            if ind == len(cols):
+                ind = 0
+
     visb_sc.preview()
-    """
+
