@@ -8,6 +8,9 @@ slam is a pure Python library for analysing and modeling surfaces represented as
 It is an extension of Trimesh, which is an open source python module dedicated to general mesh processing:
 https://github.com/mikedh/trimesh
 
+Look at the doc!
+https://gauzias.github.io/slam/
+
 The present module will consist of extensions to adapt Trimesh for the purpose of surface analysis of brain MRI data.
 
 ## Visbrain is recommended for visualization
