@@ -1,6 +1,6 @@
 #sphynx_gallery
-doc/_buid/
-doc/_auto_examples/
+doc/_build/
+doc/auto_examples/
 doc/generated/
 
 # Byte-compiled / optimized / DLL files
