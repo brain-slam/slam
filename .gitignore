@@ -1,3 +1,8 @@
+#sphynx_gallery
+doc/_buid/
+doc/_auto_examples/
+doc/generated/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
