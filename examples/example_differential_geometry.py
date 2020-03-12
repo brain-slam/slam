@@ -12,12 +12,16 @@ if __name__ == '__main__':
     print(grad.values)
     norm_grad = sdg.norm_gradient(mesh, tex.darray[0])
     print(norm_grad)
+    dpf = sdg.depth_potential_function(mesh, tex.darray[0], [0.3])
     visb_sc = splt.visbrain_plot(mesh=mesh, tex=tex.darray[0],
                                  caption='mesh with curvature',
                                  cblabel='curvature')
     visb_sc = splt.visbrain_plot(mesh=mesh, tex=norm_grad,
                                  caption='norm of the gradient of curvature',
                                  cblabel='gradient magnitude', visb_sc=visb_sc)
+    visb_sc = splt.visbrain_plot(mesh=mesh, tex=dpf[0],
+                                 caption='depth potential function',
+                                 cblabel='dpf', visb_sc=visb_sc)
     visb_sc.preview()
 
     lap, lap_b = sdg.compute_mesh_laplacian(mesh, lap_type='fem')
