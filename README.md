@@ -19,32 +19,11 @@ The present module will consist of extensions to adapt Trimesh for the purpose o
 Installation:
 ------------------
 
-1. install the lastest version of trimesh in easy (minimal dependency) mode:
-    ```
-    pip install trimesh[easy]
-    ```
-2. install visbrain (instead of pyglet):
-    ```
-    pip install visbrain
-    ```
-    for pyglet:
-    ```
-    conda install -c conda-forge pyglet
-    ```
-3. install nibabel
-    ```
-    pip install nibabel
-    ```
-4. install matplotlib
-    ```
-    conda install matplotlib
-    ```
-5. install gdist
-    ```
-    pip install cython
-    pip install gdist
-    ```
-6. clone the current repo
+/home/toz/miniconda3/envs/trimesh_visbrain/bin/python setup.py develop
+
+1. clone the current repo
+
+2.move to slam folder and type python steup.py install or develop
 
 7. try example scripts located in examples folder
 
