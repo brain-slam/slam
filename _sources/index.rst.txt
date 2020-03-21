@@ -1,11 +1,14 @@
 .. _slam:
 
-slam c'est de la bombe
-********
+SLAM : Surface anaLysis And Modeling
+*******************************************
 
-Macapype is an open-source multi-modal brain data analysis kit which provides **Python-based
-pipelines** for advanced multi-thread processing of fMRI anat in PNH. Neuropycon is based on `Nipype <http://nipype.readthedocs.io/en/latest/#>`_,
-a tool developed in fMRI field, which facilitates data analyses by wrapping many commonly-used neuro-imaging software into a common
-python framework.
+slam is a pure Python library for analysing and modeling surfaces represented as a triangular mesh.
+It is an extension of Trimesh, which is an open source python module dedicated to general mesh processing:
+https://github.com/mikedh/trimesh
 
-* the :ref:`plot_slam <plot_slam>` runs the graph computation and graph-theoretical tools over connectivity matrices.
+The present module will consist of extensions to adapt Trimesh for the purpose of surface analysis of brain MRI data.
+Visbrain is recommended for visualization
+
+* the :ref:`plot_slam <plot_slam>` is the first test.
+* the :ref:`example_basics <example_basics>` is the second test.
