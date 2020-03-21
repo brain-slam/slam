@@ -11,10 +11,9 @@ Show basic use of slam
 # License: BSD (3-clause)
 # sphinx_gallery_thumbnail_number = 2
 
-import trimesh
 import numpy as np
 import slam.io as sio
-from trimesh import smoothing as sm
+
 
 
 '''
@@ -30,7 +29,7 @@ mesh = sio.load_mesh(mesh_file)
 # affine transformations can be applied to mesh objects
 mesh.apply_transform(mesh.principal_inertia_transform)
 # laplacian smoothing is available in Trimesh
-mesh_s = sm.filter_laplacian(mesh, iterations=20)
+# mesh_s = sm.filter_laplacian(mesh, iterations=20)
 
 # mesh.fill_holes() is able to fill missing face but do not handle
 # larger holes
