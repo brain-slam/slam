@@ -191,14 +191,16 @@ def close_mesh(mesh, boundary_in=None):
                     """
                     norm_add_faces = np.zeros(3)
                     if nb_faces > 1:
-                        pp = vertices[add_faces[0][1], :]\
+                        pp = vertices[add_faces[0][1], :] \
                              - vertices[add_faces[0][0], :]
                         qq = add_verts - vertices[add_faces[0][0], :]
                     else:
-                        pp = vertices[add_faces[1], :]\
-                             - vertices[add_faces[0], :]
-                        qq = vertices[add_faces[2], :]\
-                             - vertices[add_faces[0], :]
+                        pp = \
+                            vertices[add_faces[1], :]
+                        - vertices[add_faces[0], :]
+                        qq = \
+                            vertices[add_faces[2], :]
+                        - vertices[add_faces[0], :]
                     norm_add_faces[0] = pp[1] * qq[2] - pp[2] * qq[1]
                     norm_add_faces[1] = pp[2] * qq[0] - pp[0] * qq[2]
                     norm_add_faces[2] = pp[0] * qq[1] - pp[1] * qq[0]
@@ -360,7 +362,7 @@ def edges_to_boundary(edges_bound, mesh_edges):
     not ordered properly
     :param mesh_edges: edges of the mesh that will serve to define the
     travelling direction of the output boundary path
-    :return:
+    :return: list of boundaries that are themself lists of vertices
     """
     graph = nx.from_edgelist(edges_bound)
 
@@ -385,9 +387,10 @@ def edges_to_boundary(edges_bound, mesh_edges):
         # plt.show()
         sub_graph_nodes = list(sub_graph.nodes)
         paths = sorted(list(
-            nx.shortest_simple_paths(sub_graph, source=sub_graph_nodes[0],
-                                     target=sub_graph_nodes[1])), key=len,
-                       reverse=True)
+            nx.shortest_simple_paths(
+                sub_graph, source=sub_graph_nodes[0],
+                target=sub_graph_nodes[1])), key=len,
+            reverse=True)
         longest_path = paths[0]
         if len(longest_path) < len(sub_graph.nodes):
             longest_path = paths[0][1:]

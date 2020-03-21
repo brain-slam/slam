@@ -153,13 +153,6 @@ def compute_mesh_weights(mesh, weight_type='conformal', cot_threshold=None,
 
     additional checks and thresholds are applied to ensure finite values
 
-    type is either
-        'combinatorial': W(i,j) = 1 is vertex i is conntected to vertex j.
-        'distance': W(i,j) = 1/d_ij^2 where d_ij is distance between vertex
-            i and j.
-        'conformal': W(i,j) = cot(alpha_ij)+cot(beta_ij) where alpha_ij and
-            beta_ij are the adjacent angle to edge (i,j)
-    If options.normalize = 1, the the rows of W are normalize to sum to 1.
     :param mesh:
     :param weight_type: choice across conformal, fem, meanvalue, authalic
     :param cot_threshold:

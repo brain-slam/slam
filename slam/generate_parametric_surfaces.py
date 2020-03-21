@@ -57,10 +57,12 @@ def quadric_curv_mean(K):
     return curv_mean
 
 
-def generate_quadric(K, nstep=50, ax=1, ay=1, random_sampling=True, ratio=0.2, random_distribution_type='gaussian'):
+def generate_quadric(K, nstep=50, ax=1, ay=1, random_sampling=True,
+                     ratio=0.2, random_distribution_type='gaussian'):
     """
     generate a quadric mesh
-    ratio and random_distribution_type parameters are unused if random_sampling is set to False
+    ratio and random_distribution_type parameters are unused if
+    random_sampling is set to False
     :param K:
     :param nstep:
     :param ax:
@@ -78,13 +80,13 @@ def generate_quadric(K, nstep=50, ax=1, ay=1, random_sampling=True, ratio=0.2, r
     # Coordinates
     stepx = (xmax-xmin)/nstep
     x = np.arange(xmin, xmax, stepx)
-    #x, stepx = np.linspace(xmin, xmax, nstep, retstep=True)
-    stepy = stepx * np.sqrt(3) / 2 # to ensure equilateral faces
+    # x, stepx = np.linspace(xmin, xmax, nstep, retstep=True)
+    stepy = stepx * np.sqrt(3) / 2  # to ensure equilateral faces
     y = np.arange(ymin, ymax, stepy)
-    #y = np.linspace(ymin, ymax, nstep)
+    # y = np.linspace(ymin, ymax, nstep)
     X, Y = np.meshgrid(x, y)
     X[::2] += stepx / 2
-    #Y += np.sqrt(3) / 2
+    # Y += np.sqrt(3) / 2
     X = X.flatten()
     Y = Y.flatten()
 
@@ -95,7 +97,8 @@ def generate_quadric(K, nstep=50, ax=1, ay=1, random_sampling=True, ratio=0.2, r
             theta = np.random.rand(nb_vert, ) * np.pi * 2
             mean = sigma
             variance = sigma ** 2
-            radius = np.random.gamma(mean ** 2 / variance, variance / mean, nb_vert)
+            radius = \
+                np.random.gamma(mean ** 2 / variance, variance / mean, nb_vert)
             X = X + radius * np.cos(theta)
             Y = Y + radius * np.sin(theta)
         elif random_distribution_type == 'uniform':
@@ -111,7 +114,9 @@ def generate_quadric(K, nstep=50, ax=1, ay=1, random_sampling=True, ratio=0.2, r
     Z = quadric(K[0], K[1])(X, Y)
     coords = np.array([X, Y, Z]).transpose()
 
-    return trimesh.Trimesh(faces=faces_tri.triangles, vertices=coords, process=False)
+    return trimesh.Trimesh(faces=faces_tri.triangles,
+                           vertices=coords,
+                           process=False)
 
 
 def generate_ellipsiod(a, b, nstep, random_sampling=False):

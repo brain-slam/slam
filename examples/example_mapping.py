@@ -1,121 +1,133 @@
-import matplotlib.pyplot as plt
 import slam.generate_parametric_surfaces as sps
 import numpy as np
-import slam.io as sio
+import slam.topology as stop
 import slam.plot as splt
 import slam.mapping as smap
 import slam.distortion as sdst
-
-
-def meshPolygonArea(vert, poly):
-    pp = vert[poly[:, 1], :] - vert[poly[:, 0], :]
-    qq = vert[poly[:, 2], :] - vert[poly[:, 0], :]
-    cr = np.cross(pp, qq)
-    area = np.sqrt(np.sum(np.power(cr, 2), 1)) / 2
-
-    return area
-
-
-####################################################################
-#
-# compute the 3 angles of each triangle in a mesh
-#
-####################################################################
-def meshPolygonAngles(vert, poly):
-    angles_out = np.zeros(poly.shape)
-    for i in range(3):
-        i1 = np.mod(i, 3)
-        i2 = np.mod(i + 1, 3)
-        i3 = np.mod(i + 2, 3)
-        pp = vert[poly[:, i2], :] - vert[poly[:, i1], :]
-        qq = vert[poly[:, i3], :] - vert[poly[:, i1], :]
-        noqq = np.sqrt(np.sum(qq * qq, 1))
-        nopp = np.sqrt(np.sum(pp * pp, 1))
-
-        pp = pp / np.vstack((nopp, np.vstack((nopp, nopp)))).transpose()
-        qq = qq / np.vstack((noqq, np.vstack((noqq, noqq)))).transpose()
-        angles_out[:, i] = np.arccos(np.sum(pp * qq, 1))
-    return angles_out
-
+from vispy.scene import Line
+from visbrain.objects import VispyObj, SourceObj
 
 if __name__ == '__main__':
-    mesh = sio.load_mesh('data/example_mesh.gii')
-    sphere, evol = smap.spherical_mapping(mesh, mapping_type='conformal',
-                                          dt=0.01, nb_it=3000)
-    visb_sc = splt.visbrain_plot(mesh=mesh, caption='original mesh')
-    visb_sc = splt.visbrain_plot(mesh=sphere,
-                                 caption='spherical representation',
-                                 visb_sc=visb_sc)
+    # let us generate an open mesh
+    K = [-1, -1]
+    open_mesh = sps.generate_quadric(K, nstep=5)
+    open_mesh.show()
+    open_mesh_boundary = stop.mesh_boundary(open_mesh)
+
+    # mapping onto a planar disk
+    disk_mesh = smap.disk_conformal_mapping(open_mesh)
+    disk_mesh.show()
+    # compute distortion measures between original and planar representations
+    angle_diff = sdst.angle_difference(disk_mesh, open_mesh)
+    area_diff = sdst.area_difference(disk_mesh, open_mesh)
+    edge_diff = sdst.edge_length_difference(disk_mesh, open_mesh)
+    print(np.mean(angle_diff))
+    print(np.mean(area_diff))
+    print(np.mean(edge_diff))
+
+    visb_sc = splt.visbrain_plot(mesh=open_mesh, caption='open mesh')
+    # create points with vispy
+    for bound in open_mesh_boundary:
+        points = open_mesh.vertices[bound]
+        s_rad = SourceObj('rad', points, color='red', symbol='square',
+                          radius_min=10)
+        visb_sc.add_to_subplot(s_rad)
+        lines = Line(pos=open_mesh.vertices[bound], width=10, color='b')
+        # wrap the vispy object using visbrain
+        l_obj = VispyObj('line', lines)
+        visb_sc.add_to_subplot(l_obj)
+
+    visb_sc2 = splt.visbrain_plot(mesh=disk_mesh, caption='disk mesh')
+    # create points with vispy
+    for bound in open_mesh_boundary:
+        points = disk_mesh.vertices[bound]
+        s_rad = SourceObj('rad', points, color='red', symbol='square',
+                          radius_min=10)
+        visb_sc2.add_to_subplot(s_rad)
+        lines = Line(pos=disk_mesh.vertices[bound], width=10, color='b')
+        # wrap the vispy object using visbrain
+        l_obj = VispyObj('line', lines)
+        visb_sc2.add_to_subplot(l_obj)
     visb_sc.preview()
-
-    angle_diff = sdst.angle_difference(sphere, mesh)
-    area_diff = sdst.area_difference(sphere, mesh)
-    edge_diff = sdst.edge_length_difference(sphere, mesh)
-
-    aevol = np.array(evol)
-    f, ax = plt.subplots(1, 3)
-    ax[0].set_title('angles')
-    # ax[0].hist(angle_diff.flatten())
-    ax[0].plot(aevol[:, 0])
-    ax[0].grid(True)
-    ax[1].set_title('areas')
-    # ax[1].hist(area_diff.flatten())
-    ax[1].plot(aevol[:, 1])
-    ax[1].grid(True)
-    ax[2].set_title('edges')
-    # ax[2].hist(edge_diff.flatten())
-    ax[2].plot(aevol[:, 2])
-    ax[2].grid(True)
+    visb_sc2.preview()
     #
-    # sph, evol = smap.spherical_mapping(mesh, mapping_type='authalic',
-    # dt=0.01, nb_it=1000)
+    # mesh = sio.load_mesh('data/example_mesh.gii')
+    # sphere, evol = smap.spherical_mapping(mesh, mapping_type='conformal',
+    #                                       dt=0.01, nb_it=3000)
+    # visb_sc = splt.visbrain_plot(mesh=mesh, caption='original mesh')
+    # visb_sc = splt.visbrain_plot(mesh=sphere,
+    #                              caption='spherical representation',
+    #                              visb_sc=visb_sc)
+    # visb_sc.preview()
     #
-    # angle_diff = sdst.angle_difference(sph, mesh)
-    # area_diff = sdst.area_difference(sph, mesh)
-    # edge_diff = sdst.edge_length_difference(sph, mesh)
+    # angle_diff = sdst.angle_difference(sphere, mesh)
+    # area_diff = sdst.area_difference(sphere, mesh)
+    # edge_diff = sdst.edge_length_difference(sphere, mesh)
     #
+    # aevol = np.array(evol)
     # f, ax = plt.subplots(1, 3)
     # ax[0].set_title('angles')
-    # ax[0].hist(angle_diff.flatten())
+    # # ax[0].hist(angle_diff.flatten())
+    # ax[0].plot(aevol[:, 0])
     # ax[0].grid(True)
     # ax[1].set_title('areas')
-    # ax[1].hist(area_diff.flatten())
+    # # ax[1].hist(area_diff.flatten())
+    # ax[1].plot(aevol[:, 1])
     # ax[1].grid(True)
     # ax[2].set_title('edges')
-    # ax[2].hist(edge_diff.flatten())
+    # # ax[2].hist(edge_diff.flatten())
+    # ax[2].plot(aevol[:, 2])
     # ax[2].grid(True)
+    # #
+    # # sph, evol = smap.spherical_mapping(mesh, mapping_type='authalic',
+    # # dt=0.01, nb_it=1000)
+    # #
+    # # angle_diff = sdst.angle_difference(sph, mesh)
+    # # area_diff = sdst.area_difference(sph, mesh)
+    # # edge_diff = sdst.edge_length_difference(sph, mesh)
+    # #
+    # # f, ax = plt.subplots(1, 3)
+    # # ax[0].set_title('angles')
+    # # ax[0].hist(angle_diff.flatten())
+    # # ax[0].grid(True)
+    # # ax[1].set_title('areas')
+    # # ax[1].hist(area_diff.flatten())
+    # # ax[1].grid(True)
+    # # ax[2].set_title('edges')
+    # # ax[2].hist(edge_diff.flatten())
+    # # ax[2].grid(True)
+    # #
+    # # sph = smap.spherical_mapping(mesh)
+    # #
+    # # angle_diff = sdst.angle_difference(sph, mesh)
+    # # area_diff = sdst.area_difference(sph, mesh)
+    # # edge_diff = sdst.edge_length_difference(sph, mesh)
+    # #
+    # # f, ax = plt.subplots(1, 3)
+    # # ax[0].set_title('angles')
+    # # ax[0].hist(angle_diff.flatten())
+    # # ax[0].grid(True)
+    # # ax[1].set_title('areas')
+    # # ax[1].hist(area_diff.flatten())
+    # # ax[1].grid(True)
+    # # ax[2].set_title('edges')
+    # # ax[2].hist(edge_diff.flatten())
+    # # ax[2].grid(True)
+    # plt.show()
     #
-    # sph = smap.spherical_mapping(mesh)
+    # sphere_mesh = sps.generate_sphere(1000)
+    # print(np.mean(sphere_mesh.vertices))
+    # print(np.sqrt(np.sum(np.power(sphere_mesh.vertices, 2), 1)))
+    # z_coord_texture = np.array(sphere_mesh.vertices[:, 2])
     #
-    # angle_diff = sdst.angle_difference(sph, mesh)
-    # area_diff = sdst.area_difference(sph, mesh)
-    # edge_diff = sdst.edge_length_difference(sph, mesh)
+    # poly_angles = meshPolygonAngles(sphere_mesh.vertices, sphere_mesh.faces)
+    # print(np.max(poly_angles))
+    # print(np.min(poly_angles))
     #
-    # f, ax = plt.subplots(1, 3)
-    # ax[0].set_title('angles')
-    # ax[0].hist(angle_diff.flatten())
-    # ax[0].grid(True)
-    # ax[1].set_title('areas')
-    # ax[1].hist(area_diff.flatten())
-    # ax[1].grid(True)
-    # ax[2].set_title('edges')
-    # ax[2].hist(edge_diff.flatten())
-    # ax[2].grid(True)
-    plt.show()
-
-    sphere_mesh = sps.generate_sphere(1000)
-    print(np.mean(sphere_mesh.vertices))
-    print(np.sqrt(np.sum(np.power(sphere_mesh.vertices, 2), 1)))
-    z_coord_texture = np.array(sphere_mesh.vertices[:, 2])
-
-    poly_angles = meshPolygonAngles(sphere_mesh.vertices, sphere_mesh.faces)
-    print(np.max(poly_angles))
-    print(np.min(poly_angles))
-
-    visb_sc_2 = splt.visbrain_plot(mesh=sphere_mesh, tex=z_coord_texture,
-                                   caption='parametric sphere',
-                                   cblabel='z coordinate')
-    visb_sc_2.preview()
+    # visb_sc_2 = splt.visbrain_plot(mesh=sphere_mesh, tex=z_coord_texture,
+    #                                caption='parametric sphere',
+    #                                cblabel='z coordinate')
+    # visb_sc_2.preview()
 
     #
     # # plane_proj_mesh = sphmap.stereo_projection(sphere_mesh, invert=False)

@@ -123,25 +123,31 @@ def spherical_mapping(mesh, mapping_type='laplacian_eigenvectors',
                            metadata=mesh.metadata, process=False), evol
 
 
-def disk_conformal_mapping(mesh, boundary=None, boundary_coords=None):
+def disk_conformal_mapping(mesh, lap_type='conformal',
+                           boundary=None, boundary_coords=None):
     """
     compute comformal mapping of a mesh to a disk
     ADD ref
-    :param mesh:
-    :param boundary:
-    :param boundary_coords:
-    :return:
+    :param mesh: a trimesh object
+    :param lap_type: type of mesh Laplacian to be used,
+    see the function differential_geometry/compute_mesh_weights for more
+    informations
+    :param boundary: boundary of the mesh, resulting from the function
+    topology/mesh_boundary
+    :param boundary_coords: coordindates of the boundary vertices on the
+    output disk, if None then uniform sampling
+    :return: a trimesh object, planar disk representation of the input mesh
     """
     if boundary is None:
-        boundary = stop.mesh_boundary(mesh)
+        boundary_t = stop.mesh_boundary(mesh)
+        boundary = boundary_t[0]
     boundary = np.array(boundary)
     if boundary_coords is None:
         p = boundary.size
         t = np.arange(0, 2 * np.math.pi, (2 * np.math.pi / p))
         boundary_coords = np.array([np.cos(t), np.sin(t)])
-    L, LB = sdg.compute_mesh_weights(mesh, weight_type='conformal')
+    L, LB = sdg.compute_mesh_laplacian(mesh, lap_type=lap_type)
     Nv = len(mesh.vertices)  # np.array(mesh.vertex()).shape[0]
-
     print('Boundary Size:', boundary.shape)
     print('Laplacian Size:', L.shape)
     for i in boundary:
@@ -159,7 +165,7 @@ def disk_conformal_mapping(mesh, boundary=None, boundary_coords=None):
     z = np.zeros(Nv)
 
     return trimesh.Trimesh(faces=mesh.faces,
-                           vertices=[x, y, z],
+                           vertices=np.array([x, y, z]).T,
                            metadata=mesh.metadata, process=False)
 
 
