@@ -30,11 +30,11 @@ if __name__ == '__main__':
             vertex_number=sphere_regular.vertices.shape[0],
             radius=4)
     # compare their volume to the analytical one
-    analytical_vol = (4/3)*np.pi*np.power(4, 3)
+    analytical_vol = (4 / 3) * np.pi * np.power(4, 3)
     print('volume error for regular sampling: {:.3f}'.format(
-        sphere_regular.volume-analytical_vol))
+        sphere_regular.volume - analytical_vol))
     print('volume error for random sampling: {:.3f}'.format(
-        sphere_random.volume-analytical_vol))
+        sphere_random.volume - analytical_vol))
 
     # plot
     visb_sc = splt.visbrain_plot(mesh=quadric, tex=quadric_mean_curv,

@@ -78,7 +78,7 @@ def generate_quadric(K, nstep=50, ax=1, ay=1, random_sampling=True,
     ymin, ymax = [-ay, ay]
 
     # Coordinates
-    stepx = (xmax-xmin)/nstep
+    stepx = (xmax - xmin) / nstep
     x = np.arange(xmin, xmax, stepx)
     # x, stepx = np.linspace(xmin, xmax, nstep, retstep=True)
     stepy = stepx * np.sqrt(3) / 2  # to ensure equilateral faces
@@ -170,7 +170,7 @@ def generate_sphere_random_sampling(vertex_number=100, radius=1.0):
         Q, R = np.linalg.qr(M)
         coords[i, :] = Q[:, 0].transpose() * np.sign(R[0, 0])
     if radius != 1:
-        coords = radius*coords
+        coords = radius * coords
     return tri_from_hull(coords)
 
 

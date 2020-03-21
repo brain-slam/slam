@@ -192,7 +192,7 @@ def close_mesh(mesh, boundary_in=None):
                     norm_add_faces = np.zeros(3)
                     if nb_faces > 1:
                         pp = vertices[add_faces[0][1], :] \
-                             - vertices[add_faces[0][0], :]
+                            - vertices[add_faces[0][0], :]
                         qq = add_verts - vertices[add_faces[0][0], :]
                     else:
                         pp = \
