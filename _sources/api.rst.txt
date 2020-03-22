@@ -6,10 +6,16 @@
 API Documentation
 =================
 
+
 slam (:py:mod:`slam`):
+
+.. automodule:: slam
+   :no-members:
+   :no-inherited-members:
 
 .. currentmodule:: slam
 
 .. autosummary::
    :toctree: generated/
 
+   io.load_mesh
