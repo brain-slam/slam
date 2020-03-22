@@ -121,117 +121,92 @@
 <span class="c1">#</span>
 <span class="c1">#</span>
 <span class="c1">#</span>
-<span class="c1"># &#39;&#39;&#39;</span>
-<span class="c1"># This scripts shows examples of basic functionalities offered by SLAM.</span>
-<span class="c1"># Some (most) of these are actually inherited from Trimesh</span>
-<span class="c1"># This script does not plot anything, see example_plot.py for that purpose</span>
-<span class="c1"># &#39;&#39;&#39;</span>
-<span class="c1"># mesh_file = &#39;data/example_mesh.gii&#39;</span>
-<span class="c1"># # loading a mesh stored on the disc as a gifti file,</span>
-<span class="c1"># # this is a feature of SLAM</span>
-<span class="c1"># mesh = sio.load_mesh(mesh_file)</span>
-<span class="c1">#</span>
-<span class="c1"># # affine transformations can be applied to mesh objects</span>
-<span class="c1"># mesh.apply_transform(mesh.principal_inertia_transform)</span>
-<span class="c1"># # laplacian smoothing is available in Trimesh</span>
-<span class="c1"># # mesh_s = sm.filter_laplacian(mesh, iterations=20)</span>
-<span class="c1">#</span>
-<span class="c1"># # mesh.fill_holes() is able to fill missing face but do not handle</span>
-<span class="c1"># # larger holes</span>
-<span class="c1">#</span>
-<span class="c1"># # interesting properties / functions of a mesh</span>
-<span class="c1"># # see base.py for more details</span>
-<span class="c1"># # what&#39;s the euler number for the mesh?</span>
-<span class="c1"># print(&#39;mesh.euler_number=&#39;, mesh.euler_number)</span>
-<span class="c1">#</span>
-<span class="c1"># # access mesh edges</span>
-<span class="c1"># mesh.edges</span>
-<span class="c1"># # access mesh faces</span>
-<span class="c1"># mesh.faces</span>
-<span class="c1"># # access mesh vertice</span>
-<span class="c1"># mesh.vertices</span>
-<span class="c1"># # access mesh edges</span>
-<span class="c1"># mesh.edges</span>
-<span class="c1">#</span>
-<span class="c1"># # what&#39;s the area of the mesh</span>
-<span class="c1"># print(&#39;mesh.area=&#39;, mesh.area)</span>
-<span class="c1">#</span>
-<span class="c1"># # compute the area of each face</span>
-<span class="c1"># mesh.area_faces</span>
-<span class="c1"># # access mesh faces angles</span>
-<span class="c1"># mesh.face_angles</span>
-<span class="c1"># # access mesh volume</span>
-<span class="c1"># mesh.volume</span>
-<span class="c1">#</span>
-<span class="c1"># # get the face_normal of the mesh</span>
-<span class="c1"># mesh.face_normals</span>
-<span class="c1">#</span>
-<span class="c1"># # get the vertex_normals of the mesh</span>
-<span class="c1"># mesh.vertex_normals</span>
-<span class="c1">#</span>
-<span class="c1"># # access mesh vertex connectivity</span>
-<span class="c1"># mesh.vertex_neighbors</span>
-<span class="c1">#</span>
-<span class="c1"># # compute mesh convex hull</span>
-<span class="c1"># c_h_mesh = mesh.convex_hull</span>
-<span class="c1">#</span>
-<span class="c1"># # kdtree of the vertices</span>
-<span class="c1"># # see example_kdtree.py</span>
-<span class="c1">#</span>
-<span class="c1"># # mesh refinement by subdivision of face</span>
-<span class="c1"># mesh.subdivide()</span>
-<span class="c1">#</span>
-<span class="c1"># # extract 100 mesh vertices picked at random</span>
-<span class="c1"># mesh.sample(100)</span>
-<span class="c1">#</span>
-<span class="c1"># # voxelize the mesh</span>
-<span class="c1"># mesh.voxelized(2)</span>
-<span class="c1">#</span>
-<span class="c1"># # boundary of the mesh or list of faces</span>
-<span class="c1"># # mesh.outline()</span>
-<span class="c1">#</span>
-<span class="c1"># # the convex hull is another Trimesh object that is available as a property</span>
-<span class="c1"># # lets compare the volume of our mesh with the volume of its convex hull</span>
-<span class="c1"># np.divide(mesh.volume, mesh.convex_hull.volume)</span>
-<span class="c1">#</span>
-<span class="c1"># # since the mesh is watertight, it means there is a</span>
-<span class="c1"># # volumetric center of mass which we can set as the origin for our mesh</span>
-<span class="c1"># mesh.vertices -= mesh.center_mass</span>
-<span class="c1">#</span>
-<span class="c1"># # what&#39;s the moment of inertia for the mesh?</span>
-<span class="c1"># mesh.moment_inertia</span>
-<span class="c1">#</span>
-<span class="c1"># # if there are multiple bodies in the mesh we can split the mesh by</span>
-<span class="c1"># # connected components of face adjacency</span>
-<span class="c1"># # since this example mesh is a single watertight body we get a list of one</span>
-<span class="c1"># # mesh</span>
-<span class="c1"># # mesh.split()</span>
-<span class="c1">#</span>
-<span class="c1"># # find groups of coplanar adjacent faces</span>
-<span class="c1"># # facets, facets_area = mesh.facets(return_area=True)</span>
-<span class="c1">#</span>
-<span class="c1"># # transform method can be passed a (4,4) matrix and will cleanly apply the</span>
-<span class="c1"># # transform</span>
-<span class="c1"># mesh.apply_transform(trimesh.transformations.random_rotation_matrix())</span>
-<span class="c1">#</span>
-<span class="c1"># # axis aligned bounding box is available</span>
-<span class="c1"># mesh.bounding_box.extents</span>
-<span class="c1">#</span>
-<span class="c1"># # a minimum volume oriented bounding box also available</span>
-<span class="c1"># # primitives are subclasses of Trimesh objects which automatically generate</span>
-<span class="c1"># # faces and vertices from data stored in the &#39;primitive&#39; attribute</span>
-<span class="c1"># mesh.bounding_box_oriented.primitive.extents</span>
-<span class="c1"># mesh.bounding_box_oriented.primitive.transform</span>
-<span class="c1">#</span>
-<span class="c1"># # bounding spheres and bounding cylinders of meshes are also</span>
-<span class="c1"># # available, and will be the minimum volume version of each</span>
-<span class="c1"># # except in certain degenerate cases, where they will be no worse</span>
-<span class="c1"># # than a least squares fit version of the primitive.</span>
-<span class="c1"># print(mesh.bounding_box_oriented.volume,</span>
-<span class="c1">#       mesh.bounding_cylinder.volume,</span>
-<span class="c1">#       mesh.bounding_sphere.volume)</span>
 </pre></div>
 </div>
+<p>This script shows examples of basic functionalities offered by SLAM.
+Some (most) of these are actually inherited from Trimesh
+This script does not plot anything, see example_plot.py for that purpose</p>
+<p>mesh_file = ‘data/example_mesh.gii’
+# loading a mesh stored on the disc as a gifti file,
+# this is a feature of SLAM
+mesh = sio.load_mesh(mesh_file)</p>
+<p># affine transformations can be applied to mesh objects
+mesh.apply_transform(mesh.principal_inertia_transform)
+# laplacian smoothing is available in Trimesh
+# mesh_s = sm.filter_laplacian(mesh, iterations=20)</p>
+<p>mesh.fill_holes() is able to fill missing face but do not handle
+larger holes, see example_topology for that purpose</p>
+<p>interesting properties / functions of a mesh
+see base.py for more details
+what’s the euler number for the mesh?
+print(‘mesh.euler_number=’, mesh.euler_number)</p>
+<p>access mesh edges
+mesh.edges</p>
+<p>access mesh faces
+mesh.faces</p>
+<p>access mesh vertice
+mesh.vertices
+# access mesh edges
+mesh.edges</p>
+<dl class="docutils">
+<dt>what’s the area of the mesh</dt>
+<dd>print(‘mesh.area=’, mesh.area)</dd>
+</dl>
+<p>access mesh faces angles
+mesh.face_angles</p>
+<p>access mesh volume
+mesh.volume</p>
+<p>get the face_normal of the mesh
+mesh.face_normals</p>
+<p>get the vertex_normals of the mesh
+mesh.vertex_normals</p>
+<p>access mesh vertex connectivity
+mesh.vertex_neighbors</p>
+<p>compute mesh convex hull
+c_h_mesh = mesh.convex_hull</p>
+<p>kdtree of the vertices
+see example_kdtree.py</p>
+<p>mesh refinement by subdivision of face
+mesh.subdivide()</p>
+<p>extract 100 mesh vertices picked at random
+mesh.sample(100)</p>
+<p>voxelize the mesh
+mesh.voxelized(2)</p>
+<p>boundary of the mesh or list of faces
+mesh.outline()</p>
+<p>the convex hull is another Trimesh object that is available as a property
+lets compare the volume of our mesh with the volume of its convex hull
+np.divide(mesh.volume, mesh.convex_hull.volume)</p>
+<p>since the mesh is watertight, it means there is a
+volumetric center of mass which we can set as the origin for our mesh
+mesh.vertices -= mesh.center_mass</p>
+<p>what’s the moment of inertia for the mesh?
+mesh.moment_inertia</p>
+<p>if there are multiple bodies in the mesh we can split the mesh by
+connected components of face adjacency
+since this example mesh is a single watertight body we get a list of one
+mesh
+mesh.split()</p>
+<p>find groups of coplanar adjacent faces
+facets, facets_area = mesh.facets(return_area=True)</p>
+<p>transform method can be passed a (4,4) matrix and will cleanly apply the
+transform
+mesh.apply_transform(trimesh.transformations.random_rotation_matrix())</p>
+<p>axis aligned bounding box is available
+mesh.bounding_box.extents</p>
+<p>a minimum volume oriented bounding box also available
+primitives are subclasses of Trimesh objects which automatically generate
+faces and vertices from data stored in the ‘primitive’ attribute
+mesh.bounding_box_oriented.primitive.extents
+mesh.bounding_box_oriented.primitive.transform</p>
+<p>bounding spheres and bounding cylinders of meshes are also
+available, and will be the minimum volume version of each
+except in certain degenerate cases, where they will be no worse
+than a least squares fit version of the primitive.
+print(mesh.bounding_box_oriented.volume,</p>
+<blockquote>
+<div>mesh.bounding_cylinder.volume,
+mesh.bounding_sphere.volume)</div></blockquote>
 <p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.032 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example container" id="sphx-glr-download-auto-examples-example-basics-py">
 <div class="sphx-glr-download container">
@@ -254,7 +229,7 @@
       
     </p>
     <p>
-        &copy; Copyright 2020, slam Developers. Last updated on 2020-03-21.<br/>
+        &copy; Copyright 2020, slam Developers. Last updated on 2020-03-22.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.<br/>
     </p>
   </div>
