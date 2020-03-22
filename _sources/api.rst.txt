@@ -1,0 +1,16 @@
+:orphan:
+
+.. _api_documentation:
+
+=================
+API Documentation
+=================
+
+slam (:py:mod:`slam`):
+
+.. currentmodule:: slam
+
+.. autosummary::
+   :toctree: generated/
+
+   io
