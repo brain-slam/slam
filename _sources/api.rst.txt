@@ -6,11 +6,10 @@
 API Documentation
 =================
 
-slam (:py:mod:`slam.io`):
+slam (:py:mod:`slam`):
 
-.. currentmodule:: slam.io
+.. currentmodule:: slam
 
 .. autosummary::
    :toctree: generated/
 
-   load_mesh
