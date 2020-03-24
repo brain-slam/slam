@@ -11,19 +11,17 @@ Show basic use of slam
 # License: BSD (3-clause)
 # sphinx_gallery_thumbnail_number = 2
 
-# import numpy as np
-# import slam.io as sio
-#
-#
-#
+
 ###############################################################################
 # This script shows examples of basic functionalities offered by SLAM.
 # Some (most) of these are actually inherited from Trimesh
 # This script does not plot anything, see example_plot.py for that purpose
 #
-# mesh_file = 'data/example_mesh.gii'
-# # loading a mesh stored on the disc as a gifti file,
-# # this is a feature of SLAM
+import numpy as np
+import slam.io as sio
+mesh_file = 'data/example_mesh.gii'
+# loading a mesh stored on the disc as a gifti file,
+# this is a feature of SLAM
 # mesh = sio.load_mesh(mesh_file)
 
 ###############################################################################

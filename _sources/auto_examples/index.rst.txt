@@ -22,9 +22,9 @@ Examples Gallery
 
 .. only:: html
 
-    .. figure:: /auto_examples/images/thumb/sphx_glr_example_basics_thumb.png
+ .. figure:: /auto_examples/images/thumb/sphx_glr_example_basics_thumb.png
 
-        :ref:`sphx_glr_auto_examples_example_basics.py`
+     :ref:`sphx_glr_auto_examples_example_basics.py`
 
 .. raw:: html
 
@@ -42,9 +42,9 @@ Examples Gallery
 
 .. only:: html
 
-    .. figure:: /auto_examples/images/thumb/sphx_glr_plot_slam_thumb.png
+ .. figure:: /auto_examples/images/thumb/sphx_glr_plot_slam_thumb.png
 
-        :ref:`sphx_glr_auto_examples_plot_slam.py`
+     :ref:`sphx_glr_auto_examples_plot_slam.py`
 
 .. raw:: html
 
@@ -57,7 +57,7 @@ Examples Gallery
    /auto_examples/plot_slam
 .. raw:: html
 
-    <div style='clear:both'></div>
+    <div class="sphx-glr-clear"></div>
 
 
 

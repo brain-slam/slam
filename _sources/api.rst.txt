@@ -10,12 +10,9 @@ API Documentation
 slam (:py:mod:`slam`):
 
 .. automodule:: slam
-   :no-members:
-   :no-inherited-members:
-
-.. currentmodule:: slam
+   :members:
 
 .. autosummary::
-   :toctree: generated/
+   :toctree:
 
-   io.load_mesh
+   io

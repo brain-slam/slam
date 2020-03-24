@@ -1,0 +1,25 @@
+slam.io
+=======
+
+.. automodule:: slam.io
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      load_mesh
+      load_texture
+      write_mesh
+      write_texture
+   
+   
+
+   
+   
+   
+
+   
+   
+   

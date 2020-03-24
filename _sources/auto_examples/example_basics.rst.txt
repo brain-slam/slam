@@ -22,11 +22,8 @@ Show basic use of slam
     # License: BSD (3-clause)
     # sphinx_gallery_thumbnail_number = 2
 
-    # import numpy as np
-    # import slam.io as sio
-    #
-    #
-    #
+
+
 
 
 
@@ -37,10 +34,23 @@ This script shows examples of basic functionalities offered by SLAM.
 Some (most) of these are actually inherited from Trimesh
 This script does not plot anything, see example_plot.py for that purpose
 
-mesh_file = 'data/example_mesh.gii'
-# loading a mesh stored on the disc as a gifti file,
-# this is a feature of SLAM
-mesh = sio.load_mesh(mesh_file)
+
+
+.. code-block:: default
+
+    import numpy as np
+    import slam.io as sio
+    mesh_file = 'data/example_mesh.gii'
+    # loading a mesh stored on the disc as a gifti file,
+    # this is a feature of SLAM
+    # mesh = sio.load_mesh(mesh_file)
+
+
+
+
+
+
+
 
 # affine transformations can be applied to mesh objects
 mesh.apply_transform(mesh.principal_inertia_transform)
@@ -150,7 +160,7 @@ print(mesh.bounding_box_oriented.volume,
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.035 seconds)
+   **Total running time of the script:** ( 0 minutes  0.001 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_basics.py:
