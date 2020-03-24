@@ -16,9 +16,10 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
+import os
+import sys
+curdir = os.path.dirname(__file__)
+sys.path.append(os.path.abspath(os.path.join(curdir, '..')))
 
 from datetime import date
 import sphinx_gallery  # noqa
@@ -179,8 +180,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     (master_doc, 'slam', 'slam Documentation',
-     author, 'slam', 'slam is a Python library for analysing and modeling '
-                     'surfaces represented as a triangular mesh',
+     author, 'slam', 'One line description of project.',
      'Miscellaneous'),
 ]
 
@@ -195,8 +195,8 @@ sphinx_gallery_conf = {
     'reference_url': {
         'numpy': 'http://docs.scipy.org/doc/numpy-1.9.1',
         'scipy': 'http://docs.scipy.org/doc/scipy-0.17.0/reference',
-        'nipype': 'https://nipype.readthedocs.io/en/latest/api',
-        'slam': 'http://gauzias.github.io/slam/'
+        'trimesh': 'https://github.com/mikedh/trimesh',
+        'nibabel': 'https://nipy.org/nibabel'
     }
 }
 

@@ -12,5 +12,5 @@ Plot the results of slam
 # sphinx_gallery_thumbnail_number = 2
 import os.path as op
 
-#import slam
+import slam
 
