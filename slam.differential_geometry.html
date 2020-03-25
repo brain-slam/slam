@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>slam.io &#8212; slam 0.0.1 documentation</title>
+    <title>slam.differential_geometry &#8212; slam 0.0.1 documentation</title>
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/gallery.css" />
@@ -68,7 +68,7 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">slam.io</a></li>
+<li><a class="reference internal" href="#">slam.differential_geometry</a></li>
 </ul>
 </ul>
 </li>
@@ -80,7 +80,7 @@
             
               <li class="hidden-sm">
 <div id="sourcelink">
-  <a href="_sources/slam.io.rst.txt"
+  <a href="_sources/slam.differential_geometry.rst.txt"
      rel="nofollow">Source</a>
 </div></li>
             
@@ -104,8 +104,8 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <div class="section" id="module-slam.io">
-<span id="slam-io"></span><h1>slam.io<a class="headerlink" href="#module-slam.io" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-slam.differential_geometry">
+<span id="slam-differential-geometry"></span><h1>slam.differential_geometry<a class="headerlink" href="#module-slam.differential_geometry" title="Permalink to this headline">¶</a></h1>
 <p class="rubric">Functions</p>
 <table class="longtable docutils align-default">
 <colgroup>
@@ -113,17 +113,35 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_mesh</span></code>(gifti_file)</p></td>
-<td><p>load gifti_file and create a trimesh object :param gifti_file: str, path to the gifti file on the disk :return: the corresponding trimesh object</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_mesh_laplacian</span></code>(mesh[, weights, …])</p></td>
+<td><p>compute laplacian of a mesh see compute_mesh_weight for details :param mesh: :param weights: :param fem_b: :param lap_type: :return:</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_texture</span></code>(gifti_file)</p></td>
-<td><p>load gifti_file and create a TextureND object (multidimensional) :param gifti_file: str, path to the gifti file on the disk :return: the corresponding TextureND object</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_mesh_weights</span></code>(mesh[, weight_type, …])</p></td>
+<td><p>compute a weight matrix W is sparse weight matrix and W(i,j) = 0 is vertex i and vertex j are not connected in the mesh.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_mesh</span></code>(mesh, gifti_file)</p></td>
-<td><p>Create a mesh object from two arrays</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">depth_potential_function</span></code>(mesh, curvature, alphas)</p></td>
+<td><p>compute the depth potential function of a mesh as desribed in Boucher, M., Whitesides, S., &amp; Evans, A.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_texture</span></code>(tex, gifti_file)</p></td>
-<td><p>TODO manage metadata write a TextureND object to disk as a gifti file :param gifti_file: str, path to the gifti file on the disk :return: the corresponding TextureND object</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">gradient</span></code>(mesh, texture_array)</p></td>
+<td><p>Compute gradient on a triangular mesh with a scalar function.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">laplacian_mesh_smoothing</span></code>(mesh, nb_iter, dt)</p></td>
+<td><p>smoothing the mesh by solving the heat equation using fem Laplacian ADD REF :param mesh: :param nb_iter: :param dt: :return:</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">laplacian_smoothing</span></code>(texture_data, lap, …)</p></td>
+<td><p>sub-function for smoothing using fem Laplacian :param texture_data: :param lap: :param lap_b: :param nb_iter: :param dt: :return:</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">laplacian_texture_smoothing</span></code>(mesh, tex, …)</p></td>
+<td><p>smoothing the texture by solving the heat equation using fem Laplacian :param mesh: :param tex: :param nb_iter: :param dt: :return:</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mesh_laplacian_eigenvectors</span></code>(mesh[, nb_vectors])</p></td>
+<td><p>compute the nb_vectors first non-null eigenvectors of the graph Laplacian</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">norm_gradient</span></code>(mesh, texture_array)</p></td>
+<td><p>Compute the norm of a vertex Gradient on vertex first version author: Guillaume Vicaigne (Internship 2018) :param mesh: Triangular mesh :param texture_array: Scalar function on Vertices, numpy array :return: Gradient’s Norm</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">triangle_gradient</span></code>(mesh, texture_array)</p></td>
+<td><p>Compute gradient on a triangular mesh with a scalar function.</p></td>
 </tr>
 </tbody>
 </table>

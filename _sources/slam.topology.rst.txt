@@ -1,0 +1,36 @@
+slam.topology
+=============
+
+.. automodule:: slam.topology
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      boundaries_intersection
+      boundary_angles
+      cat_boundary
+      close_mesh
+      create_vertex
+      cut_mesh
+      edges_to_adjacency_matrix
+      edges_to_boundary
+      ismember
+      list_count
+      local_barycentric_smoothing
+      mesh_boundary
+      sub_cut_mesh
+      texture_boundary
+      texture_boundary_vertices
+   
+   
+
+   
+   
+   
+
+   
+   
+   

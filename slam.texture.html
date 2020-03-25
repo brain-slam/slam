@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>slam.io &#8212; slam 0.0.1 documentation</title>
+    <title>slam.texture &#8212; slam 0.0.1 documentation</title>
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/gallery.css" />
@@ -68,7 +68,10 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">slam.io</a></li>
+<li><a class="reference internal" href="#">slam.texture</a><ul>
+<li><a class="reference internal" href="#github-com-gauzias-slam">github.com/gauzias/slam</a></li>
+</ul>
+</li>
 </ul>
 </ul>
 </li>
@@ -80,7 +83,7 @@
             
               <li class="hidden-sm">
 <div id="sourcelink">
-  <a href="_sources/slam.io.rst.txt"
+  <a href="_sources/slam.texture.rst.txt"
      rel="nofollow">Source</a>
 </div></li>
             
@@ -104,29 +107,25 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <div class="section" id="module-slam.io">
-<span id="slam-io"></span><h1>slam.io<a class="headerlink" href="#module-slam.io" title="Permalink to this headline">¶</a></h1>
-<p class="rubric">Functions</p>
+  <div class="section" id="module-slam.texture">
+<span id="slam-texture"></span><h1>slam.texture<a class="headerlink" href="#module-slam.texture" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="github-com-gauzias-slam">
+<h2>github.com/gauzias/slam<a class="headerlink" href="#github-com-gauzias-slam" title="Permalink to this headline">¶</a></h2>
+<p>definition of the Texture class</p>
+<p class="rubric">Classes</p>
 <table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_mesh</span></code>(gifti_file)</p></td>
-<td><p>load gifti_file and create a trimesh object :param gifti_file: str, path to the gifti file on the disk :return: the corresponding trimesh object</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_texture</span></code>(gifti_file)</p></td>
-<td><p>load gifti_file and create a TextureND object (multidimensional) :param gifti_file: str, path to the gifti file on the disk :return: the corresponding TextureND object</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_mesh</span></code>(mesh, gifti_file)</p></td>
-<td><p>Create a mesh object from two arrays</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_texture</span></code>(tex, gifti_file)</p></td>
-<td><p>TODO manage metadata write a TextureND object to disk as a gifti file :param gifti_file: str, path to the gifti file on the disk :return: the corresponding TextureND object</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">TextureND</span></code>([darray, process, metadata])</p></td>
+<td><p><p class="rubric">Methods</p>
+</p></td>
 </tr>
 </tbody>
 </table>
+</div>
 </div>
 
 

@@ -1,0 +1,24 @@
+slam.distortion
+===============
+
+.. automodule:: slam.distortion
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      angle_difference
+      area_difference
+      edge_length_difference
+   
+   
+
+   
+   
+   
+
+   
+   
+   

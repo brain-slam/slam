@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>slam.io &#8212; slam 0.0.1 documentation</title>
+    <title>slam.curvature &#8212; slam 0.0.1 documentation</title>
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/gallery.css" />
@@ -68,7 +68,7 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">slam.io</a></li>
+<li><a class="reference internal" href="#">slam.curvature</a></li>
 </ul>
 </ul>
 </li>
@@ -80,7 +80,7 @@
             
               <li class="hidden-sm">
 <div id="sourcelink">
-  <a href="_sources/slam.io.rst.txt"
+  <a href="_sources/slam.curvature.rst.txt"
      rel="nofollow">Source</a>
 </div></li>
             
@@ -104,8 +104,8 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <div class="section" id="module-slam.io">
-<span id="slam-io"></span><h1>slam.io<a class="headerlink" href="#module-slam.io" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-slam.curvature">
+<span id="slam-curvature"></span><h1>slam.curvature<a class="headerlink" href="#module-slam.curvature" title="Permalink to this headline">¶</a></h1>
 <p class="rubric">Functions</p>
 <table class="longtable docutils align-default">
 <colgroup>
@@ -113,17 +113,23 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_mesh</span></code>(gifti_file)</p></td>
-<td><p>load gifti_file and create a trimesh object :param gifti_file: str, path to the gifti file on the disk :return: the corresponding trimesh object</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">calcvertex_normals</span></code>(FV, N)</p></td>
+<td><p>CalcVertexNormals calculates the normals and voronoi areas at each vertex INPUT: FV - triangle mesh in face vertex structure N - face normals OUTPUT - VertexNormals - [Nv X 3] matrix of normals at each vertex Avertex - [NvX1] voronoi area at each vertex Acorner - [NfX3] slice of the voronoi area at each face corner</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_texture</span></code>(gifti_file)</p></td>
-<td><p>load gifti_file and create a TextureND object (multidimensional) :param gifti_file: str, path to the gifti file on the disk :return: the corresponding TextureND object</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_curvature</span></code>(FV, VertexNormals, …)</p></td>
+<td><p>CalcFaceCurvature recives a list of vertices and faces in FV structure and the normal at each vertex and calculates the second fundemental matrix and the curvature using least squares :param FV: face-vertex data structure containing a list of vertices and a list of faces :param VertexNormals: n*3 matrix ( n = number of vertices ) containing the normal at each vertex :param FaceNormals: m*3 matrix ( m = number of faces ) containing the normal of each face :param Avertex: :param Acorner: :param up: :param vp: :return: FaceSFM - an m*1 cell matrix second fundemental VertexSFM - an n*w cell matrix second fundementel wfp - corner voronoi weights</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_mesh</span></code>(mesh, gifti_file)</p></td>
-<td><p>Create a mesh object from two arrays</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">curvatures_and_derivatives</span></code>(mesh)</p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_texture</span></code>(tex, gifti_file)</p></td>
-<td><p>TODO manage metadata write a TextureND object to disk as a gifti file :param gifti_file: str, path to the gifti file on the disk :return: the corresponding TextureND object</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">principal_curvatures</span></code>(FV, VertexSFM, up, vp)</p></td>
+<td><p>Calculates the principal curvatures and prncipal directions :param FV: triangular mesh :param VertexSFM: second fundemental matrix for each vertex :param up: vertex local coordinate frame :param vp: vertex local coordinate frame :return: PrincipalCurvature : Matrix containing pricipale curvatures ( dim = 2 * Number of vertices ) PrincipalDi1 , PrincipalDi2 : First and second principal directions</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">project_curvature_tensor</span></code>(uf, vf, nf, old_ku, …)</p></td>
+<td><p>performs a projection of the tensor variables to the vertex coordinate system :param uf:face coordinates system :param vf:face coordinates system :param nf:face normal :param old_ku:face curvature tensor variables :param old_kuv:face curvature tensor variables :param old_kv:face curvature tensor variables :param up:vertex cordinate system :param vp:vertex cordinate system :return: new_ku,new_kuv,new_kv : vertex curvature tensor coordinates The tensor : [[new_ku, new_kuv], [new_kuv, new_kv]]</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotate_coordinate_system</span></code>(up, vp, nf)</p></td>
+<td><p>RotateCoordinateSystem performs the rotation of the vectors up and vp to the plane defined by nf as its normal vector :param up: vectors to be rotated (vertex coordinate system) :param vp: vectors to be rotated (vertex coordinate system) :param nf: face normal :return: r_new_u,r_new_v : new rotated vectors</p></td>
 </tr>
 </tbody>
 </table>

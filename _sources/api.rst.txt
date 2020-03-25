@@ -16,3 +16,14 @@ slam (:py:mod:`slam`):
    :toctree:
 
    io
+   curvature
+   differential_geometry
+   distortion
+   generate_parametric_surfaces
+   geodesics
+   mapping
+   plot
+   remeshing
+   texture
+   topology
+   vertex_voronoi

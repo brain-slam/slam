@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>slam.topology &#8212; slam 0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/gallery.css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          slam</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="auto_examples/index.html">Gallery</a></li>
+                <li><a href="api.html">API</a></li>
+                <li><a href="tutorial.html">Tutorial</a></li>
+                <li><a href="https://github.com/gauzias/slam">Github</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">slam.topology</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="_sources/slam.topology.rst.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <div class="section" id="module-slam.topology">
+<span id="slam-topology"></span><h1>slam.topology<a class="headerlink" href="#module-slam.topology" title="Permalink to this headline">¶</a></h1>
+<p class="rubric">Functions</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">boundaries_intersection</span></code>(boundary)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">boundary_angles</span></code>(boundary, vertices_coord)</p></td>
+<td><p>compute the angle between consecutive edges in a path :param boundary: list of vertex indices corresponding to the path :param vertices_coord: array (n, 3) of vertex coordinates :return:</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">cat_boundary</span></code>(bound1, bound2)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">close_mesh</span></code>(mesh[, boundary_in])</p></td>
+<td><p>see also trimesh.repair.fill_holes(mesh): This function implements the following paper with slight modifications.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_vertex</span></code>(three_vertices[, r])</p></td>
+<td><p>create a vertex along the bisector of the angle formed by three vertices :param three_vertices: array(3,3) coordinates of the three vertices :param r: distance to the new vertex on the bisector :return:</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">cut_mesh</span></code>(mesh, atex_in)</p></td>
+<td><p>cut the mesh into submeshes following the values in the texture returns as many meshes as the number of different values in the texture the vertices on the border between two submeshes are duplicated into both submeshes :param mesh: :param atex_in: :return:</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">edges_to_adjacency_matrix</span></code>(mesh)</p></td>
+<td><p>compute the adjacency matrix of a mesh adja(i,j) = 2 if the edge (i,j) is in two faces adja(i,j) = 1 means that i and j are on the boundary of the mesh adja(i,j) = 0 elsewhere :param mesh: :return:</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">edges_to_boundary</span></code>(edges_bound, mesh_edges)</p></td>
+<td><p>build the boundary by traversing edges return list of connected components ORDERED ACCORDING TO THEIR LENGTH, i.e.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ismember</span></code>(ar1, ar2)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">list_count</span></code>(l)</p></td>
+<td><p>count the occurrences of all items in a list and return a dictionary that is of the form {nb_occurence:list_item}, which is the opposite of standard implementation usually found on the web —————————————————————– in python &gt;= 2.7, collections may be used, see example below &gt;&gt; from collections import Counter &gt;&gt; z = [‘blue’, ‘red’, ‘blue’, ‘yellow’, ‘blue’, ‘red’] &gt;&gt; Counter(z) Counter({‘blue’: 3, ‘red’: 2, ‘yellow’: 1}) :param l: :return:</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">local_barycentric_smoothing</span></code>(faces, vertices, …)</p></td>
+<td><p>local smoothing of the coordinates of vertices_to_smooth the smoothed coordinates of each vertex in vertices_to_smooth in vertices corrrespond to the barycenter of its neigbhors :param faces: :param vertices: :param vertices_to_smooth: :return:</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mesh_boundary</span></code>(mesh)</p></td>
+<td><p>compute borders of a mesh :param mesh: :return:</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">sub_cut_mesh</span></code>(mesh, atex, val)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">texture_boundary</span></code>(mesh, atex, val)</p></td>
+<td><p>compute indexes that are the boundary of a region defined by value in a texture :param mesh: :param atex: :param val: :return:</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">texture_boundary_vertices</span></code>(atex, val, …)</p></td>
+<td><p>compute indices of vertices that are the boundary of a region defined by value in the texture, without any topological or ordering constraint :param atex: :param val: :param vertex_neighbors: :return:</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2020, slam Developers. Last updated on 2020-03-25.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,31 @@
+slam.differential\_geometry
+===========================
+
+.. automodule:: slam.differential_geometry
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      compute_mesh_laplacian
+      compute_mesh_weights
+      depth_potential_function
+      gradient
+      laplacian_mesh_smoothing
+      laplacian_smoothing
+      laplacian_texture_smoothing
+      mesh_laplacian_eigenvectors
+      norm_gradient
+      triangle_gradient
+   
+   
+
+   
+   
+   
+
+   
+   
+   

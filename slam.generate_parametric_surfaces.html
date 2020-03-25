@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>slam.io &#8212; slam 0.0.1 documentation</title>
+    <title>slam.generate_parametric_surfaces &#8212; slam 0.0.1 documentation</title>
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/gallery.css" />
@@ -68,7 +68,7 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">slam.io</a></li>
+<li><a class="reference internal" href="#">slam.generate_parametric_surfaces</a></li>
 </ul>
 </ul>
 </li>
@@ -80,7 +80,7 @@
             
               <li class="hidden-sm">
 <div id="sourcelink">
-  <a href="_sources/slam.io.rst.txt"
+  <a href="_sources/slam.generate_parametric_surfaces.rst.txt"
      rel="nofollow">Source</a>
 </div></li>
             
@@ -104,8 +104,8 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <div class="section" id="module-slam.io">
-<span id="slam-io"></span><h1>slam.io<a class="headerlink" href="#module-slam.io" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-slam.generate_parametric_surfaces">
+<span id="slam-generate-parametric-surfaces"></span><h1>slam.generate_parametric_surfaces<a class="headerlink" href="#module-slam.generate_parametric_surfaces" title="Permalink to this headline">¶</a></h1>
 <p class="rubric">Functions</p>
 <table class="longtable docutils align-default">
 <colgroup>
@@ -113,17 +113,29 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_mesh</span></code>(gifti_file)</p></td>
-<td><p>load gifti_file and create a trimesh object :param gifti_file: str, path to the gifti file on the disk :return: the corresponding trimesh object</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_ellipsiod</span></code>(a, b, nstep[, …])</p></td>
+<td><p>generate an ellipsoid :param a: :param b: :param nstep: :param random_sampling: :return:</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_texture</span></code>(gifti_file)</p></td>
-<td><p>load gifti_file and create a TextureND object (multidimensional) :param gifti_file: str, path to the gifti file on the disk :return: the corresponding TextureND object</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_quadric</span></code>(K[, nstep, ax, ay, …])</p></td>
+<td><p>generate a quadric mesh ratio and random_distribution_type parameters are unused if random_sampling is set to False :param K: :param nstep: :param ax: :param ay: :param random_sampling: :param ratio: :param random_distribution_type: :return:</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_mesh</span></code>(mesh, gifti_file)</p></td>
-<td><p>Create a mesh object from two arrays</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_sphere_icosahedron</span></code>([subdivisions, …])</p></td>
+<td><p>generate a sphere by subdividing an icosahedron simply call the trimesh function see trimesh.creation.icosphere for more details :param subdivisions:  int   How many times to subdivide the mesh.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_texture</span></code>(tex, gifti_file)</p></td>
-<td><p>TODO manage metadata write a TextureND object to disk as a gifti file :param gifti_file: str, path to the gifti file on the disk :return: the corresponding TextureND object</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_sphere_random_sampling</span></code>([…])</p></td>
+<td><p>generate a sphere with random sampling :param vertex_number: number of vertices in the output spherical mesh :param radius: radius of the output sphere :return:</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">quadric</span></code>(K1, K2)</p></td>
+<td><p>compute the Z coordinate of a quadric dependeing on X and Y coordinates :param K1: :param K2: :return:</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">quadric_curv_gauss</span></code>(K)</p></td>
+<td><p>analytical Gaussian curvature of a quadric :param K1: :param K2: :return:</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">quadric_curv_mean</span></code>(K)</p></td>
+<td><p>analytical mean curvature of a quadric :param K1: :param K2: :return:</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">tri_from_hull</span></code>(vertices)</p></td>
+<td><p>compute faces from vertices using trimesh convex hull :param vertices: (n, 3) float :return:</p></td>
 </tr>
 </tbody>
 </table>

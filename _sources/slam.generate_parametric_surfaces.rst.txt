@@ -1,0 +1,29 @@
+slam.generate\_parametric\_surfaces
+===================================
+
+.. automodule:: slam.generate_parametric_surfaces
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      generate_ellipsiod
+      generate_quadric
+      generate_sphere_icosahedron
+      generate_sphere_random_sampling
+      quadric
+      quadric_curv_gauss
+      quadric_curv_mean
+      tri_from_hull
+   
+   
+
+   
+   
+   
+
+   
+   
+   

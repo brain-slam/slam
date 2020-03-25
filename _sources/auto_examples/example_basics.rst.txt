@@ -39,11 +39,12 @@ This script does not plot anything, see example_plot.py for that purpose
 .. code-block:: default
 
     import numpy as np
+    import trimesh
     import slam.io as sio
-    mesh_file = 'data/example_mesh.gii'
+
     # loading a mesh stored on the disc as a gifti file,
     # this is a feature of SLAM
-    # mesh = sio.load_mesh(mesh_file)
+    mesh = sio.load_mesh('../examples/data/example_mesh.gii')
 
 
 
@@ -52,10 +53,29 @@ This script does not plot anything, see example_plot.py for that purpose
 
 
 
-# affine transformations can be applied to mesh objects
-mesh.apply_transform(mesh.principal_inertia_transform)
-# laplacian smoothing is available in Trimesh
-# mesh_s = sm.filter_laplacian(mesh, iterations=20)
+affine transformations can be applied to mesh objects
+
+
+.. code-block:: default
+
+    mesh.apply_transform(mesh.principal_inertia_transform)
+    # laplacian smoothing is available in Trimesh
+    # mesh_s = sm.filter_laplacian(mesh, iterations=20)
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+
+    <trimesh.Trimesh(vertices.shape=(2328, 3), faces.shape=(4652, 3))>
+
+
 
 mesh.fill_holes() is able to fill missing face but do not handle
 larger holes, see example_topology for that purpose
@@ -63,69 +83,581 @@ larger holes, see example_topology for that purpose
 interesting properties / functions of a mesh
 see base.py for more details
 what's the euler number for the mesh?
-print('mesh.euler_number=', mesh.euler_number)
+
+
+.. code-block:: default
+
+    print('mesh.euler_number=', mesh.euler_number)
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    mesh.euler_number= 2
+
+
+
 
 access mesh edges
-mesh.edges
+
+
+.. code-block:: default
+
+    mesh.edges
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+
+    array([[   0, 1488],
+           [1488, 1506],
+           [1506,    0],
+           ...,
+           [2318, 2319],
+           [2319, 2320],
+           [2320, 2318]])
+
+
 
 access mesh faces
-mesh.faces
 
-access mesh vertice
-mesh.vertices
-# access mesh edges
-mesh.edges
+
+.. code-block:: default
+
+    mesh.faces
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+
+    TrackedArray([[   0, 1488, 1506],
+                  [   0, 1506,  656],
+                  [   0,  656,  659],
+                  ...,
+                  [2316, 2324, 2317],
+                  [2316, 2317, 2318],
+                  [2318, 2319, 2320]])
+
+
+
+access mesh vertices
+
+
+.. code-block:: default
+
+    mesh.vertices
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+
+    TrackedArray([[ -3.57061993,  17.94052684,  -4.15675124],
+                  [ -4.21303903,  18.23071289,  -2.84670079],
+                  [  1.28853806,  15.82085612, -11.8437097 ],
+                  ...,
+                  [ -5.71436578, -19.29592171,   9.90463243],
+                  [ -5.29037689, -20.25637784,   9.60190872],
+                  [ -4.34501906, -19.65690763,  12.83836895]])
+
+
+
+access mesh edges
+
+
+.. code-block:: default
+
+    mesh.edges
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+
+    array([[   0, 1488],
+           [1488, 1506],
+           [1506,    0],
+           ...,
+           [2318, 2319],
+           [2319, 2320],
+           [2320, 2318]])
+
+
 
 what's the area of the mesh
- print('mesh.area=', mesh.area)
 
-###############################################################################
- compute the area of each face
- mesh.area_faces
+
+.. code-block:: default
+
+    print('mesh.area=', mesh.area)
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    mesh.area= 6436.8837611951
+
+
+
+
+compute the area of each face
+
+
+.. code-block:: default
+
+    mesh.area_faces
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+
+    array([1.03160119, 0.69458931, 0.64635107, ..., 0.60875084, 0.61997294,
+           1.4092516 ])
+
+
 
 access mesh faces angles
-mesh.face_angles
+
+
+.. code-block:: default
+
+    mesh.face_angles
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+
+    array([[2.4177451 , 0.49611404, 0.22773352],
+           [0.3207756 , 0.52701975, 2.2937973 ],
+           [1.13467765, 0.50239588, 1.50451913],
+           ...,
+           [1.53367965, 0.88605981, 0.7218532 ],
+           [0.7735158 , 1.44372652, 0.92435033],
+           [0.79314968, 1.88427635, 0.46416663]])
+
+
 
 access mesh volume
-mesh.volume
+
+
+.. code-block:: default
+
+    mesh.volume
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+
+    30652.09071967466
+
+
 
 get the face_normal of the mesh
-mesh.face_normals
+
+
+.. code-block:: default
+
+    mesh.face_normals
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+
+    array([[-0.82908061,  0.2702155 , -0.48949865],
+           [-0.82814375,  0.27374753, -0.48912188],
+           [-0.55380472, -0.829119  ,  0.07656372],
+           ...,
+           [-0.98404595, -0.17680354,  0.01985141],
+           [-0.99132362, -0.12302593,  0.0462828 ],
+           [-0.99042597, -0.11478387,  0.07668802]])
+
+
 
 get the vertex_normals of the mesh
-mesh.vertex_normals
+
+
+.. code-block:: default
+
+    mesh.vertex_normals
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+
+    array([[-0.88029847, -0.33822584, -0.33268285],
+           [-0.94299176, -0.24092205, -0.22961515],
+           [-0.51322477,  0.72001165, -0.46710123],
+           ...,
+           [-0.92601496, -0.3307541 ,  0.18192862],
+           [-0.72862014, -0.6335681 ,  0.26020022],
+           [-0.47962976, -0.80291312,  0.35395735]])
+
+
 
 access mesh vertex connectivity
-mesh.vertex_neighbors
+
+
+.. code-block:: default
+
+    mesh.vertex_neighbors
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+
+    array([list([1, 656, 658, 659, 1488, 1506]), list([0, 657, 658, 1488]),
+           list([1533, 1534, 1543, 1614, 1617]), ...,
+           list([304, 1391, 1412, 2319, 2320, 2326]),
+           list([304, 306, 1412, 1444, 2325]),
+           list([1391, 1393, 1412, 1431, 1435, 1444])], dtype=object)
+
+
 
 compute mesh convex hull
-c_h_mesh = mesh.convex_hull
+
+
+.. code-block:: default
+
+    c_h_mesh = mesh.convex_hull
+
+
+
+
+
+
+
 
 kdtree of the vertices
 see example_kdtree.py
 
 mesh refinement by subdivision of face
-mesh.subdivide()
+
+
+.. code-block:: default
+
+    mesh.subdivide()
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+
+    <trimesh.Trimesh(vertices.shape=(9306, 3), faces.shape=(18608, 3))>
+
+
 
 extract 100 mesh vertices picked at random
-mesh.sample(100)
+
+
+.. code-block:: default
+
+    mesh.sample(100)
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+
+    array([[ -8.54340447,   0.7943305 ,   3.87053937],
+           [  3.45882554,  15.71252665, -13.93241749],
+           [  6.74350355,  12.88053626,   5.12465   ],
+           [ -2.81693466, -10.45876894,  27.64540245],
+           [  5.41650193,   3.99180677,  28.78781927],
+           [ -9.65814695,  14.47326866,  16.26316253],
+           [  9.89637654,   4.006063  ,  -1.11068237],
+           [ 12.09770872,  -1.48505184, -10.35429399],
+           [  8.78118946,   0.81006844, -20.09356888],
+           [  5.79410256,  -7.46123904, -21.80974569],
+           [ -3.67103752,  11.66948791,  31.76250503],
+           [  5.13227907, -16.15724352, -13.04757362],
+           [ -8.47024252,  -8.3826036 ,   2.86479072],
+           [  5.46859797, -11.97737835,  21.12439635],
+           [  3.39025768,   6.45765634,  14.4335468 ],
+           [  3.00597776,   9.25322134,  10.88391465],
+           [ -9.47875601,  -3.93597199,  -5.20445121],
+           [ -5.20342884,  -9.10609759, -24.95476415],
+           [ -2.33500586,  -0.68351602,  32.66230781],
+           [ -8.06262116,   4.52033443, -22.37706001],
+           [ -6.73040153,   7.07991723,  -5.51219482],
+           [ -5.33214057, -21.00532339,   4.62768641],
+           [  8.03683765,  -0.55341846,   7.76864669],
+           [ 10.66200326, -13.29736797,  -0.97242794],
+           [ -2.73521505,  -3.93174999, -31.89865642],
+           [ -8.36754413,  -0.92912342, -20.60137804],
+           [  6.17526435,   3.20595532,  14.90097443],
+           [-10.11400399,  15.49943401,  24.36628013],
+           [ -9.86296898,  -1.80350116, -22.94189066],
+           [ -8.88057556,   5.85229886,  -5.07697556],
+           [ -3.55228855, -12.90014532, -20.20165678],
+           [ -9.25421357,  -9.48620468, -14.97315793],
+           [  2.06697168,   1.82073983, -30.71914662],
+           [ -9.72459652,   8.49344201,   7.89378168],
+           [ -4.31394455,   9.64658603,  -1.96900537],
+           [ -9.01692697, -11.55474983, -13.37121333],
+           [ -1.1287802 ,  16.28665613,  24.33956293],
+           [ -5.89558822, -10.36796812,  24.75994982],
+           [  1.66434429, -14.47492891,  21.09710493],
+           [  9.26240644,  -4.73203895, -16.9638503 ],
+           [ -6.65872883, -10.13135272,  19.87660662],
+           [-10.89166421,  -1.74321271, -33.42311627],
+           [  2.34014743,  10.69086053,  17.91482921],
+           [  2.04048831,   0.63985815,  31.56749486],
+           [ -4.89252387, -19.102585  , -11.0409847 ],
+           [  7.81158063,  19.31159282,   2.77073013],
+           [  4.21153218,   2.65044135, -28.01153303],
+           [  4.09194506,   0.39667328, -27.87602159],
+           [ -1.56648583,  -6.29773101,  30.55887128],
+           [ -9.61876385,  -5.48049371,  -2.87090715],
+           [  5.92622578,  -7.9153525 , -21.29558878],
+           [ -6.47699949,  14.38053259,  14.43568743],
+           [ -7.09448509, -17.83823607,  -7.84672546],
+           [  9.68480668,   1.05170032,  -4.29556686],
+           [  4.69979283,   7.75303997,   7.09734278],
+           [-10.59783761,   1.79046439, -27.96427221],
+           [  5.20949111,   4.43886143,   4.46738863],
+           [ -6.92200667,   9.7094555 ,   4.08123166],
+           [ -8.72822761,   2.90276371,  18.58506294],
+           [  3.92126351, -11.56988778,  23.09087167],
+           [  0.97704017,  21.08820237,  -1.83340062],
+           [ -7.36564134,   9.9965188 ,   6.16622519],
+           [ 10.32275447,  -7.18109828,  16.59319604],
+           [ 10.53525558,  16.64024404,  -5.33475573],
+           [  4.65555665,  21.64004015,   0.80488736],
+           [ -9.60375924,   9.86716659,  19.99886305],
+           [ -3.40439082,   8.64256478,  32.763489  ],
+           [ -4.02177805, -11.93347024,  25.93543917],
+           [  3.06683128,  13.92548709,   5.58312393],
+           [ -8.30205307,   9.0641388 , -32.10867208],
+           [ -0.98941252, -18.95204409,  14.62362884],
+           [ -9.29802353,   6.00622081,   7.68586686],
+           [  0.68195009, -21.60854146,   2.89483279],
+           [  6.14110709,  15.0692592 , -15.18438426],
+           [ -9.18602589,   1.11188434, -24.44181011],
+           [ -8.80438613,   2.48332966,  -3.08817886],
+           [ -4.09197083,   1.08407181,  32.83268386],
+           [ -8.9418304 ,  -5.27808343,   5.12908484],
+           [ -7.48537437, -11.40604818,   9.20051455],
+           [  5.12460174,  11.8386811 ,   5.57817141],
+           [  8.86063967, -16.21284934,   3.99626692],
+           [  2.13764208,  15.81162203, -12.76380757],
+           [  3.80861722,  15.74734442,   5.426992  ],
+           [ -0.17833955, -21.40342795,   6.46338614],
+           [ -1.47409656,   7.43596373,  32.5836446 ],
+           [ -3.06046605,   9.21841818,  -4.35218083],
+           [ -7.30357619,  -4.3850859 ,  26.05717978],
+           [ 10.66841331, -12.55623371,   8.72909948],
+           [ -7.85371213,  -6.87427681,  16.93345752],
+           [ -2.19029471,  20.34691809,  -2.04965612],
+           [  9.84425312,  -6.81625931, -15.73563466],
+           [  5.44320599,   6.61711914,   4.39513123],
+           [  3.57007838, -19.21361961,  -5.95395388],
+           [ -7.92859844,   8.36344549,  29.60263179],
+           [  4.68235324,  10.15259218,  27.60918879],
+           [ -0.72652765, -19.0466124 , -12.4553953 ],
+           [  6.4180072 ,   6.70169222,  26.77726801],
+           [  8.24731668,  -6.86869454,  21.50402862],
+           [ -2.64038326, -11.53927232,  26.5718067 ],
+           [ -2.1353432 ,  16.34488807,  22.72262067]])
+
+
 
 voxelize the mesh
-mesh.voxelized(2)
+
+
+.. code-block:: default
+
+    mesh.voxelized(2)
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+
+    <trimesh.VoxelGrid(14, 23, 36)>
+
+
 
 boundary of the mesh or list of faces
-mesh.outline()
+
+
+.. code-block:: default
+
+    mesh.outline()
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+
+    <trimesh.Path3D(vertices.shape=(2328, 3), len(entities)=0)>
+
+
 
 the convex hull is another Trimesh object that is available as a property
 lets compare the volume of our mesh with the volume of its convex hull
-np.divide(mesh.volume, mesh.convex_hull.volume)
+
+
+.. code-block:: default
+
+    np.divide(mesh.volume, mesh.convex_hull.volume)
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+
+    0.7994007383971118
+
+
 
 since the mesh is watertight, it means there is a
 volumetric center of mass which we can set as the origin for our mesh
-mesh.vertices -= mesh.center_mass
+
+
+.. code-block:: default
+
+    mesh.vertices -= mesh.center_mass
+
+
+
+
+
+
+
 
 what's the moment of inertia for the mesh?
-mesh.moment_inertia
+
+
+.. code-block:: default
+
+    mesh.moment_inertia
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+
+    array([[ 1.04733007e+07, -2.07684934e-08,  6.32988910e-08],
+           [-2.07684934e-08,  8.74194422e+06, -1.67948504e-08],
+           [ 6.32988910e-08, -1.67948504e-08,  3.48350688e+06]])
+
+
 
 if there are multiple bodies in the mesh we can split the mesh by
 connected components of face adjacency
@@ -134,33 +666,122 @@ mesh
 mesh.split()
 
 find groups of coplanar adjacent faces
-facets, facets_area = mesh.facets(return_area=True)
+
+
+.. code-block:: default
+
+    facets = mesh.facets
+
+
+
+
+
+
+
 
 transform method can be passed a (4,4) matrix and will cleanly apply the
 transform
-mesh.apply_transform(trimesh.transformations.random_rotation_matrix())
+
+
+.. code-block:: default
+
+    mesh.apply_transform(trimesh.transformations.random_rotation_matrix())
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+
+    <trimesh.Trimesh(vertices.shape=(2328, 3), faces.shape=(4652, 3))>
+
+
 
 axis aligned bounding box is available
-mesh.bounding_box.extents
+
+
+.. code-block:: default
+
+    mesh.bounding_box.extents
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+
+    array([58.14106077, 40.36500965, 53.52993161])
+
+
 
 a minimum volume oriented bounding box also available
 primitives are subclasses of Trimesh objects which automatically generate
 faces and vertices from data stored in the 'primitive' attribute
-mesh.bounding_box_oriented.primitive.extents
-mesh.bounding_box_oriented.primitive.transform
+
+
+.. code-block:: default
+
+    mesh.bounding_box_oriented.primitive.extents
+    mesh.bounding_box_oriented.primitive.transform
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+
+    TrackedArray([[-0.5453206 , -0.09693751,  0.83260348,  0.82185551],
+                  [ 0.6950362 , -0.60753162,  0.38448669, -0.69381948],
+                  [ 0.46856176,  0.78835807,  0.39867459, -0.31132908],
+                  [ 0.        ,  0.        ,  0.        ,  1.        ]])
+
+
 
 bounding spheres and bounding cylinders of meshes are also
 available, and will be the minimum volume version of each
 except in certain degenerate cases, where they will be no worse
 than a least squares fit version of the primitive.
-print(mesh.bounding_box_oriented.volume,
-      mesh.bounding_cylinder.volume,
-      mesh.bounding_sphere.volume)
+
+
+.. code-block:: default
+
+    print(mesh.bounding_box_oriented.volume,
+          mesh.bounding_cylinder.volume,
+          mesh.bounding_sphere.volume)
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    71923.58915547827 100251.46999437173 182279.8140762537
+
+
+
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.001 seconds)
+   **Total running time of the script:** ( 0 minutes  0.691 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_basics.py:

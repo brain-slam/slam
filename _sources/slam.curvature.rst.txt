@@ -1,0 +1,27 @@
+slam.curvature
+==============
+
+.. automodule:: slam.curvature
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      calcvertex_normals
+      compute_curvature
+      curvatures_and_derivatives
+      principal_curvatures
+      project_curvature_tensor
+      rotate_coordinate_system
+   
+   
+
+   
+   
+   
+
+   
+   
+   

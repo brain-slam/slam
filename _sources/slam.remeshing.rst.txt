@@ -1,0 +1,22 @@
+slam.remeshing
+==============
+
+.. automodule:: slam.remeshing
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      spherical_interpolation_nearest_neigbhor
+   
+   
+
+   
+   
+   
+
+   
+   
+   

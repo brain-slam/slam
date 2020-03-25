@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>slam.io &#8212; slam 0.0.1 documentation</title>
+    <title>slam.mapping &#8212; slam 0.0.1 documentation</title>
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/gallery.css" />
@@ -68,7 +68,7 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">slam.io</a></li>
+<li><a class="reference internal" href="#">slam.mapping</a></li>
 </ul>
 </ul>
 </li>
@@ -80,7 +80,7 @@
             
               <li class="hidden-sm">
 <div id="sourcelink">
-  <a href="_sources/slam.io.rst.txt"
+  <a href="_sources/slam.mapping.rst.txt"
      rel="nofollow">Source</a>
 </div></li>
             
@@ -104,8 +104,8 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <div class="section" id="module-slam.io">
-<span id="slam-io"></span><h1>slam.io<a class="headerlink" href="#module-slam.io" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-slam.mapping">
+<span id="slam-mapping"></span><h1>slam.mapping<a class="headerlink" href="#module-slam.mapping" title="Permalink to this headline">¶</a></h1>
 <p class="rubric">Functions</p>
 <table class="longtable docutils align-default">
 <colgroup>
@@ -113,17 +113,20 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_mesh</span></code>(gifti_file)</p></td>
-<td><p>load gifti_file and create a trimesh object :param gifti_file: str, path to the gifti file on the disk :return: the corresponding trimesh object</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">disk_conformal_mapping</span></code>(mesh[, lap_type, …])</p></td>
+<td><p>compute comformal mapping of a mesh to a disk ADD ref :param mesh: a trimesh object :param lap_type: type of mesh Laplacian to be used, see the function differential_geometry/compute_mesh_weights for more informations :param boundary: boundary of the mesh, resulting from the function topology/mesh_boundary :param boundary_coords: coordindates of the boundary vertices on the output disk, if None then uniform sampling :return: a trimesh object, planar disk representation of the input mesh</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_texture</span></code>(gifti_file)</p></td>
-<td><p>load gifti_file and create a TextureND object (multidimensional) :param gifti_file: str, path to the gifti file on the disk :return: the corresponding TextureND object</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_stereo_projection</span></code>(plane_mesh[, h, …])</p></td>
+<td><p>compute the inverse stereograhic projection from an horizontal plane onto the unit sphere (center = 0, radius = 1) :param plane_mesh: trimesh planar mesh to be inverse projected onto the sphere :param h: 3rd coordinate of the projection plane :param invert: Boolean value to invert input mesh faces orientation upwards to be consistent with stereo_projection :return: trimesh unit sphere from inverse projected plane_mesh</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_mesh</span></code>(mesh, gifti_file)</p></td>
-<td><p>Create a mesh object from two arrays</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">moebius_transformation</span></code>(a, b, c, d, plane_mesh)</p></td>
+<td><p>see <a class="reference external" href="https://en.wikipedia.org/wiki/M%C3%B6bius_transformation">https://en.wikipedia.org/wiki/M%C3%B6bius_transformation</a> :param a:Complex :param b:Complex :param c:Complex :param d:Complex :param plane_mesh: trimesh mesh :return:</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_texture</span></code>(tex, gifti_file)</p></td>
-<td><p>TODO manage metadata write a TextureND object to disk as a gifti file :param gifti_file: str, path to the gifti file on the disk :return: the corresponding TextureND object</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">spherical_mapping</span></code>(mesh[, mapping_type, …])</p></td>
+<td><p>ADD REF :param mesh: :param mapping_type: :param conformal_w: :param authalic_w: :param dt: :param nb_it: :return:</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">stereo_projection</span></code>(sphere_mesh[, h, invert])</p></td>
+<td><p>compute the stereographic projection from the unit sphere (center = 0, radius = 1) onto the horizontal plane which 3rd coordinate is h of the vertices given :param sphere_mesh: trimesh spherical mesh to be projected onto the plane :param h: 3rd coordinate of the projection plane :param invert: Boolean value to invert output mesh faces orientation upwards :return: trimesh planar mesh, 3rd coordinate is equal to h</p></td>
 </tr>
 </tbody>
 </table>
