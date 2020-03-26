@@ -14,6 +14,8 @@ https://gauzias.github.io/slam/
 The present module will consist of extensions to adapt Trimesh for the purpose of surface analysis of brain MRI data.
 
 ## Visbrain is recommended for visualization
+visbrain repos is here: https://github.com/EtienneCmb/visbrain
+
 
 ------------------
 Installation:

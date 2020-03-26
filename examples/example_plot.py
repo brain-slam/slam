@@ -1,14 +1,12 @@
 import slam.plot as splt
 import slam.io as sio
-
+import numpy as np
 if __name__ == '__main__':
 
     mesh_file = 'data/example_mesh.gii'
     texture_file = 'data/example_texture.gii'
 
     mesh = sio.load_mesh(mesh_file)
-
-    mesh.apply_transform(mesh.principal_inertia_transform)
     tex = sio.load_texture(texture_file)
     print(tex.min())
     print(tex.max())

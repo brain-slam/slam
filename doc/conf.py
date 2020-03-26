@@ -196,6 +196,7 @@ sphinx_gallery_conf = {
         'numpy': 'http://docs.scipy.org/doc/numpy-1.9.1',
         'scipy': 'http://docs.scipy.org/doc/scipy-0.17.0/reference',
         'trimesh': 'https://github.com/mikedh/trimesh',
+        'visbrain': 'https://github.com/EtienneCmb/visbrain',
         'nibabel': 'https://nipy.org/nibabel'
     }
 }
