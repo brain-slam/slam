@@ -38,13 +38,13 @@ Examples Gallery
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Plot the results of slam">
+    <div class="sphx-glr-thumbcontainer" tooltip="Show basic plot in slam">
 
 .. only:: html
 
- .. figure:: /auto_examples/images/thumb/sphx_glr_plot_slam_thumb.png
+ .. figure:: /auto_examples/images/thumb/sphx_glr_example_plot_thumb.png
 
-     :ref:`sphx_glr_auto_examples_plot_slam.py`
+     :ref:`sphx_glr_auto_examples_example_plot.py`
 
 .. raw:: html
 
@@ -54,7 +54,7 @@ Examples Gallery
 .. toctree::
    :hidden:
 
-   /auto_examples/plot_slam
+   /auto_examples/example_plot
 .. raw:: html
 
     <div class="sphx-glr-clear"></div>
