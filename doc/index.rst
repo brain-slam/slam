@@ -10,5 +10,5 @@ https://github.com/mikedh/trimesh
 The present module will consist of extensions to adapt Trimesh for the purpose of surface analysis of brain MRI data.
 Visbrain is recommended for visualization
 
-* the :ref:`plot_slam <plot_slam>` is the first test.
-* the :ref:`example_basics <example_basics>` is the second test.
+* :ref:`example_basics <example_basics>` introduces basic features.
+* :ref:`example_plot <example_plot>` shows visualization possibilities.

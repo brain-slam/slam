@@ -36,7 +36,7 @@ class TextureND:
             self.is_empty = True
         else:
             # (n, 3) float, set of vertices
-            self.darray = np.asanyarray(darray)
+            self.darray = np.atleast_2d(np.asanyarray(darray))
             self.dtype = self.darray.dtype
             self.shape = self.darray.shape
 

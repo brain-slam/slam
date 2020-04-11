@@ -13,13 +13,14 @@ Show basic plot in slam
 
 
 ###############################################################################
-# This script shows examples of visualization in SLAM.
 # The visu is based on visbrain: https://github.com/EtienneCmb/visbrain
 
+###############################################################################
+# importation of slam modules
 import slam.plot as splt
 import slam.io as sio
-import numpy as np
 
+###############################################################################
 # loading an examplar mesh and corresponding texture
 mesh_file = '../examples/data/example_mesh.gii'
 texture_file = '../examples/data/example_texture.gii'
@@ -31,18 +32,40 @@ tex = sio.load_texture(texture_file)
 print('[{a:2.3f}, {b:2.3f}]'.format(a=tex.min(), b=tex.max()))
 
 ###############################################################################
-# make the figure
+# plot only the mesh geometry
 visb_sc = splt.visbrain_plot(mesh=mesh, caption='simple mesh')
+visb_sc.preview()
+
+###############################################################################
+# plot the mesh with the curvature as a texture
 visb_sc = splt.visbrain_plot(mesh=mesh, tex=tex.darray[0],
                              caption='with curvature',
-                             cblabel='curvature', visb_sc=visb_sc)
+                             cblabel='curvature')
+visb_sc.preview()
+
+###############################################################################
+# change the colormap
+visb_sc2 = splt.visbrain_plot(mesh=mesh, tex=tex.darray[0],
+                              caption='change cmap', cblabel='curvature',
+                              cmap='hot')
+visb_sc2.preview()
+
+###############################################################################
+# combine two plots in one single figure, allowing for sinchronization
+visb_sc = splt.visbrain_plot(mesh=mesh, tex=tex.darray[0],
+                             caption='with curvature',
+                             cblabel='curvature')
 visb_sc = splt.visbrain_plot(mesh=mesh, tex=tex.darray[0],
                              caption='change cmap', cblabel='curvature',
                              cmap='hot', visb_sc=visb_sc)
 visb_sc.preview()
-# then save the 3D rendering figure
+
+###############################################################################
+# save the 3D rendering figure
 # visb_sc.screenshot('test.png')
-# # most simple mesh visualization
+
+###############################################################################
+# another option for plotting in slam is using pyglet from Trimseh
 # splt.pyglet_plot(mesh)
 # # with a texture
 # splt.pyglet_plot(mesh, tex.darray[0], plot_colormap=True)

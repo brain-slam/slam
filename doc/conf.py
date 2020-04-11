@@ -110,17 +110,24 @@ html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
 # documentation.
 #
 html_theme_options = {
-    'navbar_title': 'slam',
-    'bootswatch_theme': "flatly",
-    'navbar_sidebarrel': False,
     'bootstrap_version': "3",
+    'navbar_sidebarrel': False,
+    'navbar_pagenav': True,
+    'navbar_pagenav_name': "Page",
+    'globaltoc_depth': -1,
+    'globaltoc_includehidden': "true",
+    'source_link_position': "nav",
     'navbar_links': [
-        ("Gallery", "auto_examples/index"),
-        ("API", "api"),
-        ("Tutorial", "tutorial"),
         ("Github", "https://github.com/gauzias/slam", True),
+        #("Documentation", "documentation"),
+        ("FAQ", "faq"),
+        ("Examples", "auto_examples/index"),
+        ("API", "api"),
     ],
-    'bootswatch_theme': "united"}
+    'navbar_class': "navbar",
+    'bootswatch_theme': "sandstone",
+    'navbar_fixed_top': True,
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -207,5 +214,6 @@ import os.path as op
 path = op.join(op.dirname(__file__), '../mes_examples/')
 sys.path.insert(0, path)
 
-#from visbrain.config import CONFIG
-#CONFIG['MPL_RENDER'] = True
+import visbrain
+from visbrain.config import CONFIG
+CONFIG['MPL_RENDER'] = True

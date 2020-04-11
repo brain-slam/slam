@@ -50,7 +50,7 @@ def mesh_laplacian_eigenvectors(mesh, nb_vectors=1):
 #     return(dist, fiedler)
 
 
-def laplacian_mesh_smoothing(mesh, nb_iter, dt):
+def laplacian_mesh_smoothing(mesh, nb_iter, dt, volume_preservation=False):
     """
     smoothing the mesh by solving the heat equation using fem Laplacian
     ADD REF
@@ -62,6 +62,12 @@ def laplacian_mesh_smoothing(mesh, nb_iter, dt):
     print('    Smoothing mesh')
     lap, lap_b = compute_mesh_laplacian(mesh, lap_type='fem')
     smoothed_vert = laplacian_smoothing(mesh.vertices, lap, lap_b, nb_iter, dt)
+    if volume_preservation:
+        vol_ini = mesh.volume
+        vol_new = trimesh.triangles.mass_properties(
+            smoothed_vert[mesh.faces], skip_inertia=True)["volume"]
+        # scale by volume ratio
+        smoothed_vert *= ((vol_ini / vol_new) ** (1.0 / 3.0))
     return trimesh.Trimesh(faces=mesh.faces, vertices=smoothed_vert,
                            metadata=mesh.metadata, process=False)
 

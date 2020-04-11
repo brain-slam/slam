@@ -1,6 +1,6 @@
 import slam.plot as splt
 import slam.io as sio
-import numpy as np
+
 if __name__ == '__main__':
 
     mesh_file = 'data/example_mesh.gii'
