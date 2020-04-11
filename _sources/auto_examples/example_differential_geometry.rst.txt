@@ -1,0 +1,652 @@
+.. note::
+    :class: sphx-glr-download-link-note
+
+    Click :ref:`here <sphx_glr_download_auto_examples_example_differential_geometry.py>` to download the full example code
+.. rst-class:: sphx-glr-example-title
+
+.. _sphx_glr_auto_examples_example_differential_geometry.py:
+
+
+.. _example_differential_geometry:
+
+===================================
+example of differential geometry tools in slam
+===================================
+
+
+.. code-block:: default
+
+
+    # Authors: Guillaume Auzias <guillaume.auzias@univ-amu.fr>
+
+    # License: BSD (3-clause)
+    # sphinx_gallery_thumbnail_number = 2
+
+
+
+
+
+
+
+
+
+importation of slam modules
+
+
+.. code-block:: default
+
+    import slam.io as sio
+    import slam.differential_geometry as sdg
+    import slam.plot as splt
+
+
+
+
+
+
+
+
+loading an examplar mesh and corresponding texture and show it
+
+
+.. code-block:: default
+
+    mesh_file = '../examples/data/example_mesh.gii'
+    texture_file = '../examples/data/example_texture.gii'
+    mesh = sio.load_mesh(mesh_file)
+    tex = sio.load_texture(texture_file)
+
+    visb_sc = splt.visbrain_plot(mesh=mesh, tex=tex.darray[0],
+                                 caption='mesh with curvature',
+                                 cblabel='curvature')
+    visb_sc.preview()
+
+
+
+
+.. image:: /auto_examples/images/sphx_glr_example_differential_geometry_001.png
+    :class: sphx-glr-single-img
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    /home/toz/miniconda3/envs/trimesh_visbrain/lib/python3.6/site-packages/matplotlib/figure.py:445: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+      % get_backend())
+
+
+
+
+compute various types of Laplacian of the mesh
+
+
+.. code-block:: default
+
+    lap, lap_b = sdg.compute_mesh_laplacian(mesh, lap_type='fem')
+    print(mesh.vertices.shape)
+    print(lap.shape)
+    lap, lap_b = sdg.compute_mesh_laplacian(mesh, lap_type='conformal')
+    lap, lap_b = sdg.compute_mesh_laplacian(mesh, lap_type='meanvalue')
+    lap, lap_b = sdg.compute_mesh_laplacian(mesh, lap_type='authalic')
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+      Computing Laplacian
+        Computing mesh weights of type fem
+        -edge length threshold needed for  0  values =  0.0  %
+        -number of Nan in weights:  0  =  0.0  %
+        -number of Negative values in weights:  936  =  6.706792777300086  %
+        -nb Nan in Laplacian :  0
+        -nb Inf in Laplacian :  0
+    (2328, 3)
+    (2328, 2328)
+      Computing Laplacian
+        Computing mesh weights of type conformal
+        -edge length threshold needed for  0  values =  0.0  %
+        -number of Nan in weights:  0  =  0.0  %
+        -number of Negative values in weights:  936  =  6.706792777300086  %
+        -nb Nan in Laplacian :  0
+        -nb Inf in Laplacian :  0
+      Computing Laplacian
+        Computing mesh weights of type meanvalue
+        -number of Nan in weights:  0  =  0.0  %
+        -number of Negative values in weights:  0  =  0.0  %
+        -nb Nan in Laplacian :  0
+        -nb Inf in Laplacian :  0
+      Computing Laplacian
+        Computing mesh weights of type authalic
+        -number of Nan in weights:  0  =  0.0  %
+        -number of Negative values in weights:  0  =  0.0  %
+        -nb Nan in Laplacian :  0
+        -nb Inf in Laplacian :  0
+
+
+
+
+smooth the mesh using Laplacian
+
+
+.. code-block:: default
+
+    s_mesh = sdg.laplacian_mesh_smoothing(mesh, nb_iter=100, dt=0.1)
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+        Smoothing mesh
+      Computing Laplacian
+        Computing mesh weights of type fem
+        -edge length threshold needed for  0  values =  0.0  %
+        -number of Nan in weights:  0  =  0.0  %
+        -number of Negative values in weights:  936  =  6.706792777300086  %
+        -nb Nan in Laplacian :  0
+        -nb Inf in Laplacian :  0
+    0
+    10
+    20
+    30
+    40
+    50
+    60
+    70
+    80
+    90
+        OK
+
+
+
+
+show it
+
+
+.. code-block:: default
+
+    visb_sc = splt.visbrain_plot(mesh=s_mesh, caption='smoothed mesh')
+    visb_sc.preview()
+
+
+
+
+.. image:: /auto_examples/images/sphx_glr_example_differential_geometry_002.png
+    :class: sphx-glr-single-img
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    /home/toz/miniconda3/envs/trimesh_visbrain/lib/python3.6/site-packages/matplotlib/figure.py:445: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+      % get_backend())
+
+
+
+
+compute the gradient of texture tex
+
+
+.. code-block:: default
+
+    triangle_grad = sdg.triangle_gradient(mesh, tex.darray[0])
+    print(triangle_grad)
+    grad = sdg.gradient(mesh, tex.darray[0])
+    print(grad.values)
+    norm_grad = sdg.norm_gradient(mesh, tex.darray[0])
+    print(norm_grad)
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    1 %
+    2 %
+    3 %
+    4 %
+    5 %
+    6 %
+    7 %
+    8 %
+    9 %
+    10 %
+    11 %
+    12 %
+    13 %
+    14 %
+    15 %
+    16 %
+    17 %
+    18 %
+    19 %
+    20 %
+    21 %
+    22 %
+    23 %
+    24 %
+    25 %
+    26 %
+    27 %
+    28 %
+    29 %
+    30 %
+    31 %
+    32 %
+    33 %
+    34 %
+    35 %
+    36 %
+    37 %
+    38 %
+    39 %
+    40 %
+    41 %
+    42 %
+    43 %
+    44 %
+    45 %
+    46 %
+    47 %
+    48 %
+    49 %
+    50 %
+    51 %
+    52 %
+    53 %
+    54 %
+    55 %
+    56 %
+    57 %
+    58 %
+    59 %
+    60 %
+    61 %
+    62 %
+    63 %
+    64 %
+    65 %
+    66 %
+    67 %
+    68 %
+    69 %
+    70 %
+    71 %
+    72 %
+    73 %
+    74 %
+    75 %
+    76 %
+    77 %
+    78 %
+    79 %
+    80 %
+    81 %
+    82 %
+    83 %
+    84 %
+    85 %
+    86 %
+    87 %
+    88 %
+    89 %
+    90 %
+    91 %
+    92 %
+    93 %
+    94 %
+    95 %
+    96 %
+    97 %
+    98 %
+    99 %
+    [[ 0.00094788 -0.01505408  0.00434682]
+     [ 0.00038984 -0.00959341  0.00294091]
+     [-0.010571   -0.01175931 -0.0190667 ]
+     ...
+     [ 0.00327109  0.01139427  0.0021132 ]
+     [ 0.00282758  0.01242133  0.00167353]
+     [ 0.00266182  0.01337094  0.00175571]]
+    1 %
+    2 %
+    3 %
+    4 %
+    5 %
+    6 %
+    7 %
+    8 %
+    9 %
+    10 %
+    11 %
+    12 %
+    13 %
+    14 %
+    15 %
+    16 %
+    17 %
+    18 %
+    19 %
+    20 %
+    21 %
+    22 %
+    23 %
+    24 %
+    25 %
+    26 %
+    27 %
+    28 %
+    29 %
+    30 %
+    31 %
+    32 %
+    33 %
+    34 %
+    35 %
+    36 %
+    37 %
+    38 %
+    39 %
+    40 %
+    41 %
+    42 %
+    43 %
+    44 %
+    45 %
+    46 %
+    47 %
+    48 %
+    49 %
+    50 %
+    51 %
+    52 %
+    53 %
+    54 %
+    55 %
+    56 %
+    57 %
+    58 %
+    59 %
+    60 %
+    61 %
+    62 %
+    63 %
+    64 %
+    65 %
+    66 %
+    67 %
+    68 %
+    69 %
+    70 %
+    71 %
+    72 %
+    73 %
+    74 %
+    75 %
+    76 %
+    77 %
+    78 %
+    79 %
+    80 %
+    81 %
+    82 %
+    83 %
+    84 %
+    85 %
+    86 %
+    87 %
+    88 %
+    89 %
+    90 %
+    91 %
+    92 %
+    93 %
+    94 %
+    95 %
+    96 %
+    97 %
+    98 %
+    99 %
+    <built-in method values of dict object at 0x7f52a2d0f288>
+    1 %
+    2 %
+    3 %
+    4 %
+    5 %
+    6 %
+    7 %
+    8 %
+    9 %
+    10 %
+    11 %
+    12 %
+    13 %
+    14 %
+    15 %
+    16 %
+    17 %
+    18 %
+    19 %
+    20 %
+    21 %
+    22 %
+    23 %
+    24 %
+    25 %
+    26 %
+    27 %
+    28 %
+    29 %
+    30 %
+    31 %
+    32 %
+    33 %
+    34 %
+    35 %
+    36 %
+    37 %
+    38 %
+    39 %
+    40 %
+    41 %
+    42 %
+    43 %
+    44 %
+    45 %
+    46 %
+    47 %
+    48 %
+    49 %
+    50 %
+    51 %
+    52 %
+    53 %
+    54 %
+    55 %
+    56 %
+    57 %
+    58 %
+    59 %
+    60 %
+    61 %
+    62 %
+    63 %
+    64 %
+    65 %
+    66 %
+    67 %
+    68 %
+    69 %
+    70 %
+    71 %
+    72 %
+    73 %
+    74 %
+    75 %
+    76 %
+    77 %
+    78 %
+    79 %
+    80 %
+    81 %
+    82 %
+    83 %
+    84 %
+    85 %
+    86 %
+    87 %
+    88 %
+    89 %
+    90 %
+    91 %
+    92 %
+    93 %
+    94 %
+    95 %
+    96 %
+    97 %
+    98 %
+    99 %
+    [0.01466616 0.01434713 0.00426224 ... 0.01186339 0.00491293 0.001749  ]
+
+
+
+
+show it
+
+
+.. code-block:: default
+
+    visb_sc = splt.visbrain_plot(mesh=mesh, tex=norm_grad,
+                                 caption='norm of the gradient of curvature',
+                                 cblabel='gradient magnitude')
+    visb_sc.preview()
+
+
+
+
+.. image:: /auto_examples/images/sphx_glr_example_differential_geometry_003.png
+    :class: sphx-glr-single-img
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    /home/toz/miniconda3/envs/trimesh_visbrain/lib/python3.6/site-packages/matplotlib/figure.py:445: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+      % get_backend())
+
+
+
+
+compute the depth potential function
+
+
+.. code-block:: default
+
+    dpf = sdg.depth_potential_function(mesh, tex.darray[0], [0.3])
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+      Computing Laplacian
+        Computing mesh weights of type fem
+        -edge length threshold needed for  0  values =  0.0  %
+        -number of Nan in weights:  0  =  0.0  %
+        -number of Negative values in weights:  936  =  6.706792777300086  %
+        -nb Nan in Laplacian :  0
+        -nb Inf in Laplacian :  0
+
+
+
+
+show it
+
+
+.. code-block:: default
+
+    visb_sc = splt.visbrain_plot(mesh=mesh, tex=dpf[0],
+                                 caption='depth potential function',
+                                 cblabel='dpf')
+    visb_sc.preview()
+
+
+
+.. image:: /auto_examples/images/sphx_glr_example_differential_geometry_004.png
+    :class: sphx-glr-single-img
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    /home/toz/miniconda3/envs/trimesh_visbrain/lib/python3.6/site-packages/matplotlib/figure.py:445: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+      % get_backend())
+
+
+
+
+
+.. rst-class:: sphx-glr-timing
+
+   **Total running time of the script:** ( 0 minutes  10.380 seconds)
+
+
+.. _sphx_glr_download_auto_examples_example_differential_geometry.py:
+
+
+.. only :: html
+
+ .. container:: sphx-glr-footer
+    :class: sphx-glr-footer-example
+
+
+
+  .. container:: sphx-glr-download
+
+     :download:`Download Python source code: example_differential_geometry.py <example_differential_geometry.py>`
+
+
+
+  .. container:: sphx-glr-download
+
+     :download:`Download Jupyter notebook: example_differential_geometry.ipynb <example_differential_geometry.ipynb>`
+
+
+.. only:: html
+
+ .. rst-class:: sphx-glr-signature
+
+    `Gallery generated by Sphinx-Gallery <https://sphinx-gallery.github.io>`_

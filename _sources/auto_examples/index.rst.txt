@@ -38,6 +38,46 @@ Examples Gallery
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbcontainer" tooltip="example of curvature estimation in slam">
+
+.. only:: html
+
+ .. figure:: /auto_examples/images/thumb/sphx_glr_example_curvature_thumb.png
+
+     :ref:`sphx_glr_auto_examples_example_curvature.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/example_curvature
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="example of differential geometry tools in slam">
+
+.. only:: html
+
+ .. figure:: /auto_examples/images/thumb/sphx_glr_example_differential_geometry_thumb.png
+
+     :ref:`sphx_glr_auto_examples_example_differential_geometry.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/example_differential_geometry
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="Show basic plot in slam">
 
 .. only:: html

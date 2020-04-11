@@ -30,18 +30,28 @@ Show basic plot in slam
 
 
 
-This script shows examples of visualization in SLAM.
 The visu is based on visbrain: https://github.com/EtienneCmb/visbrain
+
+importation of slam modules
 
 
 .. code-block:: default
 
-
     import slam.plot as splt
     import slam.io as sio
-    import numpy as np
 
-    # loading an examplar mesh and corresponding texture
+
+
+
+
+
+
+
+loading an examplar mesh and corresponding texture
+
+
+.. code-block:: default
+
     mesh_file = '../examples/data/example_mesh.gii'
     texture_file = '../examples/data/example_texture.gii'
     mesh = sio.load_mesh(mesh_file)
@@ -76,50 +86,19 @@ here is the range of values in the texture:
 
 
 
-make the figure
+plot only the mesh geometry
 
 
 .. code-block:: default
 
     visb_sc = splt.visbrain_plot(mesh=mesh, caption='simple mesh')
-    visb_sc = splt.visbrain_plot(mesh=mesh, tex=tex.darray[0],
-                                 caption='with curvature',
-                                 cblabel='curvature', visb_sc=visb_sc)
-    visb_sc = splt.visbrain_plot(mesh=mesh, tex=tex.darray[0],
-                                 caption='change cmap', cblabel='curvature',
-                                 cmap='hot', visb_sc=visb_sc)
     visb_sc.preview()
-    # then save the 3D rendering figure
-    # visb_sc.screenshot('test.png')
-    # # most simple mesh visualization
-    # splt.pyglet_plot(mesh)
-    # # with a texture
-    # splt.pyglet_plot(mesh, tex.darray[0], plot_colormap=True)
-    # # change in colormap
-    # splt.pyglet_plot(mesh, tex.darray[0], color_map=plt.get_cmap('hot', 6),
-    #                  plot_colormap=True)
-    # # to save to disc as png, we need to get the output of the plot function
-    # plot_output = splt.pyglet_plot(mesh, tex.darray[0],
-    #                                color_map=plt.get_cmap('hot'),
-    #                                plot_colormap=True)
-    # # then save the 3D rendering figure
-    # # splt.save_image(plot_output[0], png_fig_filename)
-    # # and eventually the colobar
-    # # plot_output[1].savefig(colormap_png_filename)
-    #
-    # # trimesh rendering possibilities
-    # """ set each facet to a random color
-    # colors are 8 bit RGBA by default (n,4) np.uint8
-    # for facet in mesh.facets:
-    #     mesh.visual.face_colors[facet] = trimesh.visual.random_color()
-    # """
-    # for vert_ind in range(len(mesh.visual.vertex_colors)):
-    #     mesh.visual.vertex_colors[vert_ind] = trimesh.visual.random_color()
-    #
-    # # default visualization from trimesh
-    # mesh.show()
 
 
+
+
+.. image:: /auto_examples/images/sphx_glr_example_plot_001.png
+    :class: sphx-glr-single-img
 
 
 .. rst-class:: sphx-glr-script-out
@@ -128,33 +107,137 @@ make the figure
 
  .. code-block:: none
 
-    BrainObj(name='gui') created
-    Creation of a scene
-        BrainObj(name='gui') added to the scene
-    BrainObj(name='gui') created
-        BrainObj(name='gui') added to the scene
-    [1m[1;33mWARNING[0m | Data defined on a dense grid; ignore smoothing.
-        Add data to specific vertices.
-        Data scaled between (-0.052, 0.071)
-    Get colorbar properties from BrainObj(name='gui') object
-    ColorbarObj(name='guiCbar') created
-        ColorbarObj(name='guiCbar') added to the scene
-    BrainObj(name='gui') created
-        BrainObj(name='gui') added to the scene
-    [1m[1;33mWARNING[0m | Data defined on a dense grid; ignore smoothing.
-        Add data to specific vertices.
-        Data scaled between (-0.052, 0.071)
-    Get colorbar properties from BrainObj(name='gui') object
-    ColorbarObj(name='guiCbar') created
-        ColorbarObj(name='guiCbar') added to the scene
+    /home/toz/miniconda3/envs/trimesh_visbrain/lib/python3.6/site-packages/matplotlib/figure.py:445: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+      % get_backend())
 
 
 
+
+plot the mesh with the curvature as a texture
+
+
+.. code-block:: default
+
+    visb_sc = splt.visbrain_plot(mesh=mesh, tex=tex.darray[0],
+                                 caption='with curvature',
+                                 cblabel='curvature')
+    visb_sc.preview()
+
+
+
+
+.. image:: /auto_examples/images/sphx_glr_example_plot_002.png
+    :class: sphx-glr-single-img
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    /home/toz/miniconda3/envs/trimesh_visbrain/lib/python3.6/site-packages/matplotlib/figure.py:445: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+      % get_backend())
+
+
+
+
+change the colormap
+
+
+.. code-block:: default
+
+    visb_sc2 = splt.visbrain_plot(mesh=mesh, tex=tex.darray[0],
+                                  caption='change cmap', cblabel='curvature',
+                                  cmap='hot')
+    visb_sc2.preview()
+
+
+
+
+.. image:: /auto_examples/images/sphx_glr_example_plot_003.png
+    :class: sphx-glr-single-img
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    /home/toz/miniconda3/envs/trimesh_visbrain/lib/python3.6/site-packages/matplotlib/figure.py:445: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+      % get_backend())
+
+
+
+
+combine two plots in one single figure, allowing for sinchronization
+
+
+.. code-block:: default
+
+    visb_sc = splt.visbrain_plot(mesh=mesh, tex=tex.darray[0],
+                                 caption='with curvature',
+                                 cblabel='curvature')
+    visb_sc = splt.visbrain_plot(mesh=mesh, tex=tex.darray[0],
+                                 caption='change cmap', cblabel='curvature',
+                                 cmap='hot', visb_sc=visb_sc)
+    visb_sc.preview()
+
+
+
+
+.. image:: /auto_examples/images/sphx_glr_example_plot_004.png
+    :class: sphx-glr-single-img
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    /home/toz/miniconda3/envs/trimesh_visbrain/lib/python3.6/site-packages/matplotlib/figure.py:445: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+      % get_backend())
+
+
+
+
+save the 3D rendering figure
+visb_sc.screenshot('test.png')
+
+another option for plotting in slam is using pyglet from Trimseh
+splt.pyglet_plot(mesh)
+# with a texture
+splt.pyglet_plot(mesh, tex.darray[0], plot_colormap=True)
+# change in colormap
+splt.pyglet_plot(mesh, tex.darray[0], color_map=plt.get_cmap('hot', 6),
+                 plot_colormap=True)
+# to save to disc as png, we need to get the output of the plot function
+plot_output = splt.pyglet_plot(mesh, tex.darray[0],
+                               color_map=plt.get_cmap('hot'),
+                               plot_colormap=True)
+# then save the 3D rendering figure
+# splt.save_image(plot_output[0], png_fig_filename)
+# and eventually the colobar
+# plot_output[1].savefig(colormap_png_filename)
+
+# trimesh rendering possibilities
+""" set each facet to a random color
+colors are 8 bit RGBA by default (n,4) np.uint8
+for facet in mesh.facets:
+    mesh.visual.face_colors[facet] = trimesh.visual.random_color()
+"""
+for vert_ind in range(len(mesh.visual.vertex_colors)):
+    mesh.visual.vertex_colors[vert_ind] = trimesh.visual.random_color()
+
+# default visualization from trimesh
+mesh.show()
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  5.852 seconds)
+   **Total running time of the script:** ( 0 minutes  5.910 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_plot.py:

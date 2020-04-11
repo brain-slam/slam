@@ -42,10 +42,10 @@
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
             
-                <li><a href="index.html">Gallery</a></li>
-                <li><a href="../api.html">API</a></li>
-                <li><a href="../tutorial.html">Tutorial</a></li>
                 <li><a href="https://github.com/gauzias/slam">Github</a></li>
+                <li><a href="../faq.html">FAQ</a></li>
+                <li><a href="index.html">Examples</a></li>
+                <li><a href="../api.html">API</a></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -116,14 +116,14 @@
 <span class="c1"># sphinx_gallery_thumbnail_number = 2</span>
 </pre></div>
 </div>
-<p>This script shows examples of visualization in SLAM.
-The visu is based on visbrain: <a class="reference external" href="https://github.com/EtienneCmb/visbrain">https://github.com/EtienneCmb/visbrain</a></p>
+<p>The visu is based on visbrain: <a class="reference external" href="https://github.com/EtienneCmb/visbrain">https://github.com/EtienneCmb/visbrain</a></p>
+<p>importation of slam modules</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">slam.plot</span> <span class="k">as</span> <span class="nn">splt</span>
 <span class="kn">import</span> <span class="nn">slam.io</span> <span class="k">as</span> <span class="nn">sio</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
-<span class="c1"># loading an examplar mesh and corresponding texture</span>
-<a href="https://docs.python.org/3/library/stdtypes.html#str" title="View documentation for builtins.str"><span class="n">mesh_file</span></a> <span class="o">=</span> <span class="s1">&#39;../examples/data/example_mesh.gii&#39;</span>
+</pre></div>
+</div>
+<p>loading an examplar mesh and corresponding texture</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="View documentation for builtins.str"><span class="n">mesh_file</span></a> <span class="o">=</span> <span class="s1">&#39;../examples/data/example_mesh.gii&#39;</span>
 <a href="https://docs.python.org/3/library/stdtypes.html#str" title="View documentation for builtins.str"><span class="n">texture_file</span></a> <span class="o">=</span> <span class="s1">&#39;../examples/data/example_texture.gii&#39;</span>
 <span class="n">mesh</span> <span class="o">=</span> <span class="n">sio</span><span class="o">.</span><span class="n">load_mesh</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="View documentation for builtins.str"><span class="n">mesh_file</span></a><span class="p">)</span>
 <span class="n">tex</span> <span class="o">=</span> <span class="n">sio</span><span class="o">.</span><span class="n">load_texture</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="View documentation for builtins.str"><span class="n">texture_file</span></a><span class="p">)</span>
@@ -137,69 +137,95 @@ The visu is based on visbrain: <a class="reference external" href="https://githu
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[-0.052, 0.071]
 </pre></div>
 </div>
-<p>make the figure</p>
+<p>plot only the mesh geometry</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">visb_sc</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">visbrain_plot</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="s1">&#39;simple mesh&#39;</span><span class="p">)</span>
-<span class="n">visb_sc</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">visbrain_plot</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span> <span class="n">tex</span><span class="o">=</span><span class="n">tex</span><span class="o">.</span><span class="n">darray</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+<span class="n">visb_sc</span><span class="o">.</span><span class="n">preview</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../_images/sphx_glr_example_plot_001.png" class="sphx-glr-single-img" src="../_images/sphx_glr_example_plot_001.png" />
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/toz/miniconda3/envs/trimesh_visbrain/lib/python3.6/site-packages/matplotlib/figure.py:445: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+  % get_backend())
+</pre></div>
+</div>
+<p>plot the mesh with the curvature as a texture</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">visb_sc</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">visbrain_plot</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span> <span class="n">tex</span><span class="o">=</span><span class="n">tex</span><span class="o">.</span><span class="n">darray</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
                              <span class="n">caption</span><span class="o">=</span><span class="s1">&#39;with curvature&#39;</span><span class="p">,</span>
-                             <span class="n">cblabel</span><span class="o">=</span><span class="s1">&#39;curvature&#39;</span><span class="p">,</span> <span class="n">visb_sc</span><span class="o">=</span><span class="n">visb_sc</span><span class="p">)</span>
+                             <span class="n">cblabel</span><span class="o">=</span><span class="s1">&#39;curvature&#39;</span><span class="p">)</span>
+<span class="n">visb_sc</span><span class="o">.</span><span class="n">preview</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../_images/sphx_glr_example_plot_002.png" class="sphx-glr-single-img" src="../_images/sphx_glr_example_plot_002.png" />
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/toz/miniconda3/envs/trimesh_visbrain/lib/python3.6/site-packages/matplotlib/figure.py:445: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+  % get_backend())
+</pre></div>
+</div>
+<p>change the colormap</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">visb_sc2</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">visbrain_plot</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span> <span class="n">tex</span><span class="o">=</span><span class="n">tex</span><span class="o">.</span><span class="n">darray</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                              <span class="n">caption</span><span class="o">=</span><span class="s1">&#39;change cmap&#39;</span><span class="p">,</span> <span class="n">cblabel</span><span class="o">=</span><span class="s1">&#39;curvature&#39;</span><span class="p">,</span>
+                              <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;hot&#39;</span><span class="p">)</span>
+<span class="n">visb_sc2</span><span class="o">.</span><span class="n">preview</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../_images/sphx_glr_example_plot_003.png" class="sphx-glr-single-img" src="../_images/sphx_glr_example_plot_003.png" />
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/toz/miniconda3/envs/trimesh_visbrain/lib/python3.6/site-packages/matplotlib/figure.py:445: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+  % get_backend())
+</pre></div>
+</div>
+<p>combine two plots in one single figure, allowing for sinchronization</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">visb_sc</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">visbrain_plot</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span> <span class="n">tex</span><span class="o">=</span><span class="n">tex</span><span class="o">.</span><span class="n">darray</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                             <span class="n">caption</span><span class="o">=</span><span class="s1">&#39;with curvature&#39;</span><span class="p">,</span>
+                             <span class="n">cblabel</span><span class="o">=</span><span class="s1">&#39;curvature&#39;</span><span class="p">)</span>
 <span class="n">visb_sc</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">visbrain_plot</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span> <span class="n">tex</span><span class="o">=</span><span class="n">tex</span><span class="o">.</span><span class="n">darray</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
                              <span class="n">caption</span><span class="o">=</span><span class="s1">&#39;change cmap&#39;</span><span class="p">,</span> <span class="n">cblabel</span><span class="o">=</span><span class="s1">&#39;curvature&#39;</span><span class="p">,</span>
                              <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;hot&#39;</span><span class="p">,</span> <span class="n">visb_sc</span><span class="o">=</span><span class="n">visb_sc</span><span class="p">)</span>
 <span class="n">visb_sc</span><span class="o">.</span><span class="n">preview</span><span class="p">()</span>
-<span class="c1"># then save the 3D rendering figure</span>
-<span class="c1"># visb_sc.screenshot(&#39;test.png&#39;)</span>
-<span class="c1"># # most simple mesh visualization</span>
-<span class="c1"># splt.pyglet_plot(mesh)</span>
-<span class="c1"># # with a texture</span>
-<span class="c1"># splt.pyglet_plot(mesh, tex.darray[0], plot_colormap=True)</span>
-<span class="c1"># # change in colormap</span>
-<span class="c1"># splt.pyglet_plot(mesh, tex.darray[0], color_map=plt.get_cmap(&#39;hot&#39;, 6),</span>
-<span class="c1">#                  plot_colormap=True)</span>
-<span class="c1"># # to save to disc as png, we need to get the output of the plot function</span>
-<span class="c1"># plot_output = splt.pyglet_plot(mesh, tex.darray[0],</span>
-<span class="c1">#                                color_map=plt.get_cmap(&#39;hot&#39;),</span>
-<span class="c1">#                                plot_colormap=True)</span>
-<span class="c1"># # then save the 3D rendering figure</span>
-<span class="c1"># # splt.save_image(plot_output[0], png_fig_filename)</span>
-<span class="c1"># # and eventually the colobar</span>
-<span class="c1"># # plot_output[1].savefig(colormap_png_filename)</span>
-<span class="c1">#</span>
-<span class="c1"># # trimesh rendering possibilities</span>
-<span class="c1"># &quot;&quot;&quot; set each facet to a random color</span>
-<span class="c1"># colors are 8 bit RGBA by default (n,4) np.uint8</span>
-<span class="c1"># for facet in mesh.facets:</span>
-<span class="c1">#     mesh.visual.face_colors[facet] = trimesh.visual.random_color()</span>
-<span class="c1"># &quot;&quot;&quot;</span>
-<span class="c1"># for vert_ind in range(len(mesh.visual.vertex_colors)):</span>
-<span class="c1">#     mesh.visual.vertex_colors[vert_ind] = trimesh.visual.random_color()</span>
-<span class="c1">#</span>
-<span class="c1"># # default visualization from trimesh</span>
-<span class="c1"># mesh.show()</span>
 </pre></div>
 </div>
+<img alt="../_images/sphx_glr_example_plot_004.png" class="sphx-glr-single-img" src="../_images/sphx_glr_example_plot_004.png" />
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>BrainObj(name=&#39;gui&#39;) created
-Creation of a scene
-    BrainObj(name=&#39;gui&#39;) added to the scene
-BrainObj(name=&#39;gui&#39;) created
-    BrainObj(name=&#39;gui&#39;) added to the scene
-[1m[1;33mWARNING[0m | Data defined on a dense grid; ignore smoothing.
-    Add data to specific vertices.
-    Data scaled between (-0.052, 0.071)
-Get colorbar properties from BrainObj(name=&#39;gui&#39;) object
-ColorbarObj(name=&#39;guiCbar&#39;) created
-    ColorbarObj(name=&#39;guiCbar&#39;) added to the scene
-BrainObj(name=&#39;gui&#39;) created
-    BrainObj(name=&#39;gui&#39;) added to the scene
-[1m[1;33mWARNING[0m | Data defined on a dense grid; ignore smoothing.
-    Add data to specific vertices.
-    Data scaled between (-0.052, 0.071)
-Get colorbar properties from BrainObj(name=&#39;gui&#39;) object
-ColorbarObj(name=&#39;guiCbar&#39;) created
-    ColorbarObj(name=&#39;guiCbar&#39;) added to the scene
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/toz/miniconda3/envs/trimesh_visbrain/lib/python3.6/site-packages/matplotlib/figure.py:445: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+  % get_backend())
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  5.852 seconds)</p>
+<p>save the 3D rendering figure
+visb_sc.screenshot(‘test.png’)</p>
+<p>another option for plotting in slam is using pyglet from Trimseh
+splt.pyglet_plot(mesh)
+# with a texture
+splt.pyglet_plot(mesh, tex.darray[0], plot_colormap=True)
+# change in colormap
+splt.pyglet_plot(mesh, tex.darray[0], color_map=plt.get_cmap(‘hot’, 6),</p>
+<blockquote>
+<div><p>plot_colormap=True)</p>
+</div></blockquote>
+<p># to save to disc as png, we need to get the output of the plot function
+plot_output = splt.pyglet_plot(mesh, tex.darray[0],</p>
+<blockquote>
+<div><p>color_map=plt.get_cmap(‘hot’),
+plot_colormap=True)</p>
+</div></blockquote>
+<p># then save the 3D rendering figure
+# splt.save_image(plot_output[0], png_fig_filename)
+# and eventually the colobar
+# plot_output[1].savefig(colormap_png_filename)</p>
+<p># trimesh rendering possibilities
+“”” set each facet to a random color
+colors are 8 bit RGBA by default (n,4) np.uint8
+for facet in mesh.facets:</p>
+<blockquote>
+<div><p>mesh.visual.face_colors[facet] = trimesh.visual.random_color()</p>
+</div></blockquote>
+<p>“””
+for vert_ind in range(len(mesh.visual.vertex_colors)):</p>
+<blockquote>
+<div><p>mesh.visual.vertex_colors[vert_ind] = trimesh.visual.random_color()</p>
+</div></blockquote>
+<p># default visualization from trimesh
+mesh.show()</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  5.910 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-example-plot-py">
 <div class="sphx-glr-download docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/c49c13c0d7de59ac90bd40d8594e35ed/example_plot.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">example_plot.py</span></code></a></p>
@@ -223,7 +249,7 @@ ColorbarObj(name=&#39;guiCbar&#39;) created
       
     </p>
     <p>
-        &copy; Copyright 2020, slam Developers. Last updated on 2020-03-26.<br/>
+        &copy; Copyright 2020, slam Developers. Last updated on 2020-04-11.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.<br/>
     </p>
   </div>
