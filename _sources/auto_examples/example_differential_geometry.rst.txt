@@ -428,7 +428,7 @@ compute the gradient of texture tex
     97 %
     98 %
     99 %
-    <built-in method values of dict object at 0x7f52a2d0f288>
+    <built-in method values of dict object at 0x7f72241193a8>
     1 %
     2 %
     3 %
@@ -621,7 +621,7 @@ show it
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  10.380 seconds)
+   **Total running time of the script:** ( 0 minutes  12.145 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_differential_geometry.py:

@@ -182,6 +182,9 @@
                              <span class="n">caption</span><span class="o">=</span><span class="s1">&#39;change cmap&#39;</span><span class="p">,</span> <span class="n">cblabel</span><span class="o">=</span><span class="s1">&#39;curvature&#39;</span><span class="p">,</span>
                              <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;hot&#39;</span><span class="p">,</span> <span class="n">visb_sc</span><span class="o">=</span><span class="n">visb_sc</span><span class="p">)</span>
 <span class="n">visb_sc</span><span class="o">.</span><span class="n">preview</span><span class="p">()</span>
+
+<span class="c1"># save the 3D rendering figure</span>
+<span class="c1"># visb_sc.screenshot(&#39;test.png&#39;)</span>
 </pre></div>
 </div>
 <img alt="../_images/sphx_glr_example_plot_004.png" class="sphx-glr-single-img" src="../_images/sphx_glr_example_plot_004.png" />
@@ -190,42 +193,32 @@
   % get_backend())
 </pre></div>
 </div>
-<p>save the 3D rendering figure
-visb_sc.screenshot(‘test.png’)</p>
 <p>another option for plotting in slam is using pyglet from Trimseh
-splt.pyglet_plot(mesh)
+# splt.pyglet_plot(mesh)
 # with a texture
-splt.pyglet_plot(mesh, tex.darray[0], plot_colormap=True)
+# splt.pyglet_plot(mesh, tex.darray[0], plot_colormap=True)
 # change in colormap
-splt.pyglet_plot(mesh, tex.darray[0], color_map=plt.get_cmap(‘hot’, 6),</p>
-<blockquote>
-<div><p>plot_colormap=True)</p>
-</div></blockquote>
-<p># to save to disc as png, we need to get the output of the plot function
-plot_output = splt.pyglet_plot(mesh, tex.darray[0],</p>
-<blockquote>
-<div><p>color_map=plt.get_cmap(‘hot’),
-plot_colormap=True)</p>
-</div></blockquote>
-<p># then save the 3D rendering figure
+# splt.pyglet_plot(mesh, tex.darray[0], color_map=plt.get_cmap(‘hot’, 6),
+#                 plot_colormap=True)
+# to save to disc as png, we need to get the output of the plot function
+# plot_output = splt.pyglet_plot(mesh, tex.darray[0],
+#                                color_map=plt.get_cmap(‘hot’),
+#                                plot_colormap=True)
+# then save the 3D rendering figure
 # splt.save_image(plot_output[0], png_fig_filename)
 # and eventually the colobar
 # plot_output[1].savefig(colormap_png_filename)</p>
 <p># trimesh rendering possibilities
-“”” set each facet to a random color
-colors are 8 bit RGBA by default (n,4) np.uint8
-for facet in mesh.facets:</p>
-<blockquote>
-<div><p>mesh.visual.face_colors[facet] = trimesh.visual.random_color()</p>
-</div></blockquote>
-<p>“””
-for vert_ind in range(len(mesh.visual.vertex_colors)):</p>
-<blockquote>
-<div><p>mesh.visual.vertex_colors[vert_ind] = trimesh.visual.random_color()</p>
-</div></blockquote>
+# “”” set each facet to a random color
+# colors are 8 bit RGBA by default (n,4) np.uint8
+# for facet in mesh.facets:
+#     mesh.visual.face_colors[facet] = trimesh.visual.random_color()
+# “””
+# for vert_ind in range(len(mesh.visual.vertex_colors)):
+#     mesh.visual.vertex_colors[vert_ind] = trimesh.visual.random_color()</p>
 <p># default visualization from trimesh
-mesh.show()</p>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  5.910 seconds)</p>
+# mesh.show()</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  5.968 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-example-plot-py">
 <div class="sphx-glr-download docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/c49c13c0d7de59ac90bd40d8594e35ed/example_plot.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">example_plot.py</span></code></a></p>
