@@ -95,6 +95,46 @@ Examples Gallery
    :hidden:
 
    /auto_examples/example_plot
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Show mesh registration features in slam">
+
+.. only:: html
+
+ .. figure:: /auto_examples/images/thumb/sphx_glr_example_registration_thumb.png
+
+     :ref:`sphx_glr_auto_examples_example_registration.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/example_registration
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Show topology manipulation tools in slam">
+
+.. only:: html
+
+ .. figure:: /auto_examples/images/thumb/sphx_glr_example_topology_thumb.png
+
+     :ref:`sphx_glr_auto_examples_example_topology.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/example_topology
 .. raw:: html
 
     <div class="sphx-glr-clear"></div>
