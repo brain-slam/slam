@@ -25,5 +25,5 @@ if __name__ == '__main__':
     mesh_1.apply_transform(transf_mat)
     joint_mesh = mesh_1 + mesh_2
     visb_sc = splt.visbrain_plot(mesh=joint_mesh, tex=joint_tex,
-                                 caption='after registration', visb_sc=visb_sc)
+                                 caption='after registration')
     visb_sc.preview()
