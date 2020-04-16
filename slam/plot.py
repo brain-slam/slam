@@ -26,14 +26,11 @@ def visbrain_plot(mesh, tex=None, caption=None, cblabel=None, visb_sc=None,
     b_obj = BrainObj('gui', vertices=np.array(mesh.vertices),
                      faces=np.array(mesh.faces),
                      translucent=False)
-    if visb_sc is None:
-        visb_sc = SceneObj(bgcolor='black', size=(1400, 1000))
-        visb_sc.add_to_subplot(b_obj, title=caption)
-        visb_sc_shape = (1, 1)
-    else:
-        visb_sc_shape = get_visb_sc_shape(visb_sc)
-        visb_sc.add_to_subplot(b_obj, row=visb_sc_shape[0] - 1,
-                               col=visb_sc_shape[1], title=caption)
+    if not isinstance(visb_sc, SceneObj):
+        visb_sc = SceneObj(bgcolor='black', size=(1000, 1000))
+    # identify (row, col)
+    row, _ = get_visb_sc_shape(visb_sc)
+    visb_sc.add_to_subplot(b_obj, row=row, col=0, title=caption)
 
     if tex is not None:
         b_obj.add_activation(data=tex, cmap=cmap,
@@ -41,8 +38,8 @@ def visbrain_plot(mesh, tex=None, caption=None, cblabel=None, visb_sc=None,
         CBAR_STATE = dict(cbtxtsz=20, txtsz=20., width=.1, cbtxtsh=3.,
                           rect=(-.3, -2., 1., 4.), cblabel=cblabel)
         cbar = ColorbarObj(b_obj, **CBAR_STATE)
-        visb_sc.add_to_subplot(cbar, row=visb_sc_shape[0] - 1,
-                               col=visb_sc_shape[1] + 1, width_max=200)
+        visb_sc.add_to_subplot(cbar, row=row, col=1, width_max=200)
+
     return visb_sc
 
 
@@ -50,10 +47,14 @@ def get_visb_sc_shape(visb_sc):
     """
     get the subplot shape in a visbrain scene
     :param visb_sc:
-    :return: tuple (number of rows, number of coloumns)
+    :return: tuple (number of rows, number of columns)
     """
-    k = list(visb_sc._grid_desc.keys())
-    return k[-1]
+    vb_shape = visb_sc._grid_desc.keys()
+    if not len(vb_shape):
+        rc = (0, 0)
+    else:
+        rc = (max([k[0] for k in vb_shape]), max([k[1] for k in vb_shape]))
+    return rc
 
 
 def pyglet_plot(mesh_in, values=None, color_map=None,
