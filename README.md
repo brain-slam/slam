@@ -21,13 +21,11 @@ visbrain repos is here: https://github.com/EtienneCmb/visbrain
 Installation:
 ------------------
 
-/home/toz/miniconda3/envs/trimesh_visbrain/bin/python setup.py develop
+1. Clone the current repo
 
-1. clone the current repo
+2. Move to slam folder and type python steup.py install or python steup.py develop
 
-2.move to slam folder and type python steup.py install or develop
-
-7. try example scripts located in examples folder
+3. Try example scripts located in examples folder
 
 ------------------
 Features (added value compared to Trimesh):
