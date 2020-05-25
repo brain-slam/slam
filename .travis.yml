@@ -1,19 +1,11 @@
+distrib:  xenial
 language: python
 python:
   - "3.6"
 
   
 # command to install dependencies
-install:
-  - pip install cython
-  - pip install .
-  
-  # install testing stuff
-  - pip install -U pytest pytest-cov
-  # coveralls started failing to install on Python 3.4 so make it optional
-  - pip install coveralls || true
-  # install style checkers
-  - pip install -U autopep8 flake8
+install:  source continous_integration/install.sh
 
 # command to run tests
 script:
