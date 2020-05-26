@@ -13,6 +13,6 @@ conda info -a
 # Create virtual envs with fixed dependencies
 conda create -q -n test-env python=$TRAVIS_PYTHON_VERSION cython numpy matplotlib flake8 autopep8 pytest pytest-cov coveralls
 conda install -n test-env -c conda-forge nibabel trimesh
-conda  install -n test-env -c mmwoodman gdist
 conda activate test-env
+pip install gdist
 python ../setup.py install
