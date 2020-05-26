@@ -5,7 +5,7 @@ python:
 
   
 # command to install dependencies
-install:  source continous_integration/install.sh
+install:  source continuous_integration/install.sh
 
 # command to run tests
 script: source continuous_integration/tests.sh
