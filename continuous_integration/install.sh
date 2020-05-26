@@ -15,4 +15,5 @@ conda create -q -n test-env python=$TRAVIS_PYTHON_VERSION cython numpy matplotli
 conda install -n test-env -c conda-forge nibabel trimesh
 conda activate test-env
 pip install gdist
-python ../setup.py install
+pwd
+python setup.py install
