@@ -45,7 +45,7 @@ Features (added value compared to Trimesh):
 
 . remeshing: projection of vertex-level information between two meshes based on their spherical representation
 
-. topology: mesh surgery (boundary indentification, hole closing will be added in the future)
+. topology: mesh surgery (boundary indentification, large hole closing)
 
 . vertex_voronoi: compute the voronoi of each vertex of a mesh, usefull for numerous applications
 
@@ -53,6 +53,20 @@ Features (added value compared to Trimesh):
 
 . plot: extension of pyglet and visbrain viewers to visualize slam objects
 
+
+------------------
+Hall of fame:
+------------------
+All contributions are of course much welcome!
+In addition to the global thank you to all contributors to this project, a special big thanks to :
+
+. https://github.com/alexpron and https://github.com/davidmeunier79 for their precious help for setting up continuous integration tools.
+
+. https://github.com/EtienneCmb for his help regarding visualization and Visbrain (https://github.com/EtienneCmb/visbrain).
+
+. https://github.com/aymanesouani for his implementation of a very nice curvature estimation technique.
+
+.to be continued...
 
 ------------------
 For contributors:
