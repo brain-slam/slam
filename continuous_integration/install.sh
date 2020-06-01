@@ -1,7 +1,7 @@
 if [ "${TRAVIS_OS_NAME}" == "linux" ]; then
-  wget https://repo.continuum.io/miniconda/Miniconda${TRAVIS_PYTHON_VERSION:1}-latest-Linux-x86_64.sh -O miniconda.sh;
+  wget https://repo.continuum.io/miniconda/Miniconda${TRAVIS_PYTHON_VERSION:0:1}-latest-Linux-x86_64.sh -O miniconda.sh;
 else
-  wget http://repo.continuum.io/miniconda/Miniconda${TRAVIS_PYTHON_VERSION:1}-latest-MacOSX-x86_64.sh -O miniconda.sh;
+  wget http://repo.continuum.io/miniconda/Miniconda${TRAVIS_PYTHON_VERSION:0:1}-latest-MacOSX-x86_64.sh -O miniconda.sh;
 fi
 
 bash miniconda.sh -b -p $HOME/miniconda
