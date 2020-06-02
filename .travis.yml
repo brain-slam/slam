@@ -12,6 +12,7 @@ jobs:
       language: python
       python: "3.6" # 'language: python' is an error on Travis CI macOS
 
+
 before_install: skip
 # command to install dependencies
 install:  source continuous_integration/install.sh
