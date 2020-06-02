@@ -3,12 +3,12 @@ jobs:
   include:
     - name: "Python 3.6 on default Linux (Xenial)"
       os: linux
-      distrib: xenial
+      dist: xenial
       language: python
       python: "3.6"           # this works for Linux but is ignored on macOS or Windows
     - name: "Python 3.6 on default macOSX (10.13)"
       os: osx
-      osx_image:xcode9.4
+      osx_image: xcode9.4
       language: python
       python: "3.6" # 'language: python' is an error on Travis CI macOS
 
