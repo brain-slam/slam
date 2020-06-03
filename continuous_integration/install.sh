@@ -17,7 +17,11 @@ conda activate test-env
 
 #Build and install the package inside the conda environnement
 if [ "${INSTALL}" == "pip" ]; then
-  python setup.py install
+  if [ "${ENV}" == 'default' ]; then
+    python setup.py install
+  else
+    python setup.py install[${ENV}]
+  fi
 elif [ "${INSTALL}" == "conda" ]; then
  conda build conda-recipe
  conda install slam --use-local
