@@ -2,7 +2,9 @@
 # -*- coding: utf-8 -*-
 
 from setuptools import setup, find_packages
-import os
+
+GDIST = ['tvb-gdist']
+TEST_PKGS = ['flake8', 'autopep8', 'pytest', 'codecov']
 
 setup(
     name="slam",
@@ -17,7 +19,12 @@ setup(
     license='MIT',
     packages=find_packages(),
     python_requires='==3.6',                     # enforce Python 3.6 as default version
-    install_requires=["numpy", "trimesh", "matplotlib", "nibabel", "cython", "tvb-gdist"],
+    install_requires=["numpy", "trimesh", "matplotlib", "nibabel", "cython"],
+    extras_require={
+        'gdist': GDIST,
+        'test': TEST_PKGS,
+        'full': GDIST + TEST_PKGS
+    },
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

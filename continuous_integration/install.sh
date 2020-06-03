@@ -12,8 +12,13 @@ conda update -q conda
 # Useful for debugging any issues with conda
 conda info -a
 # Create virtual envs with fixed dependencies
-conda create -q -n test-env python=${TRAVIS_PYTHON_VERSION} cython numpy matplotlib flake8 autopep8 pytest pytest-cov coveralls
-conda install -n test-env -c conda-forge nibabel trimesh
+conda create -q -n test-env python=${TRAVIS_PYTHON_VERSION}
 conda activate test-env
-pip install gdist
-python setup.py install
+
+#Build and install the package inside the conda environnement
+if [ "${INSTALL}" == "pip" ]; then
+  python setup.py install
+elif [ "${INSTALL}" == "conda" ]; then
+ conda build conda-recipe
+ conda install slam --use-local
+fi
