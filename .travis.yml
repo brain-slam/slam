@@ -1,25 +1,69 @@
 language: python
-env:
-      - INSTALL="pip" ENV='default'
-      - INSTALL="pip" ENV='gdist'
-      - INSTALL="pip" ENV='tests'
-      - INSTALL="pip" ENV='full'
+
 jobs:
   include:
-    - name: "Python 3.6 on default Linux (Xenial)"
+    - name: "Python 3.6 on default Linux (Xenial): pip installation with user package"
       os: linux
       dist: xenial
       language: python
       python: "3.6"           # this works for Linux but is ignored on macOS or Windows
-        # - INSTALL="conda"
+      env:
+        - INSTALL='pip' ENV='default'
+    - name: "Python 3.6 on default Linux (Xenial): pip installation with additional tests package"
+        os: linux
+        dist: xenial
+        language: python
+        python: "3.6"           # this works for Linux but is ignored on macOS or Windows
+        env:
+          - INSTALL='pip' ENV='tests'
+    - name: "Python 3.6 on default Linux (Xenial): pip installation with additionnal gdist package"
+        os: linux
+        dist: xenial
+        language: python
+        python: "3.6"           # this works for Linux but is ignored on macOS or Windows
+        env:
+          - INSTALL='pip' ENV='gdist'
+    - name: "Python 3.6 on default Linux (Xenial): complete pip installation"
+        os: linux
+        dist: xenial
+        language: python
+        python: "3.6"           # this works for Linux but is ignored on macOS or Windows
+        env:
+          - INSTALL='pip' ENV='full'
+
     - name: "Python 3.6 on default macOSX (10.13)"
       os: osx
       osx_image: xcode9.4
       language: shell         # small hack as python is not fully supported under macOS
       env:
-        - TRAVIS_PYTHON_VERSION="3.6"
+        - TRAVIS_PYTHON_VERSION="3.6" INSTALL='pip' ENV='default'
+    - name: "Python 3.6 on default macOSX (10.13)"
+        os: osx
+        osx_image: xcode9.4
+        language: shell         # small hack as python is not fully supported under macOS
+        env:
+          - TRAVIS_PYTHON_VERSION="3.6" INSTALL='pip' ENV='tests'
+    - name: "Python 3.6 on default macOSX (10.13)"
+        os: osx
+        osx_image: xcode9.4
+        language: shell         # small hack as python is not fully supported under macOS
+        env:
+          - TRAVIS_PYTHON_VERSION="3.6" INSTALL='pip' ENV='gdist'
+    - name: "Python 3.6 on default macOSX (10.13)"
+        os: osx
+        osx_image: xcode9.4
+        language: shell         # small hack as python is not fully supported under macOS
+        env:
+          - TRAVIS_PYTHON_VERSION="3.6"
+    - name: "Python 3.6 on default macOSX (10.13)"
+        os: osx
+        osx_image: xcode9.4
+        language: shell         # small hack as python is not fully supported under macOS
+        env:
+          - TRAVIS_PYTHON_VERSION="3.6" INSTALL='pip' ENV='full'
 
-      # - TRAVIS_PYTHON_VERSION="3.6" INSTALL="conda"
+
+
 
 # not needed step, save time
 before_install: skip
@@ -32,7 +76,7 @@ script: source continuous_integration/tests.sh
 after_success:
   - coveralls || true
 
-# automatically upload package on Pypi
+# automatically upload package on Pypi if tagged as a release
 deploy:
   provider: pypi
   username: "__token__"
