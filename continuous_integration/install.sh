@@ -20,7 +20,7 @@ if [ "${INSTALL}" == "pip" ]; then
   if [ "${ENV}" == 'default' ]; then
     pip install .
   else
-    python setup.py install .[${ENV}]
+    pip install .[${ENV}]
   fi
 elif [ "${INSTALL}" == "conda" ]; then
  conda build conda-recipe
