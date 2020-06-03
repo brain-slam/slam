@@ -4,26 +4,28 @@
 from setuptools import setup, find_packages
 
 GDIST = ['tvb-gdist']
-TEST_PKGS = ['flake8', 'autopep8', 'pytest', 'codecov']
+TEST_REQUIREMENTS = ['flake8', 'autopep8', 'pytest', 'codecov']
+BASE_REQUIREMENTS = ["numpy", "trimesh", "matplotlib", "nibabel", "cython"]
 
 setup(
     name="slam",
-    version_config={
-        "version_format": "{tag}.dev{sha}",    # automatically retrieve version from git tag
-        "starting_version": "0.0.1"            # defaut version if no tag provided
-    },
-    setup_requires=['better-setuptools-git-version'],
+    #version_config={
+    #    "version_format": "{tag}.dev{sha}",    # automatically retrieve version from git tag
+    #    "starting_version": "0.0.1"            # default version if no tag provided
+    #},
+    version="0.0.1",
+    # setup_requires=['better-setuptools-git-version'],
     author="Guillaume Auzias",
     description="Surface anaLysis And Modeling",
     url="https://github.com/gauzias/slam",
     license='MIT',
     packages=find_packages(),
-    python_requires='==3.6',                     # enforce Python 3.6 as default version
-    install_requires=["numpy", "trimesh", "matplotlib", "nibabel", "cython"],
+    python_requires='>=3.6',                     # enforce Python 3.6 as minimum
+    install_requires=BASE_REQUIREMENTS,
     extras_require={
         'gdist': GDIST,
-        'test': TEST_PKGS,
-        'full': GDIST + TEST_PKGS
+        'tests': TEST_REQUIREMENTS,
+        'full': GDIST + TEST_REQUIREMENTS
     },
     classifiers=[
         "Programming Language :: Python :: 3",
