@@ -22,3 +22,13 @@ script: source continuous_integration/tests.sh
 
 after_success:
   - coveralls || true
+
+# automatically upload package on Pypi
+deploy:
+  provider: pypi
+  username: "__token__"
+  password: "Your PyPI API token, including the pypi- prefix"  # to be changed
+  skip_existing: true  # to avoid error when multiple builds
+  distributions: "sdist bdist_wheel"
+  on:
+    tags: true  # deploy package only on set tags

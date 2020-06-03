@@ -6,11 +6,24 @@ import os
 
 setup(
     name="slam",
-    version='0.0.1',
-    packages=find_packages(),
+    version_config={
+        "version_format": "{tag}.dev{sha}",    # automatically retrieve version from git tag
+        "starting_version": "0.0.1"            # defaut version if no tag provided
+    },
+    setup_requires=['better-setuptools-git-version'],
     author="Guillaume Auzias",
     description="Surface anaLysis And Modeling",
+    url="https://github.com/gauzias/slam",
     license='MIT',
-    install_requires=["numpy", "trimesh", "matplotlib", "nibabel", "cython", "gdist"]
+    packages=find_packages(),
+    python_requires='==3.6',                     # enforce Python 3.6 as default version
+    install_requires=["numpy", "trimesh", "matplotlib", "nibabel", "cython", "tvb-gdist"],
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: Unix", "Operating System :: MacOS :: MacOS X"
+    ],
+
+
 )
 
