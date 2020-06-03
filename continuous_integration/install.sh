@@ -18,9 +18,9 @@ conda activate test-env
 #Build and install the package inside the conda environnement
 if [ "${INSTALL}" == "pip" ]; then
   if [ "${ENV}" == 'default' ]; then
-    python setup.py install
+    pip install .
   else
-    python setup.py install[${ENV}]
+    python setup.py install .[${ENV}]
   fi
 elif [ "${INSTALL}" == "conda" ]; then
  conda build conda-recipe
