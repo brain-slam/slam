@@ -94,7 +94,7 @@ visbrain is highly recommended for visualisation see (https://github.com/Etienne
 
  * install default packages as well as syntax validation ( ``flake8``, ``autopep8``) and test (``pytest``, ``pytest-cov``) packages
     ```
-    pip install -U .['tests']
+    pip install -e .['tests']
     ```
 
 ## Hall of fame
