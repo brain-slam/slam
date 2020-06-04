@@ -34,36 +34,52 @@ Slam is an extension of [Trimesh](https://github.com/mikedh/trimesh), an open so
 
 . ``plot``: extension of pyglet and visbrain viewers to visualize slam objects
 
+## Dependencies 
+These dependencies, whether mandatory or optional, are managed automatically and transparently for the user during the installation phase and are listed here for the sake of completeness. However, the user must have a Python3.6 environment with pip and setuptools.
+### Mandatory
+In order to work fine, slam requires:
+    + numpy
+    + scipy
+    + cython
+    + trimesh
+    + nibabel
+    
+### Optional
 
-
+#### Distance computation
+    + tvb-gdist
+#### Visualisation 
+    + visbrain visbrain is recommanded for visualisation see (https://github.com/EtienneCmb/visbrain)
+#### Developers
+    + flake8, autopep8
+    + pytest, pytest-cov
+    + codecov
+   
 ## Installation:
-
 
 ### Users
 
 1. Clone the current repository
 
 2. Move to slam folder and type one of the two following commands in terminal
- ```
- python setup.py install
- pip install . 
- ```
+    ```
+    python setup.py install
+    pip install . 
+    ```
 3. Try example scripts located in ``examples`` folder
 
 
 ### Contributors
 
-
- install ``flake8``, ``autopep8`` and ``pytest`` packages
+ * install default packages as well as syntax validation ( ``flake8``, ``autopep8``) and test (``pytest``, ``pytest-cov``) packages
     ```
     pip install -U .['tests']
     ```
 
-------------------
-Hall of fame:
-------------------
+## Hall of fame
+
 All contributions are of course much welcome!
-In addition to the global thank you to all contributors to this project, a special big thanks to :
+In addition to the global thank you to all contributors to this project, a special big thanks to:
 
 . https://github.com/alexpron and https://github.com/davidmeunier79 for their precious help for setting up continuous integration tools.
 
