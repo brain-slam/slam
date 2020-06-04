@@ -12,48 +12,69 @@ Slam is an extension of [Trimesh](https://github.com/mikedh/trimesh), an open so
 
    Look at the [doc](https://gauzias.github.io/slam) for a complete overview of available features! 
    
-. ``io``: read/write gifti (and nifti) file format 
++ ``io``: read/write gifti (and nifti) file format 
 
-. ``generate_parametric_surfaces``: generation of parametric surfaces with random sampling
++ ``generate_parametric_surfaces``: generation of parametric surfaces with random sampling
 
-. ``geodesics``: geodesic distance computation using tvb-gdist and networkx
++ ``geodesics``: geodesic distance computation using tvb-gdist and networkx
 
-. ``differential_geometry``: several implementations of graph Laplacian (conformal, authalic, FEM...), texture Gradient
++ ``differential_geometry``: several implementations of graph Laplacian (conformal, authalic, FEM...), texture Gradient
 
-. ``mapping``: several types of mapping between the mesh and a sphere, a disc...
++ ``mapping``: several types of mapping between the mesh and a sphere, a disc...
 
-. ``distortion``: distortion measures between two meshes, for quantitative analysis of mapping properties
++ ``distortion``: distortion measures between two meshes, for quantitative analysis of mapping properties
 
-. ``remeshing``: projection of vertex-level information between two meshes based on their spherical representation
++ ``remeshing``: projection of vertex-level information between two meshes based on their spherical representation
 
-. ``topology``: mesh surgery (boundary indentification, large hole closing)
++ ``topology``: mesh surgery (boundary indentification, large hole closing)
 
-. ``vertex_voronoi``: compute the voronoi of each vertex of a mesh, usefull for numerous applications
++ ``vertex_voronoi``: compute the voronoi of each vertex of a mesh, usefull for numerous applications
 
-. ``texture``: a class to manage properly vertex-level information.
++ ``texture``: a class to manage properly vertex-level information.
 
-. ``plot``: extension of pyglet and visbrain viewers to visualize slam objects
++ ``plot``: extension of pyglet and visbrain viewers to visualize slam objects
 
 ## Dependencies 
-These dependencies, whether mandatory or optional, are managed automatically and transparently for the user during the installation phase and are listed here for the sake of completeness. However, the user must have a Python3.6 environment with pip and setuptools.
+These dependencies, whether mandatory or optional, are managed automatically and transparently for the user during the installation phase and are listed here for the sake of completeness. However, the user must have:
+
++ a Python3.6 installation 
+
++ setuptools
+
++ pip
+ 
 ### Mandatory
 In order to work fine, slam requires:
-    + numpy
-    + scipy
-    + cython
-    + trimesh
-    + nibabel
+
++  numpy
+
++  scipy
+
++  cython
+
++  trimesh
+
++  nibabel
+
++  matplotlib
     
 ### Optional
 
 #### Distance computation
-    + tvb-gdist
+
+tvb-gdist is recommended for geodesic distance/shortest paths computations
+
 #### Visualisation 
-    + visbrain visbrain is recommanded for visualisation see (https://github.com/EtienneCmb/visbrain)
+
+visbrain is highly recommended for visualisation see (https://github.com/EtienneCmb/visbrain)
+
 #### Developers
-    + flake8, autopep8
-    + pytest, pytest-cov
-    + codecov
+
++  flake8, autopep8
+
++ pytest, pytest-cov
+
++ codecov
    
 ## Installation:
 
