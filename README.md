@@ -108,7 +108,7 @@ In addition to the global thank you to all contributors to this project, a speci
 
 . https://github.com/aymanesouani for his implementation of a very nice curvature estimation technique.
 
-.to be continued...
+.  to be continued...
 
 
 
