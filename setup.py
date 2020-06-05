@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 BASE_REQUIREMENTS = ['numpy', 'scipy', 'trimesh', 'nibabel', 'matplotlib']
 TEST_REQUIREMENTS = ['flake8', 'autopep8', 'pytest', 'pytest-cov', 'codecov']
-DIST = ['tvb-gdist','networkx']
+DIST = ['tvb-gdist@git+https://github.com/the-virtual-brain/tvb-gdist#egg=tvb-gdist-2.0.1','networkx']
 VISU = ['visbrain']
 
 setup(
@@ -17,7 +17,6 @@ setup(
     license='MIT',
     packages=find_packages(),
     python_requires='>=3.6',  # enforce Python 3.6 as minimum
-    dependency_links=['http://github.com/the-virtual-brain/tvb-gdist/tarball#egg=tvb-gdist'],
     install_requires=BASE_REQUIREMENTS,
     extras_require={
         'default-dev': TEST_REQUIREMENTS,
