@@ -18,10 +18,12 @@ conda activate test-env
 #Build and install the package inside the conda environnement
 if [ "${INSTALL}" == "pip" ]; then
   if [ "${ENV}" == 'default-user' ]; then
+    pip install pytest
     pip install .
   elif [ "${ENV}" == 'lining' ]; then
     pip install autopep8 flake8
   else
+    pip install pytest
     pip install .[${ENV}]
   fi
 elif [ "${INSTALL}" == "conda" ]; then
