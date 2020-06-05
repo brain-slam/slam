@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 BASE_REQUIREMENTS = ['numpy', 'scipy', 'trimesh', 'nibabel', 'matplotlib']
 TEST_REQUIREMENTS = ['flake8', 'autopep8', 'pytest', 'pytest-cov', 'codecov']
-DIST = ['networkx']
+DIST = ['tvb-gdist','networkx']
 VISU = ['visbrain']
 
 setup(
@@ -16,7 +16,8 @@ setup(
     url="https://github.com/gauzias/slam",
     license='MIT',
     packages=find_packages(),
-    python_requires='>=3.6',                     # enforce Python 3.6 as minimum
+    python_requires='>=3.6',  # enforce Python 3.6 as minimum
+    dependency_links=['http://github.com/the-virtual-brain/tvb-gdist.git#egg=tvb-gdist'],
     install_requires=BASE_REQUIREMENTS,
     extras_require={
         'default-dev': TEST_REQUIREMENTS,
