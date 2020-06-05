@@ -17,7 +17,7 @@ setup(
     license='MIT',
     packages=find_packages(),
     python_requires='>=3.6',  # enforce Python 3.6 as minimum
-    dependency_links=['http://github.com/the-virtual-brain/tvb-gdist.git#egg=tvb-gdist'],
+    dependency_links=['http://github.com/the-virtual-brain/tvb-gdist/tarball#egg=tvb-gdist'],
     install_requires=BASE_REQUIREMENTS,
     extras_require={
         'default-dev': TEST_REQUIREMENTS,
