@@ -3,10 +3,10 @@
 
 from setuptools import setup, find_packages
 
-BASE_REQUIREMENTS = ["numpy", "trimesh", "nibabel"]
-TEST_REQUIREMENTS = ['flake8', 'autopep8', 'pytest','pytest-cov', 'codecov']
-GDIST = ['tvb-gdist']
-VISU = ["matplotlib", "visbrain"]
+BASE_REQUIREMENTS = ['numpy', 'scipy', 'trimesh', 'nibabel', 'matplotlib']
+TEST_REQUIREMENTS = ['flake8', 'autopep8', 'pytest', 'pytest-cov', 'codecov']
+DIST = ['networkx']
+VISU = ['visbrain']
 
 setup(
     name="slam",
@@ -20,8 +20,8 @@ setup(
     install_requires=BASE_REQUIREMENTS,
     extras_require={
         'default-dev': TEST_REQUIREMENTS,
-        'advanced-user': GDIST,
-        'advanced-dev':  GDIST + TEST_REQUIREMENTS,
+        'advanced-user': DIST,
+        'advanced-dev':  DIST + TEST_REQUIREMENTS,
         'full': TEST_REQUIREMENTS + VISU
     },
     classifiers=[
