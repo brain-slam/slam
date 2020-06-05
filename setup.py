@@ -4,7 +4,7 @@
 from setuptools import setup, find_packages
 
 GDIST = ['tvb-gdist']
-TEST_REQUIREMENTS = ['flake8', 'autopep8', 'pytest', 'codecov']
+TEST_REQUIREMENTS = ['flake8', 'autopep8', 'pytest','pytest-cov', 'codecov']
 BASE_REQUIREMENTS = ["numpy", "trimesh", "nibabel"]
 VISU = ["matplotlib", "visbrain"]
 
