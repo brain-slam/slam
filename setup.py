@@ -22,7 +22,7 @@ setup(
         'default-dev': TEST_REQUIREMENTS,
         'advanced-user': GDIST,
         'advanced-dev':  GDIST + TEST_REQUIREMENTS,
-        'full': GDIST + TEST_REQUIREMENTS + VISU
+        'full': TEST_REQUIREMENTS + VISU
     },
     classifiers=[
         "Programming Language :: Python :: 3",

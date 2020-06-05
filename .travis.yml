@@ -63,9 +63,16 @@ jobs:
       language: shell         # small hack as python is not fully supported under macOS
       env:
         - TRAVIS_PYTHON_VERSION="3.6" INSTALL='pip' ENV='full'
+  allow_failures:
+    - env:
+      - INSTALL='pip' ENV='default-user'
+      - INSTALL='pip' ENV='default-dev'
+      - INSTALL='pip' ENV='advanced-user'
+      - INSTALL='pip' ENV='advanced-dev'
+  fast_finish: true
 
 
-# not needed step, save time
+    # not needed step, save time
 before_install: skip
 # command to install dependencies
 install: source continuous_integration/install.sh

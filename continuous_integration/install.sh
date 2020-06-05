@@ -18,13 +18,13 @@ conda activate test-env
 #Build and install the package inside the conda environnement
 if [ "${INSTALL}" == "pip" ]; then
   if [ "${ENV}" == 'default-user' ]; then
-    pip install pytest pytest-cov
     pip install .
+    pip install pytest pytest-cov
   elif [ "${ENV}" == 'lining' ]; then
     pip install autopep8 flake8
   else
-    pip install pytest pytest-cov
     pip install .[${ENV}]
+    pip install pytest pytest-cov
   fi
 elif [ "${INSTALL}" == "conda" ]; then
  conda build conda-recipe
