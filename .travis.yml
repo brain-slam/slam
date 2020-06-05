@@ -1,67 +1,66 @@
 language: python
+#Parallel tests under Ubuntu
+os: linux
+dist: xenial # default distribution
+python:
+  - "3.6"
+env:
+  - INSTALL='pip' ENV='default-user'
+  - INSTALL='pip' ENV='default-dev'
+  - INSTALL='pip' ENV='advanced-user'
+  - INSTALL='pip' ENV='advanced-dev'
+  - INSTALL='pip' ENV='full'
 
 jobs:
   include:
-    - name: "Python 3.6 on default Linux (Xenial): pip installation with user package"
+    - name: "Python 3.6 on default Linux distribution (Xenial): lining code"
       os: linux
-      dist: xenial
+      distrib: xenial
       language: python
-      python: "3.6"           # this works for Linux but is ignored on macOS or Windows
+      python: "3.6"
       env:
-        - INSTALL='pip' ENV='default'
-    - name: "Python 3.6 on default Linux (Xenial): pip installation with additional tests package"
-        os: linux
-        dist: xenial
-        language: python
-        python: "3.6"           # this works for Linux but is ignored on macOS or Windows
+      - INSTALL='pip' ENV='lining'
+      script: source continuous_integration/lining.sh
+      after_success: skip
+    - name: "Python 3.6 on default macOSX (10.13): lining code"
+        os: osx
+        osx_image: xcode9.4
+        language: shell
         env:
-          - INSTALL='pip' ENV='tests'
-    - name: "Python 3.6 on default Linux (Xenial): pip installation with additionnal gdist package"
-        os: linux
-        dist: xenial
-        language: python
-        python: "3.6"           # this works for Linux but is ignored on macOS or Windows
-        env:
-          - INSTALL='pip' ENV='gdist'
-    - name: "Python 3.6 on default Linux (Xenial): complete pip installation"
-        os: linux
-        dist: xenial
-        language: python
-        python: "3.6"           # this works for Linux but is ignored on macOS or Windows
-        env:
-          - INSTALL='pip' ENV='full'
+        - INSTALL='pip' ENV='lining'
+        script: source continuous_integration/lining.sh
+        after_success: skip
 
-    - name: "Python 3.6 on default macOSX (10.13)"
+    - name: "Python 3.6 on default macOSX (10.13): minimal user install"
       os: osx
       osx_image: xcode9.4
-      language: shell         # small hack as python is not fully supported under macOS
+      language: shell         #
       env:
-        - TRAVIS_PYTHON_VERSION="3.6" INSTALL='pip' ENV='default'
+        - TRAVIS_PYTHON_VERSION="3.6" INSTALL='pip' ENV='default-user'
+    - name: "Python 3.6 on default macOSX (10.13): minimal developer install"
+        os: osx
+        osx_image: xcode9.4
+        language: shell         # small hack as python is not fully supported under macOS
+        env:
+          - TRAVIS_PYTHON_VERSION="3.6" INSTALL='pip' ENV='default-dev'
     - name: "Python 3.6 on default macOSX (10.13)"
         os: osx
         osx_image: xcode9.4
         language: shell         # small hack as python is not fully supported under macOS
         env:
-          - TRAVIS_PYTHON_VERSION="3.6" INSTALL='pip' ENV='tests'
+          - TRAVIS_PYTHON_VERSION="3.6" INSTALL='pip' ENV='advanced-user'
     - name: "Python 3.6 on default macOSX (10.13)"
         os: osx
         osx_image: xcode9.4
         language: shell         # small hack as python is not fully supported under macOS
         env:
-          - TRAVIS_PYTHON_VERSION="3.6" INSTALL='pip' ENV='gdist'
-    - name: "Python 3.6 on default macOSX (10.13)"
-        os: osx
-        osx_image: xcode9.4
-        language: shell         # small hack as python is not fully supported under macOS
-        env:
-          - TRAVIS_PYTHON_VERSION="3.6"
+          - TRAVIS_PYTHON_VERSION="3.6" INSTALL='pip' ENV='advanced-dev'
     - name: "Python 3.6 on default macOSX (10.13)"
         os: osx
         osx_image: xcode9.4
         language: shell         # small hack as python is not fully supported under macOS
         env:
           - TRAVIS_PYTHON_VERSION="3.6" INSTALL='pip' ENV='full'
-
 
 
 
@@ -80,7 +79,7 @@ after_success:
 deploy:
   provider: pypi
   username: "__token__"
-  password: "Your PyPI API token, including the pypi- prefix"  # to be changed
+  password: "Your PyPI API token, including the pypi- prefix"  # to be filled with encrypted token
   skip_existing: true  # to avoid error when multiple builds
   distributions: "sdist bdist_wheel"
   on:
