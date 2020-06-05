@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 import os
 
 setup(
-    name="slam",
+    name="brain-slam",
     version='0.0.1',
     packages=find_packages(),
     author="Guillaume Auzias",
