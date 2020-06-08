@@ -1,5 +1,5 @@
 import numpy as np
-from matplotlib.tri import Triangulation
+from scipy.spatial import Delaunay
 import trimesh
 from trimesh import creation as tcr
 
@@ -109,7 +109,7 @@ def generate_quadric(K, nstep=50, ax=1, ay=1, random_sampling=True,
             Y = Y + sigma * np.random.randn(nb_vert, )
 
     # Delaunay triangulation
-    faces_tri = Triangulation(X, Y)
+    faces_tri = Delaunay(np.concatenate((X, Y), axis=0), qhull_options='Qt Qbb Qc Qz QJ')
 
     Z = quadric(K[0], K[1])(X, Y)
     coords = np.array([X, Y, Z]).transpose()

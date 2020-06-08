@@ -3,9 +3,9 @@
 
 from setuptools import setup, find_packages
 
-BASE_REQUIREMENTS = ['numpy', 'scipy', 'trimesh', 'nibabel', 'matplotlib']
+BASE_REQUIREMENTS = ['numpy', 'scipy', 'trimesh', 'nibabel']
 TEST_REQUIREMENTS = ['flake8', 'autopep8', 'pytest', 'pytest-cov', 'codecov']
-DIST = ['tvb-gdist@git+https://github.com/the-virtual-brain/tvb-gdist#egg=tvb-gdist-2.0.1','networkx']
+DIST = ['tvb-gdist@git+https://github.com/the-virtual-brain/tvb-gdist#egg=tvb-gdist','networkx']
 VISU = ['visbrain']
 
 setup(
@@ -20,8 +20,8 @@ setup(
     install_requires=BASE_REQUIREMENTS,
     extras_require={
         'default-dev': TEST_REQUIREMENTS,
-        'advanced-user': DIST,
-        'advanced-dev':  DIST + TEST_REQUIREMENTS,
+        # 'advanced-user': DIST,
+        # 'advanced-dev':  DIST + TEST_REQUIREMENTS,
         'full': TEST_REQUIREMENTS + VISU
     },
     classifiers=[
