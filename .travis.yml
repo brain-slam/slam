@@ -9,8 +9,8 @@ python:
 env:
   - INSTALL='pip' ENV='default-user'
   - INSTALL='pip' ENV='default-dev'
- # - INSTALL='pip' ENV='advanced-user'
- # - INSTALL='pip' ENV='advanced-dev'
+  - INSTALL='pip' ENV='advanced-user'
+  - INSTALL='pip' ENV='advanced-dev'
   - INSTALL='pip' ENV='full'
 
 jobs:
@@ -45,18 +45,18 @@ jobs:
       language: shell         # small hack as python is not fully supported under macOS
       env:
         - TRAVIS_PYTHON_VERSION="3.6" INSTALL='pip' ENV='default-dev'
- #   - name: "Python 3.6 on default macOSX (10.13): advanced user install (gdist, scipy)"
- #     os: osx
- #     osx_image: xcode9.4
- #     language: shell         # small hack as python is not fully supported under macOS
- #     env:
- #       - TRAVIS_PYTHON_VERSION="3.6" INSTALL='pip' ENV='advanced-user'
- #   - name: "Python 3.6 on default macOSX (10.13): advanced dev install (gdist, scipy) + tests"
- #     os: osx
- #     osx_image: xcode9.4
- #     language: shell         # small hack as python is not fully supported under macOS
- #     env:
- #       - TRAVIS_PYTHON_VERSION="3.6" INSTALL='pip' ENV='advanced-dev'
+    - name: "Python 3.6 on default macOSX (10.13): advanced user install (gdist, scipy)"
+      os: osx
+      osx_image: xcode9.4
+      language: shell         # small hack as python is not fully supported under macOS
+      env:
+        - TRAVIS_PYTHON_VERSION="3.6" INSTALL='pip' ENV='advanced-user'
+    - name: "Python 3.6 on default macOSX (10.13): advanced dev install (gdist, scipy) + tests"
+      os: osx
+      osx_image: xcode9.4
+      language: shell         # small hack as python is not fully supported under macOS
+      env:
+        - TRAVIS_PYTHON_VERSION="3.6" INSTALL='pip' ENV='advanced-dev'
     - name: "Python 3.6 on default macOSX (10.13): all packages install including visualisation"
       os: osx
       osx_image: xcode9.4

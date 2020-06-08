@@ -20,8 +20,8 @@ setup(
     install_requires=BASE_REQUIREMENTS,
     extras_require={
         'default-dev': TEST_REQUIREMENTS,
-        # 'advanced-user': DIST,
-        # 'advanced-dev':  DIST + TEST_REQUIREMENTS,
+        'advanced-user': DIST,
+        'advanced-dev':  DIST + TEST_REQUIREMENTS,
         'full': TEST_REQUIREMENTS + VISU
     },
     classifiers=[
