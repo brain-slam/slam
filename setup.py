@@ -16,7 +16,6 @@ setup(
     description="Surface anaLysis And Modeling",
     url="https://github.com/gauzias/slam",
     license='MIT',
-    packages=find_packages(),
     python_requires='>=3.6',  # enforce Python 3.6 as minimum
     install_requires=BASE_REQUIREMENTS,
     extras_require={
