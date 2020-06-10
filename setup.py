@@ -9,8 +9,9 @@ DIST = ['tvb-gdist@git+https://github.com/the-virtual-brain/tvb-gdist#egg=tvb-gd
 VISU = ['visbrain']
 
 setup(
-    name="slam",
-    version="0.0.1",
+    name="brain-slam",
+    version='0.0.1',
+    packages=find_packages(),
     author="Guillaume Auzias",
     description="Surface anaLysis And Modeling",
     url="https://github.com/gauzias/slam",
