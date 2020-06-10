@@ -1,5 +1,5 @@
-import gdist
 import numpy as np
+import gdist
 import networkx as nx
 
 
