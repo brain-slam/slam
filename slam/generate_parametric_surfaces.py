@@ -111,7 +111,7 @@ def generate_quadric(K, nstep=50, ax=1, ay=1, random_sampling=True,
     # Delaunay triangulation, based on scipy binding of Qhull.
     # See https://scipy.github.io/devdocs/generated/scipy.spatial.Delaunay.html#scipy.spatial.Delaunay
     # and http://www.qhull.org/html/qdelaun.htm for more informations
-    faces_tri = Delaunay(np.vstack((X, Y)).T, qhull_options='Qj Qt Qbb')# Qbb Qc Qz Qj')
+    faces_tri = Delaunay(np.vstack((X, Y)).T, qhull_options='QJ Qt Qbb')# Qbb Qc Qz Qj')
 
     Z = quadric(K[0], K[1])(X, Y)
     coords = np.array([X, Y, Z]).transpose()
