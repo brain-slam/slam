@@ -8,6 +8,7 @@ definition of the Texture class
 import numpy as np
 from scipy import stats as sps
 
+
 class TextureND:
 
     def __init__(self,
@@ -56,9 +57,6 @@ class TextureND:
 
         # save reference to kwargs
         self._kwargs = kwargs
-
-    def __str__(self):
-        return str(self.darray)
 
     def process(self):
         """
@@ -126,7 +124,7 @@ class TextureND:
           Copy of current texture
         """
         copied = TextureND()
-        copied.update_darray(self.darray.copy())
+        copied.update_darray(self.darray)
         copied.metadata = self.metadata.copy()
 
         return copied
