@@ -159,7 +159,7 @@ def generate_paraboloid_regular(K, nstep=50, ax=1, ay=1, random_sampling=False,
     Z = quadric(0, K)(X, Y)
     coords = np.array([X, Y, Z]).transpose()
 
-    return trimesh.Trimesh(faces=faces_tri.triangles,
+    return trimesh.Trimesh(faces=faces_tri.simplices,
                            vertices=coords,
                            process=False)
 
