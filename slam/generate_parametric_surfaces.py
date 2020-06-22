@@ -1,5 +1,6 @@
 import numpy as np
 from scipy.spatial import Delaunay
+import scipy.optimize as scop
 import trimesh
 from trimesh import creation as tcr
 
@@ -55,6 +56,45 @@ def quadric_curv_mean(K):
         return num / denom
 
     return curv_mean
+
+
+def adaptive_sampling(ymax, K, step):
+    """
+        sample [-ymax,ymax] such as:
+        1. y_{i+1}-y_i =h_i with h_i obtained by a recursive formula (1)
+        2. f(y_i) is regularly sampled, where f(x)=K x**2
+
+        => same as
+        1. Computing the curvilinear abscissa of x -> Kx**2 and
+        sample regularly with parameter step *sqrt(3)/2
+        s(x) = [ 2*K*x*sqrt((2*K*x)**2+1) + arcsinh(2*K*x) ]/ (4*K)
+        2. Come back in the y domain by inverting the curvilinear abscissa
+        (Newton method)
+
+    :param ymax:
+    :param K: amplitude of the paraboloid
+    :param step: desired sampling step if K =0
+    :return:
+    """
+    # Curvilinear abscisse
+    def f(x):
+        return (2 * K * x * np.sqrt((2 * K * x) ** 2 + 1) +
+                np.arcsinh(2 * K * x)) / (4 * K)
+
+    # Step 1
+    curve_length = f(ymax)
+    curve_step = np.sqrt(3) / 2 * step  # * np.sqrt(K+1) # Pythagore
+    Npoints = int(np.floor(curve_length/curve_step))
+    curve_samples = np.arange(0, curve_length, curve_step)
+
+    # Step 2
+    y_pos = np.zeros((Npoints+1,))
+    for i in range(Npoints+1):
+        y_pos[i] = scop.newton(lambda x:
+                               f(x) - curve_samples[i], curve_samples[i])
+    y_pos = np.concatenate([-y_pos[::-1], y_pos[1:]])
+    curve_samples = np.concatenate([-curve_samples[::-1], curve_samples[1:]])
+    return y_pos, curve_samples
 
 
 def generate_quadric(K, nstep=50, ax=1, ay=1, random_sampling=True,
