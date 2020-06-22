@@ -97,6 +97,73 @@ def adaptive_sampling(ymax, K, step):
     return y_pos, curve_samples
 
 
+def generate_paraboloid_regular(K, nstep=50, ax=1, ay=1, random_sampling=False,
+                                random_distribution_type='gaussian', ratio=0.1):
+    """
+        generate a regular paraboloid mesh Z=K*Y^2
+        ratio and random_distribution_type parameters are unused if
+        random_sampling is set to False
+        :param K: amplitude of the paraboloid
+        :param nstep: nstepx or the sampling step stepx as a float !
+        :param ax: half length of the domain
+        :param ay: half width of the domain
+        :param random_sampling:
+        :param random_distribution_type:
+        :param ratio:
+        :return:
+        """
+    # Parameters
+    xmin, xmax = [-ax, ax]
+    ymin, ymax = [-ay, ay]
+    # Define the sampling
+    if type(nstep[0]) == int:
+        stepx = (xmax - xmin) / nstep[0]
+    else:
+        stepx = nstep[0]
+
+    # Coordinates
+    x = np.arange(xmin, xmax, stepx)
+    # To generate y
+    y, curve_samples = adaptive_sampling(ymax, K, stepx)
+
+    X, Y = np.meshgrid(x, y)
+    X[::2] += stepx / 2
+    X = X.flatten()
+    Y = Y.flatten()
+
+    # Random perturbation
+    if random_sampling:
+        sigma = stepx * ratio  # characteristic size of the mesh * ratio
+        nb_vert = len(x) * len(y)
+        if random_distribution_type == 'gamma':
+            theta = np.random.rand(nb_vert, ) * np.pi * 2
+            mean = sigma
+            variance = sigma ** 2
+            radius = \
+                np.random.gamma(mean ** 2 / variance, variance / mean, nb_vert)
+            X = X + radius * np.cos(theta)
+            Y = Y + radius * np.sin(theta)
+        elif random_distribution_type == 'uniform':
+            X = X + np.random.uniform(-1, 1, 100)
+            Y = Y + np.random.uniform(-1, 1, 100)
+        else:
+            X = X + sigma * np.random.randn(nb_vert, )
+            Y = Y + sigma * np.random.randn(nb_vert, )
+
+    # Delaunay triangulation: be careful, to do on the curvilinear aspects to avoid triangle flips
+    Xtmp, S = np.meshgrid(x, curve_samples)
+    S = S.flatten()
+    #faces_tri = Triangulation(X, S)
+    faces_tri = Delaunay(np.vstack((X, S)).T, qhull_options='QJ Qt Qbb')# Qbb Qc Qz Qj')
+
+    Z = quadric(0, K)(X, Y)
+    coords = np.array([X, Y, Z]).transpose()
+
+    return trimesh.Trimesh(faces=faces_tri.triangles,
+                           vertices=coords,
+                           process=False)
+
+
 def generate_quadric(K, nstep=50, ax=1, ay=1, random_sampling=True,
                      ratio=0.2, random_distribution_type='gaussian'):
     """
