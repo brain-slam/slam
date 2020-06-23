@@ -3,9 +3,9 @@
 
 from setuptools import setup, find_packages
 
-BASE_REQUIREMENTS = ['numpy', 'scipy', 'trimesh', 'nibabel']
+BASE_REQUIREMENTS = ['numpy', 'scipy', 'trimesh', 'nibabel', 'networkx']
 TEST_REQUIREMENTS = ['flake8', 'autopep8', 'pytest', 'pytest-cov', 'codecov']
-DIST = ['tvb-gdist@git+https://github.com/the-virtual-brain/tvb-gdist#egg=tvb-gdist','networkx']
+DIST = ['tvb-gdist@git+https://github.com/the-virtual-brain/tvb-gdist#egg=tvb-gdist']
 VISU = ['visbrain']
 
 setup(
