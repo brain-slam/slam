@@ -1,15 +1,15 @@
 import slam.io as sio
 import slam.topology as stop
-import slam.plot as splt
-import slam.generate_parametric_surfaces as sps
 import numpy as np
-from vispy.scene import Line
-from visbrain.objects import VispyObj, SourceObj
-import sys
 import unittest
 import trimesh
 import itertools
 import random
+#  import slam.plot as splt
+#  import slam.generate_parametric_surfaces as sps
+#  from vispy.scene import Line
+#  from visbrain.objects import VispyObj, SourceObj
+#  import sys
 
 ### UTILITIES
 
@@ -229,4 +229,3 @@ class TestTopologyMethods(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-    
