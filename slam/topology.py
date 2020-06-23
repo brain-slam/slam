@@ -41,12 +41,17 @@ def boundary_angles(boundary, vertices_coord):
     return ang, norm
 
 
-def boundaries_intersection(boundary):
+def boundaries_intersection(boundaries):
+    """
+    compute the intersections inside a boundary
+    :param boundaries: list of list of vertex indices corresponding to the path
+    :return: list of common vertices between each tuple
+    """
     bound_conn = []
-    for bound_ind1 in range(len(boundary) - 1):
-        for bound_ind2 in range(bound_ind1 + 1, len(boundary)):
-            common = set(boundary[bound_ind1]).intersection(
-                set(boundary[bound_ind2]))
+    for bound_ind1 in range(len(boundaries) - 1):
+        for bound_ind2 in range(bound_ind1 + 1, len(boundaries)):
+            common = set(boundaries[bound_ind1]).intersection(
+                set(boundaries[bound_ind2]))
             if common:
                 bound_conn.append([bound_ind1, bound_ind2, list(common)])
     return bound_conn
