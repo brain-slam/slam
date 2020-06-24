@@ -59,7 +59,8 @@ visb_sc.preview()
 # Let us first load example data
 mesh = sio.load_mesh('../examples/data/example_mesh.gii')
 # rotate the mesh for better visualization
-transfo_flip = np.array([[-1, 0, 0, 0],[0, 1, 0, 0],[0, 0, -1, 0], [0, 0, 0, 1]])
+transfo_flip = np.array(
+    [[-1, 0, 0, 0], [0, 1, 0, 0], [0, 0, -1, 0], [0, 0, 0, 1]])
 mesh.apply_transform(transfo_flip)
 
 # Load the example texture and compute its boundary
@@ -71,7 +72,7 @@ texture_bound = stop.texture_boundary(mesh, tex_parcel.darray[0], 20)
 visb_sc2 = splt.visbrain_plot(mesh=mesh, tex=tex_parcel.darray[0],
                               caption='texture boundary')
 cols = ['red', 'green', 'yellow', 'blue']
-ind=0
+ind = 0
 for bound in texture_bound:
     points = mesh.vertices[bound]
     s_rad = SourceObj('rad', points, color='red', symbol='square',

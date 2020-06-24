@@ -57,17 +57,6 @@ def boundaries_intersection(boundaries):
     return bound_conn
 
 
-def cat_boundary(bound1, bound2):
-    # b_tmp=bound1.copy()
-    # print(bound1)
-    # print(bound2)
-    # for x in bound2:
-    #     bound1.append(x)
-    # print(bound1)
-    bound1.extend(bound2)
-    return bound1
-
-
 def close_mesh(mesh, boundary_in=None):
     """
     see also trimesh.repair.fill_holes(mesh):
@@ -439,7 +428,7 @@ def list_count(l):
     return dict((l.count(it), it) for it in l)
 
 
-def mesh_boundary(mesh):
+def mesh_boundary(mesh, verbose=False):
     """
     compute borders of a mesh
     :param mesh:
@@ -459,7 +448,8 @@ def mesh_boundary(mesh):
     edges_boundary = mesh.edges_sorted[groups]
     """
     if li.size == 0:
-        print('No holes in the surface !!!!')
+        if verbose:
+            print('No holes in the surface !!!!')
         return np.array([])
     else:
         return edges_to_boundary(edges_boundary, mesh.edges)
