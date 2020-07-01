@@ -78,7 +78,7 @@ Examples Gallery
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="example of morphological distortion in slam">
+    <div class="sphx-glr-thumbcontainer" tooltip="Example of morphological distortion in slam">
 
 .. only:: html
 
@@ -95,6 +95,86 @@ Examples Gallery
    :hidden:
 
    /auto_examples/example_distortion
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Generating parametric surfaces in slam">
+
+.. only:: html
+
+ .. figure:: /auto_examples/images/thumb/sphx_glr_example_generate_parametric_surfaces_thumb.png
+
+     :ref:`sphx_glr_auto_examples_example_generate_parametric_surfaces.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/example_generate_parametric_surfaces
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Geodesic in slam">
+
+.. only:: html
+
+ .. figure:: /auto_examples/images/thumb/sphx_glr_example_geodesic_thumb.png
+
+     :ref:`sphx_glr_auto_examples_example_geodesic.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/example_geodesic
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="KDTree in slam">
+
+.. only:: html
+
+ .. figure:: /auto_examples/images/thumb/sphx_glr_example_kdtree_thumb.png
+
+     :ref:`sphx_glr_auto_examples_example_kdtree.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/example_kdtree
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Mapping example in slam">
+
+.. only:: html
+
+ .. figure:: /auto_examples/images/thumb/sphx_glr_example_mapping_thumb.png
+
+     :ref:`sphx_glr_auto_examples_example_mapping.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/example_mapping
 
 .. raw:: html
 
@@ -138,6 +218,46 @@ Examples Gallery
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbcontainer" tooltip="Remeshing example in slam">
+
+.. only:: html
+
+ .. figure:: /auto_examples/images/thumb/sphx_glr_example_remeshing_thumb.png
+
+     :ref:`sphx_glr_auto_examples_example_remeshing.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/example_remeshing
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Texture example in slam">
+
+.. only:: html
+
+ .. figure:: /auto_examples/images/thumb/sphx_glr_example_texture_thumb.png
+
+     :ref:`sphx_glr_auto_examples_example_texture.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/example_texture
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="Show topology manipulation tools in slam">
 
 .. only:: html
@@ -155,6 +275,26 @@ Examples Gallery
    :hidden:
 
    /auto_examples/example_topology
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Vertex voronoi example in slam">
+
+.. only:: html
+
+ .. figure:: /auto_examples/images/thumb/sphx_glr_example_vertex_voronoi_thumb.png
+
+     :ref:`sphx_glr_auto_examples_example_vertex_voronoi.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/example_vertex_voronoi
 .. raw:: html
 
     <div class="sphx-glr-clear"></div>

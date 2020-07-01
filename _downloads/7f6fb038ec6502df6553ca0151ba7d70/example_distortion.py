@@ -2,11 +2,13 @@
 .. _example_distortion:
 
 ===================================
-example of morphological distortion in slam
+Example of morphological distortion in slam
 ===================================
 """
 
-# Authors: Julien Barrès <julien.barres@etu.univ-amu.fr>
+# Authors:
+# Guillaume Auzias <guillaume.auzias@univ-amu.fr>
+# Julien Barrès <julien.barres@etu.univ-amu.fr>
 
 # License: BSD (3-clause)
 # sphinx_gallery_thumbnail_number = 2
@@ -26,16 +28,15 @@ import numpy as np
 mesh = sio.load_mesh('../examples/data/example_mesh.gii')
 mesh_s = sdg.laplacian_mesh_smoothing(mesh, nb_iter=50, dt=0.1)
 
-################################################################################
+##########################################################################
 # Visualization of the original mesh
 visb_sc = splt.visbrain_plot(mesh=mesh, caption='original mesh')
-visb_sc.preview()    
+visb_sc.preview()
 
 ###############################################################################
 # Visualization of the smoothed mesh
-visb_sc = splt.visbrain_plot(mesh=mesh_s, caption='smoothed mesh',
-                                 visb_sc=visb_sc)
-visb_sc.preview()    
+visb_sc = splt.visbrain_plot(mesh=mesh_s, caption='smoothed mesh')
+visb_sc.preview()
 
 ###############################################################################
 # Computation of the angle difference between each faces of mesh and mesh_s

@@ -115,11 +115,11 @@ compute ICP registration
 
  .. code-block:: none
 
-    [[-0.58969449 -0.10039975  0.80136152 62.44674317]
-     [ 0.07186807  0.98178303  0.17588938 53.20385259]
-     [-0.80442239  0.1613133  -0.57173651 49.22959631]
+    [[-0.57942159 -0.0772043   0.81136312 62.89142576]
+     [ 0.11663217  0.97740327  0.1762946  53.1243694 ]
+     [-0.80663967  0.19677994 -0.55732405 49.99322153]
      [ 0.          0.          0.          1.        ]]
-    0.005964299418852606
+    0.006261608617300517
 
 
 
@@ -177,7 +177,7 @@ plot the two meshes to check they are now aligned
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  11.036 seconds)
+   **Total running time of the script:** ( 0 minutes  10.781 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_registration.py:

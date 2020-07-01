@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>example of morphological distortion in slam &#8212; slam 0.0.1 documentation</title>
+    <title>Example of morphological distortion in slam &#8212; slam 0.0.1 documentation</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
@@ -68,7 +68,7 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">example of morphological distortion in slam</a></li>
+<li><a class="reference internal" href="#">Example of morphological distortion in slam</a></li>
 </ul>
 </ul>
 </li>
@@ -109,8 +109,10 @@
 <p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-example-distortion-py"><span class="std std-ref">here</span></a> to download the full example code</p>
 </div>
 <div class="sphx-glr-example-title section" id="example-of-morphological-distortion-in-slam">
-<span id="example-distortion"></span><span id="sphx-glr-auto-examples-example-distortion-py"></span><h1>example of morphological distortion in slam<a class="headerlink" href="#example-of-morphological-distortion-in-slam" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Authors: Julien Barrès &lt;julien.barres@etu.univ-amu.fr&gt;</span>
+<span id="example-distortion"></span><span id="sphx-glr-auto-examples-example-distortion-py"></span><h1>Example of morphological distortion in slam<a class="headerlink" href="#example-of-morphological-distortion-in-slam" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Authors:</span>
+<span class="c1"># Guillaume Auzias &lt;guillaume.auzias@univ-amu.fr&gt;</span>
+<span class="c1"># Julien Barrès &lt;julien.barres@etu.univ-amu.fr&gt;</span>
 
 <span class="c1"># License: BSD (3-clause)</span>
 <span class="c1"># sphinx_gallery_thumbnail_number = 2</span>
@@ -158,12 +160,16 @@
 </pre></div>
 </div>
 <p>Visualization of the smoothed mesh</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">visb_sc</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">visbrain_plot</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">mesh_s</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="s1">&#39;smoothed mesh&#39;</span><span class="p">,</span>
-                                 <span class="n">visb_sc</span><span class="o">=</span><span class="n">visb_sc</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">visb_sc</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">visbrain_plot</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">mesh_s</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="s1">&#39;smoothed mesh&#39;</span><span class="p">)</span>
 <span class="n">visb_sc</span><span class="o">.</span><span class="n">preview</span><span class="p">()</span>
 </pre></div>
 </div>
 <img alt="../_images/sphx_glr_example_distortion_002.png" class="sphx-glr-single-img" src="../_images/sphx_glr_example_distortion_002.png" />
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/toz/miniconda3/envs/trimesh_visbrain/lib/python3.6/site-packages/matplotlib/figure.py:445: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+  % get_backend())
+</pre></div>
+</div>
 <p>Computation of the angle difference between each faces of mesh and mesh_s</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">angle_diff</span></a> <span class="o">=</span> <span class="n">sdst</span><span class="o">.</span><span class="n">angle_difference</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">mesh_s</span><span class="p">)</span>
 <a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">angle_diff</span></a>
@@ -208,7 +214,7 @@
               0.1005251 , 0.08211042])
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  2.312 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  2.275 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-example-distortion-py">
 <div class="sphx-glr-download docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/7f6fb038ec6502df6553ca0151ba7d70/example_distortion.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">example_distortion.py</span></code></a></p>
@@ -232,7 +238,7 @@
       
     </p>
     <p>
-        &copy; Copyright 2020, slam Developers. Last updated on 2020-06-23.<br/>
+        &copy; Copyright 2020, slam Developers. Last updated on 2020-07-01.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.<br/>
     </p>
   </div>

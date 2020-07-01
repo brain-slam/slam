@@ -1,0 +1,269 @@
+.. note::
+    :class: sphx-glr-download-link-note
+
+    Click :ref:`here <sphx_glr_download_auto_examples_example_geodesic.py>` to download the full example code
+.. rst-class:: sphx-glr-example-title
+
+.. _sphx_glr_auto_examples_example_geodesic.py:
+
+
+.. _example_geodesic:
+
+===================================
+Geodesic in slam
+===================================
+
+
+.. code-block:: default
+
+
+    # Authors:
+    # Guillaume Auzias <guillaume.auzias@univ-amu.fr>
+    # Julien Barrès <julien.barres@etu.univ-amu.fr>
+
+    # License: BSD (3-clause)
+    # sphinx_gallery_thumbnail_number = 2
+
+
+
+
+
+
+
+
+
+Importation of slam modules
+
+
+.. code-block:: default
+
+    import slam.plot as splt
+    import slam.io as sio
+    import slam.geodesics as sgeo
+    import numpy as np
+    import trimesh
+
+
+
+
+
+
+
+
+Mesh importation
+
+
+.. code-block:: default
+
+    mesh = sio.load_mesh('../examples/data/example_mesh.gii')
+
+
+
+
+
+
+
+
+Getting the vertex index in specified geo_distance of vert
+
+
+.. code-block:: default
+
+    vert_id = 200
+    max_geodist = 10
+
+    geo_distance = sgeo.compute_gdist(mesh, vert_id)
+    area_geodist_vi = np.where(geo_distance < max_geodist)[0]
+
+    print(area_geodist_vi)
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    [  11   35   44   47   50   51   52   55  145  147  151  152  159  170
+      171  173  174  175  176  182  183  184  191  192  193  199  200  212
+      213  219  223  233  334  354  357  722  723  724  735  736  737  739
+      749  750  752  761  786  787  803  823  832  864  867  897  899  901
+      920  922  932  933  934  936  945  969  978  979  980  982  983  992
+      993 1001 1002 1003 1004 1011 1012 1019 1030 1037 1864 1887 1888 1889
+     1890 1920 1931 1932 1941 1942 1943 1944 1945 1961 1962 1963 1964 1965
+     1966 1967 1968 1985 1986 1987 1988 1989 1990 2001 2002 2003 2004 2005
+     2006 2007 2018 2019 2020 2021 2022 2023 2024 2025 2028 2029 2042 2047
+     2069 2070 2071 2075 2076 2077 2078 2080 2095 2109 2110 2111 2141 2150
+     2151 2152 2169 2170 2180 2181 2182 2183 2194 2195 2196 2207]
+
+
+
+
+Visualization
+
+
+.. code-block:: default
+
+
+    visb_sc = splt.visbrain_plot(mesh=mesh, tex=geo_distance,
+                                 caption='geodesic distance',
+                                 cblabel='distance')
+    visb_sc.preview()
+
+
+
+
+.. image:: /auto_examples/images/sphx_glr_example_geodesic_001.png
+    :class: sphx-glr-single-img
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    /home/toz/miniconda3/envs/trimesh_visbrain/lib/python3.6/site-packages/matplotlib/figure.py:445: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+      % get_backend())
+
+
+
+
+Getting the vertex index in specified geo_distance of vert
+
+
+.. code-block:: default
+
+
+    area_geodist = sgeo.local_gdist_matrix(mesh, max_geodist)
+
+    visb_sc2 = splt.visbrain_plot(mesh=mesh,
+                                 tex=area_geodist[0].toarray().squeeze(),
+                                 caption='local geodesic distance',
+                                 cblabel='distance')
+    visb_sc2.preview()
+
+
+
+.. image:: /auto_examples/images/sphx_glr_example_geodesic_002.png
+    :class: sphx-glr-single-img
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    /home/toz/miniconda3/envs/trimesh_visbrain/lib/python3.6/site-packages/matplotlib/figure.py:445: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+      % get_backend())
+
+
+
+
+Get the vertex index
+
+
+.. code-block:: default
+
+
+    indices = []
+
+    for i in range(mesh.vertices.shape[0]):
+        vert_distmap = area_geodist[i].toarray()[0]
+        area_geodist_v = np.where(vert_distmap > 0)[0]
+        indices += [area_geodist_v]
+
+
+
+
+
+
+
+
+Arbitrary indices of mesh.vertices to test with
+
+
+.. code-block:: default
+
+
+    start = 0
+    end = int(len(mesh.vertices) / 2.0)
+    path = sgeo.shortest_path(mesh, start, end)
+    print(path)
+
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    [0, 1506, 1511, 1525, 1534, 1535, 1537, 1582, 1625, 311, 396, 431, 780, 830, 883, 528, 558, 569, 595, 1074, 1083, 1102, 1135, 1134, 1164]
+
+
+
+
+# Visualization using pyglet
+
+mesh.visual.face_colors = [100, 100, 100, 100]
+
+###############################################################################
+# Path3D with the path between the points
+
+path_visual = trimesh.load_path(mesh.vertices[path])
+path_visual
+
+###############################################################################
+# Visualizable two points
+points_visual = trimesh.points.PointCloud(mesh.vertices[[start, end]])
+
+###############################################################################
+# Create a scene with the mesh, path, and points
+
+scene = trimesh.Scene([
+    points_visual,
+    path_visual,
+    mesh])
+
+scene.show(smooth=False)
+
+
+.. rst-class:: sphx-glr-timing
+
+   **Total running time of the script:** ( 0 minutes  6.215 seconds)
+
+
+.. _sphx_glr_download_auto_examples_example_geodesic.py:
+
+
+.. only :: html
+
+ .. container:: sphx-glr-footer
+    :class: sphx-glr-footer-example
+
+
+
+  .. container:: sphx-glr-download
+
+     :download:`Download Python source code: example_geodesic.py <example_geodesic.py>`
+
+
+
+  .. container:: sphx-glr-download
+
+     :download:`Download Jupyter notebook: example_geodesic.ipynb <example_geodesic.ipynb>`
+
+
+.. only:: html
+
+ .. rst-class:: sphx-glr-signature
+
+    `Gallery generated by Sphinx-Gallery <https://sphinx-gallery.github.io>`_

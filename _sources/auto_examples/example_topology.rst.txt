@@ -88,7 +88,7 @@ Here the mesh has a single boundary
 
  .. code-block:: none
 
-    [[2, 4, 24, 29, 28, 25, 5, 0]]
+    [[2, 3, 0, 5, 10, 14, 18, 20, 19, 16, 15, 6, 1]]
 
 
 
@@ -131,6 +131,58 @@ WARNING : BrainObj should be added first before
 
 
 
+eroding the mesh by removing the faces having 3 vertices on the boundary
+
+
+.. code-block:: default
+
+    eroded_mesh = stop.remove_mesh_boundary_faces(open_mesh, face_vertex_number=1)
+
+
+
+
+
+
+
+
+show the result
+
+
+.. code-block:: default
+
+    visb_sc2 = splt.visbrain_plot(mesh=eroded_mesh, caption='eroded mesh')
+    # show again the boundary of original mesh which have been removed with
+    # corresponding faces by the erosion
+    for bound in open_mesh_boundary:
+        points = open_mesh.vertices[bound]
+        s_rad = SourceObj('rad', points, color='red', symbol='square',
+                          radius_min=10)
+        visb_sc2.add_to_subplot(s_rad)
+        lines = Line(pos=open_mesh.vertices[bound], width=10, color='b')
+        # wrap the vispy object using visbrain
+        l_obj = VispyObj('line', lines)
+        visb_sc2.add_to_subplot(l_obj)
+    visb_sc2.preview()
+
+
+
+
+.. image:: /auto_examples/images/sphx_glr_example_topology_002.png
+    :class: sphx-glr-single-img
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    /home/toz/miniconda3/envs/trimesh_visbrain/lib/python3.6/site-packages/matplotlib/figure.py:445: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+      % get_backend())
+
+
+
+
 here is how to get the vertices that define the boundary of
 a texture on a mesh
 Let us first load example data
@@ -140,7 +192,8 @@ Let us first load example data
 
     mesh = sio.load_mesh('../examples/data/example_mesh.gii')
     # rotate the mesh for better visualization
-    transfo_flip = np.array([[-1, 0, 0, 0],[0, 1, 0, 0],[0, 0, -1, 0], [0, 0, 0, 1]])
+    transfo_flip = np.array(
+        [[-1, 0, 0, 0], [0, 1, 0, 0], [0, 0, -1, 0], [0, 0, 0, 1]])
     mesh.apply_transform(transfo_flip)
 
     # Load the example texture and compute its boundary
@@ -159,28 +212,28 @@ show the results
 
 .. code-block:: default
 
-    visb_sc2 = splt.visbrain_plot(mesh=mesh, tex=tex_parcel.darray[0],
+    visb_sc3 = splt.visbrain_plot(mesh=mesh, tex=tex_parcel.darray[0],
                                   caption='texture boundary')
     cols = ['red', 'green', 'yellow', 'blue']
-    ind=0
+    ind = 0
     for bound in texture_bound:
         points = mesh.vertices[bound]
         s_rad = SourceObj('rad', points, color='red', symbol='square',
                           radius_min=10)
-        visb_sc2.add_to_subplot(s_rad)
+        visb_sc3.add_to_subplot(s_rad)
         lines = Line(pos=mesh.vertices[bound], width=10, color=cols[ind])
         # wrap the vispy object using visbrain
         l_obj = VispyObj('line', lines)
-        visb_sc2.add_to_subplot(l_obj)
+        visb_sc3.add_to_subplot(l_obj)
         ind += 1
         if ind == len(cols):
             ind = 0
-    visb_sc2.preview()
+    visb_sc3.preview()
 
 
 
 
-.. image:: /auto_examples/images/sphx_glr_example_topology_002.png
+.. image:: /auto_examples/images/sphx_glr_example_topology_003.png
     :class: sphx-glr-single-img
 
 
@@ -293,7 +346,7 @@ show the mesh with the cuted subparts in different colors
 
 
 
-.. image:: /auto_examples/images/sphx_glr_example_topology_003.png
+.. image:: /auto_examples/images/sphx_glr_example_topology_004.png
     :class: sphx-glr-single-img
 
 
@@ -330,7 +383,7 @@ show the largest submesh with the boundaries of cutted parts
 
 
 
-.. image:: /auto_examples/images/sphx_glr_example_topology_004.png
+.. image:: /auto_examples/images/sphx_glr_example_topology_005.png
     :class: sphx-glr-single-img
 
 
@@ -385,7 +438,7 @@ show the closed mesh
 
 
 
-.. image:: /auto_examples/images/sphx_glr_example_topology_005.png
+.. image:: /auto_examples/images/sphx_glr_example_topology_006.png
     :class: sphx-glr-single-img
 
 
@@ -404,7 +457,7 @@ show the closed mesh
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  6.515 seconds)
+   **Total running time of the script:** ( 0 minutes  7.810 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_topology.py:

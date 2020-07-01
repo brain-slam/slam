@@ -141,7 +141,7 @@ Here the mesh has a single boundary</p>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[[2, 4, 24, 29, 28, 25, 5, 0]]
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[[2, 3, 0, 5, 10, 14, 18, 20, 19, 16, 15, 6, 1]]
 </pre></div>
 </div>
 <p>show the result
@@ -166,12 +166,39 @@ WARNING : BrainObj should be added first before</p>
   % get_backend())
 </pre></div>
 </div>
+<p>eroding the mesh by removing the faces having 3 vertices on the boundary</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eroded_mesh</span> <span class="o">=</span> <span class="n">stop</span><span class="o">.</span><span class="n">remove_mesh_boundary_faces</span><span class="p">(</span><span class="n">open_mesh</span><span class="p">,</span> <span class="n">face_vertex_number</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>show the result</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">visb_sc2</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">visbrain_plot</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">eroded_mesh</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="s1">&#39;eroded mesh&#39;</span><span class="p">)</span>
+<span class="c1"># show again the boundary of original mesh which have been removed with</span>
+<span class="c1"># corresponding faces by the erosion</span>
+<span class="k">for</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">bound</span></a> <span class="ow">in</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">open_mesh_boundary</span></a><span class="p">:</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="n">open_mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">bound</span></a><span class="p">]</span>
+    <span class="n">s_rad</span> <span class="o">=</span> <span class="n">SourceObj</span><span class="p">(</span><span class="s1">&#39;rad&#39;</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">symbol</span><span class="o">=</span><span class="s1">&#39;square&#39;</span><span class="p">,</span>
+                      <span class="n">radius_min</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">visb_sc2</span><span class="o">.</span><span class="n">add_to_subplot</span><span class="p">(</span><span class="n">s_rad</span><span class="p">)</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">Line</span><span class="p">(</span><span class="n">pos</span><span class="o">=</span><span class="n">open_mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">bound</span></a><span class="p">],</span> <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+    <span class="c1"># wrap the vispy object using visbrain</span>
+    <span class="n">l_obj</span> <span class="o">=</span> <span class="n">VispyObj</span><span class="p">(</span><span class="s1">&#39;line&#39;</span><span class="p">,</span> <span class="n">lines</span><span class="p">)</span>
+    <span class="n">visb_sc2</span><span class="o">.</span><span class="n">add_to_subplot</span><span class="p">(</span><span class="n">l_obj</span><span class="p">)</span>
+<span class="n">visb_sc2</span><span class="o">.</span><span class="n">preview</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../_images/sphx_glr_example_topology_002.png" class="sphx-glr-single-img" src="../_images/sphx_glr_example_topology_002.png" />
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/toz/miniconda3/envs/trimesh_visbrain/lib/python3.6/site-packages/matplotlib/figure.py:445: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+  % get_backend())
+</pre></div>
+</div>
 <p>here is how to get the vertices that define the boundary of
 a texture on a mesh
 Let us first load example data</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mesh</span> <span class="o">=</span> <span class="n">sio</span><span class="o">.</span><span class="n">load_mesh</span><span class="p">(</span><span class="s1">&#39;../examples/data/example_mesh.gii&#39;</span><span class="p">)</span>
 <span class="c1"># rotate the mesh for better visualization</span>
-<a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">transfo_flip</span></a> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.array" title="View documentation for numpy.array"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+<a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">transfo_flip</span></a> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.array" title="View documentation for numpy.array"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">(</span>
+    <span class="p">[[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
 <span class="n">mesh</span><span class="o">.</span><span class="n">apply_transform</span><span class="p">(</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">transfo_flip</span></a><span class="p">)</span>
 
 <span class="c1"># Load the example texture and compute its boundary</span>
@@ -180,26 +207,26 @@ Let us first load example data</p>
 </pre></div>
 </div>
 <p>show the results</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">visb_sc2</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">visbrain_plot</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span> <span class="n">tex</span><span class="o">=</span><span class="n">tex_parcel</span><span class="o">.</span><span class="n">darray</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">visb_sc3</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">visbrain_plot</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span> <span class="n">tex</span><span class="o">=</span><span class="n">tex_parcel</span><span class="o">.</span><span class="n">darray</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
                               <span class="n">caption</span><span class="o">=</span><span class="s1">&#39;texture boundary&#39;</span><span class="p">)</span>
 <a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">cols</span></a> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;yellow&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">]</span>
-<a href="https://docs.python.org/3/library/functions.html#int" title="View documentation for builtins.int"><span class="n">ind</span></a><span class="o">=</span><span class="mi">0</span>
+<a href="https://docs.python.org/3/library/functions.html#int" title="View documentation for builtins.int"><span class="n">ind</span></a> <span class="o">=</span> <span class="mi">0</span>
 <span class="k">for</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">bound</span></a> <span class="ow">in</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">texture_bound</span></a><span class="p">:</span>
     <span class="n">points</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">bound</span></a><span class="p">]</span>
     <span class="n">s_rad</span> <span class="o">=</span> <span class="n">SourceObj</span><span class="p">(</span><span class="s1">&#39;rad&#39;</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">symbol</span><span class="o">=</span><span class="s1">&#39;square&#39;</span><span class="p">,</span>
                       <span class="n">radius_min</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-    <span class="n">visb_sc2</span><span class="o">.</span><span class="n">add_to_subplot</span><span class="p">(</span><span class="n">s_rad</span><span class="p">)</span>
+    <span class="n">visb_sc3</span><span class="o">.</span><span class="n">add_to_subplot</span><span class="p">(</span><span class="n">s_rad</span><span class="p">)</span>
     <span class="n">lines</span> <span class="o">=</span> <span class="n">Line</span><span class="p">(</span><span class="n">pos</span><span class="o">=</span><span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">bound</span></a><span class="p">],</span> <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">cols</span></a><span class="p">[</span><a href="https://docs.python.org/3/library/functions.html#int" title="View documentation for builtins.int"><span class="n">ind</span></a><span class="p">])</span>
     <span class="c1"># wrap the vispy object using visbrain</span>
     <span class="n">l_obj</span> <span class="o">=</span> <span class="n">VispyObj</span><span class="p">(</span><span class="s1">&#39;line&#39;</span><span class="p">,</span> <span class="n">lines</span><span class="p">)</span>
-    <span class="n">visb_sc2</span><span class="o">.</span><span class="n">add_to_subplot</span><span class="p">(</span><span class="n">l_obj</span><span class="p">)</span>
+    <span class="n">visb_sc3</span><span class="o">.</span><span class="n">add_to_subplot</span><span class="p">(</span><span class="n">l_obj</span><span class="p">)</span>
     <a href="https://docs.python.org/3/library/functions.html#int" title="View documentation for builtins.int"><span class="n">ind</span></a> <span class="o">+=</span> <span class="mi">1</span>
     <span class="k">if</span> <a href="https://docs.python.org/3/library/functions.html#int" title="View documentation for builtins.int"><span class="n">ind</span></a> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">cols</span></a><span class="p">):</span>
         <a href="https://docs.python.org/3/library/functions.html#int" title="View documentation for builtins.int"><span class="n">ind</span></a> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">visb_sc2</span><span class="o">.</span><span class="n">preview</span><span class="p">()</span>
+<span class="n">visb_sc3</span><span class="o">.</span><span class="n">preview</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/sphx_glr_example_topology_002.png" class="sphx-glr-single-img" src="../_images/sphx_glr_example_topology_002.png" />
+<img alt="../_images/sphx_glr_example_topology_003.png" class="sphx-glr-single-img" src="../_images/sphx_glr_example_topology_003.png" />
 <p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/toz/miniconda3/envs/trimesh_visbrain/lib/python3.6/site-packages/matplotlib/figure.py:445: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
   % get_backend())
@@ -268,7 +295,7 @@ the texture tex_parcel</p>
 <span class="n">visb_sc3</span><span class="o">.</span><span class="n">preview</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/sphx_glr_example_topology_003.png" class="sphx-glr-single-img" src="../_images/sphx_glr_example_topology_003.png" />
+<img alt="../_images/sphx_glr_example_topology_004.png" class="sphx-glr-single-img" src="../_images/sphx_glr_example_topology_004.png" />
 <p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/toz/miniconda3/envs/trimesh_visbrain/lib/python3.6/site-packages/matplotlib/figure.py:445: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
   % get_backend())
@@ -289,7 +316,7 @@ the texture tex_parcel</p>
 <span class="n">visb_sc4</span><span class="o">.</span><span class="n">preview</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/sphx_glr_example_topology_004.png" class="sphx-glr-single-img" src="../_images/sphx_glr_example_topology_004.png" />
+<img alt="../_images/sphx_glr_example_topology_005.png" class="sphx-glr-single-img" src="../_images/sphx_glr_example_topology_005.png" />
 <p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/toz/miniconda3/envs/trimesh_visbrain/lib/python3.6/site-packages/matplotlib/figure.py:445: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
   % get_backend())
@@ -315,13 +342,13 @@ True
 <span class="n">visb_sc5</span><span class="o">.</span><span class="n">preview</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/sphx_glr_example_topology_005.png" class="sphx-glr-single-img" src="../_images/sphx_glr_example_topology_005.png" />
+<img alt="../_images/sphx_glr_example_topology_006.png" class="sphx-glr-single-img" src="../_images/sphx_glr_example_topology_006.png" />
 <p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/toz/miniconda3/envs/trimesh_visbrain/lib/python3.6/site-packages/matplotlib/figure.py:445: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
   % get_backend())
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  6.515 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  7.810 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-example-topology-py">
 <div class="sphx-glr-download docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/8043fb89b229e027bdf20e637a91e046/example_topology.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">example_topology.py</span></code></a></p>
@@ -345,7 +372,7 @@ True
       
     </p>
     <p>
-        &copy; Copyright 2020, slam Developers. Last updated on 2020-06-23.<br/>
+        &copy; Copyright 2020, slam Developers. Last updated on 2020-07-01.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.<br/>
     </p>
   </div>

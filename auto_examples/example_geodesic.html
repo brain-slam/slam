@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Geodesic in slam &#8212; slam 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          slam</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="https://github.com/gauzias/slam">Github</a></li>
+                <li><a href="../faq.html">FAQ</a></li>
+                <li><a href="index.html">Examples</a></li>
+                <li><a href="../api.html">API</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Geodesic in slam</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="../_sources/auto_examples/example_geodesic.rst.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-example-geodesic-py"><span class="std std-ref">here</span></a> to download the full example code</p>
+</div>
+<div class="sphx-glr-example-title section" id="geodesic-in-slam">
+<span id="example-geodesic"></span><span id="sphx-glr-auto-examples-example-geodesic-py"></span><h1>Geodesic in slam<a class="headerlink" href="#geodesic-in-slam" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Authors:</span>
+<span class="c1"># Guillaume Auzias &lt;guillaume.auzias@univ-amu.fr&gt;</span>
+<span class="c1"># Julien Barrès &lt;julien.barres@etu.univ-amu.fr&gt;</span>
+
+<span class="c1"># License: BSD (3-clause)</span>
+<span class="c1"># sphinx_gallery_thumbnail_number = 2</span>
+</pre></div>
+</div>
+<p>Importation of slam modules</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">slam.plot</span> <span class="k">as</span> <span class="nn">splt</span>
+<span class="kn">import</span> <span class="nn">slam.io</span> <span class="k">as</span> <span class="nn">sio</span>
+<span class="kn">import</span> <span class="nn">slam.geodesics</span> <span class="k">as</span> <span class="nn">sgeo</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">trimesh</span>
+</pre></div>
+</div>
+<p>Mesh importation</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mesh</span> <span class="o">=</span> <span class="n">sio</span><span class="o">.</span><span class="n">load_mesh</span><span class="p">(</span><span class="s1">&#39;../examples/data/example_mesh.gii&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Getting the vertex index in specified geo_distance of vert</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://docs.python.org/3/library/functions.html#int" title="View documentation for builtins.int"><span class="n">vert_id</span></a> <span class="o">=</span> <span class="mi">200</span>
+<a href="https://docs.python.org/3/library/functions.html#int" title="View documentation for builtins.int"><span class="n">max_geodist</span></a> <span class="o">=</span> <span class="mi">10</span>
+
+<a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">geo_distance</span></a> <span class="o">=</span> <span class="n">sgeo</span><span class="o">.</span><span class="n">compute_gdist</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#int" title="View documentation for builtins.int"><span class="n">vert_id</span></a><span class="p">)</span>
+<a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">area_geodist_vi</span></a> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.where" title="View documentation for numpy.where"><span class="n">np</span><span class="o">.</span><span class="n">where</span></a><span class="p">(</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">geo_distance</span></a> <span class="o">&lt;</span> <a href="https://docs.python.org/3/library/functions.html#int" title="View documentation for builtins.int"><span class="n">max_geodist</span></a><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">area_geodist_vi</span></a><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[  11   35   44   47   50   51   52   55  145  147  151  152  159  170
+  171  173  174  175  176  182  183  184  191  192  193  199  200  212
+  213  219  223  233  334  354  357  722  723  724  735  736  737  739
+  749  750  752  761  786  787  803  823  832  864  867  897  899  901
+  920  922  932  933  934  936  945  969  978  979  980  982  983  992
+  993 1001 1002 1003 1004 1011 1012 1019 1030 1037 1864 1887 1888 1889
+ 1890 1920 1931 1932 1941 1942 1943 1944 1945 1961 1962 1963 1964 1965
+ 1966 1967 1968 1985 1986 1987 1988 1989 1990 2001 2002 2003 2004 2005
+ 2006 2007 2018 2019 2020 2021 2022 2023 2024 2025 2028 2029 2042 2047
+ 2069 2070 2071 2075 2076 2077 2078 2080 2095 2109 2110 2111 2141 2150
+ 2151 2152 2169 2170 2180 2181 2182 2183 2194 2195 2196 2207]
+</pre></div>
+</div>
+<p>Visualization</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">visb_sc</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">visbrain_plot</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span> <span class="n">tex</span><span class="o">=</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">geo_distance</span></a><span class="p">,</span>
+                             <span class="n">caption</span><span class="o">=</span><span class="s1">&#39;geodesic distance&#39;</span><span class="p">,</span>
+                             <span class="n">cblabel</span><span class="o">=</span><span class="s1">&#39;distance&#39;</span><span class="p">)</span>
+<span class="n">visb_sc</span><span class="o">.</span><span class="n">preview</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../_images/sphx_glr_example_geodesic_001.png" class="sphx-glr-single-img" src="../_images/sphx_glr_example_geodesic_001.png" />
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/toz/miniconda3/envs/trimesh_visbrain/lib/python3.6/site-packages/matplotlib/figure.py:445: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+  % get_backend())
+</pre></div>
+</div>
+<p>Getting the vertex index in specified geo_distance of vert</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="http://docs.scipy.org/doc/scipy-0.17.0/reference/generated/scipy.sparse.html#scipy.sparse.csc_matrix" title="View documentation for scipy.sparse.csc_matrix"><span class="n">area_geodist</span></a> <span class="o">=</span> <span class="n">sgeo</span><span class="o">.</span><span class="n">local_gdist_matrix</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#int" title="View documentation for builtins.int"><span class="n">max_geodist</span></a><span class="p">)</span>
+
+<span class="n">visb_sc2</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">visbrain_plot</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span>
+                             <span class="n">tex</span><span class="o">=</span><a href="http://docs.scipy.org/doc/scipy-0.17.0/reference/generated/scipy.sparse.html#scipy.sparse.csc_matrix" title="View documentation for scipy.sparse.csc_matrix"><span class="n">area_geodist</span></a><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(),</span>
+                             <span class="n">caption</span><span class="o">=</span><span class="s1">&#39;local geodesic distance&#39;</span><span class="p">,</span>
+                             <span class="n">cblabel</span><span class="o">=</span><span class="s1">&#39;distance&#39;</span><span class="p">)</span>
+<span class="n">visb_sc2</span><span class="o">.</span><span class="n">preview</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../_images/sphx_glr_example_geodesic_002.png" class="sphx-glr-single-img" src="../_images/sphx_glr_example_geodesic_002.png" />
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/toz/miniconda3/envs/trimesh_visbrain/lib/python3.6/site-packages/matplotlib/figure.py:445: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+  % get_backend())
+</pre></div>
+</div>
+<p>Get the vertex index</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">indices</span></a> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <a href="https://docs.python.org/3/library/functions.html#int" title="View documentation for builtins.int"><span class="n">i</span></a> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+    <a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">vert_distmap</span></a> <span class="o">=</span> <a href="http://docs.scipy.org/doc/scipy-0.17.0/reference/generated/scipy.sparse.html#scipy.sparse.csc_matrix" title="View documentation for scipy.sparse.csc_matrix"><span class="n">area_geodist</span></a><span class="p">[</span><a href="https://docs.python.org/3/library/functions.html#int" title="View documentation for builtins.int"><span class="n">i</span></a><span class="p">]</span><span class="o">.</span><span class="n">toarray</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+    <a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">area_geodist_v</span></a> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.where" title="View documentation for numpy.where"><span class="n">np</span><span class="o">.</span><span class="n">where</span></a><span class="p">(</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">vert_distmap</span></a> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">indices</span></a> <span class="o">+=</span> <span class="p">[</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">area_geodist_v</span></a><span class="p">]</span>
+</pre></div>
+</div>
+<p>Arbitrary indices of mesh.vertices to test with</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://docs.python.org/3/library/functions.html#int" title="View documentation for builtins.int"><span class="n">start</span></a> <span class="o">=</span> <span class="mi">0</span>
+<a href="https://docs.python.org/3/library/functions.html#int" title="View documentation for builtins.int"><span class="n">end</span></a> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
+<a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">path</span></a> <span class="o">=</span> <span class="n">sgeo</span><span class="o">.</span><span class="n">shortest_path</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#int" title="View documentation for builtins.int"><span class="n">start</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#int" title="View documentation for builtins.int"><span class="n">end</span></a><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">path</span></a><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[0, 1506, 1511, 1525, 1534, 1535, 1537, 1582, 1625, 311, 396, 431, 780, 830, 883, 528, 558, 569, 595, 1074, 1083, 1102, 1135, 1134, 1164]
+</pre></div>
+</div>
+<p># Visualization using pyglet</p>
+<p>mesh.visual.face_colors = [100, 100, 100, 100]</p>
+<p>path_visual = trimesh.load_path(mesh.vertices[path])
+path_visual</p>
+<dl class="simple">
+<dt>scene = trimesh.Scene([</dt><dd><p>points_visual,
+path_visual,
+mesh])</p>
+</dd>
+</dl>
+<p>scene.show(smooth=False)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  6.215 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-example-geodesic-py">
+<div class="sphx-glr-download docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/edcaf3d05338f97f276fd87be0beec2d/example_geodesic.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">example_geodesic.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/516020d83b1ab3a5cf405dee2443458e/example_geodesic.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">example_geodesic.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2020, slam Developers. Last updated on 2020-07-01.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
