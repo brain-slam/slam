@@ -455,6 +455,42 @@ def mesh_boundary(mesh, verbose=False):
         return edges_to_boundary(edges_boundary, mesh.edges)
 
 
+def remove_mesh_boundary_faces(mesh, face_vertex_number=1):
+    """
+    remove from the mesh the faces and that have face_vertex_number number of
+    vertices or more on the boundary of the mesh
+    If face_vertex_number = 3 the faces with all 3 vertices on the boundary of
+    the mesh will be removed.
+    If face_vertex_number = 2 the faces with 2 or 3 vertices on the boundary of
+    the mesh will be removed.
+    If face_vertex_number = 1 the faces with 1 or 2 or 3 vertices on the
+    boundary will be removed.
+    The cases face_vertex_number = 0 or >= 3 does not make any sense, so an
+    error is raised.
+    :param mesh:
+    :param face_vertex_number: number of vertices per face lying on the
+    boundary of the mesh above which the face has to be removed,
+    acceptable values are 1, 2 or 3
+    :return: trimesh object
+    """
+    if face_vertex_number == 0 or face_vertex_number > 3:
+        raise NameError('Invalid parameter value: face_vertex_number value '
+                        'should be 1, 2, or 3')
+
+    open_mesh_boundary = mesh_boundary(mesh)
+
+    boundary_faces = ismember(mesh.faces, open_mesh_boundary[0])
+    # compute the mask of faces to keep
+    # faces for which face_vertex_number or more vertices are on the boundary
+    # are excluded from the mask.
+    # i.e. faces with 3-face_vertex_number vertices on the boundary are kept
+    face_mask = np.logical_not(np.sum(boundary_faces, 1) >= face_vertex_number)
+    out_mesh = mesh.copy()
+    out_mesh.update_faces(face_mask)
+    out_mesh.remove_unreferenced_vertices()
+    return out_mesh
+
+
 def sub_cut_mesh(mesh, atex, val):
     poly = mesh.faces
     vert = mesh.vertices

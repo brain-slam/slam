@@ -3,6 +3,7 @@ from scipy.spatial import Delaunay
 from scipy.optimize import newton
 import trimesh
 from trimesh import creation as tcr
+import slam.topology as stop
 
 
 def quadric(K1, K2):
@@ -84,26 +85,28 @@ def adaptive_sampling(ymax, K, step):
     # Step 1
     curve_length = f(ymax)
     curve_step = np.sqrt(3) / 2 * step  # * np.sqrt(K+1) # Pythagore
-    Npoints = int(np.floor(curve_length/curve_step))
+    Npoints = int(np.floor(curve_length / curve_step))
     curve_samples = np.arange(0, curve_length, curve_step)
 
     # Step 2
-    y_pos = np.zeros((Npoints+1,))
-    for i in range(Npoints+1):
+    y_pos = np.zeros((Npoints + 1,))
+    for i in range(Npoints + 1):
         y_pos[i] = newton(lambda x:
-                               f(x) - curve_samples[i], curve_samples[i])
+                          f(x) - curve_samples[i], curve_samples[i])
     y_pos = np.concatenate([-y_pos[::-1], y_pos[1:]])
     curve_samples = np.concatenate([-curve_samples[::-1], curve_samples[1:]])
     return y_pos, curve_samples
 
 
-def generate_paraboloid_regular(K, nstep=50, ax=1, ay=1, random_sampling=False,
-                                random_distribution_type='gaussian', ratio=0.1):
+def generate_paraboloid_regular(A, nstep=50, ax=1, ay=1,
+                                random_sampling=False,
+                                random_distribution_type='gaussian',
+                                ratio=0.1):
     """
         generate a regular paraboloid mesh Z=K*Y^2
         ratio and random_distribution_type parameters are unused if
         random_sampling is set to False
-        :param K: amplitude of the paraboloid
+        :param A: amplitude of the paraboloid
         :param nstep: nstepx or the sampling step stepx as a float !
         :param ax: half length of the domain
         :param ay: half width of the domain
@@ -116,15 +119,15 @@ def generate_paraboloid_regular(K, nstep=50, ax=1, ay=1, random_sampling=False,
     xmin, xmax = [-ax, ax]
     ymin, ymax = [-ay, ay]
     # Define the sampling
-    if type(nstep[0]) == int:
-        stepx = (xmax - xmin) / nstep[0]
+    if isinstance(nstep, int):
+        stepx = (xmax - xmin) / nstep
     else:
-        stepx = nstep[0]
+        stepx = nstep
 
     # Coordinates
     x = np.arange(xmin, xmax, stepx)
     # To generate y
-    y, curve_samples = adaptive_sampling(ymax, K, stepx)
+    y, curve_samples = adaptive_sampling(ymax, A, stepx)
 
     X, Y = np.meshgrid(x, y)
     X[::2] += stepx / 2
@@ -150,18 +153,24 @@ def generate_paraboloid_regular(K, nstep=50, ax=1, ay=1, random_sampling=False,
             X = X + sigma * np.random.randn(nb_vert, )
             Y = Y + sigma * np.random.randn(nb_vert, )
 
-    # Delaunay triangulation: be careful, to do on the curvilinear aspects to avoid triangle flips
+    # Delaunay triangulation: be careful, to do on the curvilinear aspects to
+    # avoid triangle flips
     Xtmp, S = np.meshgrid(x, curve_samples)
     S = S.flatten()
-    #faces_tri = Triangulation(X, S)
-    faces_tri = Delaunay(np.vstack((X, S)).T, qhull_options='QJ Qt Qbb')# Qbb Qc Qz Qj')
+    # faces_tri = Triangulation(X, S)
+    faces_tri = Delaunay(np.vstack((X, S)).T, qhull_options='QJ Qt Qbb')
+    # alternative setting? 'Qbb Qc Qz Qj'
 
-    Z = quadric(0, K)(X, Y)
+    Z = quadric(0, A)(X, Y)
     coords = np.array([X, Y, Z]).transpose()
 
-    return trimesh.Trimesh(faces=faces_tri.simplices,
-                           vertices=coords,
-                           process=False)
+    paraboloid_mesh = trimesh.Trimesh(faces=faces_tri.simplices,
+                                      vertices=coords,
+                                      process=False)
+    # remove the faces having any vertex on the boundary to avoid
+    # atypical faces geometry due to Delaunay triangulation in 2D
+    return stop.remove_mesh_boundary_faces(paraboloid_mesh,
+                                           face_vertex_number=1)
 
 
 def generate_quadric(K, nstep=50, ax=1, ay=1, random_sampling=True,
@@ -216,16 +225,21 @@ def generate_quadric(K, nstep=50, ax=1, ay=1, random_sampling=True,
             Y = Y + sigma * np.random.randn(nb_vert, )
 
     # Delaunay triangulation, based on scipy binding of Qhull.
-    # See https://scipy.github.io/devdocs/generated/scipy.spatial.Delaunay.html#scipy.spatial.Delaunay
-    # and http://www.qhull.org/html/qdelaun.htm for more informations
-    faces_tri = Delaunay(np.vstack((X, Y)).T, qhull_options='QJ Qt Qbb')# Qbb Qc Qz Qj')
+    # See https://scipy.github.io/devdocs/generated/scipy.spatial.Delaunay.html
+    #     scipy.spatial.Delaunay
+    #     and http://www.qhull.org/html/qdelaun.htm for more informations
+    faces_tri = Delaunay(np.vstack((X, Y)).T, qhull_options='QJ Qt Qbb')
+    # alternative settings? 'Qbb Qc Qz Qj'
 
     Z = quadric(K[0], K[1])(X, Y)
     coords = np.array([X, Y, Z]).transpose()
 
-    return trimesh.Trimesh(faces=faces_tri.simplices,
-                           vertices=coords,
-                           process=False)
+    quadric_mesh = trimesh.Trimesh(faces=faces_tri.simplices,
+                                   vertices=coords,
+                                   process=False)
+    # remove the faces having any vertex on the boundary to avoid
+    # atypical faces geometry due to Delaunay triangulation in 2D
+    return stop.remove_mesh_boundary_faces(quadric_mesh, face_vertex_number=1)
 
 
 def generate_ellipsiod(a, b, nstep, random_sampling=False):

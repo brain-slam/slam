@@ -130,9 +130,9 @@ def pyglet_plot(mesh_in, values=None, color_map=None,
             norm = mpl.colors.BoundaryNorm(cmap_bounds, color_map.N)
             # print(norm)
             mpl.colorbar.ColorbarBase(ax, cmap=color_map, norm=norm,
-                                       orientation='horizontal')
+                                      orientation='horizontal')
 
-            #mpl.colorbar.ColorbarBase(ax, cmap=color_map,
+            # mpl.colorbar.ColorbarBase(ax, cmap=color_map,
             #                          orientation='horizontal')
             fig.set_size_inches(18, 4)
             plt.show()

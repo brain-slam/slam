@@ -54,6 +54,26 @@ for bound in open_mesh_boundary:
 visb_sc.preview()
 
 ###############################################################################
+# eroding the mesh by removing the faces having 3 vertices on the boundary
+eroded_mesh = stop.remove_mesh_boundary_faces(open_mesh, face_vertex_number=1)
+
+###############################################################################
+# show the result
+visb_sc2 = splt.visbrain_plot(mesh=eroded_mesh, caption='eroded mesh')
+# show again the boundary of original mesh which have been removed with
+# corresponding faces by the erosion
+for bound in open_mesh_boundary:
+    points = open_mesh.vertices[bound]
+    s_rad = SourceObj('rad', points, color='red', symbol='square',
+                      radius_min=10)
+    visb_sc2.add_to_subplot(s_rad)
+    lines = Line(pos=open_mesh.vertices[bound], width=10, color='b')
+    # wrap the vispy object using visbrain
+    l_obj = VispyObj('line', lines)
+    visb_sc2.add_to_subplot(l_obj)
+visb_sc2.preview()
+
+###############################################################################
 # here is how to get the vertices that define the boundary of
 # a texture on a mesh
 # Let us first load example data
@@ -69,7 +89,7 @@ texture_bound = stop.texture_boundary(mesh, tex_parcel.darray[0], 20)
 
 ###############################################################################
 # show the results
-visb_sc2 = splt.visbrain_plot(mesh=mesh, tex=tex_parcel.darray[0],
+visb_sc3 = splt.visbrain_plot(mesh=mesh, tex=tex_parcel.darray[0],
                               caption='texture boundary')
 cols = ['red', 'green', 'yellow', 'blue']
 ind = 0
@@ -77,15 +97,15 @@ for bound in texture_bound:
     points = mesh.vertices[bound]
     s_rad = SourceObj('rad', points, color='red', symbol='square',
                       radius_min=10)
-    visb_sc2.add_to_subplot(s_rad)
+    visb_sc3.add_to_subplot(s_rad)
     lines = Line(pos=mesh.vertices[bound], width=10, color=cols[ind])
     # wrap the vispy object using visbrain
     l_obj = VispyObj('line', lines)
-    visb_sc2.add_to_subplot(l_obj)
+    visb_sc3.add_to_subplot(l_obj)
     ind += 1
     if ind == len(cols):
         ind = 0
-visb_sc2.preview()
+visb_sc3.preview()
 
 ###############################################################################
 # ================= cut_mesh =================

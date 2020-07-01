@@ -220,6 +220,23 @@ class TestTopologyMethods(unittest.TestCase):
         for i in snot_bound:
             assert (mesh_a.vertices[i] == mesh_a_closed.vertices[i]).all()
 
+    def test_remove_mesh_boundary_faces(self):
+        mesh_a = self.cutSphere_A.copy()
+        mesh_a_save = mesh_a.copy()
+        boundary = stop.mesh_boundary(mesh_a)
+        mesh_processed = stop.remove_mesh_boundary_faces(mesh_a,
+                                                         face_vertex_number=1)
+        # Non modification
+        assert(mesh_a.vertices == mesh_a_save.vertices).all()
+        # Correctness
+        # check that when removing all faces with any vertex on the boundary,
+        # all the boundary vertices are removed from the mesh
+        print(len(boundary[0]))
+        print(len(mesh_a.vertices))
+        print(len(mesh_processed.vertices))
+        assert(len(mesh_processed.vertices) ==
+               len(mesh_a.vertices) - len(boundary[0]))
+
 
 if __name__ == '__main__':
     unittest.main()
