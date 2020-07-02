@@ -20,4 +20,3 @@ def decompose_curvature(curvatures):
 def curvedness_shapeIndex(mesh):
     curv = scurv.curvatures_and_derivatives(mesh)[0]
     return decompose_curvature(curv)
-    
