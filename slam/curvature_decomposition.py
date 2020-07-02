@@ -12,7 +12,7 @@ def decompose_curvature(curvatures):
     curvatures = np.sort(curvatures, 1)[::-1]
     shapeIndex = (2 / np.pi) * np.arctan(
         (curvatures[0, :] + curvatures[1, :]) /
-        (curvatures[0, :] - curvatures[1, :])
+        (curvatures[1, :] - curvatures[0, :])
     )
     curvedness = np.sqrt((curvatures[0, :]**2 + curvatures[1, :]**2) / 2)
     return shapeIndex, curvedness
