@@ -406,23 +406,3 @@ def compute_all_principal_directions_3D(K, vertices):
         res[i, :, 1] = u2[0] * e1 + u2[1] * e2
     return res
 
-
-def angle(vec1, vec2):
-    """
-    Return the angle between two vectors
-    :param vec1:
-    :param vec2:
-    :return:
-    """
-    return np.arccos(np.dot(vec1, vec2)/(np.sqrt(np.dot(vec1, vec1) *
-                                                 np.dot(vec2, vec2))))
-
-
-def dotprod(vec1, vec2):
-    """
-    Return the normalized dotprod between two vectors
-    :param vec1:
-    :param vec2:
-    :return:
-    """
-    return np.dot(vec1, vec2)/(np.sqrt(np.dot(vec1, vec1)*np.dot(vec2, vec2)))
