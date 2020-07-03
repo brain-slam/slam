@@ -345,8 +345,8 @@ def compute_principal_directions(K, x, y):
     M = compute_weingarten_map(K, x, y)
     w, v = np.linalg.eig(M)
     if w[0] > w[1]:
-        return v[1], v[0]
-    return v[0], v[1]
+        return v[:, 1], v[:, 0]
+    return v[:, 0], v[:, 1]
 
 
 def compute_local_basis(K, x, y):
