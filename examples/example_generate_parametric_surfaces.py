@@ -5,14 +5,14 @@ import numpy as np
 if __name__ == '__main__':
     # Quadric
     K = [1, 1]
-    quadric = sgps.generate_quadric(K, nstep=40, ax=3, ay=1,
-                                    random_sampling=True,
+    quadric = sgps.generate_quadric(K, nstep=[40, 40], ax=3, ay=1,
+                                    random_sampling=False,
                                     ratio=0.3,
                                     random_distribution_type='gamma')
 
     quadric.show()
     quadric2 = \
-        sgps.generate_paraboloid_regular(K=1, nstep=40, ax=3, ay=1,
+        sgps.generate_paraboloid_regular(A=1, nstep=40, ax=3, ay=1,
                                          random_sampling=True,
                                          ratio=0.1,
                                          random_distribution_type='gamma')

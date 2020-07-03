@@ -12,7 +12,7 @@ if __name__ == '__main__':
     # mesh_boundary works fine
     # here is how to get the vertices that define the boundary of an open mesh
     K = [-1, -1]
-    open_mesh = sps.generate_quadric(K, nstep=5)
+    open_mesh = sps.generate_quadric(K, nstep=[5, 5])
     print('================= mesh_boundary =================')
     print('Identify the vertices lying on the boundary of the mesh and order'
           'them to get a path traveling across boundary vertices')

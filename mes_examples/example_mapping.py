@@ -28,7 +28,7 @@ from visbrain.objects import VispyObj, SourceObj
 ###############################################################################
 # Generation of an open mesh
 K = [-1, -1]
-open_mesh = sps.generate_quadric(K, nstep=5)
+open_mesh = sps.generate_quadric(K, nstep=[5, 5])
 open_mesh_boundary = stop.mesh_boundary(open_mesh)
 # Visualization
 visb_sc = splt.visbrain_plot(mesh=open_mesh, caption='open mesh')
