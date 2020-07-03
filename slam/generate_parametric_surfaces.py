@@ -169,20 +169,89 @@ def generate_paraboloid_regular(A, nstep=50, ax=1, ay=1,
                                       process=False)
     # remove the faces having any vertex on the boundary to avoid
     # atypical faces geometry due to Delaunay triangulation in 2D
+    # TO DO: same boundary removal as for generate_quadric
     return stop.remove_mesh_boundary_faces(paraboloid_mesh,
                                            face_vertex_number=1)
 
 
-def generate_quadric(K, nstep=50, ax=1, ay=1, random_sampling=True,
+# def generate_quadric(K, nstep=50, ax=1, ay=1, random_sampling=True,
+#                      ratio=0.2, random_distribution_type='gaussian'):
+#     """
+#     generate a quadric mesh
+#     ratio and random_distribution_type parameters are unused if
+#     random_sampling is set to False
+#     :param K:
+#     :param nstep:
+#     :param ax:
+#     :param ay:
+#     :param random_sampling:
+#     :param ratio:
+#     :param random_distribution_type:
+#     :return:
+#     """
+#
+#     # Parameters
+#     xmin, xmax = [-ax, ax]
+#     ymin, ymax = [-ay, ay]
+#
+#     # Coordinates
+#     stepx = (xmax - xmin) / nstep
+#     x = np.arange(xmin, xmax, stepx)
+#     # x, stepx = np.linspace(xmin, xmax, nstep, retstep=True)
+#     stepy = stepx * np.sqrt(3) / 2  # to ensure equilateral faces
+#     y = np.arange(ymin, ymax, stepy)
+#     # y = np.linspace(ymin, ymax, nstep)
+#     X, Y = np.meshgrid(x, y)
+#     X[::2] += stepx / 2
+#     # Y += np.sqrt(3) / 2
+#     X = X.flatten()
+#     Y = Y.flatten()
+#
+#     if random_sampling:
+#         sigma = stepx * ratio  # characteristic size of the mesh * ratio
+#         nb_vert = len(x) * len(y)
+#         if random_distribution_type == 'gamma':
+#             theta = np.random.rand(nb_vert, ) * np.pi * 2
+#             mean = sigma
+#             variance = sigma ** 2
+#             radius = \
+#                 np.random.gamma(mean ** 2 / variance, variance / mean, nb_vert)
+#             X = X + radius * np.cos(theta)
+#             Y = Y + radius * np.sin(theta)
+#         elif random_distribution_type == 'uniform':
+#             X = X + np.random.uniform(-1, 1, 100)
+#             Y = Y + np.random.uniform(-1, 1, 100)
+#         else:
+#             X = X + sigma * np.random.randn(nb_vert, )
+#             Y = Y + sigma * np.random.randn(nb_vert, )
+#
+#     # Delaunay triangulation, based on scipy binding of Qhull.
+#     # See https://scipy.github.io/devdocs/generated/scipy.spatial.Delaunay.html
+#     #     scipy.spatial.Delaunay
+#     #     and http://www.qhull.org/html/qdelaun.htm for more informations
+#     faces_tri = Delaunay(np.vstack((X, Y)).T, qhull_options='QJ Qt Qbb')
+#     # alternative settings? 'Qbb Qc Qz Qj'
+#
+#     Z = quadric(K[0], K[1])(X, Y)
+#     coords = np.array([X, Y, Z]).transpose()
+#
+#     quadric_mesh = trimesh.Trimesh(faces=faces_tri.simplices,
+#                                    vertices=coords,
+#                                    process=False)
+#     # remove the faces having any vertex on the boundary to avoid
+#     # atypical faces geometry due to Delaunay triangulation in 2D
+#     return stop.remove_mesh_boundary_faces(quadric_mesh, face_vertex_number=1)
+def generate_quadric(K, nstep=[int(50), int(50)], equilateral=False, ax=1, ay=1, random_sampling=True,
                      ratio=0.2, random_distribution_type='gaussian'):
     """
-    generate a quadric mesh
+    generate a quadric mesh Z=K1*X^2 + K2*Y^2
     ratio and random_distribution_type parameters are unused if
     random_sampling is set to False
-    :param K:
-    :param nstep:
-    :param ax:
-    :param ay:
+    :param K: list with [K1,K2]
+    :param nstep: list with [nstepx,nstepy] or the sampling steps [stepx,stepy] as floats !
+    :param equilateral: to have an equilateral sampling scheme of the quadric
+    :param ax: half length of the domain
+    :param ay: half width of the domain
     :param random_sampling:
     :param ratio:
     :param random_distribution_type:
@@ -192,16 +261,37 @@ def generate_quadric(K, nstep=50, ax=1, ay=1, random_sampling=True,
     # Parameters
     xmin, xmax = [-ax, ax]
     ymin, ymax = [-ay, ay]
+    # Define the sampling
+    if equilateral:
+        if type(nstep[0])==int:
+            stepx = (xmax - xmin) / nstep[0]
+        else:
+            stepx = nstep[0]
+        stepy = stepx * np.sqrt(3) / 2  # to ensure equilateral faces
+    else:
+        if type(nstep[0]) == int:
+            stepx = (xmax - xmin) / nstep[0]
+            stepy = (ymax - ymin) / nstep[1]
+        else:
+            stepx = nstep[0]
+            stepy = nstep[1]
 
     # Coordinates
-    stepx = (xmax - xmin) / nstep
     x = np.arange(xmin, xmax, stepx)
     # x, stepx = np.linspace(xmin, xmax, nstep, retstep=True)
-    stepy = stepx * np.sqrt(3) / 2  # to ensure equilateral faces
     y = np.arange(ymin, ymax, stepy)
     # y = np.linspace(ymin, ymax, nstep)
     X, Y = np.meshgrid(x, y)
-    X[::2] += stepx / 2
+
+    # Boundary of a meshgrid-like set of points, warning X.max()/Y.max() and not xmax, ymax
+    boundary_x = np.logical_or(X.flatten() == xmin, X.flatten() == X.max())
+    boundary_y = np.logical_or(Y.flatten() == ymin, Y.flatten() == Y.max())
+    boundary = np.logical_or(boundary_x, boundary_y)
+    boundary = np.where(boundary)[0]
+
+    # Adapt in case of equilateral meshing
+    if equilateral:
+        X[::2] += stepx / 2
     # Y += np.sqrt(3) / 2
     X = X.flatten()
     Y = Y.flatten()
@@ -234,12 +324,20 @@ def generate_quadric(K, nstep=50, ax=1, ay=1, random_sampling=True,
     Z = quadric(K[0], K[1])(X, Y)
     coords = np.array([X, Y, Z]).transpose()
 
-    quadric_mesh = trimesh.Trimesh(faces=faces_tri.simplices,
-                                   vertices=coords,
+    quadric_mesh = trimesh.Trimesh(faces=faces_tri.simplices, vertices=coords,
                                    process=False)
-    # remove the faces having any vertex on the boundary to avoid
-    # atypical faces geometry due to Delaunay triangulation in 2D
-    return stop.remove_mesh_boundary_faces(quadric_mesh, face_vertex_number=1)
+
+    # Remove boundary, computed previously
+    boundary_faces = stop.ismember(quadric_mesh.faces, boundary)
+    # compute the mask of faces to keep
+    # faces for which face_vertex_number or more vertices are on the boundary
+    # are excluded from the mask.
+    # i.e. faces with 3-face_vertex_number vertices on the boundary are kept
+    face_mask = np.logical_not(np.sum(boundary_faces, 1) >= 3)
+    quadric_mesh.update_faces(face_mask)
+    quadric_mesh.remove_unreferenced_vertices()
+
+    return quadric_mesh
 
 
 def generate_ellipsiod(a, b, nstep, random_sampling=False):
@@ -345,8 +443,8 @@ def compute_principal_directions(K, x, y):
     M = compute_weingarten_map(K, x, y)
     w, v = np.linalg.eig(M)
     if w[0] > w[1]:
-        return v[1], v[0]
-    return v[0], v[1]
+        return v[:, 1], v[:, 0]
+    return v[:, 0], v[:, 1]
 
 
 def compute_local_basis(K, x, y):
@@ -406,23 +504,3 @@ def compute_all_principal_directions_3D(K, vertices):
         res[i, :, 1] = u2[0] * e1 + u2[1] * e2
     return res
 
-
-def angle(vec1, vec2):
-    """
-    Return the angle between two vectors
-    :param vec1:
-    :param vec2:
-    :return:
-    """
-    return np.arccos(np.dot(vec1, vec2)/(np.sqrt(np.dot(vec1, vec1) *
-                                                 np.dot(vec2, vec2))))
-
-
-def dotprod(vec1, vec2):
-    """
-    Return the normalized dotprod between two vectors
-    :param vec1:
-    :param vec2:
-    :return:
-    """
-    return np.dot(vec1, vec2)/(np.sqrt(np.dot(vec1, vec1)*np.dot(vec2, vec2)))

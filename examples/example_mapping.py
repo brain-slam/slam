@@ -10,7 +10,7 @@ from visbrain.objects import VispyObj, SourceObj
 if __name__ == '__main__':
     # let us generate an open mesh
     K = [-1, -1]
-    open_mesh = sps.generate_quadric(K, nstep=5)
+    open_mesh = sps.generate_quadric(K, nstep=[5, 5])
     open_mesh.show()
     open_mesh_boundary = stop.mesh_boundary(open_mesh)
 
