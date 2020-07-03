@@ -311,3 +311,118 @@ def generate_sphere_icosahedron(subdivisions=3, radius=1.0):
     :return:
     """
     return tcr.icosphere(subdivisions=subdivisions, radius=radius)
+
+
+def compute_weingarten_map(K, x, y):
+    """
+    compute the weingarten matrix of a quadric depending on x and y coordinates
+    :param K: (2,) array such as z(x,y)=K[0]*x**2 + K[1]*y**2
+    :param (x,y): coordinates where to compute the matrix
+    :return: (2,2) matrix of the weingarten endomorphism to be evaluated at
+    (x,y)
+    """
+    K1 = K[0]
+    K2 = K[1]
+    M = np.zeros((2, 2), dtype=float)
+    coeff = 4 * K1 * K2 * x * y
+    M[0, 0] = K1 * (1 + 4 * K2 ** 2 * y ** 2)
+    M[0, 1] = -coeff * K2
+    M[1, 0] = -coeff * K1
+    M[1, 1] = K2 * (1 + 4 * K1 ** 2 * x ** 2)
+    return M
+
+
+def compute_principal_directions(K, x, y):
+    """
+    Compute the principal direction of a quadric, obtained as eigenvectors of
+    the Weingarten matrix
+    :param K: (2,) array such as z(x,y)=K[0]*x**2 + K[1]*y**2
+    :param x: x coordinate where to compute the matrix
+    :param y: y coordinate where to compute the matrix
+    :return: a 2-list of (2,1) vectors, i.e. principal directions ordered with
+    Kmin,Kmax respectively
+    """
+    M = compute_weingarten_map(K, x, y)
+    w, v = np.linalg.eig(M)
+    if w[0] > w[1]:
+        return v[1], v[0]
+    return v[0], v[1]
+
+
+def compute_local_basis(K, x, y):
+    """
+    Compute the local basis of the tangent plane for the quadric
+    z(x,y)=K[0]*x**2+K[1]*y**2
+    :param K: (2,) array such as z(x,y)=K[0]*x**2 + K[1]*y**2
+    :param x: x coordinate where to compute the matrix
+    :param y: y coordinate where to compute the matrix
+    :return: a 2-list of (3,1) vectors, obtained as
+    d (x,y,z(x,y) /dx and d (x,y,z(x,y) /dy
+    """
+    e1 = np.array([[1, 0, 2 * K[0] * x]])
+    e2 = np.array([[0, 1, 2 * K[1] * y]])
+    return e1, e2
+
+
+def compute_all_principal_directions(K, vertices):
+    """
+    Compute all the principal directions of a quadric surface defined through
+    the input K and sampled points vertices in a local basis
+    :param K: (2,) array such as z(x,y)=K[0]*x**2 + K[1]*y**2
+    :param vertices: (n,3) coordinates of the quadric. It is implicitly assumed
+    that vertices[:,0] and vertices[:,1]
+    corresponds to x and y axis
+    :return: res: a (n,2,2) array such as res[i,:,0] and res[i,:,1] are the two
+    principal directions at vertex vertices[i,:] in the local basis
+    """
+    n = vertices.shape[0]
+    res = np.zeros((n, 2, 2), dtype=float)
+    for i in range(n):
+        u1, u2 = compute_principal_directions(K, vertices[i, 0],
+                                              vertices[i, 1])
+        res[i, :, 0] = u1
+        res[i, :, 1] = u2
+    return res
+
+
+def compute_all_principal_directions_3D(K, vertices):
+    """
+    Compute all the principal directions of a quadric surface defined through
+    the input K and sampled points vertices in 3D
+    :param K: (2,) array such as z(x,y)=K[0]*x**2 + K[1]*y**2
+    :param vertices: (n,3) coordinates of the quadric. It is implicitly assumed
+    that vertices[:,0] and vertices[:,1]
+    corresponds to x and y axis
+    :return: res: a (n,3,2) array such as res[i,:,0] and res[i,:,1] are the two
+    principal directions at vertex vertices[i,:]
+    """
+    n = vertices.shape[0]
+    res = np.zeros((n, 3, 2), dtype=float)
+    for i in range(n):
+        u1, u2 = compute_principal_directions(K, vertices[i, 0],
+                                              vertices[i, 1])
+        e1, e2 = compute_local_basis(K, vertices[i, 0], vertices[i, 1])
+        res[i, :, 0] = u1[0] * e1 + u1[1] * e2
+        res[i, :, 1] = u2[0] * e1 + u2[1] * e2
+    return res
+
+
+def angle(vec1, vec2):
+    """
+    Return the angle between two vectors
+    :param vec1:
+    :param vec2:
+    :return:
+    """
+    return np.arccos(np.dot(vec1, vec2)/(np.sqrt(np.dot(vec1, vec1) *
+                                                 np.dot(vec2, vec2))))
+
+
+def dotprod(vec1, vec2):
+    """
+    Return the normalized dotprod between two vectors
+    :param vec1:
+    :param vec2:
+    :return:
+    """
+    return np.dot(vec1, vec2)/(np.sqrt(np.dot(vec1, vec1)*np.dot(vec2, vec2)))
