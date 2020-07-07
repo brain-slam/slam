@@ -24,7 +24,7 @@ import numpy as np
 # Generating a quadrix surface
 
 K = [1, 1]
-quadric = sgps.generate_quadric(K, nstep=20, ax=3, ay=1,
+quadric = sgps.generate_quadric(K, nstep=[20, 20], ax=3, ay=1,
                                 random_sampling=True,
                                 ratio=0.3,
                                 random_distribution_type='gamma')
