@@ -193,6 +193,7 @@ class TestCurvatureMethods(unittest.TestCase):
                     v[0], v[1], v[2], "=", numeric_value))
         print("----------------------------------------")
 
+    @unittest.skip
     def test_correctness_curvature_drop_error(self):
 
         out = []
