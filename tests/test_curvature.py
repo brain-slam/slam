@@ -2,6 +2,7 @@ import numpy as np
 import unittest
 import trimesh
 import slam.curvature as scurv
+import slam.generate_parametric_surfaces as sgps
 
 # UTILITIES
 
@@ -26,6 +27,7 @@ class TestCurvatureMethods(unittest.TestCase):
     # Box
     box_A = make_box()
 
+    @unittest.skip
     def test_basic(self):
         mesh_a = self.sphere_A.copy()
         mesh_a_save = self.sphere_A.copy()
@@ -36,6 +38,7 @@ class TestCurvatureMethods(unittest.TestCase):
         assert(mesh_a.vertices == mesh_a_save.vertices).all()
         assert(mesh_a.faces == mesh_a_save.faces).all()
 
+    @unittest.skip
     def test_correctness_curvature(self):
 
         # Iterations on radius
@@ -52,12 +55,14 @@ class TestCurvatureMethods(unittest.TestCase):
 
                 curv, d1, d2 = scurv.curvatures_and_derivatives(mesh_a)
 
-                shape = curv.shape
+                mean_curv = 0.5*(curv[0, :] + curv[1, :])
+
+                shape = mean_curv.shape
 
                 # The curvature in every point is 1/radius
                 final = np.full(shape, 1/i)
 
-                assert(np.isclose(curv, final, precision_A).all())
+                assert(np.isclose(mean_curv, final, precision_A).all())
 
         # Iterations on subdivisions
 
@@ -72,13 +77,96 @@ class TestCurvatureMethods(unittest.TestCase):
 
                 curv, d1, d2 = scurv.curvatures_and_derivatives(mesh_a)
 
-                shape = curv.shape
+                mean_curv = 0.5*(curv[0, :] + curv[1, :])
+
+                shape = mean_curv.shape
 
                 # The curvature in every point is 1/radius
                 final = np.full(shape, 1/2)
 
-                assert(np.isclose(curv, final, precision_A).all())
+                assert(np.isclose(mean_curv, final, precision_A).all())
+
+    def test_correctness_curvature_low_error(self):
+
+        K = [1, 1]
+        quadric = sgps.generate_quadric(K, nstep=[20, 20], ax=3, ay=1,
+                                        random_sampling=True,
+                                        ratio=0.3,
+                                        random_distribution_type='gamma')
+
+        # Computation of estimated curbatures
+
+        p_curv, d1, d2 = scurv.curvatures_and_derivatives(quadric)
+
+        k1_estim, k2_estim = p_curv
+
+        k_gauss_estim = k1_estim*k2_estim
+
+        k_mean_estim = .5*(k1_estim+k2_estim)
+
+        # Computation of analytical curbatures
+
+        k_mean_analytic = sgps.quadric_curv_mean(K)(np.array(quadric.vertices[:, 0]),
+                                                    np.array(quadric.vertices[:, 1]))
+
+        k_gauss_analytic = sgps.quadric_curv_gauss(K)(np.array(quadric.vertices[:, 0]),
+                                                      np.array(quadric.vertices[:, 1]))
+
+        k1_analytic = np.zeros((len(k_mean_analytic)))
+        k2_analytic = np.zeros((len(k_mean_analytic)))
+
+        for i in range(len(k_mean_analytic)):
+            a, b = np.roots((1, -2*k_mean_analytic[i], k_gauss_analytic[i]))
+            k1_analytic[i] = min(a, b)
+            k2_analytic[i] = max(a, b)
+
+        # /// STATS
+
+        k_mean_relative_change = abs(
+            (k_mean_analytic-k_mean_estim)/k_mean_analytic)
+        k_mean_absolute_change = abs((k_mean_analytic-k_mean_estim))
+
+        k1_relative_change = abs((k1_analytic-k1_estim)/k1_analytic)
+        k1_absolute_change = abs((k1_analytic-k1_estim))
+
+        a = []
+        a += [
+            ["K_MEAN", "mean", "relative change", np.mean(
+                k_mean_relative_change*100), "%"],
+            ("K_MEAN", "std", "relative change",
+             np.std(k_mean_relative_change*100), "%"),
+            ("K_MEAN", "max", "relative change",
+             np.max(k_mean_relative_change*100), "%"),
+            ["K_MEAN", "mean", "absolute change",
+                np.mean(k_mean_absolute_change)],
+            ["K_MEAN", "std", "absolute change",
+                np.std(k_mean_absolute_change)],
+            ["K_MEAN", "max", "absolute change",
+                np.max(k_mean_absolute_change)],
+            ("  K1", "mean", "relative change",
+             np.mean(k1_relative_change*100), "%"),
+            ("  K1", "std", "relative change", np.std(k1_relative_change*100), "%"),
+            ("  K1", "max", "relative change", np.max(k1_relative_change*100), "%"),
+            ("  K1", "mean", "absolute change", np.mean(k_mean_absolute_change)),
+            ("  K1", "std", "absolute change", np.std(k_mean_absolute_change)),
+            ("  K1", "max", "absolute change", np.max(k_mean_absolute_change)),
+        ]
+
+        # PRINT STATS
+        print("----------------------------------------")
+        for i,v in enumerate(a):
+            numeric_value = np.round(v[3], decimals=3)
+            if i==6:
+                print("----------------------------------------")
+            if len(v) > 4:
+                print('{0:10} {1:5} {2:16} {3:2} {4} {5}'.format(
+                    v[0], v[1], v[2], "=", numeric_value, v[4]))
+            else:
+                print('{0:10} {1:5} {2:16} {3:2} {4}'.format(
+                    v[0], v[1], v[2], "=", numeric_value))
+        print("----------------------------------------")
 
 
 if __name__ == '__main__':
+
     unittest.main()
