@@ -66,7 +66,6 @@ class TestCurvatureMethods(unittest.TestCase):
                 # The gaussian curvature in every point is 1/radius**2
                 analytical_gauss = np.full(shape, 1/i**2)
 
-
                 assert(np.isclose(mean_curv, analytical_mean, precision_A).all())
                 assert(np.isclose(gauss_curv, analytical_gauss, precision_B).all())
 
@@ -96,7 +95,8 @@ class TestCurvatureMethods(unittest.TestCase):
                 analytical_gauss = np.full(shape, 1/4)
 
                 assert(np.isclose(mean_curv, analytical_mean, precision_A).all())
-                assert(np.isclose(analytical_gauss, analytical_gauss, precision_B).all())
+                assert(np.isclose(analytical_gauss,
+                                  analytical_gauss, precision_B).all())
 
     @unittest.skip
     def test_correctness_curvature_low_error(self):
