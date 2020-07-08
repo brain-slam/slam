@@ -10,7 +10,6 @@ import slam.generate_parametric_surfaces as sgps
 
 
 def decompose_curvature(curvatures):
-    curvatures = np.sort(curvatures, 1)[::-1]
     shapeIndex = (2 / np.pi) * np.arctan(
         (curvatures[0, :] + curvatures[1, :]) /
         (curvatures[1, :] - curvatures[0, :])
