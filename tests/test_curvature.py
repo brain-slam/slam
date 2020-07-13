@@ -2,6 +2,7 @@ import numpy as np
 import unittest
 import trimesh
 import slam.curvature as scurv
+import slam.curvature_decomposition as scurd
 import slam.generate_parametric_surfaces as sgps
 
 # UTILITIES
@@ -110,7 +111,7 @@ class TestCurvatureMethods(unittest.TestCase):
                 assert(np.isclose(analytical_gauss,
                                   analytical_gauss, precision_B).all())
 
-    @unittest.skip
+    #@unittest.skip
     def test_correctness_curvature_low_error(self):
 
         K = [1, 1]
@@ -256,6 +257,23 @@ class TestCurvatureMethods(unittest.TestCase):
         # points
         assert(sorted(out, reverse=True) == out)
 
+    def test_decomposition_sphere(self):
+
+        precisionA = .0000001
+        precisionB = .0000001
+        
+        radius = 3
+
+        mesh_a = self.sphere_A.copy()
+
+
+        mesh_a = trimesh.creation.icosphere(
+            subdivisions=1, radius=radius)
+
+        shapeIndex, curvedness = scurd.curvedness_shapeIndex(mesh_a)
+
+        assert( np.isclose(shapeIndex, 1, precisionA).all())
+        assert( np.isclose(curvedness, 1/radius, precisionB).all())
 
 if __name__ == '__main__':
 
