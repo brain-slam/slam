@@ -111,7 +111,7 @@ class TestCurvatureMethods(unittest.TestCase):
                 assert(np.isclose(analytical_gauss,
                                   analytical_gauss, precision_B).all())
 
-    #@unittest.skip
+    # @unittest.skip
     def test_correctness_curvature_low_error(self):
 
         K = [1, 1]
@@ -261,7 +261,7 @@ class TestCurvatureMethods(unittest.TestCase):
 
         precisionA = .0000001
         precisionB = .0000001
-        
+
         radius = 3
 
         mesh_a = trimesh.creation.icosphere(
@@ -269,8 +269,9 @@ class TestCurvatureMethods(unittest.TestCase):
 
         shapeIndex, curvedness = scurd.curvedness_shapeIndex(mesh_a)
 
-        assert( np.isclose(shapeIndex, 1, precisionA).all())
-        assert( np.isclose(curvedness, 1/radius, precisionB).all())
+        assert(np.isclose(shapeIndex, 1, precisionA).all())
+        assert(np.isclose(curvedness, 1 / radius, precisionB).all())
+
 
 if __name__ == '__main__':
 
