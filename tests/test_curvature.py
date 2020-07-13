@@ -264,9 +264,6 @@ class TestCurvatureMethods(unittest.TestCase):
         
         radius = 3
 
-        mesh_a = self.sphere_A.copy()
-
-
         mesh_a = trimesh.creation.icosphere(
             subdivisions=1, radius=radius)
 
