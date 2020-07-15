@@ -286,7 +286,7 @@ class TestCurvatureMethods(unittest.TestCase):
         radius = 3
 
         mesh_a = trimesh.creation.icosphere(
-            subdivisions=1, radius=radius)
+            subdivisions=2, radius=radius)
 
         mesh_a_save = mesh_a.copy()
 
@@ -300,7 +300,10 @@ class TestCurvatureMethods(unittest.TestCase):
         # Correctness
         # ShapeIndex is 1 or -1 on every vertex
         # Curvedness is 1/radius on every vertex
-        assert(np.isclose(shapeIndex, 1, precisionA)|np.isclose(shapeIndex, -1, precisionA)).all()
+        assert(
+            np.isclose(
+                shapeIndex, 1, precisionA) | np.isclose(
+                shapeIndex, -1, precisionA)).all()
         assert(np.isclose(curvedness, 1 / radius, precisionB).all())
 
 
