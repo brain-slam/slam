@@ -298,10 +298,9 @@ class TestCurvatureMethods(unittest.TestCase):
         assert(mesh_a.faces == mesh_a_save.faces).all()
 
         # Correctness
-        # ShapeIndex is 1 on every vertex
+        # ShapeIndex is 1 or -1 on every vertex
         # Curvedness is 1/radius on every vertex
-
-        assert(np.isclose(shapeIndex, 1, precisionA).all())
+        assert(np.isclose(shapeIndex, 1, precisionA)|np.isclose(shapeIndex, -1, precisionA)).all()
         assert(np.isclose(curvedness, 1 / radius, precisionB).all())
 
 
