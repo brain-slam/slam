@@ -38,7 +38,7 @@ class TestCurvatureMethods(unittest.TestCase):
         assert(mesh_a.vertices == mesh_a_save.vertices).all()
         assert(mesh_a.faces == mesh_a_save.faces).all()
 
-    def test_correctness_curvature(self):
+    def test_correctness_curvature_sphere(self):
 
         # Iterations on radius
 
@@ -108,11 +108,14 @@ class TestCurvatureMethods(unittest.TestCase):
                         mean_curv,
                         analytical_mean,
                         precision_A).all())
-                assert(np.isclose(analytical_gauss,
-                                  analytical_gauss, precision_B).all())
+                assert(
+                    np.isclose(
+                        analytical_gauss,
+                        analytical_gauss,
+                        precision_B).all())
 
     # @unittest.skip
-    def test_correctness_curvature_low_error(self):
+    def test_correctness_curvature_quadric(self):
 
         K = [1, 1]
         quadric = sgps.generate_quadric(K, nstep=[20, 20], ax=3, ay=1,
@@ -195,13 +198,15 @@ class TestCurvatureMethods(unittest.TestCase):
         print("----------------------------------------")
 
     @unittest.skip
-    def test_correctness_curvature_drop_error(self):
+    def test_error_drop_curvature_quadric(self):
+        """ Asserts the error drops when the mesh resolution is increased"""
 
         out = []
 
         for j in range(3):
             K = [1, 1]
-            # Increase the number of points
+
+            # Increase of the number of points
             quadric = sgps.generate_quadric(
                 K,
                 nstep=[
@@ -249,7 +254,7 @@ class TestCurvatureMethods(unittest.TestCase):
             k1_relative_change = abs((k1_analytic - k1_estim) / k1_analytic)
             k1_absolute_change = abs((k1_analytic - k1_estim))
 
-            out += [np.mean(k_mean_absolute_change)]
+            out += [np.round(np.mean(k_mean_absolute_change), 6)]
 
         print(out)
 
@@ -257,7 +262,23 @@ class TestCurvatureMethods(unittest.TestCase):
         # points
         assert(sorted(out, reverse=True) == out)
 
-    def test_decomposition_sphere(self):
+    def test_error_drop_curvature_quadric(self):
+
+        out = []
+
+        for j in range(3):
+            mesh_a = trimesh.creation.icosphere(
+                subdivisions=j + 1, radius=2)
+            p_curv, d1, d2 = scurv.curvatures_and_derivatives(mesh_a)
+            k1_estim, k2_estim = p_curv
+            k_mean_estim = (k1_estim + k2_estim) * .5
+            k_gauss_estim = (k1_estim * k2_estim)
+
+            out += [np.round(np.mean(k_mean_estim), 6)]
+
+        assert(sorted(out, reverse=True) == out)
+
+    def test_correctness_decomposition_sphere(self):
 
         precisionA = .0000001
         precisionB = .0000001
@@ -267,7 +288,18 @@ class TestCurvatureMethods(unittest.TestCase):
         mesh_a = trimesh.creation.icosphere(
             subdivisions=1, radius=radius)
 
+        mesh_a_save = mesh_a.copy()
+
         shapeIndex, curvedness = scurd.curvedness_shapeIndex(mesh_a)
+
+        # Non modification
+
+        assert(mesh_a.vertices == mesh_a_save.vertices).all()
+        assert(mesh_a.faces == mesh_a_save.faces).all()
+
+        # Correctness
+        # ShapeIndex is 1 on every vertex
+        # Curvedness is 1/radius on every vertex
 
         assert(np.isclose(shapeIndex, 1, precisionA).all())
         assert(np.isclose(curvedness, 1 / radius, precisionB).all())
