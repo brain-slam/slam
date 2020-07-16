@@ -63,10 +63,11 @@ shapeIndex, curvedness = scurv.decompose_curvature(PrincipalCurvatures)
 visb_sc = splt.visbrain_plot(mesh=mesh, tex=shapeIndex,
                              caption='ShapeIndex',
                              cblabel='ShapeIndex',
-                             cmap='hot')
+                             cmap='coolwarm')
+visb_sc.preview()
 
 visb_sc = splt.visbrain_plot(mesh=mesh, tex=curvedness,
                              caption='Curvedness',
                              cblabel='Curvedness',
-                             cmap='hot', visb_sc=visb_sc)
+                             cmap='hot')
 visb_sc.preview()

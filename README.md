@@ -94,7 +94,7 @@ visbrain is highly recommended for visualisation see (https://github.com/Etienne
 
  * install default packages as well as syntax validation ( ``flake8``, ``autopep8``) and test (``pytest``, ``pytest-cov``) packages
     ```
-    pip install -e .['default-dev]
+    pip install -e .['default-dev']
     ```
 
 ## Hall of fame
@@ -107,6 +107,8 @@ In addition to the global thank you to all contributors to this project, a speci
 . https://github.com/EtienneCmb for his help regarding visualization and Visbrain (https://github.com/EtienneCmb/visbrain).
 
 . https://github.com/aymanesouani for his implementation of a very nice curvature estimation technique.
+
+. https://github.com/Anthys for implementing the curvature decomposition and many unitests
 
 .  to be continued...
 
