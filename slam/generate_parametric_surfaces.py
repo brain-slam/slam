@@ -31,7 +31,7 @@ def quadric_curv_gauss(K):
     K2 = K[1]
 
     def curv_gauss(x, y):
-        num = -4 * (K1 * K2)
+        num = 4 * (K1 * K2)
         denom = (1 + 4 * K1 ** 2 * x ** 2 + 4 * K2 ** 2 * y ** 2) ** 2
         return num / denom
 
