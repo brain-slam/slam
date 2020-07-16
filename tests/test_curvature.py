@@ -306,6 +306,101 @@ class TestCurvatureMethods(unittest.TestCase):
                 shapeIndex, -1, precisionA)).all()
         assert(np.isclose(curvedness, 1 / radius, precisionB).all())
 
+    def test_correctness_decomposition_quadrix(self):
+
+        # Precision on the shapeIndex calculation
+        precisionA = 0.000001
+        # Precision on the curvedness calculation
+        precisionB = 0.000001
+
+        set_of_tests = [
+            # Set = [K, correct shapeIndex, correct curvedness]
+            [
+                [1, 1], 1, 2
+            ],
+
+            [
+                [-1, -1], 1, 2
+            ],
+            [
+                [.5, .5], 1, 1
+            ],
+            [
+                [1, 0], .5, np.sqrt(2)
+            ],
+        ]
+
+        for i in range(len(set_of_tests)):
+
+            current_test = set_of_tests[i]
+
+            K = current_test[0]
+
+            # Correct values of shapeIndex and curvedness on the vertex at the
+            # center of the mesh
+            correct_shape_index = current_test[1]
+            correct_curvedness = current_test[2]
+
+            with self.subTest(i):
+
+                # Generate quadric
+                quadric = sgps.generate_quadric(K, nstep=[20, 20], ax=3, ay=1,
+                                                random_sampling=False,
+                                                ratio=0.3,)
+
+                # Computation of analytical k_mean, k_gauss, k_1 and k_2
+                k_mean_analytic = sgps.quadric_curv_mean(K)(
+                    np.array(quadric.vertices[:, 0]), np.array(quadric.vertices[:, 1]))
+
+                k_gauss_analytic = sgps.quadric_curv_gauss(K)(
+                    np.array(quadric.vertices[:, 0]), np.array(quadric.vertices[:, 1]))
+
+                k1_analytic = np.zeros((len(k_mean_analytic)))
+                k2_analytic = np.zeros((len(k_mean_analytic)))
+
+                for i in range(len(k_mean_analytic)):
+                    a, b = np.roots(
+                        (1, -2 * k_mean_analytic[i], k_gauss_analytic[i]))
+                    k1_analytic[i] = min(a, b)
+                    k2_analytic[i] = max(a, b)
+
+                # Decomposition of the curvature
+                shapeIndex, curvedness = scurd.decompose_curvature(
+                    np.array((k1_analytic, k2_analytic)))
+
+                # Find the index of the vertex which is the closest to the
+                # center
+
+                def mag(p):
+                    """Distance to the center for the point p, not considering the z axis"""
+                    x = p[0]
+                    y = p[1]
+                    return np.sqrt(x * x + y * y)
+
+                min_i = 0
+                min_m = mag(quadric.vertices[0])
+                for i, v in enumerate(quadric.vertices):
+                    mg = mag(v)
+                    if mg < min_m:
+                        min_i = i
+                        min_m = mg
+
+                # Correctness
+                # ShapeIndex is either 1 or -1 on the vertex at the center of
+                # the mesh
+                computed_shapeIndex = shapeIndex[min_i]
+                computed_curvedness = curvedness[min_i]
+                print(computed_curvedness)
+
+                assert(
+                    np.isclose(
+                        computed_shapeIndex, correct_shape_index, precisionA) | np.isclose(
+                        computed_shapeIndex, -correct_shape_index, precisionA))
+                assert(
+                    np.isclose(
+                        computed_curvedness, correct_curvedness, precisionB) | np.isclose(
+                        computed_curvedness, -correct_curvedness, precisionB))
+
 
 if __name__ == '__main__':
 
