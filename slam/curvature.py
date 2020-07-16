@@ -377,6 +377,32 @@ def rotate_coordinate_system(up, vp, nf):
     return r_new_u, r_new_v
 
 
+def decompose_curvature(in_curv):
+    """
+    Decompose the principal curvatures of a mesh in ShapeIndex and curvedness
+    Implementation based on
+    ' Surface shape and curvature scales
+      Jan JKoenderink & Andrea Jvan Doorn
+      Image and Vision Computing
+      Volume 10, Issue 8, October 1992, Pages 557-564 '
+    """
+    curvatures = np.array(
+        (np.maximum(
+            in_curv[0], in_curv[1]), np.minimum(
+            in_curv[0], in_curv[1])))
+    shapeIndex = (2 / np.pi) * np.arctan(
+        (curvatures[0, :] + curvatures[1, :]) /
+        (curvatures[1, :] - curvatures[0, :])
+    )
+    curvedness = np.sqrt((curvatures[0, :]**2 + curvatures[1, :]**2) / 2)
+    return shapeIndex, curvedness
+
+
+def curvedness_shapeIndex(mesh):
+    curv = curvatures_and_derivatives(mesh)[0]
+    return decompose_curvature(curv)
+
+
 # def somme_colonnes(X):
 #     """
 #
