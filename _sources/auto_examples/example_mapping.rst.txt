@@ -59,7 +59,7 @@ Generation of an open mesh
 .. code-block:: default
 
     K = [-1, -1]
-    open_mesh = sps.generate_quadric(K, nstep=5)
+    open_mesh = sps.generate_quadric(K, nstep=[5, 5])
     open_mesh_boundary = stop.mesh_boundary(open_mesh)
     # Visualization
     visb_sc = splt.visbrain_plot(mesh=open_mesh, caption='open mesh')
@@ -129,11 +129,11 @@ Mapping onto a planar disk
         Computing mesh weights of type conformal
         -edge length threshold needed for  0  values =  0.0  %
         -number of Nan in weights:  0  =  0.0  %
-        -number of Negative values in weights:  10  =  11.363636363636363  %
+        -number of Negative values in weights:  16  =  15.384615384615385  %
         -nb Nan in Laplacian :  0
         -nb Inf in Laplacian :  0
-    Boundary Size: (16,)
-    Laplacian Size: (21, 21)
+    Boundary Size: (14,)
+    Laplacian Size: (23, 23)
     /home/toz/miniconda3/envs/trimesh_visbrain/lib/python3.6/site-packages/matplotlib/figure.py:445: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
       % get_backend())
 
@@ -161,9 +161,9 @@ Compute distortion measures between original and planar representations
 
  .. code-block:: none
 
-    1.850371707708594e-17
-    0.03392026696643352
-    0.08031762224385432
+    9.86864910777917e-18
+    -0.03608465883051769
+    -0.12797323439849556
 
 
 
@@ -171,7 +171,7 @@ Compute distortion measures between original and planar representations
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.271 seconds)
+   **Total running time of the script:** ( 0 minutes  1.248 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_mapping.py:

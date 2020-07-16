@@ -7,6 +7,7 @@ example of curvature estimation in slam
 """
 
 # Authors: Guillaume Auzias <guillaume.auzias@univ-amu.fr>
+#          Julien Barrès <julien.barres@etu.univ-amu.fr>
 
 # License: BSD (3-clause)
 # sphinx_gallery_thumbnail_number = 2
@@ -44,9 +45,29 @@ visb_sc = splt.visbrain_plot(mesh=mesh, tex=mean_curv,
 visb_sc.preview()
 
 ###############################################################################
-# PLot Gauss curvature
+# Plot Gauss curvature
 visb_sc = splt.visbrain_plot(mesh=mesh, tex=gaussian_curv,
                              caption='Gaussian curvature',
                              cblabel='Gaussian curvature',
+                             cmap='hot')
+visb_sc.preview()
+
+###############################################################################
+# Decomposition of the curvatures into ShapeIndex and Curvedness
+# Based on 'Surface shape and curvature scales
+#           Jan JKoenderink & Andrea Jvan Doorn'
+shapeIndex, curvedness = scurv.decompose_curvature(PrincipalCurvatures)
+
+###############################################################################
+# Plot of ShapeIndex and Curvedness
+visb_sc = splt.visbrain_plot(mesh=mesh, tex=shapeIndex,
+                             caption='ShapeIndex',
+                             cblabel='ShapeIndex',
+                             cmap='coolwarm')
+visb_sc.preview()
+
+visb_sc = splt.visbrain_plot(mesh=mesh, tex=curvedness,
+                             caption='Curvedness',
+                             cblabel='Curvedness',
                              cmap='hot')
 visb_sc.preview()

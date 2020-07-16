@@ -131,7 +131,7 @@
 </div>
 <p>Generation of an open mesh</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">K</span></a> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">open_mesh</span> <span class="o">=</span> <span class="n">sps</span><span class="o">.</span><span class="n">generate_quadric</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">K</span></a><span class="p">,</span> <span class="n">nstep</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">open_mesh</span> <span class="o">=</span> <span class="n">sps</span><span class="o">.</span><span class="n">generate_quadric</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">K</span></a><span class="p">,</span> <span class="n">nstep</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
 <a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">open_mesh_boundary</span></a> <span class="o">=</span> <span class="n">stop</span><span class="o">.</span><span class="n">mesh_boundary</span><span class="p">(</span><span class="n">open_mesh</span><span class="p">)</span>
 <span class="c1"># Visualization</span>
 <span class="n">visb_sc</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">visbrain_plot</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">open_mesh</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="s1">&#39;open mesh&#39;</span><span class="p">)</span>
@@ -175,11 +175,11 @@
     Computing mesh weights of type conformal
     -edge length threshold needed for  0  values =  0.0  %
     -number of Nan in weights:  0  =  0.0  %
-    -number of Negative values in weights:  10  =  11.363636363636363  %
+    -number of Negative values in weights:  16  =  15.384615384615385  %
     -nb Nan in Laplacian :  0
     -nb Inf in Laplacian :  0
-Boundary Size: (16,)
-Laplacian Size: (21, 21)
+Boundary Size: (14,)
+Laplacian Size: (23, 23)
 /home/toz/miniconda3/envs/trimesh_visbrain/lib/python3.6/site-packages/matplotlib/figure.py:445: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
   % get_backend())
 </pre></div>
@@ -194,12 +194,12 @@ Laplacian Size: (21, 21)
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>1.850371707708594e-17
-0.03392026696643352
-0.08031762224385432
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>9.86864910777917e-18
+-0.03608465883051769
+-0.12797323439849556
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.271 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.248 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-example-mapping-py">
 <div class="sphx-glr-download docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/4c9596f984ce2ee8fbb7a7c8aa3af804/example_mapping.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">example_mapping.py</span></code></a></p>
@@ -223,7 +223,7 @@ Laplacian Size: (21, 21)
       
     </p>
     <p>
-        &copy; Copyright 2020, slam Developers. Last updated on 2020-07-01.<br/>
+        &copy; Copyright 2020, slam Developers. Last updated on 2020-07-16.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.<br/>
     </p>
   </div>

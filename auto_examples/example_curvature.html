@@ -111,6 +111,7 @@
 <div class="sphx-glr-example-title section" id="example-of-curvature-estimation-in-slam">
 <span id="example-curvature"></span><span id="sphx-glr-auto-examples-example-curvature-py"></span><h1>example of curvature estimation in slam<a class="headerlink" href="#example-of-curvature-estimation-in-slam" title="Permalink to this headline">¶</a></h1>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Authors: Guillaume Auzias &lt;guillaume.auzias@univ-amu.fr&gt;</span>
+<span class="c1">#          Julien Barrès &lt;julien.barres@etu.univ-amu.fr&gt;</span>
 
 <span class="c1"># License: BSD (3-clause)</span>
 <span class="c1"># sphinx_gallery_thumbnail_number = 2</span>
@@ -162,7 +163,7 @@ Finished Calculating principal components
   % get_backend())
 </pre></div>
 </div>
-<p>PLot Gauss curvature</p>
+<p>Plot Gauss curvature</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">visb_sc</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">visbrain_plot</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span> <span class="n">tex</span><span class="o">=</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">gaussian_curv</span></a><span class="p">,</span>
                              <span class="n">caption</span><span class="o">=</span><span class="s1">&#39;Gaussian curvature&#39;</span><span class="p">,</span>
                              <span class="n">cblabel</span><span class="o">=</span><span class="s1">&#39;Gaussian curvature&#39;</span><span class="p">,</span>
@@ -176,7 +177,42 @@ Finished Calculating principal components
   % get_backend())
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  7.535 seconds)</p>
+<p>Decomposition of the curvatures into ShapeIndex and Curvedness
+Based on ‘Surface shape and curvature scales</p>
+<blockquote>
+<div><p>Jan JKoenderink &amp; Andrea Jvan Doorn’</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">shapeIndex</span></a><span class="p">,</span> <a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">curvedness</span></a> <span class="o">=</span> <span class="n">scurv</span><span class="o">.</span><span class="n">decompose_curvature</span><span class="p">(</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">PrincipalCurvatures</span></a><span class="p">)</span>
+</pre></div>
+</div>
+<p>Plot of ShapeIndex and Curvedness</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">visb_sc</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">visbrain_plot</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span> <span class="n">tex</span><span class="o">=</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">shapeIndex</span></a><span class="p">,</span>
+                             <span class="n">caption</span><span class="o">=</span><span class="s1">&#39;ShapeIndex&#39;</span><span class="p">,</span>
+                             <span class="n">cblabel</span><span class="o">=</span><span class="s1">&#39;ShapeIndex&#39;</span><span class="p">,</span>
+                             <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;coolwarm&#39;</span><span class="p">)</span>
+<span class="n">visb_sc</span><span class="o">.</span><span class="n">preview</span><span class="p">()</span>
+
+<span class="n">visb_sc</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">visbrain_plot</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span> <span class="n">tex</span><span class="o">=</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">curvedness</span></a><span class="p">,</span>
+                             <span class="n">caption</span><span class="o">=</span><span class="s1">&#39;Curvedness&#39;</span><span class="p">,</span>
+                             <span class="n">cblabel</span><span class="o">=</span><span class="s1">&#39;Curvedness&#39;</span><span class="p">,</span>
+                             <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;hot&#39;</span><span class="p">)</span>
+<span class="n">visb_sc</span><span class="o">.</span><span class="n">preview</span><span class="p">()</span>
+</pre></div>
+</div>
+<ul class="sphx-glr-horizontal">
+<li><img alt="../_images/sphx_glr_example_curvature_003.png" class="sphx-glr-multi-img" src="../_images/sphx_glr_example_curvature_003.png" />
+</li>
+<li><img alt="../_images/sphx_glr_example_curvature_004.png" class="sphx-glr-multi-img" src="../_images/sphx_glr_example_curvature_004.png" />
+</li>
+</ul>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/toz/miniconda3/envs/trimesh_visbrain/lib/python3.6/site-packages/matplotlib/figure.py:445: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+  % get_backend())
+/home/toz/miniconda3/envs/trimesh_visbrain/lib/python3.6/site-packages/matplotlib/figure.py:445: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+  % get_backend())
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  10.142 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-example-curvature-py">
 <div class="sphx-glr-download docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/6318ffd88bf78de33d2b7a26367c6bab/example_curvature.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">example_curvature.py</span></code></a></p>
@@ -200,7 +236,7 @@ Finished Calculating principal components
       
     </p>
     <p>
-        &copy; Copyright 2020, slam Developers. Last updated on 2020-07-01.<br/>
+        &copy; Copyright 2020, slam Developers. Last updated on 2020-07-16.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.<br/>
     </p>
   </div>

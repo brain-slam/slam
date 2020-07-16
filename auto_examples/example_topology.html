@@ -128,7 +128,7 @@
 </div>
 <p>here is how to get the vertices that define the boundary of an open mesh</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">K</span></a> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">open_mesh</span> <span class="o">=</span> <span class="n">sps</span><span class="o">.</span><span class="n">generate_quadric</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">K</span></a><span class="p">,</span> <span class="n">nstep</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">open_mesh</span> <span class="o">=</span> <span class="n">sps</span><span class="o">.</span><span class="n">generate_quadric</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">K</span></a><span class="p">,</span> <span class="n">nstep</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>Identify the vertices lying on the boundary of the mesh and order
@@ -141,7 +141,7 @@ Here the mesh has a single boundary</p>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[[2, 3, 0, 5, 10, 14, 18, 20, 19, 16, 15, 6, 1]]
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[[1, 2, 3, 8, 13, 18, 22, 21, 20, 19, 14, 9, 4, 0]]
 </pre></div>
 </div>
 <p>show the result
@@ -348,7 +348,7 @@ True
   % get_backend())
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  7.810 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  7.075 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-example-topology-py">
 <div class="sphx-glr-download docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/8043fb89b229e027bdf20e637a91e046/example_topology.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">example_topology.py</span></code></a></p>
@@ -372,7 +372,7 @@ True
       
     </p>
     <p>
-        &copy; Copyright 2020, slam Developers. Last updated on 2020-07-01.<br/>
+        &copy; Copyright 2020, slam Developers. Last updated on 2020-07-16.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.<br/>
     </p>
   </div>

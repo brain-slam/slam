@@ -116,8 +116,8 @@
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_ellipsiod</span></code>(a, b, nstep[, …])</p></td>
 <td><p>generate an ellipsoid :param a: :param b: :param nstep: :param random_sampling: :return:</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_quadric</span></code>(K[, nstep, ax, ay, …])</p></td>
-<td><p>generate a quadric mesh ratio and random_distribution_type parameters are unused if random_sampling is set to False :param K: :param nstep: :param ax: :param ay: :param random_sampling: :param ratio: :param random_distribution_type: :return:</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_quadric</span></code>(K[, nstep, equilateral, …])</p></td>
+<td><p>generate a quadric mesh Z=K1*X^2 + K2*Y^2 ratio and random_distribution_type parameters are unused if random_sampling is set to False :param K: list with [K1,K2] :param nstep: list with [nstepx,nstepy] or the sampling steps [stepx,stepy] as floats ! :param equilateral: to have an equilateral sampling scheme of the quadric :param ax: half length of the domain :param ay: half width of the domain :param random_sampling: :param ratio: :param random_distribution_type: :return:</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_sphere_icosahedron</span></code>([subdivisions, …])</p></td>
 <td><p>generate a sphere by subdividing an icosahedron simply call the trimesh function see trimesh.creation.icosphere for more details :param subdivisions:  int   How many times to subdivide the mesh.</p></td>
@@ -153,7 +153,7 @@
       
     </p>
     <p>
-        &copy; Copyright 2020, slam Developers. Last updated on 2020-07-01.<br/>
+        &copy; Copyright 2020, slam Developers. Last updated on 2020-07-16.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.<br/>
     </p>
   </div>
