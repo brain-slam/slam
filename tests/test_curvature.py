@@ -3,6 +3,7 @@ import unittest
 import trimesh
 import slam.curvature as scurv
 import slam.generate_parametric_surfaces as sgps
+import slam.utils as ut
 
 # UTILITIES
 
@@ -196,7 +197,6 @@ class TestCurvatureMethods(unittest.TestCase):
                     v[0], v[1], v[2], "=", numeric_value))
         print("----------------------------------------")
 
-    @unittest.skip
     def test_error_drop_curvature_quadric(self):
         """ Asserts the error drops when the mesh resolution is increased"""
 
@@ -213,7 +213,7 @@ class TestCurvatureMethods(unittest.TestCase):
                     20 + 10 * j],
                 ax=3,
                 ay=1,
-                random_sampling=True,
+                random_sampling=False,
                 ratio=0.3,
                 random_distribution_type='gamma')
 
@@ -396,6 +396,65 @@ class TestCurvatureMethods(unittest.TestCase):
                     np.isclose(
                         computed_curvedness, correct_curvedness, precisionB) | np.isclose(
                         computed_curvedness, -correct_curvedness, precisionB))
+
+    def test_correctness_direction_quadric(self):
+
+        # Generate a paraboloid
+        K = [1, 0]
+
+        # Increase of the number of points
+        quadric = sgps.generate_quadric(
+            K,
+            nstep=[
+                20,
+                20],
+            ax=3,
+            ay=3,
+            random_sampling=False,
+            ratio=0.3,
+            random_distribution_type='gamma', equilateral=True)
+
+        # ESTIMATED Principal curvature, Direction1, Direction2
+        p_curv_estim, d1_estim, d2_estim = scurv.curvatures_and_derivatives(
+            quadric)
+
+        # ANALYTICAL directions
+        analytical_directions = sgps.compute_all_principal_directions_3D(
+            K, quadric.vertices)
+
+        estimated_directions = np.zeros(analytical_directions.shape)
+        estimated_directions[:, :, 0] = d1_estim
+        estimated_directions[:, :, 1] = d2_estim
+
+        angular_error_0, dotprods = ut.compare_analytic_estimated_directions(
+            analytical_directions[:, :, 0], estimated_directions)
+        angular_error_0 = 180 * angular_error_0 / np.pi
+
+        # CORRECTNESS DIRECTION 1
+
+        # Number of vertices where the angular error is lower than 20 degrees
+        n_low_error = np.sum(angular_error_0 < 15)
+
+        # Percentage of vertices where the angular error is lower than 20
+        # degrees
+        percentage_low_error = (n_low_error / angular_error_0.shape[0])
+
+        assert(percentage_low_error > .75)
+
+        # CORRECTNESS DIRECTION 2
+
+        angular_error_1, dotprods = ut.compare_analytic_estimated_directions(
+            analytical_directions[:, :, 1], estimated_directions)
+        angular_error_1 = 180 * angular_error_1 / np.pi
+
+        # Number of vertices where the angular error is lower than 20 degrees
+        n_low_error = np.sum(angular_error_1 < 15)
+
+        # Percentage of vertices where the angular error is lower than 20
+        # degrees
+        percentage_low_error = (n_low_error / angular_error_1.shape[0])
+
+        assert(percentage_low_error > .75)
 
 
 if __name__ == '__main__':
