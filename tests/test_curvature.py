@@ -259,7 +259,7 @@ class TestCurvatureMethods(unittest.TestCase):
         # points
         assert(sorted(out, reverse=True) == out)
 
-    def test_error_drop_curvature_quadric(self):
+    def test_error_drop_curvature_sphere(self):
 
         out = []
 
@@ -303,7 +303,7 @@ class TestCurvatureMethods(unittest.TestCase):
                 shapeIndex, -1, precisionA)).all()
         assert(np.isclose(curvedness, 1 / radius, precisionB).all())
 
-    def test_correctness_decomposition_quadrix(self):
+    def test_correctness_decomposition_quadric(self):
 
         # Precision on the shapeIndex calculation
         precisionA = 0.000001
