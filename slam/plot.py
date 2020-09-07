@@ -122,18 +122,20 @@ def pyglet_plot(mesh_in, values=None, color_map=None,
             fig, ax = plt.subplots(1, 1)
             ax.set_title(caption)
 
-            # if cmap_bounds is None:
-            #     vmin = np.around(np.min(values[~nan_inds]))
-            #     vmax = np.around(np.max(values[~nan_inds]))
-            #     norm = mpl.colors.Normalize(vmin=vmin, vmax=vmax)
-            # else:
-            norm = mpl.colors.BoundaryNorm(cmap_bounds, color_map.N)
+            if cmap_bounds is None:
+                # vmin = np.around(np.min(values[~nan_inds]))
+                # vmax = np.around(np.max(values[~nan_inds]))
+                vmin = np.min(values[~nan_inds])
+                vmax = np.max(values[~nan_inds])
+                norm = mpl.colors.Normalize(vmin=vmin, vmax=vmax)
+            else:
+                norm = mpl.colors.BoundaryNorm(cmap_bounds, color_map.N)
             # print(norm)
-            mpl.colorbar.ColorbarBase(ax, cmap=color_map, norm=norm,
-                                      orientation='horizontal')
+            mpl.colorbar.ColorbarBase(ax, cmap=color_map,norm=norm,
+                                      orientation='vertical') # L'affiche merdouille, que des valeurs dans [0,1]
 
             # mpl.colorbar.ColorbarBase(ax, cmap=color_map,
-            #                          orientation='horizontal')
+            #                           orientation='horizontal')
             fig.set_size_inches(18, 4)
             plt.show()
 
