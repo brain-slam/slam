@@ -29,6 +29,7 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
         point = np.reshape(mesh.vertices[i, :], (3, 1))
         normal = vertex_normals[i, :].transpose()
         normal = normal / norm(normal)
+        normal=np.reshape(normal, (3, 1))
         proj_matrix = np.identity(3) - np.matmul(normal, normal.transpose())
         vec1 = np.matmul(proj_matrix, np.array([[1], [0], [0]]))
         if np.abs(norm(vec1)) < tol:
@@ -36,14 +37,16 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
         if np.abs(norm(vec1)) < tol:
             vec1 = np.matmul(proj_matrix, np.array([[0], [0], [1]]))
         vec1 = vec1 / norm(vec1)
-        vec2 = np.cross(normal, np.reshape(vec1, (3,)))
+        vec2 = np.cross(normal[:, 0], vec1[:,0])
+        vec2 = vec2 / norm(vec2)
         rotation_matrix = np.concatenate((vec1.transpose(),
-                                          np.reshape(vec2, (1, 3)), np.reshape(normal, (1, 3))))
+                                          np.reshape(vec2, (1, 3)), normal.transpose()))
 
         # neighbours
         neigh = stop.k_ring_neighborhood(mesh, index=i, k= neighbour_size,
                                     A = adjacency_matrix )
-        neigh = np.logical_and(neigh <= neighbour_size, neigh > 0).nonzero()[0]
+        #neigh = np.logical_and(neigh <= neighbour_size, neigh > 0).nonzero()[0]
+        neigh = (neigh <= neighbour_size).nonzero()[0]
         neigh_len = len(neigh)
         vertices_neigh = mesh.vertices[neigh, :].transpose()
         vertices_neigh = vertices_neigh - \
@@ -56,6 +59,7 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
         Z = np.reshape(rotated_vertices_neigh[2, :], (neigh_len, 1))
         XY = np.concatenate((X ** 2, X * Y, Y ** 2), axis=1)
         parameters = np.matmul(np.linalg.pinv(XY), Z)
+        #parameters = np.linalg.lstsq(XY,Z)
 
         # Curvature tensor
         tensor = np.array([[parameters[0, 0], parameters[1, 0] / 2],
