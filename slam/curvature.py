@@ -3,6 +3,7 @@ from trimesh import util as tut
 from trimesh.geometry import mean_vertex_normals
 import slam.topology as stop
 
+
 def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
     """
     Computation of the two principal curvatures based on:
@@ -13,8 +14,8 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
     :param neighbour_size:
     :return:
     """
-    vertex_normals = mean_vertex_normals(mesh)
     N = mesh.vertices.shape[0]
+    vertex_normals = mean_vertex_normals(N, faces=mesh.faces, face_normals=mesh.face_normals)
     curvature = np.zeros((N, 2))
     # directions = np.zeros((N, 3, 2)) => TO DO later
 
