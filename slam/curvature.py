@@ -1,9 +1,7 @@
 import numpy as np
 from trimesh import util as tut
 from trimesh.geometry import mean_vertex_normals
-from slam.topology import k_ring_neighborhood
-from slam.topology import edges_to_adjacency_matrix
-
+import slam.topology as stop
 
 def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
     """
@@ -23,7 +21,7 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
     def norm(vector):
         return np.sqrt(np.sum(vector ** 2))
 
-    adjacency_matrix = edges_to_adjacency_matrix(mesh)
+    adjacency_matrix = stop.adjacency_matrix(mesh)
 
     for i in range(N):
         # Definition of local basis
@@ -42,7 +40,7 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
                                           np.reshape(vec2, (1, 3)), np.reshape(normal, (1, 3))))
 
         # neighbours
-        neigh = k_ring_neighborhood(mesh, index=i, k= neighbour_size,
+        neigh = stop.k_ring_neighborhood(mesh, index=i, k= neighbour_size,
                                     A = adjacency_matrix )
         neigh = np.logical_and(neigh <= neighbour_size, neigh > 0).nonzero()[0]
         neigh_len = len(neigh)

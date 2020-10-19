@@ -582,8 +582,7 @@ def k_ring_neighborhood(mesh, index, k=1, A=None):
     if k>10:
         raise Exception("k is yoo large (k<=10")
     if A == None:
-        A = edges_to_adjacency_matrix(mesh) # warning : int8
-        A = A.astype(dtype = np.int64)
+        A = adjacency_matrix(mesh)
     N = mesh.vertices.shape[0]
     texture=np.zeros((N,1))
     texture[index]= k + 1
@@ -595,3 +594,10 @@ def k_ring_neighborhood(mesh, index, k=1, A=None):
         texture[np.setdiff1d(indices[0], previous_indices)]=k-i
     texture=k+1-texture
     return texture
+
+
+def adjacency_matrix(mesh):
+    A = edges_to_adjacency_matrix(mesh)  # warning : int8
+    A = A.astype(dtype=np.int64)
+    A = A + A.transpose()
+    return A

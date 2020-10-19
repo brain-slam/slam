@@ -83,7 +83,7 @@ def create_hexagon_2_rings(K=4):
 
     tri = Delaunay(coords)
 
-    return trimesh.Trimesh(faces=tri.simplices, vertices=coords)
+    return trimesh.Trimesh(faces=tri.simplices, vertices=coords, process=False)
 
 
 class TestTopologyMethods(unittest.TestCase):
@@ -95,10 +95,10 @@ class TestTopologyMethods(unittest.TestCase):
     cutSphere_B = make_cut_sphere_b()
 
     # Sphere cut by two planes, with no new vertices added at the intersection
-    cutSphere_C = sio.load_mesh("tests/data/topology/mesh_C.gii") # JL: something weird with this path
+    cutSphere_C = sio.load_mesh("data/topology/mesh_C.gii") # JL: something weird with this path
 
     # A 3D disk with height 0 and radius 2
-    disk_radius_2 = sio.load_mesh("tests/data/topology/mesh_D.gii") # JL: something weird with this path
+    disk_radius_2 = sio.load_mesh("data/topology/mesh_D.gii") # JL: something weird with this path
 
     # hexagon 2 rings
     hexagon = create_hexagon_2_rings()
@@ -265,9 +265,9 @@ class TestTopologyMethods(unittest.TestCase):
         zero_ring = np.where(texture_2_rings == 0)[0]
         one_ring = np.where(texture_2_rings == 1)[0]
         two_ring = np.where(texture_2_rings == 2)[0]
-        assert(zero_ring == [0])
-        assert(one_ring == [i for i in range(1, 7)])
-        assert(two_ring == [i for i in range(7, 19)])
+        assert (zero_ring == [0]).all()
+        assert (one_ring == [i for i in range(1, 7)]).all()
+        assert (two_ring == [i for i in range(7, 19)]).all()
 
 
 if __name__ == '__main__':
