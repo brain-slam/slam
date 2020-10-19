@@ -5,6 +5,7 @@ import unittest
 import trimesh
 import itertools
 import random
+from scipy.spatial import Delaunay
 
 # UTILITIES
 
@@ -67,6 +68,24 @@ def make_cut_sphere_b():
     return mesh_a
 
 
+def create_hexagon_2_rings(K=4):
+    """ Starts from a regular hexagon and add several k-ring"""
+
+    coords=[[0.0, 0.0]]
+    # k-ring, k=1-2, can be generalized to more than k
+    for k in range(1,K):
+        angle = (np.pi/3)/k
+        for i in range(6*k):
+            coords.append([k*np.cos(i*angle), k*np.sin(i*angle)])
+
+    coords = np.array(coords)
+    print(coords)
+
+    tri = Delaunay(coords)
+
+    return trimesh.Trimesh(faces=tri.simplices, vertices=coords)
+
+
 class TestTopologyMethods(unittest.TestCase):
 
     # Sphere cut by two planes, with new vertices added at the intersection
@@ -76,10 +95,13 @@ class TestTopologyMethods(unittest.TestCase):
     cutSphere_B = make_cut_sphere_b()
 
     # Sphere cut by two planes, with no new vertices added at the intersection
-    cutSphere_C = sio.load_mesh("tests/data/topology/mesh_C.gii")
+    cutSphere_C = sio.load_mesh("tests/data/topology/mesh_C.gii") # JL: something weird with this path
 
     # A 3D disk with height 0 and radius 2
-    disk_radius_2 = sio.load_mesh("tests/data/topology/mesh_D.gii")
+    disk_radius_2 = sio.load_mesh("tests/data/topology/mesh_D.gii") # JL: something weird with this path
+
+    # hexagon 2 rings
+    hexagon = create_hexagon_2_rings()
 
     def test_boundaries_basic(self):
         mesh_a = self.cutSphere_A
@@ -236,6 +258,16 @@ class TestTopologyMethods(unittest.TestCase):
         print(len(mesh_processed.vertices))
         assert(len(mesh_processed.vertices) ==
                len(mesh_a.vertices) - len(boundary[0]))
+
+    def test_k_ring_neighborhood(self):
+        mesh_hexagon = self.hexagon.copy()
+        texture_2_rings = stop.k_ring_neighborhood(mesh_hexagon, index=0, k=2) # WARNING, 0 is not the center...
+        zero_ring = np.where(texture_2_rings == 0)[0]
+        one_ring = np.where(texture_2_rings == 1)[0]
+        two_ring = np.where(texture_2_rings == 2)[0]
+        assert(zero_ring == [0])
+        assert(one_ring == [i for i in range(1, 7)])
+        assert(two_ring == [i for i in range(7, 19)])
 
 
 if __name__ == '__main__':
