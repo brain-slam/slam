@@ -1,5 +1,71 @@
 import numpy as np
 from trimesh import util as tut
+from trimesh.geometry import mean_vertex_normals
+from slam.topology import k_ring_neighborhood
+from slam.topology import edges_to_adjacency_matrix
+
+
+def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
+    """
+    Computation of the two principal curvatures based on:
+    Petitjean, A survey of methods for recovering quadrics
+    in triangle meshes, ACM Computing Surveys, 2002
+    :param mesh:
+    :param tol:
+    :param neighbour_size:
+    :return:
+    """
+    vertex_normals = mean_vertex_normals(mesh)
+    N = mesh.vertices.shape[0]
+    curvature = np.zeros((N, 2))
+    # directions = np.zeros((N, 3, 2)) => TO DO later
+
+    def norm(vector):
+        return np.sqrt(np.sum(vector ** 2))
+
+    adjacency_matrix = edges_to_adjacency_matrix(mesh)
+
+    for i in range(N):
+        # Definition of local basis
+        point = np.reshape(mesh.vertices[i, :], (3, 1))
+        normal = vertex_normals[i, :].transpose()
+        normal = normal / norm(normal)
+        proj_matrix = np.identity(3) - np.matmul(normal, normal.transpose())
+        vec1 = np.matmul(proj_matrix, np.array([[1], [0], [0]]))
+        if np.abs(norm(vec1)) < tol:
+            vec1 = np.matmul(proj_matrix, np.array([[0], [1], [0]]))
+        if np.abs(norm(vec1)) < tol:
+            vec1 = np.matmul(proj_matrix, np.array([[0], [0], [1]]))
+        vec1 = vec1 / norm(vec1)
+        vec2 = np.cross(normal, np.reshape(vec1, (3,)))
+        rotation_matrix = np.concatenate((vec1.transpose(),
+                                          np.reshape(vec2, (1, 3)), np.reshape(normal, (1, 3))))
+
+        # neighbours
+        neigh = k_ring_neighborhood(mesh, index=i, k= neighbour_size,
+                                    A = adjacency_matrix )
+        neigh = np.logical_and(neigh <= neighbour_size, neigh > 0).nonzero()[0]
+        neigh_len = len(neigh)
+        vertices_neigh = mesh.vertices[neigh, :].transpose()
+        vertices_neigh = vertices_neigh - \
+                         np.repeat(point, neigh_len, axis=1)  # translation, origin at point
+        rotated_vertices_neigh = np.matmul(rotation_matrix, vertices_neigh)
+
+        # Parametric model
+        X = np.reshape(rotated_vertices_neigh[0, :], (neigh_len, 1))
+        Y = np.reshape(rotated_vertices_neigh[1, :], (neigh_len, 1))
+        Z = np.reshape(rotated_vertices_neigh[2, :], (neigh_len, 1))
+        XY = np.concatenate((X ** 2, X * Y, Y ** 2), axis=1)
+        parameters = np.matmul(np.linalg.pinv(XY), Z)
+
+        # Curvature tensor
+        tensor = np.array([[parameters[0, 0], parameters[1, 0] / 2],
+                           [parameters[1, 0] / 2, parameters[2, 0]]])
+        eigval, eigvec = np.linalg.eig(tensor)
+        curvature[i, 0] = 2 * eigval[0]
+        curvature[i, 1] = 2 * eigval[1]
+
+    return curvature
 
 
 def project_curvature_tensor(uf, vf, nf, old_ku, old_kuv, old_kv, up, vp):
