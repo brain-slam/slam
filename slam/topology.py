@@ -597,7 +597,12 @@ def k_ring_neighborhood(mesh, index, k=1, A=None):
 
 
 def adjacency_matrix(mesh):
+    """
+    Coefficients are 2 or 1 (two vertices on the boundary)
+    :param mesh:
+    :return:
+    """
     A = edges_to_adjacency_matrix(mesh)  # warning : int8
     A = A.astype(dtype=np.int64)
-    A = A + A.transpose()
+    A = A + A.transpose() # TO DO: divide by 2 and binarize
     return A
