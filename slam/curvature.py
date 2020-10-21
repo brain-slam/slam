@@ -17,7 +17,7 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
     N = mesh.vertices.shape[0]
     vertex_normals = mean_vertex_normals(N, faces=mesh.faces, face_normals=mesh.face_normals)
     curvature = np.zeros((N, 2))
-    # directions = np.zeros((N, 3, 2)) => TO DO later
+    directions = np.zeros((N, 3, 2))
 
     def norm(vector):
         return np.sqrt(np.sum(vector ** 2))
@@ -67,8 +67,16 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
         eigval, eigvec = np.linalg.eig(tensor)
         curvature[i, 0] = 2 * eigval[0]
         curvature[i, 1] = 2 * eigval[1]
+        directions[i, :, 0] = np.matmul(rotation_matrix[0:2, :].transpose(), eigvec[:, 0]).transpose()
+        directions[i, :, 1] = np.matmul(rotation_matrix[0:2, :].transpose(), eigvec[:, 1]).transpose()
 
-    return curvature
+    # Sort
+    curvature = np.sort(curvature, axis=1)
+    indices = np.argsort(curvature, axis=1)
+    indices = np.expand_dims(indices, axis=1)
+    directions = np.take_along_axis(directions, indices, axis=2)
+
+    return curvature, directions
 
 
 def project_curvature_tensor(uf, vf, nf, old_ku, old_kuv, old_kv, up, vp):
