@@ -35,6 +35,27 @@ def compare_analytic_estimated_directions(analytic_directions,
     """
     Compare the analytic principal directions with a estimated directions
     :param analytic_directions: (n,3) array
+    :param estimated_directions: (n,3) array with one direction
+    :return: angular error distribution
+    """
+    n = analytic_directions.shape[0]
+    angular_error = np.zeros((n,))
+    dotprods = np.zeros((n,))
+    for i in range(n):
+        angle0 = angle(analytic_directions[i, :],
+                       estimated_directions[i, :])
+        angular_error[i] = angle0
+        dotprods[i] = dotprod(analytic_directions[i, :],
+                                 estimated_directions[i, :])
+
+    return angular_error, dotprods
+
+
+def compare_analytic_estimated_directions_min(analytic_directions,
+                                          estimated_directions):
+    """
+    Compare the analytic principal directions with a estimated directions
+    :param analytic_directions: (n,3) array
     :param estimated_directions: (n,3,2) array with the two directions
     that may be not necessarily ordered
     :return: angular error distribution

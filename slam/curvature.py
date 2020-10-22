@@ -19,7 +19,8 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
     :return:
     """
     N = mesh.vertices.shape[0]
-    vertex_normals = mean_vertex_normals(N, faces=mesh.faces, face_normals=mesh.face_normals)
+    vertex_normals = mean_vertex_normals(N, faces=mesh.faces, face_normals = mesh.face_normals)
+    #vertex_normals, Avertex, Acorner, up, vp = calcvertex_normals(mesh, mesh.face_normals)
     curvature = np.zeros((N, 2))
     directions = np.zeros((N, 3, 2))
 
