@@ -4,6 +4,10 @@ from trimesh.geometry import mean_vertex_normals
 import slam.topology as stop
 
 
+def norm(vector):
+    return np.sqrt(np.sum(vector ** 2))
+
+
 def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
     """
     Computation of the two principal curvatures based on:
@@ -19,9 +23,6 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
     curvature = np.zeros((N, 2))
     directions = np.zeros((N, 3, 2))
 
-    def norm(vector):
-        return np.sqrt(np.sum(vector ** 2))
-
     adjacency_matrix = stop.adjacency_matrix(mesh)
 
     for i in range(N):
@@ -31,14 +32,7 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
         normal = normal / norm(normal)
         normal=np.reshape(normal, (3, 1))
         proj_matrix = np.identity(3) - np.matmul(normal, normal.transpose())
-        vec1 = np.matmul(proj_matrix, np.array([[1], [0], [0]]))
-        if np.abs(norm(vec1)) < tol:
-            vec1 = np.matmul(proj_matrix, np.array([[0], [1], [0]]))
-        if np.abs(norm(vec1)) < tol:
-            vec1 = np.matmul(proj_matrix, np.array([[0], [0], [1]]))
-        vec1 = vec1 / norm(vec1)
-        vec2 = np.cross(normal[:, 0], vec1[:,0])
-        vec2 = vec2 / norm(vec2)
+        vec1, vec2 = determine_local_basis(normal, proj_matrix, tol)
         rotation_matrix = np.concatenate((vec1.transpose(),
                                           np.reshape(vec2, (1, 3)), normal.transpose()))
 
@@ -77,6 +71,30 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
     directions = np.take_along_axis(directions, indices, axis=2)
 
     return curvature, directions
+
+
+def determine_local_basis(normal, proj_matrix, tol, approach='proj'):
+    if approach == 'proj':
+        # Original code: use projection matrix
+        vec1 = np.matmul(proj_matrix, np.array([[1], [0], [0]]))
+        if np.abs(norm(vec1)) < tol:
+            vec1 = np.matmul(proj_matrix, np.array([[0], [1], [0]]))
+        if np.abs(norm(vec1)) < tol:
+            vec1 = np.matmul(proj_matrix, np.array([[0], [0], [1]]))
+        vec1 = vec1 / norm(vec1)
+        vec2 = np.cross(normal[:, 0], vec1[:, 0])
+        vec2 = vec2 / norm(vec2)
+    else:
+        # Other option: keep 2 largest values of normal
+        # (sub-optimal for quadrics)
+        indices = np.argsort(np.abs(normal[:, 0]))
+        vec1 = np.zeros((3, 1))
+        vec1[indices[1], 0] = -normal[indices[2], 0]  # switch the two maximal values/add sign - to ensure orthogonality
+        vec1[indices[2], 0] = normal[indices[1], 0]
+        vec1 = vec1 / norm(vec1)
+        vec2 = np.cross(normal[:, 0], vec1[:, 0])
+        vec2 = vec2 / norm(vec2)
+    return vec1, vec2
 
 
 def project_curvature_tensor(uf, vf, nf, old_ku, old_kuv, old_kv, up, vp):
