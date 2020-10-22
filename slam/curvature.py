@@ -85,12 +85,12 @@ def determine_local_basis(normal, proj_matrix, tol, approach='proj'):
         vec2 = np.cross(normal[:, 0], vec1[:, 0])
         vec2 = vec2 / norm(vec2)
     else:
-        # Other option: keep 2 largest values of normal
-        # (sub-optimal for quadrics)
+        # Other option: keep 2 smallest values of normal
+        # (swith 2 largest values -> sub-optimal for quadrics)
         indices = np.argsort(np.abs(normal[:, 0]))
         vec1 = np.zeros((3, 1))
-        vec1[indices[1], 0] = -normal[indices[2], 0]  # switch the two maximal values/add sign - to ensure orthogonality
-        vec1[indices[2], 0] = normal[indices[1], 0]
+        vec1[indices[0], 0] = -normal[indices[1], 0]  # switch the two minimal values/add sign - to ensure orthogonality
+        vec1[indices[1], 0] = normal[indices[0], 0]
         vec1 = vec1 / norm(vec1)
         vec2 = np.cross(normal[:, 0], vec1[:, 0])
         vec2 = vec2 / norm(vec2)
