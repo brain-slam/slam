@@ -1,6 +1,14 @@
 import numpy as np
 
 
+def threshold(val, a, b):
+    if val<a:
+        return a
+    if val>b:
+        return b
+    return val
+
+
 def angle(vec1, vec2):
     """
     Return the angle between two vectors
@@ -8,8 +16,8 @@ def angle(vec1, vec2):
     :param vec2:
     :return:
     """
-    return np.arccos(np.dot(vec1, vec2)/(np.sqrt(np.dot(vec1, vec1) *
-                                                 np.dot(vec2, vec2))))
+    dp = dotprod(vec1, vec2)
+    return np.arccos(threshold(dp,-1,1))
 
 
 def dotprod(vec1, vec2):
