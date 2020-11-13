@@ -1,5 +1,103 @@
 import numpy as np
 from trimesh import util as tut
+from trimesh.geometry import mean_vertex_normals
+import slam.topology as stop
+
+
+def norm(vector):
+    return np.sqrt(np.sum(vector ** 2))
+
+
+def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
+    """
+    Computation of the two principal curvatures based on:
+    Petitjean, A survey of methods for recovering quadrics
+    in triangle meshes, ACM Computing Surveys, 2002
+    :param mesh:
+    :param tol:
+    :param neighbour_size:
+    :return:
+    """
+    N = mesh.vertices.shape[0]
+    #vertex_normals = mean_vertex_normals(N, faces=mesh.faces, face_normals = mesh.face_normals)
+    #vertex_normals, Avertex, Acorner, up, vp = calcvertex_normals(mesh, mesh.face_normals)
+    vertex_normals =  mesh.vertex_normals
+
+    curvature = np.zeros((N, 2))
+    directions = np.zeros((N, 3, 2))
+
+    adjacency_matrix = stop.adjacency_matrix(mesh)
+
+    for i in range(N):
+        # Definition of local basis
+        point = np.reshape(mesh.vertices[i, :], (3, 1))
+        normal = vertex_normals[i, :].transpose()
+        normal = normal / norm(normal)
+        normal=np.reshape(normal, (3, 1))
+        proj_matrix = np.identity(3) - np.matmul(normal, normal.transpose())
+        vec1, vec2 = determine_local_basis(normal, proj_matrix, tol)
+        rotation_matrix = np.concatenate((vec1.transpose(),
+                                          np.reshape(vec2, (1, 3)), normal.transpose()))
+
+        # neighbours
+        neigh = stop.k_ring_neighborhood(mesh, index=i, k= neighbour_size,
+                                    A = adjacency_matrix )
+        #neigh = np.logical_and(neigh <= neighbour_size, neigh > 0).nonzero()[0]
+        neigh = (neigh <= neighbour_size).nonzero()[0]
+        neigh_len = len(neigh)
+        vertices_neigh = mesh.vertices[neigh, :].transpose()
+        vertices_neigh = vertices_neigh - \
+                         np.repeat(point, neigh_len, axis=1)  # translation, origin at point
+        rotated_vertices_neigh = np.matmul(rotation_matrix, vertices_neigh)
+
+        # Parametric model
+        X = np.reshape(rotated_vertices_neigh[0, :], (neigh_len, 1))
+        Y = np.reshape(rotated_vertices_neigh[1, :], (neigh_len, 1))
+        Z = np.reshape(rotated_vertices_neigh[2, :], (neigh_len, 1))
+        XY = np.concatenate((X ** 2, X * Y, Y ** 2), axis=1)
+        parameters = np.matmul(np.linalg.pinv(XY), Z)
+        #parameters = np.linalg.lstsq(XY,Z)
+
+        # Curvature tensor
+        tensor = np.array([[parameters[0, 0], parameters[1, 0] / 2],
+                           [parameters[1, 0] / 2, parameters[2, 0]]])
+        eigval, eigvec = np.linalg.eig(tensor)
+        curvature[i, 0] = 2 * eigval[0]
+        curvature[i, 1] = 2 * eigval[1]
+        directions[i, :, 0] = np.matmul(rotation_matrix[0:2, :].transpose(), eigvec[:, 0]).transpose()
+        directions[i, :, 1] = np.matmul(rotation_matrix[0:2, :].transpose(), eigvec[:, 1]).transpose()
+
+    # Sort
+    curvature = np.sort(curvature, axis=1)
+    indices = np.argsort(curvature, axis=1)
+    indices = np.expand_dims(indices, axis=1)
+    directions = np.take_along_axis(directions, indices, axis=2)
+
+    return curvature, directions
+
+
+def determine_local_basis(normal, proj_matrix, tol, approach='proj'):
+    if approach == 'proj':
+        # Original code: use projection matrix
+        vec1 = np.matmul(proj_matrix, np.array([[1], [0], [0]]))
+        if np.abs(norm(vec1)) < tol:
+            vec1 = np.matmul(proj_matrix, np.array([[0], [1], [0]]))
+        if np.abs(norm(vec1)) < tol:
+            vec1 = np.matmul(proj_matrix, np.array([[0], [0], [1]]))
+        vec1 = vec1 / norm(vec1)
+        vec2 = np.cross(normal[:, 0], vec1[:, 0])
+        vec2 = vec2 / norm(vec2)
+    else:
+        # Other option: keep 2 smallest values of normal
+        # (swith 2 largest values -> sub-optimal for quadrics)
+        indices = np.argsort(np.abs(normal[:, 0]))
+        vec1 = np.zeros((3, 1))
+        vec1[indices[0], 0] = -normal[indices[1], 0]  # switch the two minimal values/add sign - to ensure orthogonality
+        vec1[indices[1], 0] = normal[indices[0], 0]
+        vec1 = vec1 / norm(vec1)
+        vec2 = np.cross(normal[:, 0], vec1[:, 0])
+        vec2 = vec2 / norm(vec2)
+    return vec1, vec2
 
 
 def project_curvature_tensor(uf, vf, nf, old_ku, old_kuv, old_kv, up, vp):

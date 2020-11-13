@@ -567,3 +567,42 @@ def texture_boundary_vertices(atex, val, vertex_neighbors):
             if inters_size != ne_i.size:
                 bound_verts.append(i)
         return bound_verts
+
+
+def k_ring_neighborhood(mesh, index, k=1, A=None):
+    """
+    Generate the k-ring neighborhood around a vertex
+    :param mesh:
+    :param index:
+    :param k:
+    :param A: adjacency matrix
+    :return: texture is an array whose values are between 0 and k (all the i-ring neighborhoods)
+    and k+1 else
+    """
+    if k>10:
+        raise Exception("k is yoo large (k<=10")
+    if A == None:
+        A = adjacency_matrix(mesh)
+    N = mesh.vertices.shape[0]
+    texture=np.zeros((N,1))
+    texture[index]= k + 1
+    tmpA=sparse.eye(N)
+    for i in range(k):
+        previous_indices=np.where(tmpA.getcol(index).toarray() > 0)
+        tmpA=A*tmpA
+        indices=np.where(tmpA.getcol(index).toarray() > 0)
+        texture[np.setdiff1d(indices[0], previous_indices)]=k-i
+    texture=k+1-texture
+    return texture
+
+
+def adjacency_matrix(mesh):
+    """
+    Coefficients are 2 or 1 (two vertices on the boundary)
+    :param mesh:
+    :return:
+    """
+    A = edges_to_adjacency_matrix(mesh)  # warning : int8
+    A = A.astype(dtype=np.int64)
+    A = A + A.transpose() # TO DO: divide by 2 and binarize
+    return A
