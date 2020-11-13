@@ -602,7 +602,9 @@ def adjacency_matrix(mesh):
     :param mesh:
     :return:
     """
-    A = edges_to_adjacency_matrix(mesh)  # warning : int8
-    A = A.astype(dtype=np.int64)
-    A = A + A.transpose() # TO DO: divide by 2 and binarize
+    A= graph.edges_to_coo(mesh.edges,
+                              data=np.ones(len(mesh.edges),
+                                           dtype=np.int64))
+    A = A + A.transpose()
+    A[A>0] = 1
     return A
