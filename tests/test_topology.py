@@ -10,6 +10,31 @@ from scipy.spatial import Delaunay
 # UTILITIES
 
 
+def create_test_graph():
+    """
+    create a toy graph for testing
+    (2)--(3)
+     |\   |
+     | \  |
+     |  \ |
+     |   \|
+    (0)--(1)
+    :return:
+    """
+    coords = []
+    coords.append([0, 0, 0])
+    coords.append([0, 1, 0])
+    coords.append([1, 0, 0])
+    coords.append([1, 1, 0])
+    coords = np.array(coords)
+    faces = []
+    faces.append([0, 1, 2])
+    faces.append([1, 3, 2])
+    faces = np.array(faces)
+
+    return trimesh.Trimesh(faces=faces, vertices=coords, process=False)
+
+
 def distinct_triangles(n=3):
     """ Create n distinct triangles """
     coords = []
@@ -268,6 +293,17 @@ class TestTopologyMethods(unittest.TestCase):
         assert (zero_ring == [0]).all()
         assert (one_ring == [i for i in range(1, 7)]).all()
         assert (two_ring == [i for i in range(7, 19)]).all()
+
+    def test_adjacency_matrix(self):
+        toy_graph = create_test_graph()
+        gd_truth_adja = []
+        gd_truth_adja.append([0, 1, 1, 0])
+        gd_truth_adja.append([1, 0, 1, 1])
+        gd_truth_adja.append([1, 1, 0, 1])
+        gd_truth_adja.append([0, 1, 1, 0])
+        gd_truth_adja = np.array(gd_truth_adja)
+        adja = stop.adjacency_matrix(toy_graph)
+        assert (adja == gd_truth_adja).all()
 
 
 if __name__ == '__main__':
