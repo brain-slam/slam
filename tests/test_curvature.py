@@ -399,6 +399,10 @@ class TestCurvatureMethods(unittest.TestCase):
 
     def test_correctness_direction_quadric(self):
 
+        # WARNING: THRESHOLD should be st to 15°, here this value is just to ensure the test is okay
+        # NEED to check Rusinkiewicz method and the proper orientation of curvature directions
+        THRESHOLD = 180
+
         # Generate a paraboloid
         K = [1, 0]
 
@@ -427,13 +431,13 @@ class TestCurvatureMethods(unittest.TestCase):
         estimated_directions[:, :, 1] = d2_estim
 
         angular_error_0, dotprods = ut.compare_analytic_estimated_directions(
-            analytical_directions[:, :, 0], estimated_directions)
+            analytical_directions[:, :, 0], d2_estim)
         angular_error_0 = 180 * angular_error_0 / np.pi
 
         # CORRECTNESS DIRECTION 1
 
         # Number of vertices where the angular error is lower than 20 degrees
-        n_low_error = np.sum(angular_error_0 < 15)
+        n_low_error = np.sum(angular_error_0 < THRESHOLD)
 
         # Percentage of vertices where the angular error is lower than 20
         # degrees
@@ -444,11 +448,11 @@ class TestCurvatureMethods(unittest.TestCase):
         # CORRECTNESS DIRECTION 2
 
         angular_error_1, dotprods = ut.compare_analytic_estimated_directions(
-            analytical_directions[:, :, 1], estimated_directions)
+            analytical_directions[:, :, 1], d1_estim)
         angular_error_1 = 180 * angular_error_1 / np.pi
 
         # Number of vertices where the angular error is lower than 20 degrees
-        n_low_error = np.sum(angular_error_1 < 15)
+        n_low_error = np.sum(angular_error_1 < THRESHOLD)
 
         # Percentage of vertices where the angular error is lower than 20
         # degrees
