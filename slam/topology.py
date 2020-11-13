@@ -2,6 +2,7 @@ import numpy as np
 from scipy import sparse
 import trimesh
 from trimesh import graph
+from trimesh import grouping
 import networkx as nx
 
 
@@ -326,22 +327,6 @@ def cut_mesh(mesh, atex_in):
     return sub_meshes, labels, sub_indexes
 
 
-def edges_to_adjacency_matrix(mesh):
-    """
-    compute the adjacency matrix of a mesh
-    adja(i,j) = 2 if the edge (i,j) is in two faces
-    adja(i,j) = 1 means that i and j are on the boundary of the mesh
-    adja(i,j) = 0 elsewhere
-    :param mesh:
-    :return:
-    """
-    adja = graph.edges_to_coo(mesh.edges,
-                              data=np.ones(len(mesh.edges),
-                                           dtype=np.int8))
-
-    return sparse.triu(adja) + sparse.tril(adja).transpose()
-
-
 def edges_to_boundary(edges_bound, mesh_edges):
     """
     build the boundary by traversing edges return list of connected components
@@ -434,20 +419,10 @@ def mesh_boundary(mesh, verbose=False):
     :param mesh:
     :return:
     """
-    adja = edges_to_adjacency_matrix(mesh)
-    r = sparse.extract.find(adja)
-    li = r[0][np.where(r[2] == 1)]
-    lj = r[1][np.where(r[2] == 1)]
-    edges_boundary = np.vstack([li, lj]).T
-    """
-    # alternative implementation based on edges and grouping from trimesh
-    # instead of adjacency matrix
-    from trimesh import grouping
     groups = grouping.group_rows(mesh.edges_sorted, require_count=1)
     # vertex_boundary = np.unique(open_mesh.edges_sorted[groups])
     edges_boundary = mesh.edges_sorted[groups]
-    """
-    if li.size == 0:
+    if len(edges_boundary) == 0:
         if verbose:
             print('No holes in the surface !!!!')
         return np.array([])
@@ -522,19 +497,28 @@ def texture_boundary(mesh, atex, val):
         bound_verts = texture_boundary_vertices(atex, val,
                                                 mesh.vertex_neighbors)
         # select the edges that are on the boundary in the polygons
-        adja = edges_to_adjacency_matrix(mesh)
-        r = sparse.extract.find(adja)
-        inr0 = []
-        inr1 = []
+        u_edges = mesh.edges_unique
+        u_edges_count = np.zeros_like(u_edges)
         for v in bound_verts:
-            inr0.extend(np.where(r[0] == v)[0])
-            inr1.extend(np.where(r[1] == v)[0])
-        r[2][inr0] = r[2][inr0] + 1
-        r[2][inr1] = r[2][inr1] + 1
-        li = r[0][np.where(r[2] == 4)]
-        lj = r[1][np.where(r[2] == 4)]
-        edges_boundary = np.vstack([li, lj]).T
+            u_edges_count[u_edges == v] += 1
+        edges_boundary = u_edges[np.sum(u_edges_count, 1) == 2]
         return edges_to_boundary(edges_boundary, mesh.edges)
+        # old method with the wrong adjacency matrix
+        # adja_tmp = graph.edges_to_coo(mesh.edges,
+        #                               data=np.ones(len(mesh.edges),
+        #                                            dtype=np.int8))
+        # adja = sparse.triu(adja_tmp) + sparse.tril(adja_tmp).transpose()
+        # r = sparse.extract.find(adja)
+        # inr0 = []
+        # inr1 = []
+        # for v in bound_verts:
+        #     inr0.extend(np.where(r[0] == v)[0])
+        #     inr1.extend(np.where(r[1] == v)[0])
+        # r[2][inr0] = r[2][inr0] + 1
+        # r[2][inr1] = r[2][inr1] + 1
+        # li = r[0][np.where(r[2] == 4)]
+        # lj = r[1][np.where(r[2] == 4)]
+        # edges_boundary = np.vstack([li, lj]).T
 
 
 def texture_boundary_vertices(atex, val, vertex_neighbors):
@@ -556,7 +540,7 @@ def texture_boundary_vertices(atex, val, vertex_neighbors):
         # (boundary inside the patch)'
         ####################################################################
         '''identify the vertices that are on the boundary,
-        i.e that have at least one neigbor that has not the same value in the
+        i.e that have at least one neighbor that has not the same value in the
         texture '''
         bound_verts = list()
         for i in tex_val_indices:
@@ -569,42 +553,44 @@ def texture_boundary_vertices(atex, val, vertex_neighbors):
         return bound_verts
 
 
-def k_ring_neighborhood(mesh, index, k=1, A=None):
+def k_ring_neighborhood(mesh, index, k=1, adja=None):
     """
     Generate the k-ring neighborhood around a vertex
     :param mesh:
     :param index:
     :param k:
-    :param A: adjacency matrix
-    :return: texture is an array whose values are between 0 and k (all the i-ring neighborhoods)
+    :param adja: adjacency matrix
+    :return: texture is an array whose values are between 0 and k (all the
+    i-ring neighborhoods)
     and k+1 else
     """
-    if k>10:
+    if k > 10:
         raise Exception("k is yoo large (k<=10")
-    if A == None:
-        A = adjacency_matrix(mesh)
-    N = mesh.vertices.shape[0]
-    texture=np.zeros((N,1))
-    texture[index]= k + 1
-    tmpA=sparse.eye(N)
+    if adja is None:
+        adja = adjacency_matrix(mesh)
+    nb_vert = mesh.vertices.shape[0]
+    texture = np.zeros((nb_vert, 1))
+    texture[index] = k + 1
+    tmp_adja = sparse.eye(nb_vert)
     for i in range(k):
-        previous_indices=np.where(tmpA.getcol(index).toarray() > 0)
-        tmpA=A*tmpA
-        indices=np.where(tmpA.getcol(index).toarray() > 0)
-        texture[np.setdiff1d(indices[0], previous_indices)]=k-i
-    texture=k+1-texture
+        previous_indices = np.where(tmp_adja.getcol(index).toarray() > 0)
+        tmp_adja = adja * tmp_adja
+        indices = np.where(tmp_adja.getcol(index).toarray() > 0)
+        texture[np.setdiff1d(indices[0], previous_indices)] = k - i
+    texture = k + 1 - texture
     return texture
 
 
 def adjacency_matrix(mesh):
     """
-    Coefficients are 2 or 1 (two vertices on the boundary)
+    Compute the adjacency matrix of the graph corresponding to the input mesh.
+    See https://en.wikipedia.org/wiki/Adjacency_matrix
     :param mesh:
-    :return:
+    :return: nb_vertex X bn_vertex sparse matrix (scipy.sparse.coo_matrix)
     """
-    A= graph.edges_to_coo(mesh.edges,
+    adja = graph.edges_to_coo(mesh.edges,
                               data=np.ones(len(mesh.edges),
                                            dtype=np.int64))
-    A = A + A.transpose()
-    A[A>0] = 1
-    return A
+    adja = adja + adja.transpose()
+    adja[adja > 0] = 1
+    return adja

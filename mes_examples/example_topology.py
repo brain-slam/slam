@@ -36,7 +36,6 @@ open_mesh = sps.generate_quadric(K, nstep=[5, 5])
 open_mesh_boundary = stop.mesh_boundary(open_mesh)
 print(open_mesh_boundary)
 
-
 ###############################################################################
 # show the result
 # WARNING : BrainObj should be added first before

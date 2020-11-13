@@ -399,8 +399,10 @@ class TestCurvatureMethods(unittest.TestCase):
 
     def test_correctness_direction_quadric(self):
 
-        # WARNING: THRESHOLD should be st to 15°, here this value is just to ensure the test is okay
-        # NEED to check Rusinkiewicz method and the proper orientation of curvature directions
+        # WARNING: THRESHOLD should be st to 15°, here this value is just to
+        # ensure the test is okay
+        # NEED to check Rusinkiewicz method and the proper orientation of
+        # curvature directions
         THRESHOLD = 180
 
         # Generate a paraboloid

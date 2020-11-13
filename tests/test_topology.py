@@ -96,12 +96,12 @@ def make_cut_sphere_b():
 def create_hexagon_2_rings(K=4):
     """ Starts from a regular hexagon and add several k-ring"""
 
-    coords=[[0.0, 0.0]]
+    coords = [[0.0, 0.0]]
     # k-ring, k=1-2, can be generalized to more than k
-    for k in range(1,K):
-        angle = (np.pi/3)/k
-        for i in range(6*k):
-            coords.append([k*np.cos(i*angle), k*np.sin(i*angle)])
+    for k in range(1, K):
+        angle = (np.pi / 3) / k
+        for i in range(6 * k):
+            coords.append([k * np.cos(i * angle), k * np.sin(i * angle)])
 
     coords = np.array(coords)
     print(coords)
@@ -120,10 +120,10 @@ class TestTopologyMethods(unittest.TestCase):
     cutSphere_B = make_cut_sphere_b()
 
     # Sphere cut by two planes, with no new vertices added at the intersection
-    cutSphere_C = sio.load_mesh("tests/data/topology/mesh_C.gii") # JL: something weird with this path
+    cutSphere_C = sio.load_mesh("tests/data/topology/mesh_C.gii")
 
     # A 3D disk with height 0 and radius 2
-    disk_radius_2 = sio.load_mesh("tests/data/topology/mesh_D.gii") # JL: something weird with this path
+    disk_radius_2 = sio.load_mesh("tests/data/topology/mesh_D.gii")
 
     # hexagon 2 rings
     hexagon = create_hexagon_2_rings()
@@ -286,7 +286,8 @@ class TestTopologyMethods(unittest.TestCase):
 
     def test_k_ring_neighborhood(self):
         mesh_hexagon = self.hexagon.copy()
-        texture_2_rings = stop.k_ring_neighborhood(mesh_hexagon, index=0, k=2) # WARNING, 0 is not the center...
+        # WARNING, 0 is not the center...
+        texture_2_rings = stop.k_ring_neighborhood(mesh_hexagon, index=0, k=2)
         zero_ring = np.where(texture_2_rings == 0)[0]
         one_ring = np.where(texture_2_rings == 1)[0]
         two_ring = np.where(texture_2_rings == 2)[0]

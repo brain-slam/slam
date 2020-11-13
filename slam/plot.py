@@ -131,8 +131,9 @@ def pyglet_plot(mesh_in, values=None, color_map=None,
             else:
                 norm = mpl.colors.BoundaryNorm(cmap_bounds, color_map.N)
             # print(norm)
-            mpl.colorbar.ColorbarBase(ax, cmap=color_map,norm=norm,
-                                      orientation='vertical') # L'affiche merdouille, que des valeurs dans [0,1]
+            mpl.colorbar.ColorbarBase(ax, cmap=color_map, norm=norm,
+                                      orientation='vertical')
+            # BUGGY only values in [0,1]
 
             # mpl.colorbar.ColorbarBase(ax, cmap=color_map,
             #                           orientation='horizontal')

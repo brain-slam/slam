@@ -174,22 +174,10 @@ def generate_paraboloid_regular(A, nstep=50, ax=1, ay=1,
                                            face_vertex_number=1)
 
 
+"""
+older, outdated version
 # def generate_quadric(K, nstep=50, ax=1, ay=1, random_sampling=True,
 #                      ratio=0.2, random_distribution_type='gaussian'):
-#     """
-#     generate a quadric mesh
-#     ratio and random_distribution_type parameters are unused if
-#     random_sampling is set to False
-#     :param K:
-#     :param nstep:
-#     :param ax:
-#     :param ay:
-#     :param random_sampling:
-#     :param ratio:
-#     :param random_distribution_type:
-#     :return:
-#     """
-#
 #     # Parameters
 #     xmin, xmax = [-ax, ax]
 #     ymin, ymax = [-ay, ay]
@@ -215,7 +203,7 @@ def generate_paraboloid_regular(A, nstep=50, ax=1, ay=1,
 #             mean = sigma
 #             variance = sigma ** 2
 #             radius = \
-#                 np.random.gamma(mean ** 2 / variance, variance / mean, nb_vert)
+#               np.random.gamma(mean ** 2 / variance, variance / mean, nb_vert)
 #             X = X + radius * np.cos(theta)
 #             Y = Y + radius * np.sin(theta)
 #         elif random_distribution_type == 'uniform':
@@ -225,10 +213,6 @@ def generate_paraboloid_regular(A, nstep=50, ax=1, ay=1,
 #             X = X + sigma * np.random.randn(nb_vert, )
 #             Y = Y + sigma * np.random.randn(nb_vert, )
 #
-#     # Delaunay triangulation, based on scipy binding of Qhull.
-#     # See https://scipy.github.io/devdocs/generated/scipy.spatial.Delaunay.html
-#     #     scipy.spatial.Delaunay
-#     #     and http://www.qhull.org/html/qdelaun.htm for more informations
 #     faces_tri = Delaunay(np.vstack((X, Y)).T, qhull_options='QJ Qt Qbb')
 #     # alternative settings? 'Qbb Qc Qz Qj'
 #
@@ -240,15 +224,20 @@ def generate_paraboloid_regular(A, nstep=50, ax=1, ay=1,
 #                                    process=False)
 #     # remove the faces having any vertex on the boundary to avoid
 #     # atypical faces geometry due to Delaunay triangulation in 2D
-#     return stop.remove_mesh_boundary_faces(quadric_mesh, face_vertex_number=1)
-def generate_quadric(K, nstep=[int(50), int(50)], equilateral=False, ax=1, ay=1, random_sampling=True,
+#    return stop.remove_mesh_boundary_faces(quadric_mesh, face_vertex_number=1)
+"""
+
+
+def generate_quadric(K, nstep=[int(50), int(50)], equilateral=False,
+                     ax=1, ay=1, random_sampling=True,
                      ratio=0.2, random_distribution_type='gaussian'):
     """
     generate a quadric mesh Z=K1*X^2 + K2*Y^2
     ratio and random_distribution_type parameters are unused if
     random_sampling is set to False
     :param K: list with [K1,K2]
-    :param nstep: list with [nstepx,nstepy] or the sampling steps [stepx,stepy] as floats !
+    :param nstep: list with [nstepx,nstepy] or the sampling steps
+    [stepx,stepy] as floats !
     :param equilateral: to have an equilateral sampling scheme of the quadric
     :param ax: half length of the domain
     :param ay: half width of the domain
@@ -263,13 +252,13 @@ def generate_quadric(K, nstep=[int(50), int(50)], equilateral=False, ax=1, ay=1,
     ymin, ymax = [-ay, ay]
     # Define the sampling
     if equilateral:
-        if type(nstep[0])==int:
+        if isinstance(nstep[0], int):
             stepx = (xmax - xmin) / nstep[0]
         else:
             stepx = nstep[0]
         stepy = stepx * np.sqrt(3) / 2  # to ensure equilateral faces
     else:
-        if type(nstep[0]) == int:
+        if isinstance(nstep[0], int):
             stepx = (xmax - xmin) / nstep[0]
             stepy = (ymax - ymin) / nstep[1]
         else:
@@ -283,7 +272,8 @@ def generate_quadric(K, nstep=[int(50), int(50)], equilateral=False, ax=1, ay=1,
     # y = np.linspace(ymin, ymax, nstep)
     X, Y = np.meshgrid(x, y)
 
-    # Boundary of a meshgrid-like set of points, warning X.max()/Y.max() and not xmax, ymax
+    # Boundary of a meshgrid-like set of points,
+    # warning X.max()/Y.max() and not xmax, ymax
     boundary_x = np.logical_or(X.flatten() == xmin, X.flatten() == X.max())
     boundary_y = np.logical_or(Y.flatten() == ymin, Y.flatten() == Y.max())
     boundary = np.logical_or(boundary_x, boundary_y)
@@ -503,4 +493,3 @@ def compute_all_principal_directions_3D(K, vertices):
         res[i, :, 0] = u1[0] * e1 + u1[1] * e2
         res[i, :, 1] = u2[0] * e1 + u2[1] * e2
     return res
-

@@ -1,6 +1,6 @@
 import numpy as np
 from trimesh import util as tut
-from trimesh.geometry import mean_vertex_normals
+# from trimesh.geometry import mean_vertex_normals
 import slam.topology as stop
 
 
@@ -19,9 +19,11 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
     :return:
     """
     N = mesh.vertices.shape[0]
-    #vertex_normals = mean_vertex_normals(N, faces=mesh.faces, face_normals = mesh.face_normals)
-    #vertex_normals, Avertex, Acorner, up, vp = calcvertex_normals(mesh, mesh.face_normals)
-    vertex_normals =  mesh.vertex_normals
+    # vertex_normals = mean_vertex_normals(N,
+    # faces=mesh.faces, face_normals = mesh.face_normals)
+    # vertex_normals, Avertex, Acorner, up, vp =
+    # calcvertex_normals(mesh, mesh.face_normals)
+    vertex_normals = mesh.vertex_normals
 
     curvature = np.zeros((N, 2))
     directions = np.zeros((N, 3, 2))
@@ -33,21 +35,23 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
         point = np.reshape(mesh.vertices[i, :], (3, 1))
         normal = vertex_normals[i, :].transpose()
         normal = normal / norm(normal)
-        normal=np.reshape(normal, (3, 1))
+        normal = np.reshape(normal, (3, 1))
         proj_matrix = np.identity(3) - np.matmul(normal, normal.transpose())
         vec1, vec2 = determine_local_basis(normal, proj_matrix, tol)
         rotation_matrix = np.concatenate((vec1.transpose(),
-                                          np.reshape(vec2, (1, 3)), normal.transpose()))
+                                          np.reshape(vec2, (1, 3)),
+                                          normal.transpose()))
 
         # neighbours
-        neigh = stop.k_ring_neighborhood(mesh, index=i, k= neighbour_size,
-                                    A = adjacency_matrix )
-        #neigh = np.logical_and(neigh <= neighbour_size, neigh > 0).nonzero()[0]
+        neigh = stop.k_ring_neighborhood(mesh, index=i, k=neighbour_size,
+                                         A=adjacency_matrix)
+        # neigh =
+        # np.logical_and(neigh <= neighbour_size, neigh > 0).nonzero()[0]
         neigh = (neigh <= neighbour_size).nonzero()[0]
         neigh_len = len(neigh)
         vertices_neigh = mesh.vertices[neigh, :].transpose()
-        vertices_neigh = vertices_neigh - \
-                         np.repeat(point, neigh_len, axis=1)  # translation, origin at point
+        # translation, origin at point
+        vertices_neigh = vertices_neigh - np.repeat(point, neigh_len, axis=1)
         rotated_vertices_neigh = np.matmul(rotation_matrix, vertices_neigh)
 
         # Parametric model
@@ -56,7 +60,7 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
         Z = np.reshape(rotated_vertices_neigh[2, :], (neigh_len, 1))
         XY = np.concatenate((X ** 2, X * Y, Y ** 2), axis=1)
         parameters = np.matmul(np.linalg.pinv(XY), Z)
-        #parameters = np.linalg.lstsq(XY,Z)
+        # parameters = np.linalg.lstsq(XY,Z)
 
         # Curvature tensor
         tensor = np.array([[parameters[0, 0], parameters[1, 0] / 2],
@@ -64,8 +68,10 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
         eigval, eigvec = np.linalg.eig(tensor)
         curvature[i, 0] = 2 * eigval[0]
         curvature[i, 1] = 2 * eigval[1]
-        directions[i, :, 0] = np.matmul(rotation_matrix[0:2, :].transpose(), eigvec[:, 0]).transpose()
-        directions[i, :, 1] = np.matmul(rotation_matrix[0:2, :].transpose(), eigvec[:, 1]).transpose()
+        directions[i, :, 0] = np.matmul(rotation_matrix[0:2, :].transpose(),
+                                        eigvec[:, 0]).transpose()
+        directions[i, :, 1] = np.matmul(rotation_matrix[0:2, :].transpose(),
+                                        eigvec[:, 1]).transpose()
 
     # Sort
     curvature = np.sort(curvature, axis=1)
@@ -92,7 +98,8 @@ def determine_local_basis(normal, proj_matrix, tol, approach='proj'):
         # (swith 2 largest values -> sub-optimal for quadrics)
         indices = np.argsort(np.abs(normal[:, 0]))
         vec1 = np.zeros((3, 1))
-        vec1[indices[0], 0] = -normal[indices[1], 0]  # switch the two minimal values/add sign - to ensure orthogonality
+        # switch the two minimal values/add sign - to ensure orthogonality
+        vec1[indices[0], 0] = -normal[indices[1], 0]
         vec1[indices[1], 0] = normal[indices[0], 0]
         vec1 = vec1 / norm(vec1)
         vec2 = np.cross(normal[:, 0], vec1[:, 0])

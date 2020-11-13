@@ -20,7 +20,7 @@ import slam.plot as splt
 import slam.io as sio
 import slam.geodesics as sgeo
 import numpy as np
-import trimesh
+# import trimesh
 
 ###############################################################################
 # Mesh importation
@@ -50,9 +50,9 @@ visb_sc.preview()
 area_geodist = sgeo.local_gdist_matrix(mesh, max_geodist)
 
 visb_sc2 = splt.visbrain_plot(mesh=mesh,
-                             tex=area_geodist[0].toarray().squeeze(),
-                             caption='local geodesic distance',
-                             cblabel='distance')
+                              tex=area_geodist[0].toarray().squeeze(),
+                              caption='local geodesic distance',
+                              cblabel='distance')
 visb_sc2.preview()
 ###############################################################################
 # Get the vertex index
