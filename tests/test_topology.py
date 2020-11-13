@@ -95,10 +95,10 @@ class TestTopologyMethods(unittest.TestCase):
     cutSphere_B = make_cut_sphere_b()
 
     # Sphere cut by two planes, with no new vertices added at the intersection
-    cutSphere_C = sio.load_mesh("data/topology/mesh_C.gii") # JL: something weird with this path
+    cutSphere_C = sio.load_mesh("tests/data/topology/mesh_C.gii") # JL: something weird with this path
 
     # A 3D disk with height 0 and radius 2
-    disk_radius_2 = sio.load_mesh("data/topology/mesh_D.gii") # JL: something weird with this path
+    disk_radius_2 = sio.load_mesh("tests/data/topology/mesh_D.gii") # JL: something weird with this path
 
     # hexagon 2 rings
     hexagon = create_hexagon_2_rings()
