@@ -44,7 +44,7 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
 
         # neighbours
         neigh = stop.k_ring_neighborhood(mesh, index=i, k=neighbour_size,
-                                         A=adjacency_matrix)
+                                         adja=adjacency_matrix)
         # neigh =
         # np.logical_and(neigh <= neighbour_size, neigh > 0).nonzero()[0]
         neigh = (neigh <= neighbour_size).nonzero()[0]
@@ -440,7 +440,7 @@ def principal_curvatures(FV, VertexSFM, up, vp):
             s = tt * c
         k1 = ku - tt * kuv
         k2 = kv + tt * kuv
-        if abs(k1) >= abs(k2):
+        if k1>k2: #abs(k1) >= abs(k2):
             PrincipalDi1[i, :] = c * r_old_u - s * r_old_v
         else:
             [k1, k2] = [k2, k1]
