@@ -31,6 +31,8 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
     adjacency_matrix = stop.adjacency_matrix(mesh)
 
     for i in range(N):
+        if (i==59):
+            print("Debug")
         # Definition of local basis
         point = np.reshape(mesh.vertices[i, :], (3, 1))
         normal = vertex_normals[i, :].transpose()
@@ -440,11 +442,11 @@ def principal_curvatures(FV, VertexSFM, up, vp):
             s = tt * c
         k1 = ku - tt * kuv
         k2 = kv + tt * kuv
-        if k1>k2: #abs(k1) >= abs(k2):
+        if abs(k1)>=abs(k2):
             PrincipalDi1[i, :] = c * r_old_u - s * r_old_v
         else:
             [k1, k2] = [k2, k1]
-            PrincipalDi1[i, :] = c * r_old_u + s * r_old_v
+            PrincipalDi1[i, :] = s * r_old_u + c * r_old_v
         PrincipalDi2[i, :] = np.cross(npp, PrincipalDi1[i, :])
         PrincipalCurvature[0][i] = k1
         PrincipalCurvature[1][i] = k2
