@@ -403,7 +403,7 @@ class TestCurvatureMethods(unittest.TestCase):
         # ensure the test is okay
         # NEED to check Rusinkiewicz method and the proper orientation of
         # curvature directions
-        THRESHOLD = 180
+        THRESHOLD = 10
 
         # Generate a paraboloid
         K = [1, 0]
@@ -433,7 +433,7 @@ class TestCurvatureMethods(unittest.TestCase):
         estimated_directions[:, :, 1] = d2_estim
 
         angular_error_0, dotprods = ut.compare_analytic_estimated_directions(
-            analytical_directions[:, :, 0], d2_estim)
+            analytical_directions[:, :, 0], d2_estim,abs = True)
         angular_error_0 = 180 * angular_error_0 / np.pi
 
         # CORRECTNESS DIRECTION 1
@@ -450,7 +450,7 @@ class TestCurvatureMethods(unittest.TestCase):
         # CORRECTNESS DIRECTION 2
 
         angular_error_1, dotprods = ut.compare_analytic_estimated_directions(
-            analytical_directions[:, :, 1], d1_estim)
+            analytical_directions[:, :, 1], d1_estim,abs = True)
         angular_error_1 = 180 * angular_error_1 / np.pi
 
         # Number of vertices where the angular error is lower than 20 degrees
