@@ -31,7 +31,7 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
     adjacency_matrix = stop.adjacency_matrix(mesh)
 
     for i in range(N):
-        if (i == 58):
+        if (i == 175):
             print("Debug")
         # Definition of local basis
         point = np.reshape(mesh.vertices[i, :], (3, 1))
@@ -77,8 +77,8 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
                                         eigvec[:, 1]).transpose()
 
     # Sort
-    curvature = np.sort(curvature, axis=1)
     indices = np.argsort(curvature, axis=1)
+    curvature = np.sort(curvature, axis=1)
     indices = np.expand_dims(indices, axis=1)
     directions = np.take_along_axis(directions, indices, axis=2)
 
