@@ -18,7 +18,7 @@ def angle(vec1, vec2, abs=False):
     """
     dp = dotprod(vec1, vec2)
     if abs:
-        dp=np.abs(dp)
+        dp = np.abs(dp)
     return np.arccos(clamp(dp, -1, 1))
 
 
@@ -34,7 +34,7 @@ def dotprod(vec1, vec2):
 
 
 def compare_analytic_estimated_directions(analytic_directions,
-                                          estimated_directions,abs=False):
+                                          estimated_directions, abs=False):
     """
     Compare the analytic principal directions with a estimated directions
     :param analytic_directions: (n,3) array
