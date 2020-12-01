@@ -31,6 +31,8 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
     adjacency_matrix = stop.adjacency_matrix(mesh)
 
     for i in range(N):
+        if (i == 175):
+            print("Debug")
         # Definition of local basis
         point = np.reshape(mesh.vertices[i, :], (3, 1))
         normal = vertex_normals[i, :].transpose()
@@ -38,13 +40,14 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
         normal = np.reshape(normal, (3, 1))
         proj_matrix = np.identity(3) - np.matmul(normal, normal.transpose())
         vec1, vec2 = determine_local_basis(normal, proj_matrix, tol)
-        rotation_matrix = np.concatenate((vec1.transpose(),
-                                          np.reshape(vec2, (1, 3)),
-                                          normal.transpose()))
+        # rotation_matrix = np.concatenate((vec1.transpose(),
+        #                                  np.reshape(vec2, (1, 3)),
+        #                                  normal.transpose()))
+        rotation_matrix = np.concatenate((vec1,vec2,normal),axis=1).transpose()
 
         # neighbours
         neigh = stop.k_ring_neighborhood(mesh, index=i, k=neighbour_size,
-                                         A=adjacency_matrix)
+                                         adja=adjacency_matrix)
         # neigh =
         # np.logical_and(neigh <= neighbour_size, neigh > 0).nonzero()[0]
         neigh = (neigh <= neighbour_size).nonzero()[0]
@@ -74,8 +77,8 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
                                         eigvec[:, 1]).transpose()
 
     # Sort
-    curvature = np.sort(curvature, axis=1)
     indices = np.argsort(curvature, axis=1)
+    curvature = np.sort(curvature, axis=1)
     indices = np.expand_dims(indices, axis=1)
     directions = np.take_along_axis(directions, indices, axis=2)
 
@@ -104,6 +107,7 @@ def determine_local_basis(normal, proj_matrix, tol, approach='proj'):
         vec1 = vec1 / norm(vec1)
         vec2 = np.cross(normal[:, 0], vec1[:, 0])
         vec2 = vec2 / norm(vec2)
+    vec2 = np.reshape(vec2, (3, 1))
     return vec1, vec2
 
 
@@ -444,7 +448,7 @@ def principal_curvatures(FV, VertexSFM, up, vp):
             PrincipalDi1[i, :] = c * r_old_u - s * r_old_v
         else:
             [k1, k2] = [k2, k1]
-            PrincipalDi1[i, :] = c * r_old_u + s * r_old_v
+            PrincipalDi1[i, :] = s * r_old_u + c * r_old_v
         PrincipalDi2[i, :] = np.cross(npp, PrincipalDi1[i, :])
         PrincipalCurvature[0][i] = k1
         PrincipalCurvature[1][i] = k2

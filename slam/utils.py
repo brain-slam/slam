@@ -9,7 +9,7 @@ def clamp(val, a, b):
     return val
 
 
-def angle(vec1, vec2):
+def angle(vec1, vec2, abs=False):
     """
     Return the angle between two vectors
     :param vec1:
@@ -17,6 +17,8 @@ def angle(vec1, vec2):
     :return:
     """
     dp = dotprod(vec1, vec2)
+    if abs:
+        dp = np.abs(dp)
     return np.arccos(clamp(dp, -1, 1))
 
 
@@ -32,7 +34,7 @@ def dotprod(vec1, vec2):
 
 
 def compare_analytic_estimated_directions(analytic_directions,
-                                          estimated_directions):
+                                          estimated_directions, abs=False):
     """
     Compare the analytic principal directions with a estimated directions
     :param analytic_directions: (n,3) array
@@ -44,7 +46,7 @@ def compare_analytic_estimated_directions(analytic_directions,
     dotprods = np.zeros((n,))
     for i in range(n):
         angle0 = angle(analytic_directions[i, :],
-                       estimated_directions[i, :])
+                       estimated_directions[i, :],abs)
         angular_error[i] = angle0
         dotprods[i] = dotprod(analytic_directions[i, :],
                               estimated_directions[i, :])
