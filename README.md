@@ -34,18 +34,63 @@ Slam is an extension of [Trimesh](https://github.com/mikedh/trimesh), an open so
 
 + ``plot``: extension of pyglet and visbrain viewers to visualize slam objects
 
-## Dependencies 
-These dependencies, whether mandatory or optional, are managed automatically and transparently for the user during the installation phase and are listed here for the sake of completeness. However, the user must have:
+## Prerequisites
 
-+ a Python3.6 installation 
+ We highly recommend to rely on a (conda) virtual environment as provided by miniconda.
+ See [miniconda installation instructions](https://docs.conda.io/en/latest/miniconda.html)  if you do not already have one. 
+ Then create a virtual environment by typing the following lines in a terminal:
+  ```
+    conda create -q -n slam python=3.6
+    conda activate slam
+  ``` 
+ This creates an empty conda virtual environment with Python 3.6 and basic packages
+  (e.g. pip, setuptools) and make it the default python environment.
+
+
+## User installation
+
+1. Clone the [slam Github repository](https://github.com/gauzias/slam)
+   ```
+   git clone https://github.com/gauzias
+   ```
+
+2. Move to slam folder and type the following command in terminal
+
+    ```
+     pip install .['full'] 
+    ```
+
+3. Try example scripts located in ``examples`` folder
+
+## Contributing to slam code
+### Installation
+1. [Create an account](https://github.com/) on Github if you do not already have one
+2. Sign in Github and fork  the [slam Github repository](https://github.com/gauzias/slam)
+3. Clone your personal slam fork in your current local directory
+    ```# replace <username> by your Github login 
+    git clone https://github.com/<username>/slam
+    ```
+4. Perform a full slam installation in editable mode
+   ```
+    pip install -e .['full']
+   ```
+5. Set upstream repository to keep your clone up-to-date
+   ```
+    git remote add upstream https://github.com/gauzias/slam.git
+   ```
+You are now ready to modify slam code and submit a pull request
+## Dependencies 
+These dependencies, whether mandatory or optional, are managed automatically and transparently for the user during the installation phase and are listed here for the sake of completeness.
+
+### Mandatory
+In order to work fine, slam requires:
+
++ a Python 3.6 installation 
 
 + setuptools
 
 + pip
  
-### Mandatory
-In order to work fine, slam requires:
-
 +  numpy
 
 +  scipy
@@ -56,7 +101,7 @@ In order to work fine, slam requires:
 
 +  nibabel
 
-+  matplotlib
+
     
 ### Optional
 
@@ -76,26 +121,6 @@ visbrain is highly recommended for visualisation see (https://github.com/Etienne
 
 + codecov
    
-## Installation:
-
-### Users
-
-1. Clone the current repository
-
-2. Move to slam folder and type one of the two following commands in terminal
-    ```
-    python setup.py install
-    pip install . 
-    ```
-3. Try example scripts located in ``examples`` folder
-
-
-### Contributors
-
- * install default packages as well as syntax validation ( ``flake8``, ``autopep8``) and test (``pytest``, ``pytest-cov``) packages
-    ```
-    pip install -e .['default-dev']
-    ```
 
 ## Hall of fame
 
