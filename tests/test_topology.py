@@ -13,14 +13,14 @@ from scipy.spatial import Delaunay
 def create_test_graph():
     """
     create a toy graph for testing
-    (2)--(3)
-     |\   |
-     | \  |
-     |  \ |
-     |   \|
-    (0)--(1)
-    :return:
     """
+    # (2)--(3)
+    #  |\   |
+    #  | \  |
+    #  |  \ |
+    #  |   \|
+    # (0)--(1)
+
     coords = []
     coords.append([0, 0, 0])
     coords.append([0, 1, 0])

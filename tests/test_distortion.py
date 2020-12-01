@@ -1,4 +1,3 @@
-import slam.io as sio
 import slam.distortion as sdst
 import numpy as np
 import unittest
@@ -26,7 +25,7 @@ class TestDistortionMethods(unittest.TestCase):
         mesh_b = self.sphere_r2.copy()
         mesh_b_save = self.sphere_r2.copy()
 
-        tmp = sdst.angle_difference(mesh_a, mesh_b)
+        # tmp = sdst.angle_difference(mesh_a, mesh_b)
 
         assert(mesh_a.vertices == mesh_a_save.vertices).all()
         assert(mesh_a.faces == mesh_a_save.faces).all()
@@ -34,7 +33,7 @@ class TestDistortionMethods(unittest.TestCase):
         assert(mesh_b.vertices == mesh_b_save.vertices).all()
         assert(mesh_b.faces == mesh_b_save.faces).all()
 
-        tmp = sdst.area_difference(mesh_a, mesh_b)
+        # tmp = sdst.area_difference(mesh_a, mesh_b)
 
         assert(mesh_a.vertices == mesh_a_save.vertices).all()
         assert(mesh_a.faces == mesh_a_save.faces).all()
@@ -42,7 +41,7 @@ class TestDistortionMethods(unittest.TestCase):
         assert(mesh_b.vertices == mesh_b_save.vertices).all()
         assert(mesh_b.faces == mesh_b_save.faces).all()
 
-        tmp = sdst.edge_length_difference(mesh_a, mesh_b)
+        # tmp = sdst.edge_length_difference(mesh_a, mesh_b)
 
         assert(mesh_a.vertices == mesh_a_save.vertices).all()
         assert(mesh_a.faces == mesh_a_save.faces).all()
