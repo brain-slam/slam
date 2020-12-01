@@ -43,7 +43,8 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
         # rotation_matrix = np.concatenate((vec1.transpose(),
         #                                  np.reshape(vec2, (1, 3)),
         #                                  normal.transpose()))
-        rotation_matrix = np.concatenate((vec1,vec2,normal),axis=1).transpose()
+        rotation_matrix = \
+            np.concatenate((vec1, vec2, normal), axis=1).transpose()
 
         # neighbours
         neigh = stop.k_ring_neighborhood(mesh, index=i, k=neighbour_size,
