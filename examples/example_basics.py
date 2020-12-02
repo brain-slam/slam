@@ -8,6 +8,9 @@ if __name__ == '__main__':
     This scripts shows examples of basic functionalities offered by SLAM.
     Some (most) of these are actually inherited from Trimesh
     This script does not plot anything, see example_plot.py for that purpose
+    
+    Pull request test by maxime
+    
     '''
     mesh_file = 'data/example_mesh.gii'
     # loading a mesh stored on the disc as a gifti file,
