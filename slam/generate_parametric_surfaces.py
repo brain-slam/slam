@@ -117,7 +117,7 @@ def generate_paraboloid_regular(A, nstep=50, ax=1, ay=1,
         """
     # Parameters
     xmin, xmax = [-ax, ax]
-    ymin, ymax = [-ay, ay]
+    ymax = ay    # ymin, ymax = [-ay, ay]
     # Define the sampling
     if isinstance(nstep, int):
         stepx = (xmax - xmin) / nstep

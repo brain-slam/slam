@@ -46,7 +46,7 @@ def compare_analytic_estimated_directions(analytic_directions,
     dotprods = np.zeros((n,))
     for i in range(n):
         angle0 = angle(analytic_directions[i, :],
-                       estimated_directions[i, :],abs)
+                       estimated_directions[i, :], abs)
         angular_error[i] = angle0
         dotprods[i] = dotprod(analytic_directions[i, :],
                               estimated_directions[i, :])
