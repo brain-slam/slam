@@ -22,9 +22,10 @@ def cortical_surface_profiling(mesh, theta, r_step, m, save_path):
     # compute the geodesic map of cortical surface within the specified radius
     # NOTE: This needs some time
     area_radius = r_step * m * 2
-    area_geodist = geodesics.local_gdist_matrix(mesh, area_radius)
+    area_geodist = slam.geodesics.local_gdist_matrix(mesh, area_radius)
 
     #
+
     profile_samples_x = []
     profile_samples_y = []
     length = len(vert)
