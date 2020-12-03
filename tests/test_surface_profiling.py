@@ -1,0 +1,21 @@
+import numpy as np
+import unittest
+import trimesh
+import slam.surface_profiling as surfpf
+
+
+def make_sphere(radius=1):
+    """ Create a sphere"""
+    mesh_a = trimesh.creation.icosphere(subdivisions=1, radius=radius)
+    return mesh_a
+
+
+class TestSurfaceProfiling(unittest.TestCase):
+
+    def test_basic(self):
+
+        pass
+
+
+if __name__ == '__main__':
+    unittest.main()

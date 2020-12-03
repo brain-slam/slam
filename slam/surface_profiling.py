@@ -2,17 +2,27 @@
 import numpy as np
 import slam.geodesics
 import trimesh
+import trimesh.intersections
+import slam.utils
 
 
-def cortical_surface_profiling(mesh, theta, r_step, m, save_path):
+def cortical_surface_profiling(mesh, rot_angle, r_step, max_samples):
     """
+    Surface profiling for a given cortical surface.
 
-    :param mesh:
-    :param theta:
-    :param r_step:
-    :param m:
-    :param save_path:
+
+
+    :param mesh: trimesh object
+        The cortical surface mesh.
+    :param rot_angle: float
+        Degree of rotation angle.
+    :param r_step: float
+        Length of sampling steps.
+    :param max_samples:
+        Maximum of samples in one profiles.
+
     :return:
+
     """
 
     vert = mesh.vertices
@@ -21,11 +31,10 @@ def cortical_surface_profiling(mesh, theta, r_step, m, save_path):
 
     # compute the geodesic map of cortical surface within the specified radius
     # NOTE: This needs some time
-    area_radius = r_step * m * 2
+    area_radius = r_step * max_samples * 2
     area_geodist = slam.geodesics.local_gdist_matrix(mesh, area_radius)
 
     #
-
     profile_samples_x = []
     profile_samples_y = []
     length = len(vert)
@@ -36,17 +45,18 @@ def cortical_surface_profiling(mesh, theta, r_step, m, save_path):
         vert_norm_i = norm[i]
 
         # limit the intersection area into the area_radius (on Distmap) from center
-        # TODO There is a func in the lastest trimesh: trimesh.geometry.vertex_face_indices()
         vert_distmap = area_geodist[i].toarray()[0]
         area_geodist_v = np.where(vert_distmap > 0)[0]
         area_geodist_faces = vert2poly_indices(area_geodist_v, poly)
         intersect_mesh = mesh.submesh(np.array([area_geodist_faces]))[0]
 
         # get the profile samplings on surface
-        sam_prof = surface_profiling_vert(vert_i, vert_norm_i, theta, r_step, m, intersect_mesh)
+        sam_prof = surface_profiling_vert(
+            vert_i, vert_norm_i, rot_angle, r_step, max_samples, intersect_mesh)
 
         # compute the 2D coordinates (x, y) for all profile points
-        sample_x, sample_y = compute_profile_coord_x_y(np.array(sam_prof), vert[i], norm[i])
+        sample_x, sample_y = compute_profile_coord_x_y(
+            np.array(sam_prof), vert[i], norm[i])
 
         profile_samples_x.append(sample_x)
         profile_samples_y.append(sample_y)
@@ -56,16 +66,29 @@ def cortical_surface_profiling(mesh, theta, r_step, m, save_path):
     return np.array(profile_samples_x), np.array(profile_samples_y)
 
 
-def surface_profiling_vert(vertex, vert_norm, theta, r, m, mesh):
+def surface_profiling_vert(vertex, vert_norm, rot_angle, r_step, max_samples, mesh):
     """
     Implement the profile sampling process for a given vertex.
-    :param vertex: the target vertex (center vertex) [x, y, z]
-    :param vert_norm: the vertex normal
-    :param theta:
-    :param r:
-    :param m:
-    :param mesh:
-    :return:
+    Note:
+    For a given vertex,
+        Number of profiles N_p = 360/theta
+    For each profiles,
+        Number of Sampling points N_s = max_samples
+
+    :param vertex: (3,) float
+        Target vertex (center vertex)
+    :param vert_norm: (3,) float
+        Vertex normal
+    :param rot_angle: (3,) float
+        Degree of rotation angle
+    :param r_step: float
+        Length of sampling steps
+    :param max_samples:
+        Maximum of samples in one profiles
+    :param mesh: trimesh object
+        Intersecting mesh
+    :return: (N_p, N_s, 3) float
+        Profiles points in 3D coordinates.
     """
 
     profile_list = []  # record all the samples x and y
@@ -75,43 +98,47 @@ def surface_profiling_vert(vertex, vert_norm, theta, r, m, mesh):
     dir_r0 = np.array([1, 1, 1]) - vertex
 
     # project the dir_R0 onto the tangent plane
-    r0 = project_vector2tangent_plane(vert_norm, dir_r0)[0]
+    rot_vec0 = project_vector2tangent_plane(vert_norm, dir_r0)[0]
 
-    for i in range(int(360 / theta)):
+    for i in range(int(360 / rot_angle)):
 
         # set the rotation directions
-        rotate_angle = (i * theta) * 1.0 / 360 * 2 * np.pi
-        rot_mat = get_rotate_matrix(vert_norm, rotate_angle)
-        r_alpha = np.dot(r0, rot_mat)
-        p_norm = np.cross(vert_norm, r_alpha)
+        rot_angle_alpha = (i * rot_angle) * 1.0 / 360 * 2 * np.pi
+        rot_mat_alpha = slam.utils.get_rotate_matrix(vert_norm, rot_angle_alpha)
+        rot_vec_alpha = np.dot(rot_vec0, rot_mat_alpha)
+        p_norm = np.cross(vert_norm, rot_vec_alpha)
 
-        intersect_lines = trimesh.intersections.mesh_plane(mesh, p_norm, vertex)
-        lines_index = np.unique(intersect_lines, axis=0, return_index=True)[1]
-        ordered_lines = intersect_lines[lines_index]
+        intersect_lines = trimesh.intersections.mesh_plane(
+            mesh, p_norm, vertex)
 
-        points_i, points_index, _ = select_points_orientation(ordered_lines, r_alpha, vertex)
+        # lines_index = np.unique(intersect_lines, axis=0, return_index=True)[1]
+        # ordered_insc_lines = intersect_lines[lines_index]
+
+        points_i, points_index, _ = select_points_orientation(
+            intersect_lines, rot_vec_alpha, vertex)
 
         if len(points_index) != 0:
-            samples_y = []
             points_sign = []
-            length_sum = np.linalg.norm(points_i[0] - vertex)  # record the length of segment
+            # record the length of segment
+            length_sum = np.linalg.norm(points_i[0] - vertex)
             minued_lenth = 0
             count_i = 0
-            exceed_index = 0  # record the i when the sample distance firstly exceed the maximum of intersection
+            # record the i when the sample distance firstly exceed the maximum of intersection
+            exceed_index = 0
             exceed_bool = True
             count_max = len(points_i)
 
-            for j in range(m):
-                sample_dist = (j + 1) * r
+            for j in range(max_samples):
+                sample_dist = (j + 1) * r_step
                 if sample_dist <= length_sum and count_i == 0:
                     # the point is between center point and the closest one
                     point0 = vertex
                     points1 = points_i[0]
-                    # alpha = sample_dist/np.linalg.norm(points1 - point0)
+
                 elif sample_dist <= length_sum and count_i != 0:
                     point0 = points_i[count_i - 1]
                     points1 = points_i[count_i]
-                    # length_sum += np.linalg.norm(points1 - point0)
+
                 else:
                     minued_lenth = length_sum
                     count_i += 1
@@ -123,7 +150,7 @@ def surface_profiling_vert(vertex, vert_norm, theta, r, m, mesh):
                             exceed_index = j
                             exceed_bool = False
                         count_i -= 1
-                        sample_dist = (exceed_index + 1) * r
+                        sample_dist = (exceed_index + 1) * r_step
                         point0 = points_i[count_i - 1]
                         points1 = points_i[count_i]
                     else:
@@ -134,68 +161,40 @@ def surface_profiling_vert(vertex, vert_norm, theta, r, m, mesh):
                 if np.linalg.norm(points1 - point0) == 0:
                     alpha = 0
                 else:
-                    alpha = (sample_dist - minued_lenth) / np.linalg.norm(points1 - point0)
+                    alpha = (sample_dist - minued_lenth) / \
+                        np.linalg.norm(points1 - point0)
 
                 sample_point = (1 - alpha) * point0 + alpha * points1
-                points_sign.append(sample_point)  # use to calculate the sign of sample y
+                # use to calculate the sign of sample y
+                points_sign.append(sample_point)
 
         else:
             # the origin point is out of intersection points
-            points_sign = list(np.zeros([m, 3]))
+            points_sign = list(np.zeros([max_samples, 3]))
 
         profile_list.append(points_sign)
 
-    return profile_list
+    return np.array(profile_list)
 
 
 def vert2poly_indices(vertex_array, poly_array):
     """
     Find vertex-polygon indices from the polygons array of vertices
 
+    TODO There is a func in the lastest trimesh:
+        trimesh.geometry.vertex_face_indices()
+
     :param vertex_array:
     :param poly_array:
     :return:
     """
 
-    vert_faces_arr = np.array([], dtype=int)
+    vert_poly_arr = np.array([], dtype=int)
     for i in range(len(vertex_array)):
-        face_i = np.where(poly_array == vertex_array[i])[0]
-        vert_faces_arr = np.hstack((vert_faces_arr, face_i))
+        poly_i = np.where(poly_array == vertex_array[i])[0]
+        vert_poly_arr = np.hstack((vert_poly_arr, poly_i))
 
-    return vert_faces_arr
-
-
-def get_rotate_matrix(rot_axis, angle):
-    """
-    for a pair of rotation axis and angle, calculate the rotate matrix
-    :param rot_axis: rotation axis
-    :param angle: rotation angle
-    :return: rotate matrix of [3, 3]
-    """
-
-    # normalize the rotate axis
-    r_n = rot_axis / np.linalg.norm(rot_axis)
-    rot_matrix = np.zeros((3, 3), dtype='float32')
-
-    cos_theta = np.cos(angle)
-    sin_theta = np.sin(angle)
-    x = r_n[0]
-    y = r_n[1]
-    z = r_n[2]
-
-    rot_matrix[0, 0] = cos_theta + (1 - cos_theta) * np.power(x, 2)
-    rot_matrix[0, 1] = (1 - cos_theta) * x * y - sin_theta * z
-    rot_matrix[0, 2] = (1 - cos_theta) * x * z + sin_theta * y
-
-    rot_matrix[1, 0] = (1 - cos_theta) * y * x + sin_theta * z
-    rot_matrix[1, 1] = cos_theta + (1 - cos_theta) * np.power(y, 2)
-    rot_matrix[1, 2] = (1 - cos_theta) * y * z - sin_theta * x
-
-    rot_matrix[2, 0] = (1 - cos_theta) * z * x - sin_theta * y
-    rot_matrix[2, 1] = (1 - cos_theta) * z * y + sin_theta * x
-    rot_matrix[2, 2] = cos_theta + (1 - cos_theta) * np.power(z, 2)
-
-    return rot_matrix
+    return np.unique(vert_poly_arr)
 
 
 def project_vector2tangent_plane(v_n, v_p):
@@ -243,10 +242,15 @@ def project_vector2vector(v_n, v_p):
 
 def select_points_orientation(intersect_points, r_alpha, origin):
     """
+    Select points in a specified orientation
 
-    :param intersect_points:  NOTE: intersecting points of the same polygon are saved together
+    :param intersect_points:
+        NOTE: intersecting points of the same polygon are saved together
+
     :param r_alpha:
-    :param origin:
+
+    :param origin: (3,) float
+        origin points
     :return: r_points, points in the direction
              points_index, points indices
              line_index, the local indices of the segments that contain the intersecting points.
@@ -351,4 +355,3 @@ def compute_profile_coord_x_y(profile, origin, normal):
     y = length_y.reshape([num_prof, num_sample])
 
     return x, y
-
