@@ -41,7 +41,7 @@ Importation of slam modules
     import slam.io as sio
     import slam.geodesics as sgeo
     import numpy as np
-    import trimesh
+    # import trimesh
 
 
 
@@ -141,9 +141,9 @@ Getting the vertex index in specified geo_distance of vert
     area_geodist = sgeo.local_gdist_matrix(mesh, max_geodist)
 
     visb_sc2 = splt.visbrain_plot(mesh=mesh,
-                                 tex=area_geodist[0].toarray().squeeze(),
-                                 caption='local geodesic distance',
-                                 cblabel='distance')
+                                  tex=area_geodist[0].toarray().squeeze(),
+                                  caption='local geodesic distance',
+                                  cblabel='distance')
     visb_sc2.preview()
 
 
@@ -238,7 +238,7 @@ scene.show(smooth=False)
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  6.215 seconds)
+   **Total running time of the script:** ( 0 minutes  6.010 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_geodesic.py:

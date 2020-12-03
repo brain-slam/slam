@@ -58,6 +58,26 @@ Examples Gallery
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbcontainer" tooltip="example of curvature estimation in slam">
+
+.. only:: html
+
+ .. figure:: /auto_examples/images/thumb/sphx_glr_example_curvature_directions_thumb.png
+
+     :ref:`sphx_glr_auto_examples_example_curvature_directions.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/example_curvature_directions
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="example of differential geometry tools in slam">
 
 .. only:: html
@@ -135,6 +155,26 @@ Examples Gallery
    :hidden:
 
    /auto_examples/example_geodesic
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="example of curvature estimation in slam">
+
+.. only:: html
+
+ .. figure:: /auto_examples/images/thumb/sphx_glr_example_hinge_gyri_thumb.png
+
+     :ref:`sphx_glr_auto_examples_example_hinge_gyri.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/example_hinge_gyri
 
 .. raw:: html
 
