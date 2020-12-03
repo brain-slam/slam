@@ -13,6 +13,18 @@
       "contributions": [
         "maintenance"
       ]
+    },
+    {
+      "login": "JulienLefevreMars",
+      "name": "JulienLefevreMars",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/19426328?v=4",
+      "profile": "https://sites.google.com/site/julienlefevreperso/",
+      "contributions": [
+        "code",
+        "doc",
+        "example",
+        "ideas"
+      ]
     }
   ],
   "contributorsPerLine": 7,

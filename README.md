@@ -1,6 +1,6 @@
 # Surface anaLysis And Modeling (Slam)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 [![Build Status](https://travis-ci.org/gauzias/slam.svg?branch=master)](https://travis-ci.org/gauzias/slam) 
@@ -153,6 +153,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="https://alexpron.github.io/"><img src="https://avatars0.githubusercontent.com/u/45215023?v=4" width="100px;" alt=""/><br /><sub><b>alexpron</b></sub></a><br /><a href="#maintenance-alexpron" title="Maintenance">🚧</a></td>
+    <td align="center"><a href="https://sites.google.com/site/julienlefevreperso/"><img src="https://avatars2.githubusercontent.com/u/19426328?v=4" width="100px;" alt=""/><br /><sub><b>JulienLefevreMars</b></sub></a><br /><a href="https://github.com/gauzias/slam/commits?author=JulienLefevreMars" title="Code">💻</a> <a href="https://github.com/gauzias/slam/commits?author=JulienLefevreMars" title="Documentation">📖</a> <a href="#example-JulienLefevreMars" title="Examples">💡</a> <a href="#ideas-JulienLefevreMars" title="Ideas, Planning, & Feedback">🤔</a></td>
   </tr>
 </table>
 
