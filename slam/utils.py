@@ -78,3 +78,36 @@ def compare_analytic_estimated_directions_min(analytic_directions,
         dotprods[i, 1] = dotprod(analytic_directions[i, :],
                                  estimated_directions[i, :, 1])
     return angular_error, dotprods
+
+
+def get_rotate_matrix(rot_axis, angle):
+    """
+    for a pair of rotation axis and angle, calculate the rotate matrix
+    :param rot_axis: rotation axis
+    :param angle: float, the rotation angle is a real number rather than degree
+    :return: rotate matrix of [3, 3]
+    """
+
+    # normalize the rotate axis
+    r_n = rot_axis / np.linalg.norm(rot_axis)
+    rot_matrix = np.zeros((3, 3), dtype='float32')
+
+    cos_theta = np.cos(angle)
+    sin_theta = np.sin(angle)
+    x = r_n[0]
+    y = r_n[1]
+    z = r_n[2]
+
+    rot_matrix[0, 0] = cos_theta + (1 - cos_theta) * np.power(x, 2)
+    rot_matrix[0, 1] = (1 - cos_theta) * x * y - sin_theta * z
+    rot_matrix[0, 2] = (1 - cos_theta) * x * z + sin_theta * y
+
+    rot_matrix[1, 0] = (1 - cos_theta) * y * x + sin_theta * z
+    rot_matrix[1, 1] = cos_theta + (1 - cos_theta) * np.power(y, 2)
+    rot_matrix[1, 2] = (1 - cos_theta) * y * z - sin_theta * x
+
+    rot_matrix[2, 0] = (1 - cos_theta) * z * x - sin_theta * y
+    rot_matrix[2, 1] = (1 - cos_theta) * z * y + sin_theta * x
+    rot_matrix[2, 2] = cos_theta + (1 - cos_theta) * np.power(z, 2)
+
+    return rot_matrix

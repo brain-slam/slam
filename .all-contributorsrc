@@ -16,6 +16,29 @@
         "ideas",
         "code"
       ]
+    },
+    {
+      "login": "JulienLefevreMars",
+      "name": "JulienLefevreMars",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/19426328?v=4",
+      "profile": "https://sites.google.com/site/julienlefevreperso/",
+      "contributions": [
+        "code",
+        "doc",
+        "example",
+        "ideas"
+      ]
+    },
+    {
+      "login": "tianqisong0117",
+      "name": "Tianqi SONG",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/47243851?v=4",
+      "profile": "https://github.com/tianqisong0117",
+      "contributions": [
+        "code",
+        "example",
+        "ideas"
+      ]
     }
   ],
   "contributorsPerLine": 7,
