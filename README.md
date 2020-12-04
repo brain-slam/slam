@@ -152,7 +152,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://alexpron.github.io/"><img src="https://avatars0.githubusercontent.com/u/45215023?v=4" width="100px;" alt=""/><br /><sub><b>alexpron</b></sub></a><br /><a href="#maintenance-alexpron" title="Maintenance">🚧</a></td>
+    <td align="center"><a href="https://alexpron.github.io/"><img src="https://avatars0.githubusercontent.com/u/45215023?v=4" width="100px;" alt=""/><br /><sub><b>alexpron</b></sub></a><br /><a href="#maintenance-alexpron" title="Maintenance">🚧</a> <a href="#projectManagement-alexpron" title="Project Management">📆</a> <a href="#ideas-alexpron" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/gauzias/slam/commits?author=alexpron" title="Code">💻</a></td>
   </tr>
 </table>
 
