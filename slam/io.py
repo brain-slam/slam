@@ -10,10 +10,10 @@ def load_mesh(gifti_file):
     :param gifti_file: str, path to the gifti file on the disk
     :return: the corresponding trimesh object
     """
-    g = nb.gifti.read(gifti_file)
-    coords, faces = g.getArraysFromIntent(
+    g = nb.load(gifti_file)
+    coords, faces = g.get_arrays_from_intent(
         nb.nifti1.intent_codes['NIFTI_INTENT_POINTSET'])[0].data, \
-        g.getArraysFromIntent(
+        g.get_arrays_from_intent(
             nb.nifti1.intent_codes['NIFTI_INTENT_TRIANGLE'])[0].data
     metadata = g.get_meta().metadata
     metadata['filename'] = gifti_file
