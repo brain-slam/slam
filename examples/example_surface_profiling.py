@@ -9,6 +9,7 @@ if __name__ == '__main__':
 
     mesh = sio.load_mesh('data/example_mesh.gii')
 
+
     vert_index = 1000  # a given vertex index
     vert0 = mesh.vertices[vert_index]
     norm0 = mesh.vertex_normals[vert_index]
