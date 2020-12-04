@@ -58,7 +58,7 @@ Examples Gallery
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="example of curvature estimation in slam">
+    <div class="sphx-glr-thumbcontainer" tooltip="example of curvature directions in slam">
 
 .. only:: html
 
@@ -158,7 +158,7 @@ Examples Gallery
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="example of curvature estimation in slam">
+    <div class="sphx-glr-thumbcontainer" tooltip="example of hinge shaped surface">
 
 .. only:: html
 
