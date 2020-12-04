@@ -2,7 +2,7 @@
 .. _example_curvature:
 
 ===================================
-example of curvature estimation in slam
+example of curvature directions in slam
 ===================================
 """
 
