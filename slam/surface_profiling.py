@@ -49,7 +49,8 @@ def cortical_surface_profiling(mesh, rot_angle, r_step, max_samples):
         vert_i = vert[i]
         vert_norm_i = norm[i]
 
-        # limit the intersection area into the area_radius (on Distmap) from center
+        # limit the intersection area into the area_radius (on Distmap) from
+        # center
         vert_distmap = area_geodist[i].toarray()[0]
         area_geodist_v = np.where(vert_distmap > 0)[0]
         area_geodist_faces = vert2poly_indices(area_geodist_v, poly)
@@ -57,10 +58,16 @@ def cortical_surface_profiling(mesh, rot_angle, r_step, max_samples):
 
         # get the profile samplings on surface
         sam_prof = surface_profiling_vert(
-            vert_i, vert_norm_i, rot_angle, r_step, max_samples, intersect_mesh)
+            vert_i,
+            vert_norm_i,
+            rot_angle,
+            r_step,
+            max_samples,
+            intersect_mesh)
 
         # compute the 2D coordinates (x, y) for all profile points
-        sample_x, sample_y = compute_profile_coord_x_y(sam_prof, vert[i], norm[i])
+        sample_x, sample_y = compute_profile_coord_x_y(
+            sam_prof, vert[i], norm[i])
 
         profile_samples_x.append(sample_x)
         profile_samples_y.append(sample_y)
@@ -68,7 +75,13 @@ def cortical_surface_profiling(mesh, rot_angle, r_step, max_samples):
     return np.array(profile_samples_x), np.array(profile_samples_y)
 
 
-def surface_profiling_vert(vertex, vert_norm, rot_angle, r_step, max_samples, mesh):
+def surface_profiling_vert(
+        vertex,
+        vert_norm,
+        rot_angle,
+        r_step,
+        max_samples,
+        mesh):
     """
     Implement the profile sampling process for a given vertex.
 
@@ -104,22 +117,26 @@ def surface_profiling_vert(vertex, vert_norm, rot_angle, r_step, max_samples, me
 
     # project the dir_R0 onto the tangent plane
     rot_vec0 = project_vector2tangent_plane(vert_norm, dir_r0)[0]
+    round_angle = 360
 
-    for i in range(int(360 / rot_angle)):
+    for i in range(int(round_angle / rot_angle)):
 
         # set the rotation directions
         rot_angle_alpha = (i * rot_angle) * 1.0 / 360 * 2 * np.pi
-        rot_mat_alpha = slam.utils.get_rotate_matrix(vert_norm, rot_angle_alpha)
+        rot_mat_alpha = slam.utils.get_rotate_matrix(
+            vert_norm, rot_angle_alpha)
         rot_vec_alpha = np.dot(rot_vec0, rot_mat_alpha)
         p_norm = np.cross(vert_norm, rot_vec_alpha)
 
         # Get the intersection lines
-        # the lines contains two directions, the rotation direction and reverse.
+        # the lines contains two directions, the rotation direction and
+        # reverse.
         intersect_lines = trimesh.intersections.mesh_plane(
             mesh, p_norm, vertex)
 
         # select the points in the direction of rotation vector
-        points_i = select_points_orientation(intersect_lines, rot_vec_alpha, vertex, vert_norm)
+        points_i = select_points_orientation(
+            intersect_lines, rot_vec_alpha, vertex, vert_norm)
 
         # Calculate the samples of profiles
         if len(points_i) != 0:
@@ -128,7 +145,8 @@ def surface_profiling_vert(vertex, vert_norm, rot_angle, r_step, max_samples, me
             length_sum = np.linalg.norm(points_i[0] - vertex)
             minued_lenth = 0
             count_i = 0
-            # record the i when the sample distance firstly exceed the maximum of intersection
+            # record the i when the sample distance firstly exceed the maximum
+            # of intersection
             exceed_index = 0
             exceed_bool = True
             count_max = len(points_i)
