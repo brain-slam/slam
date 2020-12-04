@@ -11,7 +11,10 @@
       "avatar_url": "https://avatars0.githubusercontent.com/u/45215023?v=4",
       "profile": "https://alexpron.github.io/",
       "contributions": [
-        "maintenance"
+        "maintenance",
+        "projectManagement",
+        "ideas",
+        "code"
       ]
     }
   ],
