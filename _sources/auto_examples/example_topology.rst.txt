@@ -87,7 +87,7 @@ Here the mesh has a single boundary
 
  .. code-block:: none
 
-    [[1, 2, 3, 8, 13, 18, 22, 21, 20, 19, 14, 9, 4, 0]]
+    [[1, 2, 7, 12, 17, 20, 19, 18, 13, 8, 3, 0]]
 
 
 
@@ -456,7 +456,7 @@ show the closed mesh
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  7.314 seconds)
+   **Total running time of the script:** ( 0 minutes  12.830 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_topology.py:
