@@ -11,7 +11,9 @@ def cortical_surface_profiling(mesh, rot_angle, r_step, max_samples):
     """
     Surface profiling for a given cortical surface.
 
-
+    NOTE:
+    This function returns 2D profiling coordinates directly instead of 3D.
+    These 2D points are used to generate the feature Maps.
 
     :param mesh: trimesh object
         The cortical surface mesh.
@@ -22,9 +24,9 @@ def cortical_surface_profiling(mesh, rot_angle, r_step, max_samples):
     :param max_samples:
         Maximum of samples in one profiles.
 
-    :return: (N_vertex, N_p, N_s, 1) float
+    :return: (N_vertex, N_p, N_s) float
         Profiles points in their 2D coordinates.
-        These points are used to generate the feature Maps.
+        (x, y) respectively
 
     """
 
@@ -69,7 +71,8 @@ def cortical_surface_profiling(mesh, rot_angle, r_step, max_samples):
 def surface_profiling_vert(vertex, vert_norm, rot_angle, r_step, max_samples, mesh):
     """
     Implement the profile sampling process for a given vertex.
-    Note:
+
+    NOTE:
     For a given vertex,
         Number of profiles N_p = 360/theta
     For each profiles,
@@ -201,12 +204,16 @@ def vert2poly_indices(vertex_array, poly_array):
 
 def project_vector2tangent_plane(v_n, v_p):
     """
-    calculate the projection vector of v_p onto tangent plane of v
-    :param v_n: normal vector of v
-    :type: ndarray
-    :param v_p: vector projected
-    :type: ndarray
-    :return: v_t
+    calculate the projection vector of v_p onto tangent plane of v_n
+
+    :param v_n: array of (3,)  float
+        normal vector of v
+
+    :param v_p: array of (n, 3) float
+        vector projected
+
+    :return: v_t (n, 3) float
+        projection result
     """
 
     unitev_n = v_n / np.linalg.norm(v_n)
@@ -226,11 +233,16 @@ def project_vector2vector(v_n, v_p):
     """
     calculate the projection vector of v_p onto v_n,
     v_pn = (v_p dot v_n) / |v_n| * unite vector of (v_n)
-    :param v_n_: direction vector
-    :type : ndarray
-    :param v_p: vectors projected
-    :type : ndarray
-    :return:
+
+    :param v_n: array of (3,)  float
+        direction vector
+
+    :param v_p: array of (n, 3) float
+        vectors projected
+
+    :return: (n, 3) float
+        projection result
+
     """
 
     unitev_n = v_n / np.linalg.norm(v_n)
@@ -246,10 +258,11 @@ def project_vector2vector(v_n, v_p):
 
 def select_points_orientation(intersect_points, r_alpha, origin, norm):
     """
-    Select points in a specified orientation.
+    Select points in a specified orientation,
+    and ordered them by distance from the center.
 
     :param intersect_points: (n, 2, 3) float
-        points of intersecting lines
+        Points of intersecting lines.
 
     :param r_alpha: (3,) float
         Orientation vector
@@ -260,9 +273,8 @@ def select_points_orientation(intersect_points, r_alpha, origin, norm):
     :param norm: (3,) float
         Normal of origin point
 
-    :return: r_points, (2n,3) float
-        Ordered points in the orientation,
-        Points are arranged by distance from the center.
+    :return: r_points, (2n, 3) float
+        Ordered points in the orientation.
 
     """
 
@@ -287,13 +299,17 @@ def compute_profile_coord_x_y(profile, origin, normal):
     Calculate the 2D coordinates of the profiling points in their rotation planes
 
     :param profile: (N_p, N_s, 3) float
+        Sampling points of profiles in 3D
 
     :param origin: (3,) float
         Center vertex of profiles
 
     :param normal: (3,) float
         Normal of origin
-    :return:
+
+    :return: (N_p, N_s) float
+        The coordinate x, y
+
     """
     num_prof = len(profile)
     num_sample = len(profile[0])

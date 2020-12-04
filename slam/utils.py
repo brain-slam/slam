@@ -88,6 +88,9 @@ def get_rotate_matrix(rot_axis, angle):
     :return: rotate matrix of [3, 3]
     """
 
+    if np.linalg.norm(rot_axis) == 0:
+        raise Exception('The axis of rotation cannot be 0.')
+
     # normalize the rotate axis
     r_n = rot_axis / np.linalg.norm(rot_axis)
     rot_matrix = np.zeros((3, 3), dtype='float32')
