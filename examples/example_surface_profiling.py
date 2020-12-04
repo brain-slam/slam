@@ -15,7 +15,7 @@ if __name__ == '__main__':
 
     theta = 10  # rotation angle
     r = 0.1    # sampling step length
-    m = 10     # max sampling distance
+    m = 45     # max sampling distance
 
     profile_points = surfpf.surface_profiling_vert(vert0, norm0, theta, r, m, mesh)
 

@@ -93,6 +93,8 @@ def surface_profiling_vert(vertex, vert_norm, rot_angle, r_step, max_samples, me
 
     profile_list = []  # record all the samples x and y
 
+    vertex = np.array(vertex)
+
     # set initial rotation direction
     # randomly select R0
     dir_r0 = np.array([1, 1, 1]) - vertex
@@ -111,13 +113,13 @@ def surface_profiling_vert(vertex, vert_norm, rot_angle, r_step, max_samples, me
         intersect_lines = trimesh.intersections.mesh_plane(
             mesh, p_norm, vertex)
 
-        # lines_index = np.unique(intersect_lines, axis=0, return_index=True)[1]
-        # ordered_insc_lines = intersect_lines[lines_index]
-
+        # ori_points = select_points_orientation2(intersect_lines, rot_vec_alpha, vertex, vert_norm)
         points_i, points_index, _ = select_points_orientation(
             intersect_lines, rot_vec_alpha, vertex)
 
-        if len(points_index) != 0:
+        # points_i = ori_points
+
+        if len(points_i) != 0:
             points_sign = []
             # record the length of segment
             length_sum = np.linalg.norm(points_i[0] - vertex)
@@ -206,9 +208,10 @@ def project_vector2tangent_plane(v_n, v_p):
     :type: ndarray
     :return: v_t
     """
+
     unitev_n = v_n / np.linalg.norm(v_n)
 
-    coeff_v_pn = np.dot(v_p, v_n) / np.linalg.norm(v_n)
+    coeff_v_pn = np.dot(v_p, unitev_n)
 
     coeff = coeff_v_pn.reshape([coeff_v_pn.size, 1])
 
@@ -229,15 +232,41 @@ def project_vector2vector(v_n, v_p):
     :type : ndarray
     :return:
     """
+
     unitev_n = v_n / np.linalg.norm(v_n)
 
-    coeff_v_pn = np.dot(v_p, v_n) / np.linalg.norm(v_n)
+    coeff_v_pn = np.dot(v_p, unitev_n)
 
     coeff = coeff_v_pn.reshape([coeff_v_pn.size, 1])
 
     v_pn = coeff * unitev_n
 
     return v_pn
+
+
+def select_points_orientation2(intersect_points, r_alpha, origin, norm):
+    """
+     test for
+    :param intersect_points:
+    :param r_alpha:
+    :param origin:
+    :param norm:
+    :return:
+    """
+    points_i = intersect_points.reshape(intersect_points.size // 3, 3)
+    ordered_points = trimesh.points.radial_sort(points_i, origin, norm)
+
+    # points_i2 = np.copy(points_i)
+    # np.random.shuffle(points_i2)
+    # ordered_points2 = trimesh.points.radial_sort(points_i2, origin, norm)
+
+    orientation_vec = np.dot(ordered_points - origin, r_alpha)
+
+    orient_point_idx = np.where(orientation_vec > 0)[0][::2]
+
+    orient_points = ordered_points[orient_point_idx]
+
+    return orient_points
 
 
 def select_points_orientation(intersect_points, r_alpha, origin):
@@ -260,7 +289,9 @@ def select_points_orientation(intersect_points, r_alpha, origin):
     # points_i = np.array(list(points_i))  # align the array
 
     # find the center points
-    origin_index = np.unique(np.where(points_i == origin)[0])
+    # p_idx = np.where(points_i == origin)[0]
+    p_idx, count_coord = np.unique(np.where(points_i == origin)[0], return_counts=True)
+    origin_index = p_idx[np.where(count_coord == 3)[0]]
 
     if len(origin_index) == 0:
         # the intersection result exclude origin point
@@ -299,7 +330,11 @@ def select_points_orientation(intersect_points, r_alpha, origin):
 
     end_bool = False  # =True, if the search process arrives at the end of the orientation Ra
     while not end_bool:
+
+        tp_idx, tp_count_coord = np.unique(np.where(points_i == target_point)[0], return_counts=True)
+        target_indices = tp_idx[np.where(tp_count_coord == 3)]
         target_indices = np.unique(np.where(points_i == target_point)[0])
+
         if len(target_indices) == 1:
             # only one point in the array, means it is the end point
             break
