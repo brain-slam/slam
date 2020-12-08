@@ -21,7 +21,7 @@ import numpy as np
 
 
 ###############################################################################
-# loading an examplar mesh
+# loading an example mesh
 mesh = sio.load_mesh('data/example_mesh.gii')
 
 ###############################################################################
@@ -32,7 +32,8 @@ norm0 = mesh.vertex_normals[vert_index]
 
 ###############################################################################
 # Set the parameters for surface profiling
-# rotation angle, length and number of sampling steps
+# initial direction of rotation, rotation angle, length and number of sampling steps
+init_rot_dir = np.array([1, 1, 1]) - vert0
 rot_angle = 10
 r_step = 0.1
 max_samples = 45
@@ -40,7 +41,7 @@ max_samples = 45
 ###############################################################################
 # Surface profiling
 profile_points = surfpf.surface_profiling_vert(
-    vert0, norm0, rot_angle, r_step, max_samples, mesh)
+    vert0, norm0, init_rot_dir, rot_angle, r_step, max_samples, mesh)
 
 ###############################################################################
 # Visualize result
