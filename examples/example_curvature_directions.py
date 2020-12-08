@@ -14,9 +14,7 @@ example of curvature directions in slam
 
 ###############################################################################
 # importation of slam modules
-import slam.utils as ut
 import slam.generate_parametric_surfaces as sgps
-import slam.plot as splt
 import slam.curvature as scurv
 import numpy as np
 import matplotlib.pyplot as plt
@@ -36,10 +34,10 @@ def visualize(mesh, vector_field, colors=None, params=None):
     :return:
     """
     n = mesh.vertices.shape[0]
-    if colors == None:
+    if colors is None:
         colors = np.zeros((n, 3))
         colors[:, 0] = 1
-    if params == None:
+    if params is None:
         params = []
         params.append(0.1)
 
@@ -67,7 +65,8 @@ quadric_mesh = sgps.generate_quadric(K, nstep=[int(nstep), int(nstep)], equilate
 ###############################################################################
 # Compute principal directions of curvature
 
-PrincipalCurvatures, PrincipalDir1, PrincipalDir2 = scurv.curvatures_and_derivatives(quadric_mesh)
+PrincipalCurvatures, PrincipalDir1, PrincipalDir2 = scurv.curvatures_and_derivatives(
+    quadric_mesh)
 
 ###############################################################################
 # Visualization

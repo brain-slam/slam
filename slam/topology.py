@@ -396,7 +396,7 @@ def ismember(ar1, ar2):
     return np.reshape(inds[u_inds], ar1.shape)
 
 
-def list_count(l):
+def list_count(liste):
     """
     count the occurrences of all items in a list and return a dictionary
     that is of the form {nb_occurence:list_item}, which is the opposite of
@@ -407,10 +407,10 @@ def list_count(l):
     >> z = ['blue', 'red', 'blue', 'yellow', 'blue', 'red']
     >> Counter(z)
     Counter({'blue': 3, 'red': 2, 'yellow': 1})
-    :param l:
+    :param liste:
     :return:
     """
-    return dict((l.count(it), it) for it in l)
+    return dict((liste.count(it), it) for it in liste)
 
 
 def mesh_boundary(mesh, verbose=False):

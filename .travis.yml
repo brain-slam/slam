@@ -22,7 +22,7 @@ jobs:
       python: "3.6"
       env:
         - INSTALL='pip' ENV='lining'
-      script: source continuous_integration/lining.sh
+      script: source continuous_integration/linting.sh
       after_success: skip
     - name: "Python 3.6 on default macOSX (10.13): lining code"
       os: osx
@@ -30,7 +30,7 @@ jobs:
       language: shell
       env:
         - INSTALL='pip' ENV='lining'
-      script: source continuous_integration/lining.sh
+      script: source continuous_integration/linting.sh
       after_success: skip
 
     - name: "Python 3.6 on default macOSX (10.13): minimal user install"
