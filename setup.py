@@ -9,7 +9,7 @@ DIST = ['tvb-gdist']
 VISU = ['visbrain']
 
 setup(
-    name="brain-slam",
+    name="slam",
     version='0.0.2',
     packages=find_packages(),
     author="Guillaume Auzias",
