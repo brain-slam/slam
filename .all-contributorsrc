@@ -39,6 +39,18 @@
         "example",
         "ideas"
       ]
+    },
+    {
+      "login": "aymanesouani",
+      "name": "aymanesouani",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/52032789?v=4",
+      "profile": "https://github.com/aymanesouani",
+      "contributions": [
+        "code",
+        "test",
+        "doc",
+        "example"
+      ]
     }
   ],
   "contributorsPerLine": 7,
