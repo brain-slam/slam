@@ -39,6 +39,17 @@
         "example",
         "ideas"
       ]
+    },
+    {
+      "login": "davidmeunier79",
+      "name": "David Meunier",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/7290245?v=4",
+      "profile": "http://www.int.univ-amu.fr/spip.php?page=auteur&id_auteur=809&lang=en",
+      "contributions": [
+        "code",
+        "ideas",
+        "infra"
+      ]
     }
   ],
   "contributorsPerLine": 7,
