@@ -39,6 +39,18 @@
         "example",
         "ideas"
       ]
+    },
+    {
+      "login": "Anthys",
+      "name": "Anthys",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/47481790?v=4",
+      "profile": "https://sites.google.com/view/artanthracite",
+      "contributions": [
+        "code",
+        "test",
+        "example",
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
