@@ -467,7 +467,7 @@ def gradient(mesh, texture_array):
         dicgrad[i] = [0, 0, 0, 0]
 
     # Calculate the Gradient, TO DO: avoid the loop and do only array operations
-    gradient_vector = np.zeros((l_vert,3))
+    gradient_vector = np.zeros((l_vert, 3))
     for i in range(l_poly):
         # Percentage done
         if int(i / float(l_poly) * 100) > n:
