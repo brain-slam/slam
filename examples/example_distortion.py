@@ -1,39 +1,59 @@
+"""
+.. _example_distortion:
+
+===================================
+Example of morphological distortion in slam
+===================================
+"""
+
+# Authors:
+# Guillaume Auzias <guillaume.auzias@univ-amu.fr>
+# Julien Barrès <julien.barres@etu.univ-amu.fr>
+
+# License: BSD (3-clause)
+# sphinx_gallery_thumbnail_number = 2
+
+
+###############################################################################
+# Importation of slam modules
 import slam.distortion as sdst
 import slam.differential_geometry as sdg
 import slam.plot as splt
 import slam.io as sio
 import numpy as np
 
-if __name__ == '__main__':
+###############################################################################
+# Loading an example mesh and a smoothed copy of it
 
-    mesh = sio.load_mesh('data/example_mesh.gii')
-    mesh_s = sdg.laplacian_mesh_smoothing(mesh, nb_iter=50, dt=0.1)
+mesh = sio.load_mesh('../examples/data/example_mesh.gii')
+mesh_s = sdg.laplacian_mesh_smoothing(mesh, nb_iter=50, dt=0.1)
 
-    print(mesh.vertices.shape)
+##########################################################################
+# Visualization of the original mesh
+visb_sc = splt.visbrain_plot(mesh=mesh, caption='original mesh')
+visb_sc.preview()
 
-    angle_diff = sdst.angle_difference(mesh, mesh_s)
-    print(angle_diff)
+###############################################################################
+# Visualization of the smoothed mesh
+visb_sc = splt.visbrain_plot(mesh=mesh_s, caption='smoothed mesh')
+visb_sc.preview()
 
-    face_angle_dist = np.sum(np.abs(angle_diff), 1)
-    print(face_angle_dist)
+###############################################################################
+# Computation of the angle difference between each faces of mesh and mesh_s
+angle_diff = sdst.angle_difference(mesh, mesh_s)
+angle_diff
 
-    vect_col = np.random.random_integers(0, 255, mesh.faces.shape[0])
-    print(vect_col.shape)
+###############################################################################
+#
+face_angle_dist = np.sum(np.abs(angle_diff), 1)
+face_angle_dist
 
-    # f, ax = plt.subplots(1,1)
-    # ax.set_title('angles')
-    # ax.hist(angle_diff.flatten())
-    # # axs[3].set_xticks(X_edge)
-    # ax.grid(True)
-    # plt.show()
+###############################################################################
+# Computation of the area difference between each faces of mesh and mesh_s
+area_diff = sdst.area_difference(mesh, mesh_s)
+area_diff
 
-    # splt.pyglet_plot(mesh_s, face_angle_dist, 'hot', True)
-
-    visb_sc = splt.visbrain_plot(mesh=mesh, caption='original mesh')
-    visb_sc = splt.visbrain_plot(mesh=mesh_s, caption='smoothed mesh',
-                                 visb_sc=visb_sc)
-    # TODO plot distortion map onto the mesh
-    # visb_sc = splt.visbrain_plot(mesh=mesh_s, tex=face_angle_dist,
-    # caption='face angle distortions', cblabel='angle distortions',
-    # cmap='hot', visb_sc=visb_sc)
-    visb_sc.preview()
+###############################################################################
+# Computation of the length difference between each edges of mesh and mesh_s
+edge_diff = sdst.edge_length_difference(mesh, mesh_s)
+edge_diff
