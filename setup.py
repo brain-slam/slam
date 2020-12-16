@@ -3,7 +3,7 @@
 
 from setuptools import setup, find_packages
 
-BASE_REQUIREMENTS = ['numpy', 'scipy', 'trimesh', 'nibabel', 'networkx']
+BASE_REQUIREMENTS = ['numpy', 'scipy', 'trimesh', 'nibabel>=2.1', 'networkx']
 TEST_REQUIREMENTS = ['flake8', 'autopep8', 'pytest', 'pytest-cov', 'coveralls']
 DIST = ['tvb-gdist']
 VISU = ['visbrain']
