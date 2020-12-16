@@ -3,14 +3,14 @@
 
 from setuptools import setup, find_packages
 
-BASE_REQUIREMENTS = ['numpy', 'scipy', 'trimesh', 'nibabel', 'networkx']
+BASE_REQUIREMENTS = ['numpy', 'scipy', 'trimesh', 'nibabel>=2.1', 'networkx']
 TEST_REQUIREMENTS = ['flake8', 'autopep8', 'pytest', 'pytest-cov', 'coveralls']
 DIST = ['tvb-gdist']
 VISU = ['visbrain']
 
 setup(
     name="brain-slam",
-    version='0.0.2',
+    version='0.0.3',
     packages=find_packages(),
     author="Guillaume Auzias",
     description="Surface anaLysis And Modeling",
