@@ -53,7 +53,7 @@ visb_sc.preview()
 triangle_grad = sdg.triangle_gradient(mesh, tex.darray[0])
 print(triangle_grad)
 grad = sdg.gradient(mesh, tex.darray[0])
-print(grad.values)
+print(grad)
 norm_grad = sdg.norm_gradient(mesh, tex.darray[0])
 print(norm_grad)
 
