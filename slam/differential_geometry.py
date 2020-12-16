@@ -509,4 +509,4 @@ def norm_gradient(mesh, texture_array):
     # Compute the gradient of the Mesh
     grad = gradient(mesh, texture_array)
 
-    return np.linalg.norm(np.array(list(grad.values())), 2, 1)
+    return np.linalg.norm(grad, 2, 1)
