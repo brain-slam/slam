@@ -451,7 +451,7 @@ def gradient(mesh, texture_array):
     :param mesh: Triangular mesh
     :param texture_array: Scalar function on Vertices, numpy array
     :return: Gradient on Vertices
-    :rtype: Dictionary
+    :rtype: numpy.array (update 16/12/2020, J Lefevre)
     """
 
     # Initialize Parameters
@@ -466,7 +466,8 @@ def gradient(mesh, texture_array):
     for i in range(l_vert):
         dicgrad[i] = [0, 0, 0, 0]
 
-    # Calculate the Gradient
+    # Calculate the Gradient, TO DO: avoid the loop and do only array operations
+    gradient_vector = np.zeros((l_vert,3))
     for i in range(l_poly):
         # Percentage done
         if int(i / float(l_poly) * 100) > n:
@@ -492,8 +493,8 @@ def gradient(mesh, texture_array):
         for jj in j:
             dicgrad[jj] = np.add(dicgrad[jj], grad)
     for i in range(l_vert):
-        dicgrad[i] = np.multiply(dicgrad[i][0:3], 1 / dicgrad[i][3])
-    return dicgrad
+        gradient_vector[i] = np.multiply(dicgrad[i][0:3], 1 / dicgrad[i][3])
+    return gradient_vector
 
 
 def norm_gradient(mesh, texture_array):
