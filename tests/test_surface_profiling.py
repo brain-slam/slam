@@ -1,7 +1,6 @@
-import numpy as np
 import unittest
+
 import trimesh
-import slam.surface_profiling as surfpf
 
 
 def make_sphere(radius=1):

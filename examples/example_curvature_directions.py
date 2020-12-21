@@ -14,13 +14,12 @@ example of curvature directions in slam
 
 ###############################################################################
 # importation of slam modules
-import slam.utils as ut
-import slam.generate_parametric_surfaces as sgps
-import slam.plot as splt
-import slam.curvature as scurv
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
+
+import slam.generate_parametric_surfaces as sgps
+import slam.curvature as scurv
 
 
 ###############################################################################
@@ -36,19 +35,31 @@ def visualize(mesh, vector_field, colors=None, params=None):
     :return:
     """
     n = mesh.vertices.shape[0]
-    if colors == None:
+    if colors is None:
         colors = np.zeros((n, 3))
         colors[:, 0] = 1
-    if params == None:
+    if params is None:
         params = []
         params.append(0.1)
 
     fig = plt.figure()
     ax = Axes3D(fig)
-    ax.plot_trisurf(mesh.vertices[:, 0], mesh.vertices[:, 1], mesh.vertices[:, 2],
-                    triangles=mesh.faces, shade=True)
-    plt.quiver(mesh.vertices[:, 0], mesh.vertices[:, 1], mesh.vertices[:, 2],
-               vector_field[:, 0], vector_field[:, 1], vector_field[:, 2], length=params[0], colors=colors)
+    ax.plot_trisurf(mesh.vertices[:, 0], mesh.vertices[:, 1],
+                    mesh.vertices[:, 2], triangles=mesh.faces, shade=True)
+    plt.quiver(mesh.vertices[:,
+               0],
+               mesh.vertices[:,
+               1],
+               mesh.vertices[:,
+               2],
+               vector_field[:,
+               0],
+               vector_field[:,
+               1],
+               vector_field[:,
+               2],
+               length=params[0],
+               colors=colors)
 
     return fig
 
@@ -60,14 +71,23 @@ nstep = 20
 equilateral = True
 
 K = [1, 0.5]
-quadric_mesh = sgps.generate_quadric(K, nstep=[int(nstep), int(nstep)], equilateral=equilateral, ax=1, ay=1,
-                                     random_sampling=False,
-                                     ratio=0.2, random_distribution_type='gaussian')
+quadric_mesh = sgps.generate_quadric(
+    K,
+    nstep=[
+        int(nstep),
+        int(nstep)],
+    equilateral=equilateral,
+    ax=1,
+    ay=1,
+    random_sampling=False,
+    ratio=0.2,
+    random_distribution_type='gaussian')
 
 ###############################################################################
 # Compute principal directions of curvature
 
-PrincipalCurvatures, PrincipalDir1, PrincipalDir2 = scurv.curvatures_and_derivatives(quadric_mesh)
+PrincipalCurvatures, PrincipalDir1, PrincipalDir2 = scurv.curvatures_and_derivatives(
+    quadric_mesh)
 
 ###############################################################################
 # Visualization

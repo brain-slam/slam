@@ -164,18 +164,19 @@ p_curv_estim, d1_estim, d2_estim = scurv.curvatures_and_derivatives(quadric)
 
 ###############################################################################
 # Analytical computation of the directions
-analytical_directions = sgps.compute_all_principal_directions_3D(K, quadric.vertices)
+analytical_directions = sgps.compute_all_principal_directions_3D(
+    K, quadric.vertices)
 
 estimated_directions = np.zeros(analytical_directions.shape)
 estimated_directions[:, :, 0] = d1_estim
 estimated_directions[:, :, 1] = d2_estim
 
 angular_error_0, dotprods = ut.compare_analytic_estimated_directions(
-    analytical_directions[:, :, 0], estimated_directions[:,:,0])
+    analytical_directions[:, :, 0], estimated_directions[:, :, 0])
 angular_error_0 = 180 * angular_error_0 / np.pi
 
 angular_error_1, dotprods = ut.compare_analytic_estimated_directions(
-    analytical_directions[:, :, 1], estimated_directions[:,:,1])
+    analytical_directions[:, :, 1], estimated_directions[:, :, 1])
 angular_error_1 = 180 * angular_error_1 / np.pi
 
 ###############################################################################
