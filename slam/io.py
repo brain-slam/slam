@@ -30,7 +30,7 @@ def write_mesh(mesh, gifti_file):
     coord = mesh.vertices
     triangles = mesh.faces
     carray = nb.gifti.GiftiDataArray(coord.astype(np.float32),
-                                                  "NIFTI_INTENT_POINTSET")
+                                     "NIFTI_INTENT_POINTSET")
     tarray = nb.gifti.GiftiDataArray(
         triangles.astype(np.float32), "NIFTI_INTENT_TRIANGLE")
     img = nb.gifti.GiftiImage(darrays=[carray, tarray])

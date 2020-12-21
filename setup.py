@@ -21,7 +21,7 @@ setup(
     extras_require={
         'default-dev': TEST_REQUIREMENTS,
         'advanced-user': DIST,
-        'advanced-dev':  DIST + TEST_REQUIREMENTS,
+        'advanced-dev': DIST + TEST_REQUIREMENTS,
         'full': DIST + TEST_REQUIREMENTS + VISU
     },
     classifiers=[
@@ -29,7 +29,4 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: Unix", "Operating System :: MacOS :: MacOS X"
     ],
-
-
 )
-

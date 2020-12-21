@@ -1,7 +1,8 @@
-import slam.io as sio
-import numpy as np
 import unittest
+import numpy as np
 import trimesh
+
+import slam.io as sio
 
 # UTILITIES
 

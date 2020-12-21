@@ -18,13 +18,20 @@
 #
 import os
 import sys
-curdir = os.path.dirname(__file__)
-sys.path.append(os.path.abspath(os.path.join(curdir, '..')))
-
 from datetime import date
+
+from visbrain.config import CONFIG
 import sphinx_gallery  # noqa
 from sphinx_gallery.sorting import FileNameSortKey
 import sphinx_bootstrap_theme
+
+CONFIG['MPL_RENDER'] = True
+
+
+curdir = os.path.dirname(__file__)
+sys.path.append(os.path.abspath(os.path.join(curdir, '..')))
+path = os.path.join(os.path.dirname(__file__), '../examples/')
+sys.path.insert(0, path)
 
 # -- General configuration ------------------------------------------------
 
@@ -64,8 +71,7 @@ master_doc = 'index'
 # General information about the project.
 project = 'slam'
 td = date.today()
-copyright = u'%s, slam Developers. Last updated on %s' % (td.year,
-                                                                td.isoformat())
+copyright = u'%s, slam Developers. Last updated on %s' % (td.year, td.isoformat())
 
 author = 'Guillaume Auzias'
 
@@ -96,7 +102,6 @@ pygments_style = 'sphinx'
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = False
 
-
 # -- Options for HTML output ----------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
@@ -119,7 +124,7 @@ html_theme_options = {
     'source_link_position': "nav",
     'navbar_links': [
         ("Github", "https://github.com/gauzias/slam", True),
-        #("Documentation", "documentation"),
+        # ("Documentation", "documentation"),
         ("FAQ", "faq"),
         ("Examples", "auto_examples/index"),
         ("API", "api"),
@@ -132,14 +137,13 @@ html_theme_options = {
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-#html_static_path = ['_static']
+# html_static_path = ['_static']
 
 
 # -- Options for HTMLHelp output ------------------------------------------
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'slamdoc'
-
 
 # -- Options for LaTeX output ---------------------------------------------
 
@@ -169,7 +173,6 @@ latex_documents = [
      'Guillaume Auzias', 'manual'),
 ]
 
-
 # -- Options for manual page output ---------------------------------------
 
 # One entry per manual page. List of tuples
@@ -178,7 +181,6 @@ man_pages = [
     (master_doc, 'slam', 'slam Documentation',
      [author], 1)
 ]
-
 
 # -- Options for Texinfo output -------------------------------------------
 
@@ -207,13 +209,3 @@ sphinx_gallery_conf = {
         'nibabel': 'https://nipy.org/nibabel'
     }
 }
-
-import sys
-import os.path as op
-
-path = op.join(op.dirname(__file__), '../examples/')
-sys.path.insert(0, path)
-
-import visbrain
-from visbrain.config import CONFIG
-CONFIG['MPL_RENDER'] = True

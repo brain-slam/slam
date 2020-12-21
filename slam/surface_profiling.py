@@ -44,7 +44,8 @@ def cortical_surface_profiling(mesh, rot_angle, r_step, max_samples):
         vert_i = vert[i]
         vert_norm_i = norm[i]
 
-        # limit the intersection area into the area_radius (on Distmap) from center
+        # limit the intersection area into the area_radius (on Distmap) from
+        # center
         vert_distmap = area_geodist[i].toarray()[0]
         area_geodist_v = np.where(vert_distmap > 0)[0]
         area_geodist_faces = vert2poly_indices(area_geodist_v, poly)
@@ -66,7 +67,8 @@ def cortical_surface_profiling(mesh, rot_angle, r_step, max_samples):
     return np.array(profile_samples_x), np.array(profile_samples_y)
 
 
-def surface_profiling_vert(vertex, vert_norm, rot_angle, r_step, max_samples, mesh):
+def surface_profiling_vert(
+        vertex, vert_norm, rot_angle, r_step, max_samples, mesh):
     """
     Implement the profile sampling process for a given vertex.
     Note:
@@ -106,14 +108,16 @@ def surface_profiling_vert(vertex, vert_norm, rot_angle, r_step, max_samples, me
 
         # set the rotation directions
         rot_angle_alpha = (i * rot_angle) * 1.0 / 360 * 2 * np.pi
-        rot_mat_alpha = slam.utils.get_rotate_matrix(vert_norm, rot_angle_alpha)
+        rot_mat_alpha = slam.utils.get_rotate_matrix(
+            vert_norm, rot_angle_alpha)
         rot_vec_alpha = np.dot(rot_vec0, rot_mat_alpha)
         p_norm = np.cross(vert_norm, rot_vec_alpha)
 
         intersect_lines = trimesh.intersections.mesh_plane(
             mesh, p_norm, vertex)
 
-        # ori_points = select_points_orientation2(intersect_lines, rot_vec_alpha, vertex, vert_norm)
+        # ori_points = select_points_orientation2(intersect_lines,
+        # rot_vec_alpha, vertex, vert_norm)
         points_i, points_index, _ = select_points_orientation(
             intersect_lines, rot_vec_alpha, vertex)
 
@@ -125,7 +129,8 @@ def surface_profiling_vert(vertex, vert_norm, rot_angle, r_step, max_samples, me
             length_sum = np.linalg.norm(points_i[0] - vertex)
             minued_lenth = 0
             count_i = 0
-            # record the i when the sample distance firstly exceed the maximum of intersection
+            # record the i when the sample distance firstly exceed the maximum
+            # of intersection
             exceed_index = 0
             exceed_bool = True
             count_max = len(points_i)
@@ -278,11 +283,9 @@ def select_points_orientation(intersect_points, r_alpha, origin):
 
     :param r_alpha:
 
-    :param origin: (3,) float
-        origin points
-    :return: r_points, points in the direction
-             points_index, points indices
-             line_index, the local indices of the segments that contain the intersecting points.
+    :param origin: (3,) float origin points :return: r_points, points in the
+    direction points_index, points indices line_index, the local indices of
+    the segments that contain the intersecting points.
     """
 
     points_i = intersect_points.reshape(intersect_points.size // 3, 3)
@@ -290,7 +293,8 @@ def select_points_orientation(intersect_points, r_alpha, origin):
 
     # find the center points
     # p_idx = np.where(points_i == origin)[0]
-    p_idx, count_coord = np.unique(np.where(points_i == origin)[0], return_counts=True)
+    p_idx, count_coord = np.unique(
+        np.where(points_i == origin)[0], return_counts=True)
     origin_index = p_idx[np.where(count_coord == 3)[0]]
 
     if len(origin_index) == 0:
@@ -328,10 +332,13 @@ def select_points_orientation(intersect_points, r_alpha, origin):
     # save the index of points that are in the orientation Ra
     points_index = [target_index]
 
-    end_bool = False  # =True, if the search process arrives at the end of the orientation Ra
+    end_bool = False
+    # =True, if the search process arrives at the end of
+    # the orientation Ra
     while not end_bool:
 
-        tp_idx, tp_count_coord = np.unique(np.where(points_i == target_point)[0], return_counts=True)
+        tp_idx, tp_count_coord = np.unique(
+            np.where(points_i == target_point)[0], return_counts=True)
         target_indices = tp_idx[np.where(tp_count_coord == 3)]
         target_indices = np.unique(np.where(points_i == target_point)[0])
 
@@ -341,7 +348,8 @@ def select_points_orientation(intersect_points, r_alpha, origin):
         else:
             current_index = target_indices[np.where(
                 target_indices != target_index)[0]][0]
-            current_points_i = current_index // 2  # index in array 'intersect_points'
+            current_points_i = current_index // 2
+            # index in array 'intersect_points'
 
             # the relative position of another point in intersect_points[i]
             target_points_index = (current_index + 1) % 2
