@@ -21,10 +21,12 @@ import sys
 from datetime import date
 
 from visbrain.config import CONFIG
-CONFIG['MPL_RENDER'] = True
 import sphinx_gallery  # noqa
 from sphinx_gallery.sorting import FileNameSortKey
 import sphinx_bootstrap_theme
+
+CONFIG['MPL_RENDER'] = True
+
 
 curdir = os.path.dirname(__file__)
 sys.path.append(os.path.abspath(os.path.join(curdir, '..')))
@@ -100,7 +102,6 @@ pygments_style = 'sphinx'
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = False
 
-
 # -- Options for HTML output ----------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
@@ -144,7 +145,6 @@ html_theme_options = {
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'slamdoc'
 
-
 # -- Options for LaTeX output ---------------------------------------------
 
 latex_elements = {
@@ -173,7 +173,6 @@ latex_documents = [
      'Guillaume Auzias', 'manual'),
 ]
 
-
 # -- Options for manual page output ---------------------------------------
 
 # One entry per manual page. List of tuples
@@ -182,7 +181,6 @@ man_pages = [
     (master_doc, 'slam', 'slam Documentation',
      [author], 1)
 ]
-
 
 # -- Options for Texinfo output -------------------------------------------
 
@@ -211,5 +209,3 @@ sphinx_gallery_conf = {
         'nibabel': 'https://nipy.org/nibabel'
     }
 }
-
-

@@ -116,7 +116,8 @@ def surface_profiling_vert(
         intersect_lines = trimesh.intersections.mesh_plane(
             mesh, p_norm, vertex)
 
-        # ori_points = select_points_orientation2(intersect_lines, rot_vec_alpha, vertex, vert_norm)
+        # ori_points = select_points_orientation2(intersect_lines,
+        # rot_vec_alpha, vertex, vert_norm)
         points_i, points_index, _ = select_points_orientation(
             intersect_lines, rot_vec_alpha, vertex)
 
@@ -282,11 +283,9 @@ def select_points_orientation(intersect_points, r_alpha, origin):
 
     :param r_alpha:
 
-    :param origin: (3,) float
-        origin points
-    :return: r_points, points in the direction
-             points_index, points indices
-             line_index, the local indices of the segments that contain the intersecting points.
+    :param origin: (3,) float origin points :return: r_points, points in the
+    direction points_index, points indices line_index, the local indices of
+    the segments that contain the intersecting points.
     """
 
     points_i = intersect_points.reshape(intersect_points.size // 3, 3)
@@ -333,7 +332,9 @@ def select_points_orientation(intersect_points, r_alpha, origin):
     # save the index of points that are in the orientation Ra
     points_index = [target_index]
 
-    end_bool = False  # =True, if the search process arrives at the end of the orientation Ra
+    end_bool = False
+    # =True, if the search process arrives at the end of
+    # the orientation Ra
     while not end_bool:
 
         tp_idx, tp_count_coord = np.unique(
@@ -347,7 +348,8 @@ def select_points_orientation(intersect_points, r_alpha, origin):
         else:
             current_index = target_indices[np.where(
                 target_indices != target_index)[0]][0]
-            current_points_i = current_index // 2  # index in array 'intersect_points'
+            current_points_i = current_index // 2
+            # index in array 'intersect_points'
 
             # the relative position of another point in intersect_points[i]
             target_points_index = (current_index + 1) % 2
