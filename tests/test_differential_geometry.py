@@ -1,7 +1,10 @@
 import unittest
-import trimesh
-import slam.differential_geometry as sdg
+
 import numpy as np
+import trimesh
+
+import slam.differential_geometry as sdg
+
 
 tol = 1e-15
 

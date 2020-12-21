@@ -1,11 +1,13 @@
-import slam.io as sio
-import slam.topology as stop
-import numpy as np
-import unittest
-import trimesh
 import itertools
 import random
+import unittest
+
+import numpy as np
+import trimesh
 from scipy.spatial import Delaunay
+
+import slam.io as sio
+import slam.topology as stop
 
 # UTILITIES
 
