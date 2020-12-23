@@ -14,11 +14,11 @@ example of surface profiling in slam
 
 ###############################################################################
 # importation of slam modules
+import numpy as np
+import trimesh.visual.color
+
 import slam.surface_profiling as surfpf
 import slam.io as sio
-import trimesh.visual.color
-import numpy as np
-
 
 ###############################################################################
 # loading an example mesh
