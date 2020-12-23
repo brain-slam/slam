@@ -1,9 +1,8 @@
 
 import numpy as np
+import slam.geodesics
 import trimesh
 import trimesh.intersections
-
-import slam.geodesics
 import slam.utils
 
 
