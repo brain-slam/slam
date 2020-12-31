@@ -1,18 +1,18 @@
-
 import numpy as np
+from scipy.spatial.distance import cdist
+import slam.geodesics
+import slam.utils as utils
 import trimesh
 import trimesh.intersections
-
-import slam.geodesics
-import slam.utils
+import trimesh.triangles
 
 
 def cortical_surface_profiling(mesh, rot_angle, r_step, max_samples):
     """
     Surface profiling for a given cortical surface.
-
-
-
+    NOTE:
+    This function returns 2D profiling coordinates directly instead of 3D.
+    These 2D points are used to generate the feature Maps.
     :param mesh: trimesh object
         The cortical surface mesh.
     :param rot_angle: float
@@ -21,9 +21,9 @@ def cortical_surface_profiling(mesh, rot_angle, r_step, max_samples):
         Length of sampling steps.
     :param max_samples:
         Maximum of samples in one profiles.
-
-    :return:
-
+    :return: (N_vertex, N_p, N_s) float
+        Profiles points in their 2D coordinates.
+        (x, y) respectively
     """
 
     vert = mesh.vertices
@@ -52,41 +52,56 @@ def cortical_surface_profiling(mesh, rot_angle, r_step, max_samples):
         area_geodist_faces = vert2poly_indices(area_geodist_v, poly)
         intersect_mesh = mesh.submesh(np.array([area_geodist_faces]))[0]
 
+        # randomly select initial direction of rotation R0
+        init_rot_dir = np.array([1, 1, 1]) - vert_i
+
         # get the profile samplings on surface
         sam_prof = surface_profiling_vert(
-            vert_i, vert_norm_i, rot_angle, r_step, max_samples, intersect_mesh)
+            vert_i,
+            vert_norm_i,
+            init_rot_dir,
+            rot_angle,
+            r_step,
+            max_samples,
+            intersect_mesh)
 
         # compute the 2D coordinates (x, y) for all profile points
         sample_x, sample_y = compute_profile_coord_x_y(
-            np.array(sam_prof), vert[i], norm[i])
+            sam_prof, vert[i], norm[i])
 
         profile_samples_x.append(sample_x)
         profile_samples_y.append(sample_y)
-
-        print(i, 'is done')
 
     return np.array(profile_samples_x), np.array(profile_samples_y)
 
 
 def surface_profiling_vert(
-        vertex, vert_norm, rot_angle, r_step, max_samples, mesh):
+        vertex,
+        vert_norm,
+        init_rot_dir,
+        rot_angle,
+        r_step,
+        max_samples,
+        mesh):
+
     """
     Implement the profile sampling process for a given vertex.
-    Note:
+    NOTE:
     For a given vertex,
         Number of profiles N_p = 360/theta
     For each profiles,
         Number of Sampling points N_s = max_samples
-
     :param vertex: (3,) float
         Target vertex (center vertex)
     :param vert_norm: (3,) float
         Vertex normal
+    :param init_rot_dir: (3, )
+        Initial direction of rotation R0
     :param rot_angle: (3,) float
         Degree of rotation angle
     :param r_step: float
         Length of sampling steps
-    :param max_samples:
+    :param max_samples: int
         Maximum of samples in one profiles
     :param mesh: trimesh object
         Intersecting mesh
@@ -95,18 +110,86 @@ def surface_profiling_vert(
     """
 
     profile_list = []  # record all the samples x and y
-
     vertex = np.array(vertex)
 
-    # set initial rotation direction
-    # randomly select R0
-    dir_r0 = np.array([1, 1, 1]) - vertex
+    # project the dir_R0 onto the tangent plane
+    rot_vec0 = utils.project_vector2tangent_plane(vert_norm, init_rot_dir)[0]
+    round_angle = 360
+
+    for i in range(int(round_angle / rot_angle)):
+
+        # set the rotation directions
+        rot_angle_alpha = (i * rot_angle) * 1.0 / 360 * 2 * np.pi
+        rot_mat_alpha = utils.get_rotate_matrix(
+            vert_norm, rot_angle_alpha)
+        rot_vec_alpha = np.dot(rot_vec0, rot_mat_alpha)
+        p_norm = np.cross(vert_norm, rot_vec_alpha)
+
+        # Get the intersection lines
+        # the lines contains the rotation direction and the reverse one.
+        intersect_lines = trimesh.intersections.mesh_plane(
+            mesh, p_norm, vertex)
+
+        # Select the points in the direction of rotation vector
+        points_i, _, _ = select_points_orientation(
+            intersect_lines, rot_vec_alpha, vertex, vert_norm)
+
+        # Calculate the samples of profiles
+        points_profile = compute_profiles_sampling_points(
+            points_i, vertex, max_samples, r_step)
+
+        profile_list.append(points_profile)
+
+    return np.array(profile_list)
+
+
+def second_round_profiling_vert(
+        vertex,
+        vert_norm,
+        init_rot_dir,
+        rot_angle,
+        r_step,
+        max_samples,
+        mesh,
+        mesh_face_index):
+
+    """
+    Implement the profile sampling process to get the feature values of each profiling points.
+    The function name comes from the description of the method in the article。
+    Different from the surface_profiling_vert, the mesh_face_index is obligatory.
+    :param vertex: (3,) float
+        Target vertex (center vertex)
+    :param vert_norm: (3,) float
+        Vertex normal
+    :param init_rot_dir: (3, )
+        Initial direction of rotation R0
+    :param rot_angle: (3,) float
+        Degree of rotation angle
+    :param r_step: float
+        Length of sampling steps
+    :param max_samples: int
+        Maximum of samples in one profiles
+    :param mesh: trimesh object
+        Intersecting mesh
+    :param mesh_face_index:
+        Indices of polygons of mesh.
+        Use to record which polygon the sampling points belongs to.
+    :return:
+        profile_points: (N_p, N_s, 3, 3) float
+            For each profile points contain [p1, p2, sample_points],
+            where p1, p2 are the points used to calculate the sampling points.
+        profile_intersect_faces: ((N_p, N_s,) int
+    """
+
+    profile_points = []  # record all the profiling points and interpolation points
+    profile_intersect_faces = []  # record all the faces id that contain the sample points
+    vertex = np.array(vertex)
 
     # project the dir_R0 onto the tangent plane
-    rot_vec0 = project_vector2tangent_plane(vert_norm, dir_r0)[0]
+    rot_vec0 = utils.project_vector2tangent_plane(vert_norm, init_rot_dir)[0]
+    round_angle = 360
 
-    for i in range(int(360 / rot_angle)):
-
+    for i in range(int(round_angle / rot_angle)):
         # set the rotation directions
         rot_angle_alpha = (i * rot_angle) * 1.0 / 360 * 2 * np.pi
         rot_mat_alpha = slam.utils.get_rotate_matrix(
@@ -114,84 +197,130 @@ def surface_profiling_vert(
         rot_vec_alpha = np.dot(rot_vec0, rot_mat_alpha)
         p_norm = np.cross(vert_norm, rot_vec_alpha)
 
-        intersect_lines = trimesh.intersections.mesh_plane(
-            mesh, p_norm, vertex)
+        # Get the intersection lines
+        # the lines contains the rotation direction and the reverse one.
+        intersect_lines, faces = trimesh.intersections.mesh_plane(
+            mesh, p_norm, vertex, return_faces=True)
 
-        # ori_points = select_points_orientation2(intersect_lines,
-        # rot_vec_alpha, vertex, vert_norm)
-        points_i, points_index, _ = select_points_orientation(
-            intersect_lines, rot_vec_alpha, vertex)
+        # get the global index of faces
+        intersect_fm_index = mesh_face_index[faces]
 
-        # points_i = ori_points
+        # Select the points in the direction of rotation vector
+        orient_points_i, orient_p_id, ori_lines_id = select_points_orientation(
+            intersect_lines, rot_vec_alpha, vertex, vert_norm)
 
-        if len(points_i) != 0:
-            points_sign = []
-            # record the length of segment
-            length_sum = np.linalg.norm(points_i[0] - vertex)
-            minued_lenth = 0
-            count_i = 0
-            # record the i when the sample distance firstly exceed the maximum
-            # of intersection
-            exceed_index = 0
-            exceed_bool = True
-            count_max = len(points_i)
+        orient_face_id = intersect_fm_index[ori_lines_id]
 
-            for j in range(max_samples):
-                sample_dist = (j + 1) * r_step
-                if sample_dist <= length_sum and count_i == 0:
-                    # the point is between center point and the closest one
-                    point0 = vertex
-                    points1 = points_i[0]
+        # Calculate the samples of profiles
+        points_interp_profile, cor_faces_index = compute_profiles_sampling_points(
+            orient_points_i, vertex, max_samples, r_step, orient_face_id)
 
-                elif sample_dist <= length_sum and count_i != 0:
-                    point0 = points_i[count_i - 1]
-                    points1 = points_i[count_i]
+        profile_points.append(points_interp_profile)
+        profile_intersect_faces.append(cor_faces_index)
 
-                else:
-                    minued_lenth = length_sum
-                    count_i += 1
+    return np.array(profile_points), np.array(profile_intersect_faces)
 
-                    # the distance of sample exceed the local maximum
-                    if count_i == count_max:
-                        # first time arrive at boundary
-                        if exceed_bool:
-                            exceed_index = j
-                            exceed_bool = False
-                        count_i -= 1
-                        sample_dist = (exceed_index + 1) * r_step
-                        point0 = points_i[count_i - 1]
-                        points1 = points_i[count_i]
-                    else:
-                        point0 = points_i[count_i - 1]
-                        points1 = points_i[count_i]
-                        length_sum += np.linalg.norm(points1 - point0)
 
-                if np.linalg.norm(points1 - point0) == 0:
-                    alpha = 0
-                else:
-                    alpha = (sample_dist - minued_lenth) / \
-                        np.linalg.norm(points1 - point0)
+def compute_profiles_sampling_points(points_intersect, origin, max_samples, r_step, face_id=None):
+    """
+    Calculate the sampling points on each profiles.
+    :param points_intersect: (n, 3) float
+    :param origin: (3,) float
+        origin vertex
+    :param max_samples: int
+        Maximum of samples in one profiles
+    :param r_step: float
+        Length of sampling steps
+    :param face_id: (n,) int
+        Indices of polygons which intersecting points belong to.
+        Default is None, it is only used in the second round profiling.
+    :return:
+        When face_id is None, return
+            sampling points on profiles: (n, 3) float
+        Otherwise,
+            points_interpolate_profile: (n, 3, 3) float
+                contains [p1, p2, sample_points]
+                where p1, p2 are the points used to calculate the sampling points.
+            cor_faces_index: (n,)
+                the corresponding faces of profile points
+    """
 
-                sample_point = (1 - alpha) * point0 + alpha * points1
-                # use to calculate the sign of sample y
-                points_sign.append(sample_point)
+    if len(points_intersect) == 0:
+        # the origin point is out of intersection points
+        profile_points = list(np.zeros([max_samples, 3]))
+        return profile_points
+
+    # record the length of segment
+    length_sum = np.linalg.norm(points_intersect[0] - origin)
+    minued_lenth = 0
+    count_i = 0
+    # record the i when the sample distance firstly exceed the maximum
+    # of intersection
+    exceed_index = 0
+    exceed_bool = True
+    count_max = len(points_intersect)
+
+    profile_points = []
+    # Record the two end-points and sampling points
+    points_interpolate_profile = []
+    # the corresponding faces
+    cor_faces_index = []
+
+    for j in range(max_samples):
+        sample_dist = (j + 1) * r_step
+        if sample_dist <= length_sum and count_i == 0:
+            # the point is between center point and the closest one
+            point0 = origin
+            point1 = points_intersect[0]
+
+        elif sample_dist <= length_sum and count_i != 0:
+            point0 = points_intersect[count_i - 1]
+            point1 = points_intersect[count_i]
 
         else:
-            # the origin point is out of intersection points
-            points_sign = list(np.zeros([max_samples, 3]))
+            minued_lenth = length_sum
+            count_i += 1
 
-        profile_list.append(points_sign)
+            # the distance of sample exceed the local maximum
+            if count_i == count_max:
+                # first time arrive at boundary
+                if exceed_bool:
+                    exceed_index = j
+                    exceed_bool = False
+                count_i -= 1
+                sample_dist = (exceed_index + 1) * r_step
+                point0 = points_intersect[count_i - 1]
+                point1 = points_intersect[count_i]
+            else:
+                point0 = points_intersect[count_i - 1]
+                point1 = points_intersect[count_i]
+                length_sum += np.linalg.norm(point1 - point0)
 
-    return np.array(profile_list)
+        if np.linalg.norm(point1 - point0) == 0:
+            alpha = 0
+        else:
+            alpha = (sample_dist - minued_lenth) / \
+                    np.linalg.norm(point1 - point0)
+
+        sample_point = (1 - alpha) * point0 + alpha * point1
+
+        profile_points.append(sample_point)
+        points_interpolate_profile.append([point0, point1, sample_point])
+        # save the related intersect mesh faces
+        if face_id is not None:
+            cor_faces_index.append(face_id[count_i])
+
+    if face_id is None:
+        return profile_points
+
+    return points_interpolate_profile, cor_faces_index
 
 
 def vert2poly_indices(vertex_array, poly_array):
     """
     Find vertex-polygon indices from the polygons array of vertices
-
     TODO There is a func in the lastest trimesh:
         trimesh.geometry.vertex_face_indices()
-
     :param vertex_array:
     :param poly_array:
     :return:
@@ -205,177 +334,108 @@ def vert2poly_indices(vertex_array, poly_array):
     return np.unique(vert_poly_arr)
 
 
-def project_vector2tangent_plane(v_n, v_p):
+def select_points_orientation(intersect_points, r_alpha, origin, norm):
     """
-    calculate the projection vector of v_p onto tangent plane of v
-    :param v_n: normal vector of v
-    :type: ndarray
-    :param v_p: vector projected
-    :type: ndarray
-    :return: v_t
-    """
-
-    unitev_n = v_n / np.linalg.norm(v_n)
-
-    coeff_v_pn = np.dot(v_p, unitev_n)
-
-    coeff = coeff_v_pn.reshape([coeff_v_pn.size, 1])
-
-    v_pn = coeff * unitev_n
-
-    v_t = v_p - np.array(v_pn)
-
-    return v_t
-
-
-def project_vector2vector(v_n, v_p):
-    """
-    calculate the projection vector of v_p onto v_n,
-    v_pn = (v_p dot v_n) / |v_n| * unite vector of (v_n)
-    :param v_n_: direction vector
-    :type : ndarray
-    :param v_p: vectors projected
-    :type : ndarray
-    :return:
-    """
-
-    unitev_n = v_n / np.linalg.norm(v_n)
-
-    coeff_v_pn = np.dot(v_p, unitev_n)
-
-    coeff = coeff_v_pn.reshape([coeff_v_pn.size, 1])
-
-    v_pn = coeff * unitev_n
-
-    return v_pn
-
-
-def select_points_orientation2(intersect_points, r_alpha, origin, norm):
-    """
-     test for
-    :param intersect_points:
-    :param r_alpha:
-    :param origin:
-    :param norm:
-    :return:
-    """
-    points_i = intersect_points.reshape(intersect_points.size // 3, 3)
-    ordered_points = trimesh.points.radial_sort(points_i, origin, norm)
-
-    # points_i2 = np.copy(points_i)
-    # np.random.shuffle(points_i2)
-    # ordered_points2 = trimesh.points.radial_sort(points_i2, origin, norm)
-
-    orientation_vec = np.dot(ordered_points - origin, r_alpha)
-
-    orient_point_idx = np.where(orientation_vec > 0)[0][::2]
-
-    orient_points = ordered_points[orient_point_idx]
-
-    return orient_points
-
-
-def select_points_orientation(intersect_points, r_alpha, origin):
-    """
-    Select points in a specified orientation
-
-    :param intersect_points:
-        NOTE: intersecting points of the same polygon are saved together
-
-    :param r_alpha:
-
-    :param origin: (3,) float origin points :return: r_points, points in the
-    direction points_index, points indices line_index, the local indices of
-    the segments that contain the intersecting points.
+    Select points in a specified orientation,
+    and ordered them by distance from the center.
+    :param intersect_points: (n, 2, 3) float
+        Points of intersecting lines.
+    :param r_alpha: (3,) float
+        Orientation vector
+    :param origin: (3,) float
+        Origin point
+    :param norm: (3,) float
+        Normal of origin point
+    :return: orient_points,    (n, 3) float
+             orient_p_indices, (n,) int
+             lines_indices,    (n,) int
+        Ordered points in the orientation.
     """
 
     points_i = intersect_points.reshape(intersect_points.size // 3, 3)
-    # points_i = np.array(list(points_i))  # align the array
 
     # find the center points
-    # p_idx = np.where(points_i == origin)[0]
-    p_idx, count_coord = np.unique(
-        np.where(points_i == origin)[0], return_counts=True)
+    p_idx, count_coord = np.unique(np.where(points_i == origin)[0], return_counts=True)
     origin_index = p_idx[np.where(count_coord == 3)[0]]
 
     if len(origin_index) == 0:
         # the intersection result exclude origin point
-        r_points = []
-        points_index = []
-        line_index = []
-        return r_points, points_index, line_index
+        orient_points = []
+        orient_p_indices = []
+        lines_indices = []
+        return orient_points, orient_p_indices, lines_indices
 
-    origin_points_i = origin_index // 2  # index in array 'intersect_points'
+    ordered_points, ordered_p_indices = radial_sort(points_i, origin, norm)
 
-    # the relative position of origin in intersect_points[i]
-    ori_points_index = origin_index % 2
-    # the relative position of another point in intersect_points[i]
-    another_points_index = (origin_index + 1) % 2
+    orientation_vec = np.dot(ordered_points - origin, r_alpha)
+    orient_point_idx = np.where(orientation_vec > 0)[0][::2]
+    orient_points = ordered_points[orient_point_idx]
+    orient_p_indices = ordered_p_indices[orient_point_idx]
 
-    target_point = points_i[origin_index][0]
-    target_index = origin_index[0]
+    # find the closest point
+    p2o_len = cdist(orient_points, np.array([origin]), metric='euclidean')
+    p2o_len = p2o_len.reshape(p2o_len.shape[0])
+    ordered_p2o = np.argsort(p2o_len)
+    orient_points = orient_points[ordered_p2o]
+    orient_p_indices = orient_p_indices[ordered_p2o]
 
-    # compute the dot between orientation Ra and two initial vector
-    # respectively
-    for i in range(len(origin_index)):
-        point = intersect_points[origin_points_i[i]][another_points_index[i]]
-        origin = intersect_points[origin_points_i[i]][ori_points_index[i]]
+    # get the ordered intersection lines
+    ori_lines_indices = orient_p_indices // 2
 
-        dir_vec = point - origin  # direction vector
-        dot_points = np.dot(dir_vec, r_alpha)
+    return orient_points, orient_p_indices, ori_lines_indices
 
-        if dot_points > 0:  # indicate this point in the same orientation
-            target_point = point
-            # get the index in array 'points_i'
-            target_index = origin_points_i[i] * 2 + another_points_index[i]
-            break
 
-    # save the index of points that are in the orientation Ra
-    points_index = [target_index]
+def radial_sort(points,
+                origin,
+                normal):
+    """
+    NOTE:
+    This function is derived from the
+        trimesh.points.radial_sort(points_i, origin, norm)
+    I overwrite this function to return both the coordinates and indices of the points.
+    Sorts a set of points radially (by angle) around an
+    an axis specified by origin and normal vector.
+    Parameters
+    --------------
+    points : (n, 3) float
+      Points in space
+    origin : (3,)  float
+      Origin to sort around
+    normal : (3,)  float
+      Vector to sort around
+    Returns
+    --------------
+    ordered : (n, 3) float
+      Same as input points but reordered
+    """
 
-    end_bool = False
-    # =True, if the search process arrives at the end of
-    # the orientation Ra
-    while not end_bool:
+    # create two axis perpendicular to each other and the normal,
+    # and project the points onto them
+    axis0 = [normal[0], normal[2], -normal[1]]
+    axis1 = np.cross(normal, axis0)
+    pt_vec = points - origin
+    pr0 = np.dot(pt_vec, axis0)
+    pr1 = np.dot(pt_vec, axis1)
 
-        tp_idx, tp_count_coord = np.unique(
-            np.where(points_i == target_point)[0], return_counts=True)
-        target_indices = tp_idx[np.where(tp_count_coord == 3)]
-        target_indices = np.unique(np.where(points_i == target_point)[0])
+    # calculate the angles of the points on the axis
+    angles = np.arctan2(pr0, pr1)
 
-        if len(target_indices) == 1:
-            # only one point in the array, means it is the end point
-            break
-        else:
-            current_index = target_indices[np.where(
-                target_indices != target_index)[0]][0]
-            current_points_i = current_index // 2
-            # index in array 'intersect_points'
-
-            # the relative position of another point in intersect_points[i]
-            target_points_index = (current_index + 1) % 2
-            # get the index in array 'points_i'
-            target_index = current_points_i * 2 + target_points_index
-            target_point = points_i[target_index]
-
-        if target_index in points_index:
-            break
-        points_index.append(target_index)
-
-    # ordered line index
-    line_index = np.array(points_index) // 2
-
-    r_points = points_i[points_index]
-    return r_points, points_index, line_index
+    # return the points and their indices sorted by angle
+    return points[(np.argsort(angles))], np.argsort(angles)
 
 
 def compute_profile_coord_x_y(profile, origin, normal):
     """
     Calculate the 2D coordinates of the profiling points in their rotation planes
-    :param profile:
-    :param origin: center vertex of profiling
-    :param normal:
-    :return:
+    These points are used to generate the feature maps mentioned in the articles.
+    :param profile: (N_p, N_s, 3) float
+        Sampling points of profiles in 3D
+    :param origin: (3,) float
+        Center vertex of profiles
+    :param normal: (3,) float
+        Normal of origin
+    :return: (N_p, N_s) float
+        The coordinate x, y
     """
     num_prof = len(profile)
     num_sample = len(profile[0])
@@ -385,8 +445,8 @@ def compute_profile_coord_x_y(profile, origin, normal):
 
     # get the vector
     pro_sam_vec = profile_samples - origin
-    vec_x = project_vector2tangent_plane(normal, pro_sam_vec)
-    vec_y = project_vector2vector(normal, pro_sam_vec)
+    vec_x = utils.project_vector2tangent_plane(normal, pro_sam_vec)
+    vec_y = utils.project_vector2vector(normal, pro_sam_vec)
 
     # the length of the vector that projected onto the normal vector
     # x
@@ -399,3 +459,94 @@ def compute_profile_coord_x_y(profile, origin, normal):
     y = length_y.reshape([num_prof, num_sample])
 
     return x, y
+
+
+def get_texture_value_on_profile(texture, mesh, profiling_samples, profiling_samples_fid):
+    """
+    Calculate the texture values of each points on profiles by barycentric interpolation
+    :param texture: slam texture
+    :param mesh: trimesh object
+    :param profiling_samples: (N, N_p, N_s, 3, 3) float
+        N = Number of center vertices for surface profiling.
+        N_p = Number of profiles for each center.
+        N_s = Number of sampling points on each profiles.
+        3 = [p1, p2, sampling points]
+        3 = (3,) float
+    :param profiling_samples_fid: (N, N_p, N_s) int
+        Faces id corresponding to the profile sampling points.
+    :return:
+        texture_profile: (N, N_p, N_s) float
+    """
+
+    # compute the barycentric parameters of each profile point to its co-faces of mesh
+    barycentric_coord = compute_profile_barycentric_para(profiling_samples, mesh, profiling_samples_fid)
+
+    # compute the features of each profile
+    tex_arr = texture.darray[0]
+    texture_profile = compute_profile_texture_barycentric(tex_arr, mesh, profiling_samples_fid, barycentric_coord)
+
+    return texture_profile
+
+
+def compute_profile_barycentric_para(profile_sample_points, mesh, triangle_id):
+    """
+    Compute the barycentric parameters of each points on profiles
+    :param profile_sample_points: (N, N_p, N_s, 3, 3) float
+        N = Number of center vertices for surface profiling.
+        N_p = Number of profiles for each center.
+        N_s = Number of sampling points on each profiles.
+        3 = [p1, p2, sampling points]
+        3 = (3,) float
+    :param mesh: trimesh object
+    :param triangle_id: (N, N_p, N_s) int
+        Faces id corresponding to the profile sampling points.
+    :return:
+        barycentric: (N, N_p, N_s, 3) float
+        Barycentric coordinates for all profiles points
+    """
+
+    if len(profile_sample_points.shape) != 5:
+        raise Exception('Wrong type of profile_sample_points, '
+                        'it must be (N, N_p, N_s, 3, 3).')
+
+    vert = mesh.vertices
+    poly = mesh.faces
+
+    # get the sample points on profile
+    sample_points_profile = profile_sample_points[:, :, :, 2]
+    sample_points = sample_points_profile.reshape(sample_points_profile.size//3, 3)
+
+    # get the faces
+    triangle_id = triangle_id.reshape(triangle_id.size)
+    triangles_v = vert[poly[triangle_id]]
+
+    barycentric = trimesh.triangles.points_to_barycentric(triangles_v, sample_points)
+    barycentric = barycentric.reshape(len(sample_points_profile), len(sample_points_profile[0]), len(sample_points_profile[0][0]), 3)
+
+    return barycentric
+
+
+def compute_profile_texture_barycentric(texture, mesh, triangle_id, barycentric_coord):
+    """
+    Compute the texture values of each points on profiles
+    :param texture: darray of slam texture
+    :param mesh: trimesh object
+    :param triangle_id: (N, N_p, N_s) int
+        Faces id corresponding to the profile sampling points.
+    :param barycentric_coord: (N, N_p, N_s, 3) float
+         Barycentric coordinates for all profiles points
+    :return:
+    """
+
+    num_profiles = len(barycentric_coord)
+    num_areas = len(barycentric_coord[0])
+    num_sides = len(barycentric_coord[0][0])
+    poly = mesh.faces
+
+    triangle_id = triangle_id.reshape(triangle_id.size)
+    barycentric = barycentric_coord.reshape(barycentric_coord.size // 3, 3)
+
+    feature_tri_points = texture[poly[triangle_id]]
+    texture_profile = np.dot(feature_tri_points * barycentric, [1, 1, 1])
+
+    return texture_profile.reshape(num_profiles, num_areas, num_sides)
