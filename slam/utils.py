@@ -29,8 +29,7 @@ def dotprod(vec1, vec2):
     :param vec2:
     :return:
     """
-    return np.dot(vec1, vec2) / \
-        (np.sqrt(np.dot(vec1, vec1) * np.dot(vec2, vec2)))
+    return np.dot(vec1, vec2) / (np.sqrt(np.dot(vec1, vec1) * np.dot(vec2, vec2)))
 
 
 def compare_analytic_estimated_directions(analytic_directions,
@@ -88,6 +87,9 @@ def get_rotate_matrix(rot_axis, angle):
     :return: rotate matrix of [3, 3]
     """
 
+    if np.linalg.norm(rot_axis) == 0:
+        raise Exception('The axis of rotation cannot be 0.')
+
     # normalize the rotate axis
     r_n = rot_axis / np.linalg.norm(rot_axis)
     rot_matrix = np.zeros((3, 3), dtype='float32')
@@ -111,3 +113,56 @@ def get_rotate_matrix(rot_axis, angle):
     rot_matrix[2, 2] = cos_theta + (1 - cos_theta) * np.power(z, 2)
 
     return rot_matrix
+
+
+def project_vector2tangent_plane(v_n, v_p):
+    """
+    calculate the projection vector of v_p onto tangent plane of v_n
+    :param v_n: array of (3,)  float
+        normal vector of v
+    :param v_p: array of (n, 3) float
+        vector projected
+    :return: v_t (n, 3) float
+        projection result
+    """
+
+    if np.linalg.norm(v_n) == 0:
+        unitev_n = v_n
+    else:
+        unitev_n = v_n / np.linalg.norm(v_n)
+
+    coeff_v_pn = np.dot(v_p, unitev_n)
+
+    coeff = coeff_v_pn.reshape([coeff_v_pn.size, 1])
+
+    v_pn = coeff * unitev_n
+
+    v_t = v_p - np.array(v_pn)
+
+    return v_t
+
+
+def project_vector2vector(v_n, v_p):
+    """
+    calculate the projection vector of v_p onto v_n,
+    v_pn = (v_p dot v_n) / |v_n| * unite vector of (v_n)
+    :param v_n: array of (3,)  float
+        direction vector
+    :param v_p: array of (n, 3) float
+        vectors projected
+    :return: (n, 3) float
+        projection result
+    """
+
+    if np.linalg.norm(v_n) == 0:
+        unitev_n = v_n
+    else:
+        unitev_n = v_n / np.linalg.norm(v_n)
+
+    coeff_v_pn = np.dot(v_p, unitev_n)
+
+    coeff = coeff_v_pn.reshape([coeff_v_pn.size, 1])
+
+    v_pn = coeff * unitev_n
+
+    return v_pn
