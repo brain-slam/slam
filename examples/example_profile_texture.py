@@ -14,12 +14,12 @@ example of profile texture in slam
 
 ###############################################################################
 # importation of slam modules
-import slam.surface_profiling as surfpf
-import slam.io as sio
+import numpy as np
 import trimesh.visual.color
 from matplotlib import pyplot as plt
-import numpy as np
 
+import slam.surface_profiling as surfpf
+import slam.io as sio
 ###############################################################################
 # loading an example mesh and its texture
 mesh = sio.load_mesh('data/example_mesh.gii')

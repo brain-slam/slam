@@ -29,8 +29,7 @@ def dotprod(vec1, vec2):
     :param vec2:
     :return:
     """
-    return np.dot(vec1, vec2) / \
-        (np.sqrt(np.dot(vec1, vec1) * np.dot(vec2, vec2)))
+    return np.dot(vec1, vec2) / (np.sqrt(np.dot(vec1, vec1) * np.dot(vec2, vec2)))
 
 
 def compare_analytic_estimated_directions(analytic_directions,

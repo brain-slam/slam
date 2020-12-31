@@ -1,12 +1,9 @@
 import numpy as np
+import networkx as nx
 from scipy import sparse
 import trimesh
 from trimesh import graph
 from trimesh import grouping
-import networkx as nx
-
-
-# groups = graph.connected_components(mesh.face_adjacency)
 
 
 def boundary_angles(boundary, vertices_coord):
