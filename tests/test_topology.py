@@ -95,7 +95,7 @@ def make_cut_sphere_b():
     return mesh_a
 
 
-def create_hexagon_2_rings(K=4):
+def create_hexagon_K_rings(K=4):
     """ Starts from a regular hexagon and add several k-ring"""
 
     coords = [[0.0, 0.0]]
@@ -128,7 +128,13 @@ class TestTopologyMethods(unittest.TestCase):
     disk_radius_2 = sio.load_mesh("tests/data/topology/mesh_D.gii")
 
     # hexagon 2 rings
-    hexagon = create_hexagon_2_rings()
+    K = 4
+    hexagon = create_hexagon_K_rings(K)
+
+    def test_boundary_angles(self):
+        indices = range(len(self.hexagon)-6*self.K,len(self.hexagon))
+        ang, norm = stop.boundary_angles(indices, self.hexagon.vertices)
+        assert(True)
 
     def test_boundaries_basic(self):
         mesh_a = self.cutSphere_A
