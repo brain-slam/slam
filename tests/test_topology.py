@@ -135,9 +135,9 @@ class TestTopologyMethods(unittest.TestCase):
         # for a k ring the angle between two consecutive sides is pi - pi/(3k)
         N = len(self.k_rings.vertices)
         coords = np.hstack([self.k_rings.vertices, np.zeros((N, 1))])
-        indices = range(N-6*(self.K-1),N)
+        indices = range(N-6*(self.K-1), N)
         ang, norm = stop.boundary_angles(indices, coords)
-        assert(ang == 180 - 180/(3 * (self.K - 1) ) ).all
+        assert(ang == 180 - 180/(3 * (self.K - 1))).all
 
     def test_boundaries_basic(self):
         mesh_a = self.cutSphere_A
