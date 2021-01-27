@@ -95,7 +95,7 @@ def make_cut_sphere_b():
     return mesh_a
 
 
-def create_hexagon_K_rings(K=4):
+def create_K_rings(K=4):
     """ Starts from a regular hexagon and add several k-ring"""
 
     coords = [[0.0, 0.0]]
@@ -129,12 +129,15 @@ class TestTopologyMethods(unittest.TestCase):
 
     # hexagon 2 rings
     K = 4
-    hexagon = create_hexagon_K_rings(K)
+    k_rings = create_K_rings(K)
 
     def test_boundary_angles(self):
-        indices = range(len(self.hexagon)-6*self.K,len(self.hexagon))
-        ang, norm = stop.boundary_angles(indices, self.hexagon.vertices)
-        assert(True)
+        # for a k ring the angle between two consecutive sides is pi - pi/(3k)
+        N = len(self.k_rings.vertices)
+        coords = np.hstack([self.k_rings.vertices, np.zeros((N, 1))])
+        indices = range(N-6*(self.K-1),N)
+        ang, norm = stop.boundary_angles(indices, coords)
+        assert(ang == 180 - 180/(3 * (self.K - 1) ) ).all
 
     def test_boundaries_basic(self):
         mesh_a = self.cutSphere_A
@@ -293,7 +296,7 @@ class TestTopologyMethods(unittest.TestCase):
                len(mesh_a.vertices) - len(boundary[0]))
 
     def test_k_ring_neighborhood(self):
-        mesh_hexagon = self.hexagon.copy()
+        mesh_hexagon = self.k_rings.copy()
         # WARNING, 0 is not the center...
         texture_2_rings = stop.k_ring_neighborhood(mesh_hexagon, index=0, k=2)
         zero_ring = np.where(texture_2_rings == 0)[0]
