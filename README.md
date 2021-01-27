@@ -13,7 +13,7 @@ Slam is an extension of [Trimesh](https://github.com/mikedh/trimesh), an open so
 ## Main Features
 
 
-   Look at the [doc](https://gauzias.github.io/slam) for a complete overview of available features! 
+   Look at the [doc](https://brain-slam.github.io/slam) for a complete overview of available features! 
    
 + ``io``: read/write gifti (and nifti) file format 
 
