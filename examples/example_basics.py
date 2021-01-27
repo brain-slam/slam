@@ -107,6 +107,7 @@ mesh.voxelized(2)
 
 ###############################################################################
 # boundary of the mesh or list of faces
+# this functionnality requires to install the optional package shapely
 mesh.outline()
 
 ###############################################################################

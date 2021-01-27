@@ -123,7 +123,7 @@ html_theme_options = {
     'globaltoc_includehidden': "true",
     'source_link_position': "nav",
     'navbar_links': [
-        ("Github", "https://github.com/gauzias/slam", True),
+        ("Github", "https://github.com/brain-slam/slam", True),
         # ("Documentation", "documentation"),
         ("FAQ", "faq"),
         ("Examples", "auto_examples/index"),

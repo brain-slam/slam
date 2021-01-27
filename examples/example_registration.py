@@ -34,6 +34,7 @@ visb_sc.preview()
 
 ###############################################################################
 # compute ICP registration
+# this functionnality requires to install the optional package rtree
 transf_mat, cost = trimesh.registration.mesh_other(mesh_1, mesh_2,
                                                    samples=500,
                                                    scale=False,

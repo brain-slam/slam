@@ -1,5 +1,5 @@
 """
-.. _example_curvature:
+.. _example_curvature_directions:
 
 ===================================
 example of curvature directions in slam
