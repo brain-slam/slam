@@ -52,23 +52,26 @@ Slam is an extension of [Trimesh](https://github.com/mikedh/trimesh), an open so
 
 ## User installation
 
-1. Clone the [slam Github repository](https://github.com/gauzias/slam)
-   ```
-   git clone https://github.com/gauzias
-   ```
+pip install brain-slam
 
-2. Move to slam folder and type the following command in terminal
+Then have a llok at the [examples](https://brain-slam.github.io/slam/auto_examples/index.html) from the doc website.
+We will propose soon real tutorials dedicated to users.
 
-    ```
-     pip install .['full'] 
-    ```
+## For developers / contributors
 
-3. Try example scripts located in ``examples`` folder
+### Code of conduct
+The very first thing to do before contributing is to read our 
+[Code of conduct](CODE_OF_CONDUCT.md).
 
-## Contributing to slam code
-### Installation
+### Have a look at the github project!
+We are using a github project to organize the code development and maintenance:
+https://github.com/orgs/brain-slam/projects/1
+
+If you are interested in contributing, please first have a look at it and contact us by creating a new issue.
+
+### Developers installation
 1. [Create an account](https://github.com/) on Github if you do not already have one
-2. Sign in Github and fork  the [slam Github repository](https://github.com/gauzias/slam)
+2. Sign in Github and fork  the [slam Github repository](https://github.com/brain-slam/slam)
 3. Clone your personal slam fork in your current local directory
     ```# replace <username> by your Github login 
     git clone https://github.com/<username>/slam
@@ -79,9 +82,10 @@ Slam is an extension of [Trimesh](https://github.com/mikedh/trimesh), an open so
    ```
 5. Set upstream repository to keep your clone up-to-date
    ```
-    git remote add upstream https://github.com/gauzias/slam.git
+    git remote add upstream https://github.com/brain-slam/slam.git
    ```
 You are now ready to modify slam code and submit a pull request
+
 ## Dependencies 
 These dependencies, whether mandatory or optional, are managed automatically and transparently for the user during the installation phase and are listed here for the sake of completeness.
 
@@ -116,7 +120,7 @@ tvb-gdist is recommended for geodesic distance/shortest paths computations
 
 visbrain is highly recommended for visualisation see (https://github.com/EtienneCmb/visbrain)
 
-#### Developers
+#### Developers might install in addition the following packages for CI
 
 +  flake8, autopep8
 
