@@ -484,7 +484,7 @@ def gradient_fast(mesh, texture_array):
     grad_triangle = texture[mesh.faces[:, 0]] * e_jk + texture[mesh.faces[:, 1]] * e_ki \
                     + texture[mesh.faces[:, 2]] * e_ij
 
-    grad_triangle = -1/(2*A) * cross_product(N, grad_triangle)
+    grad_triangle = 1/(2*A) * cross_product(N, grad_triangle)
 
     # From faces to vertices, use the Nvertex x Ntriangles sparse matrix correspondance
     grad_vertex = mesh.faces_sparse * grad_triangle
