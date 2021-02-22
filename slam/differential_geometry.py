@@ -439,6 +439,59 @@ def triangle_gradient(mesh, texture_array):
 
     return dicgrad
 
+def cross_product(vec1, vec2):
+    if vec1.shape != vec2.shape:
+        raise Exception("Not the same size")
+
+    res = np.zeros(vec1.shape)
+    res[:, 0] = vec1[:, 1]*vec2[:, 2]-vec1[:, 2]*vec2[:, 1]
+    res[:, 1] = vec1[:, 2]*vec2[:, 0]-vec1[:, 0]*vec2[:, 2]
+    res[:, 2] = vec1[:, 0]*vec2[:, 1]-vec1[:, 1]*vec2[:, 0]
+
+    return res
+
+def gradient_fast(mesh, texture_array):
+    """
+    Compute gradient on a triangular mesh with a scalar function.
+    Gradient is computed on each triangle by the function described in
+    http://dgd.service.tu-berlin.de/wordpress/vismathws10/2012/10/
+    17/gradient-of-scalar-functions/.
+
+    Formula for the triangle
+    grad(f) = - (1/2A) N x (f_i e_{jk} + f_j e_{ik} + f_k e_{ij} )
+    And for a mesh
+    grad(f) = 1/nb_neighbours * sum(grad_f on each triangle)
+
+    Faster version by using numpy (J Lefevre)
+    :param mesh: Triangular mesh
+    :param texture_array: Scalar function on Vertices, numpy array
+    :return: Gradient on Vertices
+    :rtype: numpy.array
+    """
+    n_tri = mesh.faces.shape[0]
+    n_vertex = mesh.vertices.shape[0]
+    texture = np.reshape(texture_array,(n_vertex,1))
+
+    e_ij = mesh.vertices[mesh.faces[:, 1],:] - mesh.vertices[mesh.faces[:, 0],:]
+    e_ki = mesh.vertices[mesh.faces[:, 0],:] - mesh.vertices[mesh.faces[:, 2],:]
+    e_jk = mesh.vertices[mesh.faces[:, 2],:] - mesh.vertices[mesh.faces[:, 1],:]
+
+    N = cross_product(e_ij, e_jk)
+    A = 0.5 * np.linalg.norm(N, 2, 1)
+    A = np.reshape(A, (n_tri, 1))
+    N = 1/(2*A) * N # may raise an error or be wrong, careful with dims of A and N
+
+    grad_triangle = texture[mesh.faces[:, 0]] * e_jk + texture[mesh.faces[:, 1]] * e_ki \
+                    + texture[mesh.faces[:, 2]] * e_ij
+
+    grad_triangle = 1/(2*A) * cross_product(N, grad_triangle)
+
+    # From faces to vertices, use the Nvertex x Ntriangles sparse matrix correspondance
+    grad_vertex = mesh.faces_sparse * grad_triangle
+    grad_vertex = grad_vertex * np.reshape(1/mesh.vertex_degree, (n_vertex, 1))
+
+    return grad_vertex
+
 
 def gradient(mesh, texture_array):
     """
