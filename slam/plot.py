@@ -14,12 +14,13 @@ def save_image(scene_viewer, filename):
         f.write(scene.save_image(background=scene_viewer.background))
 
 
-def visbrain_plot(mesh, tex=None, caption=None, cblabel=None, visb_sc=None,
+def visbrain_plot(mesh, tex=None, caption=None, cblabel=None, visb_sc=None, clim = None,
                   cmap='jet'):
     """
     Visualize a trimesh object using visbrain core plotting tool
     :param mesh: trimesh object
     :param tex: numpy array of a texture to be visualized on the mesh
+    :param clim: (min,max) for your colorbar, by defaut min and max of the texture
     :return:
     """
     from visbrain.objects import BrainObj, ColorbarObj, SceneObj
@@ -33,8 +34,13 @@ def visbrain_plot(mesh, tex=None, caption=None, cblabel=None, visb_sc=None,
     visb_sc.add_to_subplot(b_obj, row=row, col=0, title=caption)
 
     if tex is not None:
-        b_obj.add_activation(data=tex, cmap=cmap,
-                             clim=(np.min(tex), np.max(tex)))
+        if clim is None:
+            b_obj.add_activation(data=tex, cmap=cmap,
+                                 clim=(np.min(tex), np.max(tex)))
+        else:
+            b_obj.add_activation(data=tex, cmap=cmap,
+                                 clim=clim)
+
         CBAR_STATE = dict(cbtxtsz=20, txtsz=20., width=.1, cbtxtsh=3.,
                           rect=(-.3, -2., 1., 4.), cblabel=cblabel)
         cbar = ColorbarObj(b_obj, **CBAR_STATE)
