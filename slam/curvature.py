@@ -244,6 +244,14 @@ def compute_curvature(FV, VertexNormals, FaceNormals,
 
 
 def curvatures_and_derivatives(mesh):
+    """
+    compute the Rusiekievicz curvature on a mesh
+    reference paper rusinkievicz curvature : Estimating curvatures and their derivatives on triangle meshes - Rusinkiewicz, 2004
+    param mesh : trimesh object
+    return PrincipalCurvature : array Nvertex * 2
+    return PrincipalDi1 :
+    return PrincipalDi2 :
+    """
     (VertexNormals, Avertex, Acorner, up, vp) = \
         calcvertex_normals(mesh, mesh.face_normals)
     (FaceSFM, VertexSFM, wfp) = \
