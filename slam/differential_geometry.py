@@ -368,8 +368,8 @@ def depth_potential_function(mesh, curvature, alphas):
     :return:
     """
     L, LB = compute_mesh_laplacian(mesh, lap_type='fem')
-    B = -LB * (curvature - (np.sum(curvature * LB.diagonal())
-                            / np.sum(LB.diagonal())))
+    B = -2 * LB * (curvature - (np.sum(curvature * LB.diagonal())
+                            / np.sum(LB.diagonal()))) # be careful with factor 2 used in eq (13)
 
     dpf = []
     for ind, alpha in enumerate(alphas):

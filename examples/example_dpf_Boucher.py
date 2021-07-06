@@ -108,3 +108,7 @@ for M in all_M:
 plt.plot(all_M,all_amplitudes,'+-')
 plt.xlabel("M")
 plt.ylabel("Amplitude of DPF")
+
+#####################################
+#  Display dpf on the surfaces
+
