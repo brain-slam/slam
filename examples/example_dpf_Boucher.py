@@ -69,6 +69,6 @@ mesh = boucher_surface(params, ax, ay, nstep)
 
 ##########################################################################
 # Visualization of the mesh
-visb_sc = splt.visbrain_plot(mesh=mesh, caption='Boucher mesh')
+visb_sc = splt.visbrain_plot(mesh=mesh, caption='Boucher mesh',bgcolor=[0.3,0.5,0.7])
 visb_sc
 visb_sc.preview()
