@@ -105,7 +105,7 @@ plt.show()
 
 visb_sc = splt.visbrain_plot(mesh=mesh, tex=dpfs[0],
                              caption='Boucher mesh', bgcolor='white')
-visb_sc = splt.visbrain_plot(mesh=mesh, tex=dpfs[1],
+visb_sc = splt.visbrain_plot(mesh=mesh, tex=dpfs[5],
                              caption='Boucher mesh', visb_sc=visb_sc)
 visb_sc.preview()
 
