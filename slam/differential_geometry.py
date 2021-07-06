@@ -368,8 +368,9 @@ def depth_potential_function(mesh, curvature, alphas):
     :return:
     """
     L, LB = compute_mesh_laplacian(mesh, lap_type='fem')
-    B = -LB * (curvature - (np.sum(curvature * LB.diagonal())
-                            / np.sum(LB.diagonal())))
+    B = -2 * LB * (curvature - (np.sum(curvature * LB.diagonal())
+                                / np.sum(LB.diagonal())))
+    # be careful with factor 2 used in eq (13)
 
     dpf = []
     for ind, alpha in enumerate(alphas):
@@ -439,6 +440,7 @@ def triangle_gradient(mesh, texture_array):
 
     return dicgrad
 
+
 def cross_product(vec1, vec2):
     if vec1.shape != vec2.shape:
         raise Exception("Not the same size")
@@ -449,6 +451,7 @@ def cross_product(vec1, vec2):
     res[:, 2] = vec1[:, 0]*vec2[:, 1]-vec1[:, 1]*vec2[:, 0]
 
     return res
+
 
 def gradient_fast(mesh, texture_array):
     """
@@ -470,23 +473,28 @@ def gradient_fast(mesh, texture_array):
     """
     n_tri = mesh.faces.shape[0]
     n_vertex = mesh.vertices.shape[0]
-    texture = np.reshape(texture_array,(n_vertex,1))
+    texture = np.reshape(texture_array, (n_vertex, 1))
 
-    e_ij = mesh.vertices[mesh.faces[:, 1],:] - mesh.vertices[mesh.faces[:, 0],:]
-    e_ki = mesh.vertices[mesh.faces[:, 0],:] - mesh.vertices[mesh.faces[:, 2],:]
-    e_jk = mesh.vertices[mesh.faces[:, 2],:] - mesh.vertices[mesh.faces[:, 1],:]
+    e_ij = mesh.vertices[mesh.faces[:, 1], :] - \
+        mesh.vertices[mesh.faces[:, 0], :]
+    e_ki = mesh.vertices[mesh.faces[:, 0], :] - \
+        mesh.vertices[mesh.faces[:, 2], :]
+    e_jk = mesh.vertices[mesh.faces[:, 2], :] - \
+        mesh.vertices[mesh.faces[:, 1], :]
 
     N = cross_product(e_ij, e_jk)
     A = 0.5 * np.linalg.norm(N, 2, 1)
     A = np.reshape(A, (n_tri, 1))
-    N = 1/(2*A) * N # may raise an error or be wrong, careful with dims of A and N
+    N = 1/(2*A) * N  # may raise an error or be wrong,
+    # careful with dims of A and N
 
-    grad_triangle = texture[mesh.faces[:, 0]] * e_jk + texture[mesh.faces[:, 1]] * e_ki \
-                    + texture[mesh.faces[:, 2]] * e_ij
+    grad_triangle = texture[mesh.faces[:, 0]] * e_jk + \
+        texture[mesh.faces[:, 1]] * e_ki + texture[mesh.faces[:, 2]] * e_ij
 
     grad_triangle = 1/(2*A) * cross_product(N, grad_triangle)
 
-    # From faces to vertices, use the Nvertex x Ntriangles sparse matrix correspondance
+    # From faces to vertices,
+    # use the Nvertex x Ntriangles sparse matrix correspondance
     grad_vertex = mesh.faces_sparse * grad_triangle
     grad_vertex = grad_vertex * np.reshape(1/mesh.vertex_degree, (n_vertex, 1))
 
