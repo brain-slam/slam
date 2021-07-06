@@ -83,14 +83,28 @@ mean_curvature = res[0].sum(axis=0)
 alphas = [0.001, 0.01, 0.1, 1, 10, 100]
 dpfs = sdg.depth_potential_function(mesh, curvature=mean_curvature, alphas=alphas)
 
-amplitude =[]
+amplitude_center =[]
+amplitude_peak=[]
+index_peak_pos = np.argmax(mesh.vertices[:,2])
+index_peak_neg = np.argmin(mesh.vertices[:,2])
 for i in range(len(dpfs)):
-    amplitude.append(dpfs[i][len(mesh.vertices)//2])
+    amplitude_center.append(dpfs[i][index_peak_neg])
+    amplitude_peak.append(dpfs[i][index_peak_pos])
 
-plt.semilogx(alphas, amplitude)
+plt.semilogx(alphas, amplitude_center)
+plt.semilogx(alphas, amplitude_peak)
 plt.semilogx(alphas, len(alphas)*[params[0]*(1+2*np.exp(-3/2))],'--')
 plt.xlabel('alpha')
 plt.ylabel('amplitude')
+plt.legend(["DPF at center","DPF (secondary peaks)","True amplitude"])
+plt.show()
+
+#####################################
+#  Display dpfs on the surfaces
+
+visb_sc = splt.visbrain_plot(mesh=mesh, tex=dpfs[0], caption='Boucher mesh', bgcolor='white')
+visb_sc = splt.visbrain_plot(mesh=mesh, tex=dpfs[1], caption='Boucher mesh', visb_sc=visb_sc)
+visb_sc.preview()
 
 ####################################
 # Fix alpha and vary M = params[0]
@@ -108,7 +122,4 @@ for M in all_M:
 plt.plot(all_M,all_amplitudes,'+-')
 plt.xlabel("M")
 plt.ylabel("Amplitude of DPF")
-
-#####################################
-#  Display dpf on the surfaces
-
+plt.show()
