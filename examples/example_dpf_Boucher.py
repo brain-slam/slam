@@ -34,7 +34,7 @@ def boucher_surface(params, ax, ay, nstep):
     xmin, xmax = [-ax, ax]
     ymin, ymax = [-ay, ay]
     # Define the sampling
-    stepx = (xmax - xmin) / nstep[0]
+    stepx = (xmax - xmin) / nstep
     stepy = stepx * np.sqrt(3) / 2  # to ensure equilateral faces
 
     # Coordinates
@@ -59,3 +59,16 @@ def boucher_surface(params, ax, ay, nstep):
     mesh = trimesh.Trimesh(faces=faces_tri.simplices, vertices=coords,
                                    process=False)
     return mesh
+
+
+params = [4,0.25]
+ax = 2
+ay = 1
+nstep = 50
+mesh = boucher_surface(params, ax, ay, nstep)
+
+##########################################################################
+# Visualization of the mesh
+visb_sc = splt.visbrain_plot(mesh=mesh, caption='Boucher mesh')
+visb_sc
+visb_sc.preview()
