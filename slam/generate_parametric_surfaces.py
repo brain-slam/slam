@@ -61,7 +61,7 @@ def generate_hinge(n_hinge=3, n_step=50, min_coord=-1 / 5, max_coord=1 / 5,
 
 def quadric(K1, K2):
     """
-    compute the Z coordinate of a quadric dependeing on X and Y coordinates
+    compute the Z coordinate of a quadric depending on X and Y coordinates
     :param K1:
     :param K2:
     :return:
