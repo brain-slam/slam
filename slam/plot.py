@@ -15,7 +15,7 @@ def save_image(scene_viewer, filename):
 
 
 def visbrain_plot(mesh, tex=None, caption=None, cblabel=None, visb_sc=None,
-                  cmap='jet', clim=None, rc =None):
+                  cmap='jet', clim=None, rc=None):
     """
     Visualize a trimesh object using visbrain core plotting tool
     :param mesh: trimesh object
