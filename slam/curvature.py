@@ -13,16 +13,14 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
     Computation of the two principal curvatures based on:
     Petitjean, A survey of methods for recovering quadrics
     in triangle meshes, ACM Computing Surveys, 2002
-    :param mesh:
-    :param tol:
-    :param neighbour_size:
-    :return:
+    :param mesh: trimesh mesh
+    :param tol: input for determine_local_basis call. set by default with 1e-12
+    :param neighbour_size: set by default with 2
+    :return: curvature : array. length  = number of vertex
+             direction : array. length  = number of vertex
     """
     N = mesh.vertices.shape[0]
-    # vertex_normals = mean_vertex_normals(N,
-    # faces=mesh.faces, face_normals = mesh.face_normals)
-    # vertex_normals, Avertex, Acorner, up, vp =
-    # calcvertex_normals(mesh, mesh.face_normals)
+
     vertex_normals = mesh.vertex_normals
 
     curvature = np.zeros((N, 2))
@@ -40,17 +38,12 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
         normal = np.reshape(normal, (3, 1))
         proj_matrix = np.identity(3) - np.matmul(normal, normal.transpose())
         vec1, vec2 = determine_local_basis(normal, proj_matrix, tol)
-        # rotation_matrix = np.concatenate((vec1.transpose(),
-        #                                  np.reshape(vec2, (1, 3)),
-        #                                  normal.transpose()))
         rotation_matrix = \
             np.concatenate((vec1, vec2, normal), axis=1).transpose()
 
         # neighbours
         neigh = stop.k_ring_neighborhood(mesh, index=i, k=neighbour_size,
                                          adja=adjacency_matrix)
-        # neigh =
-        # np.logical_and(neigh <= neighbour_size, neigh > 0).nonzero()[0]
         neigh = (neigh <= neighbour_size).nonzero()[0]
         neigh_len = len(neigh)
         vertices_neigh = mesh.vertices[neigh, :].transpose()
@@ -64,7 +57,6 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
         Z = np.reshape(rotated_vertices_neigh[2, :], (neigh_len, 1))
         XY = np.concatenate((X ** 2, X * Y, Y ** 2), axis=1)
         parameters = np.matmul(np.linalg.pinv(XY), Z)
-        # parameters = np.linalg.lstsq(XY,Z)
 
         # Curvature tensor
         tensor = np.array([[parameters[0, 0], parameters[1, 0] / 2],
@@ -87,6 +79,13 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
 
 
 def determine_local_basis(normal, proj_matrix, tol, approach='proj'):
+    """
+    @param normal:
+    @param proj_matrix:
+    @param tol:
+    @param approach: set by default with 'proj'
+    @return: vec1, vec2
+    """
     if approach == 'proj':
         # Original code: use projection matrix
         vec1 = np.matmul(proj_matrix, np.array([[1], [0], [0]]))
