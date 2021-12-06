@@ -38,8 +38,7 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
         normal = vertex_normals[i, :].transpose()
         normal = normal / norm(normal)
         normal = np.reshape(normal, (3, 1))
-        proj_matrix = np.identity(3) - np.matmul(normal, normal.transpose())
-        vec1, vec2 = determine_local_basis(normal, proj_matrix, tol)
+        vec1, vec2 = determine_local_basis(normal, tol)
         # rotation_matrix = np.concatenate((vec1.transpose(),
         #                                  np.reshape(vec2, (1, 3)),
         #                                  normal.transpose()))
@@ -86,14 +85,15 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
     return curvature, directions
 
 
-def determine_local_basis(normal, proj_matrix, tol):
+def determine_local_basis(normal, tol):
     """
     Computes the local basis of the tangent plane
     :param normal: (3,1) normal vector
-    :param proj_matrix: (3,3) projection matrix on the tangent plane
     :param tol: tolerance value
     :return:
     """
+    # (3,3) projection matrix on the tangent plane
+    proj_matrix = np.identity(3) - np.matmul(normal, normal.transpose())
     vec1 = np.matmul(proj_matrix, np.array([[1], [0], [0]]))
     if np.abs(norm(vec1)) < tol:
         vec1 = np.matmul(proj_matrix, np.array([[0], [1], [0]]))
