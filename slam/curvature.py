@@ -86,28 +86,22 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
     return curvature, directions
 
 
-def determine_local_basis(normal, proj_matrix, tol, approach='proj'):
-    if approach == 'proj':
-        # Original code: use projection matrix
-        vec1 = np.matmul(proj_matrix, np.array([[1], [0], [0]]))
-        if np.abs(norm(vec1)) < tol:
-            vec1 = np.matmul(proj_matrix, np.array([[0], [1], [0]]))
-        if np.abs(norm(vec1)) < tol:
-            vec1 = np.matmul(proj_matrix, np.array([[0], [0], [1]]))
-        vec1 = vec1 / norm(vec1)
-        vec2 = np.cross(normal[:, 0], vec1[:, 0])
-        vec2 = vec2 / norm(vec2)
-    else:
-        # Other option: keep 2 smallest values of normal
-        # (swith 2 largest values -> sub-optimal for quadrics)
-        indices = np.argsort(np.abs(normal[:, 0]))
-        vec1 = np.zeros((3, 1))
-        # switch the two minimal values/add sign - to ensure orthogonality
-        vec1[indices[0], 0] = -normal[indices[1], 0]
-        vec1[indices[1], 0] = normal[indices[0], 0]
-        vec1 = vec1 / norm(vec1)
-        vec2 = np.cross(normal[:, 0], vec1[:, 0])
-        vec2 = vec2 / norm(vec2)
+def determine_local_basis(normal, proj_matrix, tol):
+    """
+    Computes the local basis of the tangent plane
+    :param normal: (3,1) normal vector
+    :param proj_matrix: (3,3) projection matrix on the tangent plane
+    :param tol: tolerance value
+    :return:
+    """
+    vec1 = np.matmul(proj_matrix, np.array([[1], [0], [0]]))
+    if np.abs(norm(vec1)) < tol:
+        vec1 = np.matmul(proj_matrix, np.array([[0], [1], [0]]))
+    if np.abs(norm(vec1)) < tol:
+        vec1 = np.matmul(proj_matrix, np.array([[0], [0], [1]]))
+    vec1 = vec1 / norm(vec1)
+    vec2 = np.cross(normal[:, 0], vec1[:, 0])
+    vec2 = vec2 / norm(vec2)
     vec2 = np.reshape(vec2, (3, 1))
     return vec1, vec2
 
