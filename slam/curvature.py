@@ -86,12 +86,18 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
 
 
 def determine_local_basis(normal, tol):
-    """
-    Computes the orthonormal local basis of the tangent plane
-    :param normal: (3,1) normal vector, should be unitary
-    :param tol: tolerance value
-    :return:
-    a tuple of vectors, each of size (3,1)
+    """Compute an orthonormal basis of a 2d plane defined by its normal.
+
+    A test vector (1,0,0) is first projected on the 2d plane.
+    The normalized projection vec1 constituting the first vector of the basis.
+    The second vector vec2 is obtained using cross product.
+    
+    :param normal: unitary normal vector to the plan
+    :type normal: (3,1) ndarray
+    :param tol: minimal norm value
+    :type: np.float64
+    :return:  vec1, vec2 two orthonormal vectors generating the plan
+    :rtype: (2,) tuple of ndarray each of size (3,1)
     """
     # (3,3) projection matrix on the tangent plane
     proj_matrix = np.identity(3) - np.matmul(normal, normal.transpose())
