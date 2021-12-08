@@ -85,7 +85,7 @@ def spherical_mapping(mesh, mapping_type='laplacian_eigenvectors',
 def disk_conformal_mapping(mesh, lap_type='conformal',
                            boundary=None, boundary_coords=None):
     """
-    compute comformal mapping of a mesh to a disk, see the following references:
+    Computes comformal mapping of a mesh to a disk, see the following references:
     Ulrich Pinkall and Konrad Polthier, “Computing Discrete Minimal Surfaces and
     Their Conjugates,” Experimental Mathematics, 1993, 1–33.
     and
