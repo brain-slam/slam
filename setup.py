@@ -6,7 +6,6 @@ from setuptools import setup, find_packages
 BASE_REQUIREMENTS = ['numpy', 'scipy', 'trimesh', 'nibabel>=2.1', 'networkx']
 TEST_REQUIREMENTS = ['flake8', 'autopep8', 'pytest', 'pytest-cov', 'coveralls']
 DIST = ['tvb-gdist']
-VISU = ['visbrain']
 
 setup(
     name="brain-slam",
@@ -14,15 +13,13 @@ setup(
     packages=find_packages(),
     author="Guillaume Auzias",
     description="Surface anaLysis And Modeling",
-    url="https://github.com/gauzias/slam",
+    url="https://github.com/brain-slam/slam",
     license='MIT',
     python_requires='>=3.6',  # enforce Python 3.6 as minimum
     install_requires=BASE_REQUIREMENTS,
     extras_require={
-        'default-dev': TEST_REQUIREMENTS,
-        'advanced-user': DIST,
-        'advanced-dev': DIST + TEST_REQUIREMENTS,
-        'full': DIST + TEST_REQUIREMENTS + VISU
+        'full-user': DIST,
+        'dev': DIST + TEST_REQUIREMENTS,
     },
     classifiers=[
         "Programming Language :: Python :: 3",
