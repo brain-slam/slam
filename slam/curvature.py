@@ -39,8 +39,7 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
         normal = vertex_normals[i, :].transpose()
         normal = normal / norm(normal)
         normal = np.reshape(normal, (3, 1))
-        proj_matrix = np.identity(3) - np.matmul(normal, normal.transpose())
-        vec1, vec2 = determine_local_basis(normal, proj_matrix, tol)
+        vec1, vec2 = determine_local_basis(normal, tol)
         # rotation_matrix = np.concatenate((vec1.transpose(),
         #                                  np.reshape(vec2, (1, 3)),
         #                                  normal.transpose()))
@@ -93,28 +92,31 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
     return curvature, directions
 
 
-def determine_local_basis(normal, proj_matrix, tol, approach="proj"):
-    if approach == "proj":
-        # Original code: use projection matrix
-        vec1 = np.matmul(proj_matrix, np.array([[1], [0], [0]]))
-        if np.abs(norm(vec1)) < tol:
-            vec1 = np.matmul(proj_matrix, np.array([[0], [1], [0]]))
-        if np.abs(norm(vec1)) < tol:
-            vec1 = np.matmul(proj_matrix, np.array([[0], [0], [1]]))
-        vec1 = vec1 / norm(vec1)
-        vec2 = np.cross(normal[:, 0], vec1[:, 0])
-        vec2 = vec2 / norm(vec2)
-    else:
-        # Other option: keep 2 smallest values of normal
-        # (swith 2 largest values -> sub-optimal for quadrics)
-        indices = np.argsort(np.abs(normal[:, 0]))
-        vec1 = np.zeros((3, 1))
-        # switch the two minimal values/add sign - to ensure orthogonality
-        vec1[indices[0], 0] = -normal[indices[1], 0]
-        vec1[indices[1], 0] = normal[indices[0], 0]
-        vec1 = vec1 / norm(vec1)
-        vec2 = np.cross(normal[:, 0], vec1[:, 0])
-        vec2 = vec2 / norm(vec2)
+
+def determine_local_basis(normal, tol):
+    """Compute an orthonormal basis of a 2d plane defined by its normal.
+
+    A test vector (1,0,0) is first projected on the 2d plane.
+    The normalized projection vec1 constituting the first vector of the basis.
+    The second vector vec2 is obtained using cross product.
+    
+    :param normal: unitary normal vector to the plan
+    :type normal: (3,1) ndarray
+    :param tol: minimal norm value
+    :type: np.float64
+    :return:  vec1, vec2 two orthonormal vectors generating the plan
+    :rtype: (2,) tuple of ndarray each of size (3,1)
+    """
+    # (3,3) projection matrix on the tangent plane
+    proj_matrix = np.identity(3) - np.matmul(normal, normal.transpose())
+    # project (1,0,0) orthogonaly on the plane
+    vec1 = np.matmul(proj_matrix, np.array([[1], [0], [0]]))
+    # vec1 vanishes if the normal is close to (1,0,0)
+    if np.abs(norm(vec1)) < tol:
+        vec1 = np.matmul(proj_matrix, np.array([[0], [1], [0]]))
+    vec1 = vec1 / norm(vec1)
+    vec2 = np.cross(normal[:, 0], vec1[:, 0])
+    vec2 = vec2 / norm(vec2)
     vec2 = np.reshape(vec2, (3, 1))
     return vec1, vec2
 

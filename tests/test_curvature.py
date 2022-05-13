@@ -38,6 +38,25 @@ class TestCurvatureMethods(unittest.TestCase):
         assert (mesh_a.vertices == mesh_a_save.vertices).all()
         assert (mesh_a.faces == mesh_a_save.faces).all()
 
+    def test_local_basis(self):
+        precision = 1e-12
+        # First test, generic situation
+        normal1 = 1/np.sqrt(3)* np.array([[1], [1], [1]])
+        e1 = 1/np.sqrt(6) * np.array([[2], [-1], [-1]])
+        e2 = 1/np.sqrt(2) * np.array([[0], [1], [-1]])
+        res = scurv.determine_local_basis(normal1, precision)
+        assert(np.isclose(res[0], e1, precision).all())
+        assert(np.isclose(res[1], e2, precision).all())
+
+        # Second test, when norm(vec1) < tol in determine_local_basis
+        normal1 = np.array([[1], [0], [0]])
+        e1 = np.array([[0],[1],[0]])
+        e2 = np.array([[0],[0],[1]])
+        res = scurv.determine_local_basis(normal1, precision)
+        assert(np.isclose(res[0], e1, precision).all())
+        assert(np.isclose(res[1], e2, precision).all())
+
+
     def test_correctness_curvature_sphere(self):
 
         # Iterations on radius
