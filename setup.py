@@ -18,7 +18,7 @@ setup(
     python_requires='>=3.6',  # enforce Python 3.6 as minimum
     install_requires=BASE_REQUIREMENTS,
     extras_require={
-        'full-user': DIST,
+        'full': DIST,
         'dev': DIST + TEST_REQUIREMENTS,
     },
     classifiers=[
