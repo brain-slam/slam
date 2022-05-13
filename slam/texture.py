@@ -10,12 +10,7 @@ from scipy import stats as sps
 
 
 class TextureND:
-
-    def __init__(self,
-                 darray=None,
-                 process=True,
-                 metadata=None,
-                 **kwargs):
+    def __init__(self, darray=None, process=True, metadata=None, **kwargs):
         """
         TODO: better description
         A TextureND object contains a darray of shape nb texture times the
@@ -83,7 +78,7 @@ class TextureND:
             return self
 
         self.remove_infinite_values()
-        self.metadata['processed'] = True
+        self.metadata["processed"] = True
 
     def remove_infinite_values(self):
         """
@@ -158,5 +153,5 @@ class TextureND:
             filtered_darray[ind, outliers_neg] = replace_value_neg
         self.darray = filtered_darray
         print(self.darray.shape)
-        self.metadata['z_score_filtered'] = True
-        self.metadata['z_score_threshold'] = z_thresh
+        self.metadata["z_score_filtered"] = True
+        self.metadata["z_score_threshold"] = z_thresh

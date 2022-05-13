@@ -6,8 +6,9 @@ from trimesh import creation as tcr
 import slam.topology as stop
 
 
-def generate_hinge(n_hinge=3, n_step=50, min_coord=-1 / 5, max_coord=1 / 5,
-                   regularity='regular'):
+def generate_hinge(
+    n_hinge=3, n_step=50, min_coord=-1 / 5, max_coord=1 / 5, regularity="regular"
+):
     """
     Generate a hinge shaped surface
     :param n_hinge:
@@ -28,18 +29,18 @@ def generate_hinge(n_hinge=3, n_step=50, min_coord=-1 / 5, max_coord=1 / 5,
     # Delaunay triangulation
     X = X.flatten()
     Y = Y.flatten()
-    faces_tri = Delaunay(np.vstack((X, Y)).T, qhull_options='QJ Qt Qbb')
+    faces_tri = Delaunay(np.vstack((X, Y)).T, qhull_options="QJ Qt Qbb")
 
     # Equation
 
     def cart2pol(x, y):
-        rho = np.sqrt(x**2 + y**2)
+        rho = np.sqrt(x ** 2 + y ** 2)
         phi = np.arctan2(y, x)
         return rho, phi
 
     R, Phi = cart2pol(X, Y)
 
-    if regularity == 'regular':
+    if regularity == "regular":
         alpha_min = 2
         alpha_max = 4
         amplitude = 3
@@ -48,14 +49,12 @@ def generate_hinge(n_hinge=3, n_step=50, min_coord=-1 / 5, max_coord=1 / 5,
         alpha_max = 2
         amplitude = 0.5
 
-    exponent = (alpha_max - alpha_min) / 2 * np.cos(n_hinge * Phi) + \
-               (alpha_min + alpha_max) / 2
-    Z = - amplitude * R ** exponent
+    exponent = (alpha_max - alpha_min) / 2 * np.cos(n_hinge * Phi) + (
+        alpha_min + alpha_max
+    ) / 2
+    Z = -amplitude * R ** exponent
     coords = np.stack([X, Y, Z])
-    mesh = trimesh.Trimesh(
-        faces=faces_tri.simplices,
-        vertices=coords.T,
-        process=False)
+    mesh = trimesh.Trimesh(faces=faces_tri.simplices, vertices=coords.T, process=False)
     return mesh
 
 
@@ -102,10 +101,10 @@ def quadric_curv_mean(K):
     K2 = K[1]
 
     def curv_mean(x, y):
-        num = -(2 * K2 * (1 + 4 * K1 ** 2 * x ** 2) + 2 * K1 *
-                (1 + 4 * K2 ** 2 * y ** 2))
-        denom = 2 * (1 + 4 * K1 ** 2 * x ** 2 +
-                     4 * K2 ** 2 * y ** 2) ** (3 / 2)
+        num = -(
+            2 * K2 * (1 + 4 * K1 ** 2 * x ** 2) + 2 * K1 * (1 + 4 * K2 ** 2 * y ** 2)
+        )
+        denom = 2 * (1 + 4 * K1 ** 2 * x ** 2 + 4 * K2 ** 2 * y ** 2) ** (3 / 2)
 
         return num / denom
 
@@ -132,8 +131,9 @@ def adaptive_sampling(ymax, K, step):
     """
     # Curvilinear abscisse
     def f(x):
-        return (2 * K * x * np.sqrt((2 * K * x) ** 2 + 1) +
-                np.arcsinh(2 * K * x)) / (4 * K)
+        return (2 * K * x * np.sqrt((2 * K * x) ** 2 + 1) + np.arcsinh(2 * K * x)) / (
+            4 * K
+        )
 
     # Step 1
     curve_length = f(ymax)
@@ -144,17 +144,21 @@ def adaptive_sampling(ymax, K, step):
     # Step 2
     y_pos = np.zeros((Npoints + 1,))
     for i in range(Npoints + 1):
-        y_pos[i] = newton(lambda x:
-                          f(x) - curve_samples[i], curve_samples[i])
+        y_pos[i] = newton(lambda x: f(x) - curve_samples[i], curve_samples[i])
     y_pos = np.concatenate([-y_pos[::-1], y_pos[1:]])
     curve_samples = np.concatenate([-curve_samples[::-1], curve_samples[1:]])
     return y_pos, curve_samples
 
 
-def generate_paraboloid_regular(A, nstep=50, ax=1, ay=1,
-                                random_sampling=False,
-                                random_distribution_type='gaussian',
-                                ratio=0.1):
+def generate_paraboloid_regular(
+    A,
+    nstep=50,
+    ax=1,
+    ay=1,
+    random_sampling=False,
+    random_distribution_type="gaussian",
+    ratio=0.1,
+):
     """
         generate a regular paraboloid mesh Z=K*Y^2
         ratio and random_distribution_type parameters are unused if
@@ -170,7 +174,7 @@ def generate_paraboloid_regular(A, nstep=50, ax=1, ay=1,
         """
     # Parameters
     xmin, xmax = [-ax, ax]
-    ymax = ay    # ymin, ymax = [-ay, ay]
+    ymax = ay  # ymin, ymax = [-ay, ay]
     # Define the sampling
     if isinstance(nstep, int):
         stepx = (xmax - xmin) / nstep
@@ -191,40 +195,38 @@ def generate_paraboloid_regular(A, nstep=50, ax=1, ay=1,
     if random_sampling:
         sigma = stepx * ratio  # characteristic size of the mesh * ratio
         nb_vert = len(x) * len(y)
-        if random_distribution_type == 'gamma':
-            theta = np.random.rand(nb_vert, ) * np.pi * 2
+        if random_distribution_type == "gamma":
+            theta = np.random.rand(nb_vert,) * np.pi * 2
             mean = sigma
             variance = sigma ** 2
-            radius = \
-                np.random.gamma(mean ** 2 / variance, variance / mean, nb_vert)
+            radius = np.random.gamma(mean ** 2 / variance, variance / mean, nb_vert)
             X = X + radius * np.cos(theta)
             Y = Y + radius * np.sin(theta)
-        elif random_distribution_type == 'uniform':
+        elif random_distribution_type == "uniform":
             X = X + np.random.uniform(-1, 1, 100)
             Y = Y + np.random.uniform(-1, 1, 100)
         else:
-            X = X + sigma * np.random.randn(nb_vert, )
-            Y = Y + sigma * np.random.randn(nb_vert, )
+            X = X + sigma * np.random.randn(nb_vert,)
+            Y = Y + sigma * np.random.randn(nb_vert,)
 
     # Delaunay triangulation: be careful, to do on the curvilinear aspects to
     # avoid triangle flips
     Xtmp, S = np.meshgrid(x, curve_samples)
     S = S.flatten()
     # faces_tri = Triangulation(X, S)
-    faces_tri = Delaunay(np.vstack((X, S)).T, qhull_options='QJ Qt Qbb')
+    faces_tri = Delaunay(np.vstack((X, S)).T, qhull_options="QJ Qt Qbb")
     # alternative setting? 'Qbb Qc Qz Qj'
 
     Z = quadric(0, A)(X, Y)
     coords = np.array([X, Y, Z]).transpose()
 
-    paraboloid_mesh = trimesh.Trimesh(faces=faces_tri.simplices,
-                                      vertices=coords,
-                                      process=False)
+    paraboloid_mesh = trimesh.Trimesh(
+        faces=faces_tri.simplices, vertices=coords, process=False
+    )
     # remove the faces having any vertex on the boundary to avoid
     # atypical faces geometry due to Delaunay triangulation in 2D
     # TO DO: same boundary removal as for generate_quadric
-    return stop.remove_mesh_boundary_faces(paraboloid_mesh,
-                                           face_vertex_number=1)
+    return stop.remove_mesh_boundary_faces(paraboloid_mesh, face_vertex_number=1)
 
 
 """
@@ -281,9 +283,16 @@ older, outdated version
 """
 
 
-def generate_quadric(K, nstep=[int(50), int(50)], equilateral=False,
-                     ax=1, ay=1, random_sampling=True,
-                     ratio=0.2, random_distribution_type='gaussian'):
+def generate_quadric(
+    K,
+    nstep=[int(50), int(50)],
+    equilateral=False,
+    ax=1,
+    ay=1,
+    random_sampling=True,
+    ratio=0.2,
+    random_distribution_type="gaussian",
+):
     """
     generate a quadric mesh Z=K1*X^2 + K2*Y^2
     ratio and random_distribution_type parameters are unused if
@@ -342,33 +351,33 @@ def generate_quadric(K, nstep=[int(50), int(50)], equilateral=False,
     if random_sampling:
         sigma = stepx * ratio  # characteristic size of the mesh * ratio
         nb_vert = len(x) * len(y)
-        if random_distribution_type == 'gamma':
-            theta = np.random.rand(nb_vert, ) * np.pi * 2
+        if random_distribution_type == "gamma":
+            theta = np.random.rand(nb_vert,) * np.pi * 2
             mean = sigma
             variance = sigma ** 2
-            radius = \
-                np.random.gamma(mean ** 2 / variance, variance / mean, nb_vert)
+            radius = np.random.gamma(mean ** 2 / variance, variance / mean, nb_vert)
             X = X + radius * np.cos(theta)
             Y = Y + radius * np.sin(theta)
-        elif random_distribution_type == 'uniform':
+        elif random_distribution_type == "uniform":
             X = X + np.random.uniform(-1, 1, 100)
             Y = Y + np.random.uniform(-1, 1, 100)
         else:
-            X = X + sigma * np.random.randn(nb_vert, )
-            Y = Y + sigma * np.random.randn(nb_vert, )
+            X = X + sigma * np.random.randn(nb_vert,)
+            Y = Y + sigma * np.random.randn(nb_vert,)
 
     # Delaunay triangulation, based on scipy binding of Qhull.
     # See https://scipy.github.io/devdocs/generated/scipy.spatial.Delaunay.html
     #     scipy.spatial.Delaunay
     #     and http://www.qhull.org/html/qdelaun.htm for more informations
-    faces_tri = Delaunay(np.vstack((X, Y)).T, qhull_options='QJ Qt Qbb')
+    faces_tri = Delaunay(np.vstack((X, Y)).T, qhull_options="QJ Qt Qbb")
     # alternative settings? 'Qbb Qc Qz Qj'
 
     Z = quadric(K[0], K[1])(X, Y)
     coords = np.array([X, Y, Z]).transpose()
 
-    quadric_mesh = trimesh.Trimesh(faces=faces_tri.simplices, vertices=coords,
-                                   process=False)
+    quadric_mesh = trimesh.Trimesh(
+        faces=faces_tri.simplices, vertices=coords, process=False
+    )
 
     # Remove boundary, computed previously
     boundary_faces = stop.ismember(quadric_mesh.faces, boundary)
@@ -519,8 +528,7 @@ def compute_all_principal_directions(K, vertices):
     n = vertices.shape[0]
     res = np.zeros((n, 2, 2), dtype=float)
     for i in range(n):
-        u1, u2 = compute_principal_directions(K, vertices[i, 0],
-                                              vertices[i, 1])
+        u1, u2 = compute_principal_directions(K, vertices[i, 0], vertices[i, 1])
         res[i, :, 0] = u1
         res[i, :, 1] = u2
     return res
@@ -540,8 +548,7 @@ def compute_all_principal_directions_3D(K, vertices):
     n = vertices.shape[0]
     res = np.zeros((n, 3, 2), dtype=float)
     for i in range(n):
-        u1, u2 = compute_principal_directions(K, vertices[i, 0],
-                                              vertices[i, 1])
+        u1, u2 = compute_principal_directions(K, vertices[i, 0], vertices[i, 1])
         e1, e2 = compute_local_basis(K, vertices[i, 0], vertices[i, 1])
         res[i, :, 0] = u1[0] * e1 + u1[1] * e2
         res[i, :, 1] = u2[0] * e1 + u2[1] * e2

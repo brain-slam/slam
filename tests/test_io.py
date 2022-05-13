@@ -25,17 +25,17 @@ class TestIOMethods(unittest.TestCase):
         sio.write_mesh(mesh_a, "tests/data/io/temp.gii")
 
         # Non modification
-        assert(mesh_a.vertices == mesh_a_save.vertices).all()
-        assert(mesh_a.faces == mesh_a_save.faces).all()
+        assert (mesh_a.vertices == mesh_a_save.vertices).all()
+        assert (mesh_a.faces == mesh_a_save.faces).all()
 
-        mesh_b = sio.load_mesh('tests/data/io/temp.gii')
+        mesh_b = sio.load_mesh("tests/data/io/temp.gii")
 
-        precision_A = .00001
+        precision_A = 0.00001
 
         # Correctness
-        assert(np.isclose(mesh_a.vertices, mesh_b.vertices, precision_A).all())
-        assert(np.isclose(mesh_a.faces, mesh_b.faces, precision_A).all())
+        assert np.isclose(mesh_a.vertices, mesh_b.vertices, precision_A).all()
+        assert np.isclose(mesh_a.faces, mesh_b.faces, precision_A).all()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

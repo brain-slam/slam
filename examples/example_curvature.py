@@ -24,13 +24,14 @@ import slam.curvature as scurv
 
 ###############################################################################
 # loading an examplar mesh
-mesh_file = '../examples/data/example_mesh.gii'
+mesh_file = "../examples/data/example_mesh.gii"
 mesh = sio.load_mesh(mesh_file)
 
 ###############################################################################
 # Comptue estimations of principal curvatures
-PrincipalCurvatures, PrincipalDir1, PrincipalDir2 = \
-    scurv.curvatures_and_derivatives(mesh)
+PrincipalCurvatures, PrincipalDir1, PrincipalDir2 = scurv.curvatures_and_derivatives(
+    mesh
+)
 
 ###############################################################################
 # Comptue Gauss curvature from principal curvatures
@@ -42,17 +43,20 @@ mean_curv = 0.5 * (PrincipalCurvatures[0, :] + PrincipalCurvatures[1, :])
 
 ###############################################################################
 # Plot mean curvature
-visb_sc = splt.visbrain_plot(mesh=mesh, tex=mean_curv,
-                             caption='mean curvature',
-                             cblabel='mean curvature')
+visb_sc = splt.visbrain_plot(
+    mesh=mesh, tex=mean_curv, caption="mean curvature", cblabel="mean curvature"
+)
 visb_sc.preview()
 
 ###############################################################################
 # Plot Gauss curvature
-visb_sc = splt.visbrain_plot(mesh=mesh, tex=gaussian_curv,
-                             caption='Gaussian curvature',
-                             cblabel='Gaussian curvature',
-                             cmap='hot')
+visb_sc = splt.visbrain_plot(
+    mesh=mesh,
+    tex=gaussian_curv,
+    caption="Gaussian curvature",
+    cblabel="Gaussian curvature",
+    cmap="hot",
+)
 visb_sc.preview()
 
 ###############################################################################
@@ -63,16 +67,18 @@ shapeIndex, curvedness = scurv.decompose_curvature(PrincipalCurvatures)
 
 ###############################################################################
 # Plot of ShapeIndex and Curvedness
-visb_sc = splt.visbrain_plot(mesh=mesh, tex=shapeIndex,
-                             caption='ShapeIndex',
-                             cblabel='ShapeIndex',
-                             cmap='coolwarm')
+visb_sc = splt.visbrain_plot(
+    mesh=mesh,
+    tex=shapeIndex,
+    caption="ShapeIndex",
+    cblabel="ShapeIndex",
+    cmap="coolwarm",
+)
 visb_sc.preview()
 
-visb_sc = splt.visbrain_plot(mesh=mesh, tex=curvedness,
-                             caption='Curvedness',
-                             cblabel='Curvedness',
-                             cmap='hot')
+visb_sc = splt.visbrain_plot(
+    mesh=mesh, tex=curvedness, caption="Curvedness", cblabel="Curvedness", cmap="hot"
+)
 visb_sc.preview()
 
 
@@ -82,41 +88,41 @@ K = [1, 0]
 
 quadric = sgps.generate_quadric(
     K,
-    nstep=[
-        20,
-        20],
+    nstep=[20, 20],
     ax=3,
     ay=3,
     random_sampling=False,
     ratio=0.3,
-    random_distribution_type='gamma', equilateral=True)
+    random_distribution_type="gamma",
+    equilateral=True,
+)
 
 ###############################################################################
 # Estimated computation of the Principal curvature, K_gauss, K_mean
-p_curv, d1_estim, d2_estim = scurv.curvatures_and_derivatives(
-    quadric)
+p_curv, d1_estim, d2_estim = scurv.curvatures_and_derivatives(quadric)
 
 k1_estim, k2_estim = p_curv[0, :], p_curv[1, :]
 
 k_gauss_estim = k1_estim * k2_estim
 
-k_mean_estim = .5 * (k1_estim + k2_estim)
+k_mean_estim = 0.5 * (k1_estim + k2_estim)
 
 ###############################################################################
 # Analytical computation of the curvatures
 
 k_mean_analytic = sgps.quadric_curv_mean(K)(
-    np.array(quadric.vertices[:, 0]), np.array(quadric.vertices[:, 1]))
+    np.array(quadric.vertices[:, 0]), np.array(quadric.vertices[:, 1])
+)
 
 k_gauss_analytic = sgps.quadric_curv_gauss(K)(
-    np.array(quadric.vertices[:, 0]), np.array(quadric.vertices[:, 1]))
+    np.array(quadric.vertices[:, 0]), np.array(quadric.vertices[:, 1])
+)
 
 k1_analytic = np.zeros((len(k_mean_analytic)))
 k2_analytic = np.zeros((len(k_mean_analytic)))
 
 for i in range(len(k_mean_analytic)):
-    a, b = np.roots(
-        (1, -2 * k_mean_analytic[i], k_gauss_analytic[i]))
+    a, b = np.roots((1, -2 * k_mean_analytic[i], k_gauss_analytic[i]))
     k1_analytic[i] = min(a, b)
     k2_analytic[i] = max(a, b)
 
@@ -124,8 +130,7 @@ for i in range(len(k_mean_analytic)):
 ###############################################################################
 # Error computation
 
-k_mean_relative_change = abs(
-    (k_mean_analytic - k_mean_estim) / k_mean_analytic)
+k_mean_relative_change = abs((k_mean_analytic - k_mean_estim) / k_mean_analytic)
 k_mean_absolute_change = abs((k_mean_analytic - k_mean_estim))
 
 k1_relative_change = abs((k1_analytic - k1_estim) / k1_analytic)
@@ -134,9 +139,12 @@ k1_absolute_change = abs((k1_analytic - k1_estim))
 ###############################################################################
 # Error plot
 
-visb_sc = splt.visbrain_plot(mesh=quadric, tex=k_mean_absolute_change,
-                             caption='K_mean absolute error',
-                             cblabel='K_mean absolute error',)
+visb_sc = splt.visbrain_plot(
+    mesh=quadric,
+    tex=k_mean_absolute_change,
+    caption="K_mean absolute error",
+    cblabel="K_mean absolute error",
+)
 visb_sc.preview()
 
 ###############################################################################
@@ -149,14 +157,14 @@ K = [1, 0]
 
 quadric = sgps.generate_quadric(
     K,
-    nstep=[
-        20,
-        20],
+    nstep=[20, 20],
     ax=3,
     ay=3,
     random_sampling=False,
     ratio=0.3,
-    random_distribution_type='gamma', equilateral=True)
+    random_distribution_type="gamma",
+    equilateral=True,
+)
 
 ###############################################################################
 # Estimated computation of the Principal curvature, Direction1, Direction2
@@ -164,30 +172,37 @@ p_curv_estim, d1_estim, d2_estim = scurv.curvatures_and_derivatives(quadric)
 
 ###############################################################################
 # Analytical computation of the directions
-analytical_directions = sgps.compute_all_principal_directions_3D(
-    K, quadric.vertices)
+analytical_directions = sgps.compute_all_principal_directions_3D(K, quadric.vertices)
 
 estimated_directions = np.zeros(analytical_directions.shape)
 estimated_directions[:, :, 0] = d1_estim
 estimated_directions[:, :, 1] = d2_estim
 
 angular_error_0, dotprods = ut.compare_analytic_estimated_directions(
-    analytical_directions[:, :, 0], estimated_directions[:, :, 0])
+    analytical_directions[:, :, 0], estimated_directions[:, :, 0]
+)
 angular_error_0 = 180 * angular_error_0 / np.pi
 
 angular_error_1, dotprods = ut.compare_analytic_estimated_directions(
-    analytical_directions[:, :, 1], estimated_directions[:, :, 1])
+    analytical_directions[:, :, 1], estimated_directions[:, :, 1]
+)
 angular_error_1 = 180 * angular_error_1 / np.pi
 
 ###############################################################################
 # Error plot
 
-visb_sc = splt.visbrain_plot(mesh=quadric, tex=angular_error_0,
-                             caption='Angular error 0',
-                             cblabel='Angular error 0',)
+visb_sc = splt.visbrain_plot(
+    mesh=quadric,
+    tex=angular_error_0,
+    caption="Angular error 0",
+    cblabel="Angular error 0",
+)
 visb_sc.preview()
 
-visb_sc = splt.visbrain_plot(mesh=quadric, tex=angular_error_1,
-                             caption='Angular error 1',
-                             cblabel='Angular error 1',)
+visb_sc = splt.visbrain_plot(
+    mesh=quadric,
+    tex=angular_error_1,
+    caption="Angular error 1",
+    cblabel="Angular error 1",
+)
 visb_sc.preview()

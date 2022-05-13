@@ -48,17 +48,21 @@ def boucher_surface(params, ax, ay, nstep):
     Y = Y.flatten()
 
     # Delaunay
-    faces_tri = Delaunay(np.vstack((X, Y)).T, qhull_options='QJ Qt Qbb')
+    faces_tri = Delaunay(np.vstack((X, Y)).T, qhull_options="QJ Qt Qbb")
 
     # Equation for Z
     M = params[0]
     sigma = params[1]  # called sigma_y in the paper
-    Z = M/sigma * np.exp(-X**2 - Y**2/(2*sigma**2)) * (Y**2 - sigma**2)
+    Z = (
+        M
+        / sigma
+        * np.exp(-(X ** 2) - Y ** 2 / (2 * sigma ** 2))
+        * (Y ** 2 - sigma ** 2)
+    )
 
     # Mesh
     coords = np.array([X, Y, Z]).transpose()
-    mesh = trimesh.Trimesh(faces=faces_tri.simplices, vertices=coords,
-                           process=False)
+    mesh = trimesh.Trimesh(faces=faces_tri.simplices, vertices=coords, process=False)
     return mesh
 
 
@@ -70,8 +74,7 @@ mesh = boucher_surface(params, ax, ay, nstep)
 
 ##########################################################################
 # Visualization of the mesh
-visb_sc = splt.visbrain_plot(mesh=mesh, caption='Boucher mesh',
-                             bgcolor=[0.3, 0.5, 0.7])
+visb_sc = splt.visbrain_plot(mesh=mesh, caption="Boucher mesh", bgcolor=[0.3, 0.5, 0.7])
 visb_sc
 visb_sc.preview()
 
@@ -81,8 +84,7 @@ visb_sc.preview()
 res = sc.curvatures_and_derivatives(mesh)
 mean_curvature = res[0].sum(axis=0)
 alphas = [0.001, 0.01, 0.1, 1, 10, 100]
-dpfs = sdg.depth_potential_function(mesh, curvature=mean_curvature,
-                                    alphas=alphas)
+dpfs = sdg.depth_potential_function(mesh, curvature=mean_curvature, alphas=alphas)
 
 amplitude_center = []
 amplitude_peak = []
@@ -94,19 +96,21 @@ for i in range(len(dpfs)):
 
 plt.semilogx(alphas, amplitude_center)
 plt.semilogx(alphas, amplitude_peak)
-plt.semilogx(alphas, len(alphas)*[params[0]*(1+2*np.exp(-3/2))], '--')
-plt.xlabel('alpha')
-plt.ylabel('amplitude')
+plt.semilogx(alphas, len(alphas) * [params[0] * (1 + 2 * np.exp(-3 / 2))], "--")
+plt.xlabel("alpha")
+plt.ylabel("amplitude")
 plt.legend(["DPF at center", "DPF (secondary peaks)", "True amplitude"])
 plt.show()
 
 #####################################
 #  Display dpfs on the surfaces
 
-visb_sc = splt.visbrain_plot(mesh=mesh, tex=dpfs[0],
-                             caption='Boucher mesh', bgcolor='white')
-visb_sc = splt.visbrain_plot(mesh=mesh, tex=dpfs[5],
-                             caption='Boucher mesh', visb_sc=visb_sc)
+visb_sc = splt.visbrain_plot(
+    mesh=mesh, tex=dpfs[0], caption="Boucher mesh", bgcolor="white"
+)
+visb_sc = splt.visbrain_plot(
+    mesh=mesh, tex=dpfs[5], caption="Boucher mesh", visb_sc=visb_sc
+)
 visb_sc.preview()
 
 ####################################
@@ -119,11 +123,10 @@ for M in all_M:
     mesh = boucher_surface([M, 0.25], ax, ay, nstep)
     res = sc.curvatures_and_derivatives(mesh)
     mean_curvature = res[0].sum(axis=0)
-    dpfs = sdg.depth_potential_function(mesh, curvature=mean_curvature,
-                                        alphas=[0.0015])
+    dpfs = sdg.depth_potential_function(mesh, curvature=mean_curvature, alphas=[0.0015])
     all_amplitudes.append(dpfs[0][len(mesh.vertices) // 2])
 
-plt.plot(all_M, all_amplitudes, '+-')
+plt.plot(all_M, all_amplitudes, "+-")
 plt.xlabel("M")
 plt.ylabel("Amplitude of DPF")
 plt.show()
