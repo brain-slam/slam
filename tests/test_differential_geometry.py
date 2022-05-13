@@ -12,13 +12,15 @@ TOL2 = 1e-1
 
 def cartesian_to_spherical(coords):
     n = len(coords)
-    spherical_coordinates = np.zeros((n,3))
+    spherical_coordinates = np.zeros((n, 3))
     for i in range(n):
-        R = np.sqrt(np.sum(coords[i,:]**2))
-        spherical_coordinates[i,0] = R
-        coord_i = coords[i,:] / R
-        spherical_coordinates[i,2] = np.arctan2(coord_i[1],coord_i[0]) # Phi, in [0,2pi]
-        spherical_coordinates[i,1] = np.arccos(coord_i[2]) # Theta, in [0,pi]
+        R = np.sqrt(np.sum(coords[i, :] ** 2))
+        spherical_coordinates[i, 0] = R
+        coord_i = coords[i, :] / R
+        spherical_coordinates[i, 2] = np.arctan2(
+            coord_i[1], coord_i[0]
+        )  # Phi, in [0,2pi]
+        spherical_coordinates[i, 1] = np.arccos(coord_i[2])  # Theta, in [0,pi]
     return spherical_coordinates
 
 
@@ -43,11 +45,13 @@ class TestDifferentialGeometry(unittest.TestCase):
         analytic_gradient_theta = np.zeros((sphere_mesh.vertices.shape[0], 3))
         analytic_gradient_theta[:, 0] = np.cos(theta) * np.cos(phi)
         analytic_gradient_theta[:, 1] = np.cos(theta) * np.sin(phi)
-        analytic_gradient_theta[:, 2] = - np.sin(theta)
-        error_norms = np.sqrt(np.sum((gradient_theta - analytic_gradient_theta) ** 2, axis=1))
+        analytic_gradient_theta[:, 2] = -np.sin(theta)
+        error_norms = np.sqrt(
+            np.sum((gradient_theta - analytic_gradient_theta) ** 2, axis=1)
+        )
         # error_norms decrease linearly with mesh spacing
         self.assertTrue(np.mean(error_norms) < TOL2)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

@@ -1,5 +1,6 @@
 import numpy as np
 from trimesh import util as tut
+
 # from trimesh.geometry import mean_vertex_normals
 import slam.topology as stop
 
@@ -31,7 +32,7 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
     adjacency_matrix = stop.adjacency_matrix(mesh)
 
     for i in range(N):
-        if (i == 175):
+        if i == 175:
             print("Debug")
         # Definition of local basis
         point = np.reshape(mesh.vertices[i, :], (3, 1))
@@ -43,12 +44,12 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
         # rotation_matrix = np.concatenate((vec1.transpose(),
         #                                  np.reshape(vec2, (1, 3)),
         #                                  normal.transpose()))
-        rotation_matrix = \
-            np.concatenate((vec1, vec2, normal), axis=1).transpose()
+        rotation_matrix = np.concatenate((vec1, vec2, normal), axis=1).transpose()
 
         # neighbours
-        neigh = stop.k_ring_neighborhood(mesh, index=i, k=neighbour_size,
-                                         adja=adjacency_matrix)
+        neigh = stop.k_ring_neighborhood(
+            mesh, index=i, k=neighbour_size, adja=adjacency_matrix
+        )
         # neigh =
         # np.logical_and(neigh <= neighbour_size, neigh > 0).nonzero()[0]
         neigh = (neigh <= neighbour_size).nonzero()[0]
@@ -67,15 +68,21 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
         # parameters = np.linalg.lstsq(XY,Z)
 
         # Curvature tensor
-        tensor = np.array([[parameters[0, 0], parameters[1, 0] / 2],
-                           [parameters[1, 0] / 2, parameters[2, 0]]])
+        tensor = np.array(
+            [
+                [parameters[0, 0], parameters[1, 0] / 2],
+                [parameters[1, 0] / 2, parameters[2, 0]],
+            ]
+        )
         eigval, eigvec = np.linalg.eig(tensor)
         curvature[i, 0] = 2 * eigval[0]
         curvature[i, 1] = 2 * eigval[1]
-        directions[i, :, 0] = np.matmul(rotation_matrix[0:2, :].transpose(),
-                                        eigvec[:, 0]).transpose()
-        directions[i, :, 1] = np.matmul(rotation_matrix[0:2, :].transpose(),
-                                        eigvec[:, 1]).transpose()
+        directions[i, :, 0] = np.matmul(
+            rotation_matrix[0:2, :].transpose(), eigvec[:, 0]
+        ).transpose()
+        directions[i, :, 1] = np.matmul(
+            rotation_matrix[0:2, :].transpose(), eigvec[:, 1]
+        ).transpose()
 
     # Sort
     indices = np.argsort(curvature, axis=1)
@@ -86,8 +93,8 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
     return curvature, directions
 
 
-def determine_local_basis(normal, proj_matrix, tol, approach='proj'):
-    if approach == 'proj':
+def determine_local_basis(normal, proj_matrix, tol, approach="proj"):
+    if approach == "proj":
         # Original code: use projection matrix
         vec1 = np.matmul(proj_matrix, np.array([[1], [0], [0]]))
         if np.abs(norm(vec1)) < tol:
@@ -136,17 +143,19 @@ def project_curvature_tensor(uf, vf, nf, old_ku, old_kuv, old_kv, up, vp):
     u2 = np.dot(r_new_v, uf)
     v2 = np.dot(r_new_v, vf)
 
-    new_ku = np.dot(np.array([u1, v1]),
-                    np.dot(OldTensor, np.transpose(np.array([u1, v1]))))
-    new_kuv = np.dot(np.array([u1, v1]),
-                     np.dot(OldTensor, np.transpose(np.array([u2, v2]))))
-    new_kv = np.dot(np.array([u2, v2]),
-                    np.dot(OldTensor, np.transpose(np.array([u2, v2]))))
+    new_ku = np.dot(
+        np.array([u1, v1]), np.dot(OldTensor, np.transpose(np.array([u1, v1])))
+    )
+    new_kuv = np.dot(
+        np.array([u1, v1]), np.dot(OldTensor, np.transpose(np.array([u2, v2])))
+    )
+    new_kv = np.dot(
+        np.array([u2, v2]), np.dot(OldTensor, np.transpose(np.array([u2, v2])))
+    )
     return new_ku, new_kuv, new_kv
 
 
-def compute_curvature(FV, VertexNormals, FaceNormals,
-                      Avertex, Acorner, up, vp):
+def compute_curvature(FV, VertexNormals, FaceNormals, Avertex, Acorner, up, vp):
     """
     CalcFaceCurvature recives a list of vertices and faces in FV structure
     and the normal at each vertex and calculates the second fundemental
@@ -200,16 +209,27 @@ def compute_curvature(FV, VertexNormals, FaceNormals,
         n2 = VertexNormals[FV.faces[i][2], :]
 
         " solve least squares problem of th form Ax=b "
-        A = np.array([[np.dot(e0[i, :], t), np.dot(e0[i, :], B), 0],
-                      [0, np.dot(e0[i, :], t), np.dot(e0[i, :], B)],
-                      [np.dot(e1[i, :], t), np.dot(e1[i, :], B), 0],
-                      [0, np.dot(e1[i, :], t), np.dot(e1[i, :], B)],
-                      [np.dot(e2[i, :], t), np.dot(e2[i, :], B), 0],
-                      [0, np.dot(e2[i, :], t), np.dot(e2[i, :], B)]])
+        A = np.array(
+            [
+                [np.dot(e0[i, :], t), np.dot(e0[i, :], B), 0],
+                [0, np.dot(e0[i, :], t), np.dot(e0[i, :], B)],
+                [np.dot(e1[i, :], t), np.dot(e1[i, :], B), 0],
+                [0, np.dot(e1[i, :], t), np.dot(e1[i, :], B)],
+                [np.dot(e2[i, :], t), np.dot(e2[i, :], B), 0],
+                [0, np.dot(e2[i, :], t), np.dot(e2[i, :], B)],
+            ]
+        )
 
         b = np.array(
-            [np.dot(n2 - n1, t), np.dot(n2 - n1, B), np.dot(n0 - n2, t),
-             np.dot(n0 - n2, B), np.dot(n1 - n0, t), np.dot(n1 - n0, B)])
+            [
+                np.dot(n2 - n1, t),
+                np.dot(n2 - n1, B),
+                np.dot(n0 - n2, t),
+                np.dot(n0 - n2, B),
+                np.dot(n1 - n0, t),
+                np.dot(n1 - n0, B),
+            ]
+        )
 
         "Resolving by least mean square method because "
         "A is not a square matrix"
@@ -217,8 +237,9 @@ def compute_curvature(FV, VertexNormals, FaceNormals,
         x = np.linalg.lstsq(A, b, None)
 
         FaceSFM[i] = np.array([[x[0][0], x[0][1]], [x[0][1], x[0][2]]])
-        Kn[0][i] = np.dot(np.array([1, 0]),
-                          np.dot(FaceSFM[i], np.array([[1.], [0.]])))
+        Kn[0][i] = np.dot(
+            np.array([1, 0]), np.dot(FaceSFM[i], np.array([[1.0], [0.0]]))
+        )
         """
         Calculate curvature per vertex
         Calculate voronoi weights
@@ -230,27 +251,35 @@ def compute_curvature(FV, VertexNormals, FaceNormals,
         "Calculate new coordinate system and project the tensor"
 
         for j in range(3):
-            new_ku, new_kuv, new_kv = \
-                project_curvature_tensor(t, B, nf, x[0][0], x[0][1], x[0][2],
-                                         up[FV.faces[i][j], :],
-                                         vp[FV.faces[i][j], :])
-            VertexSFM[FV.faces[i][j]] += np.dot(wfp[i][j],
-                                                np.array([[new_ku, new_kuv],
-                                                          [new_kuv, new_kv]]))
+            new_ku, new_kuv, new_kv = project_curvature_tensor(
+                t,
+                B,
+                nf,
+                x[0][0],
+                x[0][1],
+                x[0][2],
+                up[FV.faces[i][j], :],
+                vp[FV.faces[i][j], :],
+            )
+            VertexSFM[FV.faces[i][j]] += np.dot(
+                wfp[i][j], np.array([[new_ku, new_kuv], [new_kuv, new_kv]])
+            )
 
-    print('Finished Calculating curvature tensors')
+    print("Finished Calculating curvature tensors")
 
     return FaceSFM, VertexSFM, wfp
 
 
 def curvatures_and_derivatives(mesh):
-    (VertexNormals, Avertex, Acorner, up, vp) = \
-        calcvertex_normals(mesh, mesh.face_normals)
-    (FaceSFM, VertexSFM, wfp) = \
-        compute_curvature(mesh, VertexNormals, mesh.face_normals,
-                          Avertex, Acorner, up, vp)
-    [PrincipalCurvature, PrincipalDi1, PrincipalDi2] = \
-        principal_curvatures(mesh, VertexSFM, up, vp)
+    (VertexNormals, Avertex, Acorner, up, vp) = calcvertex_normals(
+        mesh, mesh.face_normals
+    )
+    (FaceSFM, VertexSFM, wfp) = compute_curvature(
+        mesh, VertexNormals, mesh.face_normals, Avertex, Acorner, up, vp
+    )
+    [PrincipalCurvature, PrincipalDi1, PrincipalDi2] = principal_curvatures(
+        mesh, VertexSFM, up, vp
+    )
     return PrincipalCurvature, PrincipalDi1, PrincipalDi2
 
 
@@ -305,12 +334,9 @@ def calcvertex_normals(FV, N):
     print("Calculating vertex normals .... Please wait")
 
     "Get all the edge vectors"
-    e0 = np.array(FV.vertices[FV.faces[:, 2], :]
-                  - FV.vertices[FV.faces[:, 1], :])
-    e1 = np.array(FV.vertices[FV.faces[:, 0], :]
-                  - FV.vertices[FV.faces[:, 2], :])
-    e2 = np.array(FV.vertices[FV.faces[:, 1], :]
-                  - FV.vertices[FV.faces[:, 0], :])
+    e0 = np.array(FV.vertices[FV.faces[:, 2], :] - FV.vertices[FV.faces[:, 1], :])
+    e1 = np.array(FV.vertices[FV.faces[:, 0], :] - FV.vertices[FV.faces[:, 2], :])
+    e2 = np.array(FV.vertices[FV.faces[:, 1], :] - FV.vertices[FV.faces[:, 0], :])
 
     "Normalize edge vectors "
     e0_norm = tut.unitize(e0)
@@ -327,9 +353,13 @@ def calcvertex_normals(FV, N):
     ew is the triangle barycenter.
     We check later if it's inside or outside the triangle
     """
-    ew = np.array([l2[:, 0] * (l2[:, 1] + l2[:, 2] - l2[:, 0]),
-                   l2[:, 1] * (l2[:, 2] + l2[:, 0] - l2[:, 1]),
-                   l2[:, 2] * (l2[:, 0] + l2[:, 1] - l2[:, 2])])
+    ew = np.array(
+        [
+            l2[:, 0] * (l2[:, 1] + l2[:, 2] - l2[:, 0]),
+            l2[:, 1] * (l2[:, 2] + l2[:, 0] - l2[:, 1]),
+            l2[:, 2] * (l2[:, 0] + l2[:, 1] - l2[:, 2]),
+        ]
+    )
     s = (de0 + de1 + de2) / 2
 
     "Af - face area vector"
@@ -342,10 +372,11 @@ def calcvertex_normals(FV, N):
     Avertex = np.zeros((np.shape(FV.vertices)[0], 1))
 
     "Compute vertex normals"
-    VertexNormals, up, vp = \
-        np.zeros((np.shape(FV.vertices)[0], 3)),\
-        np.zeros((np.shape(FV.vertices)[0], 3)),\
-        np.zeros((np.shape(FV.vertices)[0], 3))
+    VertexNormals, up, vp = (
+        np.zeros((np.shape(FV.vertices)[0], 3)),
+        np.zeros((np.shape(FV.vertices)[0], 3)),
+        np.zeros((np.shape(FV.vertices)[0], 3)),
+    )
 
     for i in range(np.shape(FV.faces)[0]):
         wfv1 = Af[i] / ((de1[i] ** 2) * (de2[i] ** 2))
@@ -363,22 +394,28 @@ def calcvertex_normals(FV, N):
         "Changed shape for ew"
 
         if ew[0][i] <= 0:
-            Acorner[i][1] = -0.25 * l2[i][2] * Af[i] / \
-                (np.dot(e0[i, :], np.transpose(e2[i, :])))
-            Acorner[i][2] = -0.25 * l2[i][1] * Af[i] / \
-                (np.dot(e0[i, :], np.transpose(e1[i, :])))
+            Acorner[i][1] = (
+                -0.25 * l2[i][2] * Af[i] / (np.dot(e0[i, :], np.transpose(e2[i, :])))
+            )
+            Acorner[i][2] = (
+                -0.25 * l2[i][1] * Af[i] / (np.dot(e0[i, :], np.transpose(e1[i, :])))
+            )
             Acorner[i][0] = Af[i] - Acorner[i][2] - Acorner[i][1]
         elif ew[1][i] <= 0:
-            Acorner[i][2] = -0.25 * l2[i][0] * Af[i] / \
-                (np.dot(e1[i, :], np.transpose(e0[i, :])))
-            Acorner[i][0] = -0.25 * l2[i][2] * Af[i] / \
-                (np.dot(e1[i, :], np.transpose(e2[i, :])))
+            Acorner[i][2] = (
+                -0.25 * l2[i][0] * Af[i] / (np.dot(e1[i, :], np.transpose(e0[i, :])))
+            )
+            Acorner[i][0] = (
+                -0.25 * l2[i][2] * Af[i] / (np.dot(e1[i, :], np.transpose(e2[i, :])))
+            )
             Acorner[i][1] = Af[i] - Acorner[i][2] - Acorner[i][0]
         elif ew[2][i] <= 0:
-            Acorner[i][0] = -0.25 * l2[i][1] * Af[i] / \
-                (np.dot(e2[i, :], np.transpose(e1[i, :])))
-            Acorner[i][1] = -0.25 * l2[i][0] * Af[i] / \
-                (np.dot(e2[i, :], np.transpose(e0[i, :])))
+            Acorner[i][0] = (
+                -0.25 * l2[i][1] * Af[i] / (np.dot(e2[i, :], np.transpose(e1[i, :])))
+            )
+            Acorner[i][1] = (
+                -0.25 * l2[i][0] * Af[i] / (np.dot(e2[i, :], np.transpose(e0[i, :])))
+            )
             Acorner[i][2] = Af[i] - Acorner[i][1] - Acorner[i][0]
         else:
             ewscale = 0.5 * Af[i] / (ew[0][i] + ew[1][i] + ew[2][i])
@@ -425,8 +462,10 @@ def principal_curvatures(FV, VertexSFM, up, vp):
 
     "Calculate principal curvatures"
     PrincipalCurvature = np.zeros((2, np.shape(FV.vertices)[0]))
-    PrincipalDi1, PrincipalDi2 = [np.zeros((np.shape(FV.vertices)[0], 3)),
-                                  np.zeros((np.shape(FV.vertices)[0], 3))]
+    PrincipalDi1, PrincipalDi2 = [
+        np.zeros((np.shape(FV.vertices)[0], 3)),
+        np.zeros((np.shape(FV.vertices)[0], 3)),
+    ]
     for i in range(np.shape(FV.vertices)[0]):
         npp = np.cross(up[i, :], vp[i, :])
         r_old_u, r_old_v = rotate_coordinate_system(up[i, :], vp[i, :], npp)
@@ -497,14 +536,12 @@ def decompose_curvature(in_curv):
       Volume 10, Issue 8, October 1992, Pages 557-564 '
     """
     curvatures = np.array(
-        (np.maximum(
-            in_curv[0], in_curv[1]), np.minimum(
-            in_curv[0], in_curv[1])))
-    shapeIndex = (2 / np.pi) * np.arctan(
-        (curvatures[0, :] + curvatures[1, :]) /
-        (curvatures[1, :] - curvatures[0, :])
+        (np.maximum(in_curv[0], in_curv[1]), np.minimum(in_curv[0], in_curv[1]))
     )
-    curvedness = np.sqrt((curvatures[0, :]**2 + curvatures[1, :]**2) / 2)
+    shapeIndex = (2 / np.pi) * np.arctan(
+        (curvatures[0, :] + curvatures[1, :]) / (curvatures[1, :] - curvatures[0, :])
+    )
+    curvedness = np.sqrt((curvatures[0, :] ** 2 + curvatures[1, :] ** 2) / 2)
     return shapeIndex, curvedness
 
 

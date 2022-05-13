@@ -1,5 +1,3 @@
-
-
 def angle_difference(mesh1, mesh2):
     """
     compute the difference of angle between mesh1 and mesh2

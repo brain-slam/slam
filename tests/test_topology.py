@@ -59,8 +59,7 @@ def random_triangles(n=3):
 
     coords = []
     for i in range(n * 3):
-        coords.append([random.random() * 5, random.random()
-                       * 5, random.random() * 5])
+        coords.append([random.random() * 5, random.random() * 5, random.random() * 5])
     coords = np.array(coords)
 
     faces = []
@@ -75,12 +74,8 @@ def make_cut_sphere_a():
     """ Create a sphere cut by two parallel planes """
     mesh_a = trimesh.creation.icosphere(subdivisions=1, radius=1.0)
 
-    mesh_a = trimesh.intersections.slice_mesh_plane(
-        mesh_a, [
-            0, 1, 0], [
-            0, -.1, 0])
-    mesh_a = trimesh.intersections.slice_mesh_plane(
-        mesh_a, [0, -1, 0], [0, .9, 0])
+    mesh_a = trimesh.intersections.slice_mesh_plane(mesh_a, [0, 1, 0], [0, -0.1, 0])
+    mesh_a = trimesh.intersections.slice_mesh_plane(mesh_a, [0, -1, 0], [0, 0.9, 0])
     return mesh_a
 
 
@@ -88,10 +83,7 @@ def make_cut_sphere_b():
     """ Create a sphere cut by one parallel plane """
     mesh_a = trimesh.creation.icosphere(subdivisions=1, radius=1.0)
 
-    mesh_a = trimesh.intersections.slice_mesh_plane(
-        mesh_a, [
-            0, 1, 0], [
-            0, -.1, 0])
+    mesh_a = trimesh.intersections.slice_mesh_plane(mesh_a, [0, 1, 0], [0, -0.1, 0])
     return mesh_a
 
 
@@ -135,9 +127,9 @@ class TestTopologyMethods(unittest.TestCase):
         # for a k ring the angle between two consecutive sides is pi - pi/(3k)
         N = len(self.k_rings.vertices)
         coords = np.hstack([self.k_rings.vertices, np.zeros((N, 1))])
-        indices = range(N-6*(self.K-1), N)
+        indices = range(N - 6 * (self.K - 1), N)
         ang, norm = stop.boundary_angles(indices, coords)
-        assert(ang == 180 - 180/(3 * (self.K - 1))).all
+        assert (ang == 180 - 180 / (3 * (self.K - 1))).all
 
     def test_boundaries_basic(self):
         mesh_a = self.cutSphere_A
@@ -147,15 +139,15 @@ class TestTopologyMethods(unittest.TestCase):
         boundary = stop.mesh_boundary(mesh_a)
 
         # Non modification
-        assert(mesh_a.vertices == mesh_a_save.vertices).all()
-        assert(mesh_a.faces == mesh_a_save.faces).all()
+        assert (mesh_a.vertices == mesh_a_save.vertices).all()
+        assert (mesh_a.faces == mesh_a_save.faces).all()
 
         # Correctness
-        assert(len(boundary) == 2)
+        assert len(boundary) == 2
 
         # Type
-        assert(isinstance(boundary, list))
-        assert(isinstance(boundary[0], list))
+        assert isinstance(boundary, list)
+        assert isinstance(boundary[0], list)
 
         iterable = list(itertools.combinations(boundary, 2))
 
@@ -175,8 +167,8 @@ class TestTopologyMethods(unittest.TestCase):
         iterable_b = list(itertools.combinations(boundary_b, 2))
 
         # Correctness
-        assert(len(boundary_a) == 5)
-        assert(len(boundary_b) == 5)
+        assert len(boundary_a) == 5
+        assert len(boundary_b) == 5
 
         # Uniqueness
         for b1, b2 in iterable_a:
@@ -197,7 +189,7 @@ class TestTopologyMethods(unittest.TestCase):
         boundary = stop.mesh_boundary(mesh_a)
 
         # Correctness
-        assert(len(boundary) == 1)
+        assert len(boundary) == 1
 
         # COMPUTE ANGLE AND NORM VARIATIONS
 
@@ -211,21 +203,16 @@ class TestTopologyMethods(unittest.TestCase):
         three_angles = abs(180 - three_angles)
 
         perimeter = radius * np.pi * 2
-        precision_A = .001
-        precision_B = .001
+        precision_A = 0.001
+        precision_B = 0.001
 
         # Coherence of the angle sum and norm sum
-        assert(np.isclose(sum_angles, 360, precision_A))
-        assert(np.isclose(sum_norms, perimeter, precision_B))
+        assert np.isclose(sum_angles, 360, precision_A)
+        assert np.isclose(sum_norms, perimeter, precision_B)
 
         # Coherence of a partial angle and a partial norm variation
-        assert(np.isclose(three_angles[1], 360 / len(coords3D), precision_A))
-        assert(
-            np.isclose(
-                three_norms[1],
-                perimeter /
-                len(coords3D),
-                precision_B))
+        assert np.isclose(three_angles[1], 360 / len(coords3D), precision_A)
+        assert np.isclose(three_norms[1], perimeter / len(coords3D), precision_B)
 
     def test_boundaries_intersection_copy(self):
         mesh_a = self.cutSphere_A
@@ -241,13 +228,13 @@ class TestTopologyMethods(unittest.TestCase):
         inter_1 = inter_1[0][2]
 
         # Non modification
-        assert(b2 == b2_save)
+        assert b2 == b2_save
 
         # Type
-        assert (isinstance(inter_1, list))
+        assert isinstance(inter_1, list)
 
         # Correctness
-        assert(set(inter_1) == set(b2))
+        assert set(inter_1) == set(b2)
 
     def test_close_mesh(self):
         mesh_a = self.cutSphere_C.copy()
@@ -255,25 +242,24 @@ class TestTopologyMethods(unittest.TestCase):
         boundary_prev = stop.mesh_boundary(mesh_a)
 
         # Correctness
-        assert(len(boundary_prev) == 2)
+        assert len(boundary_prev) == 2
 
         mesh_a_closed, nvertices_added = stop.close_mesh(mesh_a)
 
         # Coherence
-        assert(len(mesh_a_closed.vertices) == len(
-            mesh_a.vertices) + nvertices_added)
+        assert len(mesh_a_closed.vertices) == len(mesh_a.vertices) + nvertices_added
 
         boundary_closed = stop.mesh_boundary(mesh_a_closed)
 
         # Mesh is now closed
-        assert(len(boundary_closed) == 0)
+        assert len(boundary_closed) == 0
 
         # Non modification of the vertices which are not on the boundaries
-        sbase = (set(range(len(mesh_a.vertices))))
-        sbound1 = (set(boundary_prev[0]))
-        sbound2 = (set(boundary_prev[1]))
+        sbase = set(range(len(mesh_a.vertices)))
+        sbound1 = set(boundary_prev[0])
+        sbound2 = set(boundary_prev[1])
         sbound = sbound1.union(sbound2)
-        snot_bound = (sbase.difference(sbound))
+        snot_bound = sbase.difference(sbound)
 
         for i in snot_bound:
             assert (mesh_a.vertices[i] == mesh_a_closed.vertices[i]).all()
@@ -282,18 +268,16 @@ class TestTopologyMethods(unittest.TestCase):
         mesh_a = self.cutSphere_A.copy()
         mesh_a_save = mesh_a.copy()
         boundary = stop.mesh_boundary(mesh_a)
-        mesh_processed = stop.remove_mesh_boundary_faces(mesh_a,
-                                                         face_vertex_number=1)
+        mesh_processed = stop.remove_mesh_boundary_faces(mesh_a, face_vertex_number=1)
         # Non modification
-        assert(mesh_a.vertices == mesh_a_save.vertices).all()
+        assert (mesh_a.vertices == mesh_a_save.vertices).all()
         # Correctness
         # check that when removing all faces with any vertex on the boundary,
         # all the boundary vertices are removed from the mesh
         print(len(boundary[0]))
         print(len(mesh_a.vertices))
         print(len(mesh_processed.vertices))
-        assert(len(mesh_processed.vertices) ==
-               len(mesh_a.vertices) - len(boundary[0]))
+        assert len(mesh_processed.vertices) == len(mesh_a.vertices) - len(boundary[0])
 
     def test_k_ring_neighborhood(self):
         mesh_hexagon = self.k_rings.copy()
@@ -318,5 +302,5 @@ class TestTopologyMethods(unittest.TestCase):
         assert (adja == gd_truth_adja).all()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

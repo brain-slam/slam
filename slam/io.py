@@ -12,14 +12,19 @@ def load_mesh(gifti_file):
     :return: the corresponding trimesh object
     """
     g = nb.load(gifti_file)
-    coords, faces = g.get_arrays_from_intent(
-        nb.nifti1.intent_codes['NIFTI_INTENT_POINTSET'])[0].data, \
-        g.get_arrays_from_intent(
-            nb.nifti1.intent_codes['NIFTI_INTENT_TRIANGLE'])[0].data
+    coords, faces = (
+        g.get_arrays_from_intent(nb.nifti1.intent_codes["NIFTI_INTENT_POINTSET"])[
+            0
+        ].data,
+        g.get_arrays_from_intent(nb.nifti1.intent_codes["NIFTI_INTENT_TRIANGLE"])[
+            0
+        ].data,
+    )
     metadata = g.meta.metadata
-    metadata['filename'] = gifti_file
-    return trimesh.Trimesh(faces=faces, vertices=coords,
-                           metadata=metadata, process=False)
+    metadata["filename"] = gifti_file
+    return trimesh.Trimesh(
+        faces=faces, vertices=coords, metadata=metadata, process=False
+    )
 
 
 def write_mesh(mesh, gifti_file):
@@ -29,10 +34,10 @@ def write_mesh(mesh, gifti_file):
     """
     coord = mesh.vertices
     triangles = mesh.faces
-    carray = nb.gifti.GiftiDataArray(coord.astype(np.float32),
-                                     "NIFTI_INTENT_POINTSET")
+    carray = nb.gifti.GiftiDataArray(coord.astype(np.float32), "NIFTI_INTENT_POINTSET")
     tarray = nb.gifti.GiftiDataArray(
-        triangles.astype(np.float32), "NIFTI_INTENT_TRIANGLE")
+        triangles.astype(np.float32), "NIFTI_INTENT_TRIANGLE"
+    )
     img = nb.gifti.GiftiImage(darrays=[carray, tarray])
     # , meta=mesh.metadata)
 
@@ -48,10 +53,10 @@ def load_texture(gifti_file):
     # read the gifti usinng nibabel
     nb_texture = nb.gifti.read(gifti_file)
     # concatenate all the data arrays in a single numpy array
-    cat_darrays = [nb_texture.darrays[i].data
-                   for i in range(len(nb_texture.darrays))]
-    return texture.TextureND(darray=np.array(cat_darrays),
-                             metadata=nb_texture.meta.metadata)
+    cat_darrays = [nb_texture.darrays[i].data for i in range(len(nb_texture.darrays))]
+    return texture.TextureND(
+        darray=np.array(cat_darrays), metadata=nb_texture.meta.metadata
+    )
 
 
 def write_texture(tex, gifti_file):
@@ -63,8 +68,7 @@ def write_texture(tex, gifti_file):
     """
     darrays_list = []
     for d in tex.darray:
-        gdarray = nb.gifti.GiftiDataArray(
-            d.astype(np.float32), 0)
+        gdarray = nb.gifti.GiftiDataArray(d.astype(np.float32), 0)
         # gdarray.metadata = tex.metadata
         # print(gdarray.metadata)
         darrays_list.append(gdarray)

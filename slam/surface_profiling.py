@@ -64,11 +64,11 @@ def cortical_surface_profiling(mesh, rot_angle, r_step, max_samples):
             rot_angle,
             r_step,
             max_samples,
-            intersect_mesh)
+            intersect_mesh,
+        )
 
         # compute the 2D coordinates (x, y) for all profile points
-        sample_x, sample_y = compute_profile_coord_x_y(
-            sam_prof, vert[i], norm[i])
+        sample_x, sample_y = compute_profile_coord_x_y(sam_prof, vert[i], norm[i])
 
         profile_samples_x.append(sample_x)
         profile_samples_y.append(sample_y)
@@ -77,13 +77,8 @@ def cortical_surface_profiling(mesh, rot_angle, r_step, max_samples):
 
 
 def surface_profiling_vert(
-        vertex,
-        vert_norm,
-        init_rot_dir,
-        rot_angle,
-        r_step,
-        max_samples,
-        mesh):
+    vertex, vert_norm, init_rot_dir, rot_angle, r_step, max_samples, mesh
+):
     """
     Implement the profile sampling process for a given vertex.
     NOTE:
@@ -119,23 +114,23 @@ def surface_profiling_vert(
     for i in range(int(round_angle / rot_angle)):
         # set the rotation directions
         rot_angle_alpha = (i * rot_angle) * 1.0 / 360 * 2 * np.pi
-        rot_mat_alpha = utils.get_rotate_matrix(
-            vert_norm, rot_angle_alpha)
+        rot_mat_alpha = utils.get_rotate_matrix(vert_norm, rot_angle_alpha)
         rot_vec_alpha = np.dot(rot_vec0, rot_mat_alpha)
         p_norm = np.cross(vert_norm, rot_vec_alpha)
 
         # Get the intersection lines
         # the lines contains the rotation direction and the reverse one.
-        intersect_lines = trimesh.intersections.mesh_plane(
-            mesh, p_norm, vertex)
+        intersect_lines = trimesh.intersections.mesh_plane(mesh, p_norm, vertex)
 
         # Select the points in the direction of rotation vector
         points_i, _, _ = select_points_orientation(
-            intersect_lines, rot_vec_alpha, vertex, vert_norm)
+            intersect_lines, rot_vec_alpha, vertex, vert_norm
+        )
 
         # Calculate the samples of profiles
         points_profile = compute_profiles_sampling_points(
-            points_i, vertex, max_samples, r_step)
+            points_i, vertex, max_samples, r_step
+        )
 
         profile_list.append(points_profile)
 
@@ -143,14 +138,15 @@ def surface_profiling_vert(
 
 
 def second_round_profiling_vert(
-        vertex,
-        vert_norm,
-        init_rot_dir,
-        rot_angle,
-        r_step,
-        max_samples,
-        mesh,
-        mesh_face_index):
+    vertex,
+    vert_norm,
+    init_rot_dir,
+    rot_angle,
+    r_step,
+    max_samples,
+    mesh,
+    mesh_face_index,
+):
     """
     Implement the profile sampling process to get the feature values of each
     profiling points.
@@ -194,29 +190,30 @@ def second_round_profiling_vert(
     for i in range(int(round_angle / rot_angle)):
         # set the rotation directions
         rot_angle_alpha = (i * rot_angle) * 1.0 / 360 * 2 * np.pi
-        rot_mat_alpha = slam.utils.get_rotate_matrix(
-            vert_norm, rot_angle_alpha)
+        rot_mat_alpha = slam.utils.get_rotate_matrix(vert_norm, rot_angle_alpha)
         rot_vec_alpha = np.dot(rot_vec0, rot_mat_alpha)
         p_norm = np.cross(vert_norm, rot_vec_alpha)
 
         # Get the intersection lines
         # the lines contains the rotation direction and the reverse one.
         intersect_lines, faces = trimesh.intersections.mesh_plane(
-            mesh, p_norm, vertex, return_faces=True)
+            mesh, p_norm, vertex, return_faces=True
+        )
 
         # get the global index of faces
         intersect_fm_index = mesh_face_index[faces]
 
         # Select the points in the direction of rotation vector
         orient_points_i, orient_p_id, ori_lines_id = select_points_orientation(
-            intersect_lines, rot_vec_alpha, vertex, vert_norm)
+            intersect_lines, rot_vec_alpha, vertex, vert_norm
+        )
 
         orient_face_id = intersect_fm_index[ori_lines_id]
 
         # Calculate the samples of profiles
-        points_interp_profile, cor_faces_index = \
-            compute_profiles_sampling_points(
-            orient_points_i, vertex, max_samples, r_step, orient_face_id)
+        points_interp_profile, cor_faces_index = compute_profiles_sampling_points(
+            orient_points_i, vertex, max_samples, r_step, orient_face_id
+        )
 
         profile_points.append(points_interp_profile)
         profile_intersect_faces.append(cor_faces_index)
@@ -224,8 +221,9 @@ def second_round_profiling_vert(
     return np.array(profile_points), np.array(profile_intersect_faces)
 
 
-def compute_profiles_sampling_points(points_intersect, origin, max_samples,
-                                     r_step, face_id=None):
+def compute_profiles_sampling_points(
+    points_intersect, origin, max_samples, r_step, face_id=None
+):
     """
     Calculate the sampling points on each profiles.
     :param points_intersect: (n, 3) float
@@ -304,8 +302,7 @@ def compute_profiles_sampling_points(points_intersect, origin, max_samples,
         if np.linalg.norm(point1 - point0) == 0:
             alpha = 0
         else:
-            alpha = (sample_dist - minued_lenth) / \
-                    np.linalg.norm(point1 - point0)
+            alpha = (sample_dist - minued_lenth) / np.linalg.norm(point1 - point0)
 
         sample_point = (1 - alpha) * point0 + alpha * point1
 
@@ -360,8 +357,7 @@ def select_points_orientation(intersect_points, r_alpha, origin, norm):
     points_i = intersect_points.reshape(intersect_points.size // 3, 3)
 
     # find the center points
-    p_idx, count_coord = np.unique(np.where(points_i == origin)[0],
-                                   return_counts=True)
+    p_idx, count_coord = np.unique(np.where(points_i == origin)[0], return_counts=True)
     origin_index = p_idx[np.where(count_coord == 3)[0]]
 
     if len(origin_index) == 0:
@@ -379,7 +375,7 @@ def select_points_orientation(intersect_points, r_alpha, origin, norm):
     orient_p_indices = ordered_p_indices[orient_point_idx]
 
     # find the closest point
-    p2o_len = cdist(orient_points, np.array([origin]), metric='euclidean')
+    p2o_len = cdist(orient_points, np.array([origin]), metric="euclidean")
     p2o_len = p2o_len.reshape(p2o_len.shape[0])
     ordered_p2o = np.argsort(p2o_len)
     orient_points = orient_points[ordered_p2o]
@@ -391,9 +387,7 @@ def select_points_orientation(intersect_points, r_alpha, origin, norm):
     return orient_points, orient_p_indices, ori_lines_indices
 
 
-def radial_sort(points,
-                origin,
-                normal):
+def radial_sort(points, origin, normal):
     """
     NOTE:
     This function is derived from the
@@ -470,8 +464,9 @@ def compute_profile_coord_x_y(profile, origin, normal):
     return x, y
 
 
-def get_texture_value_on_profile(texture, mesh, profiling_samples,
-                                 profiling_samples_fid):
+def get_texture_value_on_profile(
+    texture, mesh, profiling_samples, profiling_samples_fid
+):
     """
     Calculate the texture values of each points on profiles by barycentric
     interpolation
@@ -491,15 +486,15 @@ def get_texture_value_on_profile(texture, mesh, profiling_samples,
 
     # compute the barycentric parameters of each profile point to its
     # co-faces of mesh
-    barycentric_coord = compute_profile_barycentric_para(profiling_samples,
-                                                         mesh,
-                                                         profiling_samples_fid)
+    barycentric_coord = compute_profile_barycentric_para(
+        profiling_samples, mesh, profiling_samples_fid
+    )
 
     # compute the features of each profile
     tex_arr = texture.darray[0]
-    texture_profile = compute_profile_texture_barycentric(tex_arr, mesh,
-                                                          profiling_samples_fid,
-                                                          barycentric_coord)
+    texture_profile = compute_profile_texture_barycentric(
+        tex_arr, mesh, profiling_samples_fid, barycentric_coord
+    )
 
     return texture_profile
 
@@ -522,32 +517,33 @@ def compute_profile_barycentric_para(profile_sample_points, mesh, triangle_id):
     """
 
     if len(profile_sample_points.shape) != 5:
-        raise Exception('Wrong type of profile_sample_points, '
-                        'it must be (N, N_p, N_s, 3, 3).')
+        raise Exception(
+            "Wrong type of profile_sample_points, " "it must be (N, N_p, N_s, 3, 3)."
+        )
 
     vert = mesh.vertices
     poly = mesh.faces
 
     # get the sample points on profile
     sample_points_profile = profile_sample_points[:, :, :, 2]
-    sample_points = sample_points_profile.reshape(
-        sample_points_profile.size // 3, 3)
+    sample_points = sample_points_profile.reshape(sample_points_profile.size // 3, 3)
 
     # get the faces
     triangle_id = triangle_id.reshape(triangle_id.size)
     triangles_v = vert[poly[triangle_id]]
 
-    barycentric = trimesh.triangles.points_to_barycentric(triangles_v,
-                                                          sample_points)
-    barycentric = barycentric.reshape(len(sample_points_profile),
-                                      len(sample_points_profile[0]),
-                                      len(sample_points_profile[0][0]), 3)
+    barycentric = trimesh.triangles.points_to_barycentric(triangles_v, sample_points)
+    barycentric = barycentric.reshape(
+        len(sample_points_profile),
+        len(sample_points_profile[0]),
+        len(sample_points_profile[0][0]),
+        3,
+    )
 
     return barycentric
 
 
-def compute_profile_texture_barycentric(texture, mesh, triangle_id,
-                                        barycentric_coord):
+def compute_profile_texture_barycentric(texture, mesh, triangle_id, barycentric_coord):
     """
     Compute the texture values of each points on profiles
     :param texture: darray of slam texture
