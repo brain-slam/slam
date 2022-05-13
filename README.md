@@ -78,7 +78,7 @@ If you are interested in contributing, please first have a look at it and contac
     ```
 4. Perform a full slam installation in editable mode
    ```
-    pip install -e .['full']
+    pip install -e .['dev']
    ```
 5. Set upstream repository to keep your clone up-to-date
    ```
