@@ -61,3 +61,49 @@ def local_gdist_matrix(mesh, max_geodist):
     poly = mesh.faces.astype(np.int32)
 
     return gdist.local_gdist_matrix(vert, poly, max_geodist)
+
+
+def dijkstra_length(mesh, start_indices):
+    """
+    Computes the distance to a set of points with 
+    1. Dijkstra algorithm applied to each point of the set
+    2. Take the mini of distance maps for each point of the mesh
+    :param mesh: a trimesh object with n vertices
+    :param start_indices: indices of the set of points 
+    :return: length, a distance map, array of size (n,)
+    """
+    lengths, ga = dijkstra_lengths(mesh, start_indices)
+    length = np.min(lengths, axis=1)
+    return length
+
+
+def dijkstra_lengths(mesh,start_indices):
+    """
+    Intermediate step to compute all distances from start_indices to the other indices
+    Return as much distance maps as start_indices
+    edges without duplication
+    :param mesh: a trimesh object with n vertices
+    :param start_indices: indices of a set of points (size k)
+    :return: lengths, array of size (n,k)
+    """
+
+    mod = 1
+    if len(start_indices) > 100:
+        mod = 10
+
+    edges = mesh.edges_unique
+
+    # the actual length of each unique edge
+    length = mesh.edges_unique_length
+    print(length)
+
+    # create the graph with edge attributes for length
+    ga = nx.from_edgelist([(e[0], e[1], {"length": L}) for e, L in zip(edges, length)])
+    length_dijk = np.zeros((len(mesh.vertices), len(start_indices)))
+    for i, vert_id in enumerate(start_indices):
+        dict_length = nx.single_source_dijkstra_path_length(ga, vert_id, weight="length")
+        for key in dict_length.keys():
+            length_dijk[key, i] = dict_length[key]
+        if i % mod == 0:
+            print(i)
+    return length_dijk, ga
