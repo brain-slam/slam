@@ -87,6 +87,7 @@ def laplacian_texture_smoothing(mesh, tex, nb_iter, dt):
     lap, lap_b = compute_mesh_laplacian(mesh, lap_type="fem")
     return laplacian_smoothing(tex, lap, lap_b, nb_iter, dt)
 
+
 def laplacian_smoothing_constraint(texture_data, constraint, lap,lap_b, nb_iter, dt):
     """
 
