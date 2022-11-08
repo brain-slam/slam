@@ -1,6 +1,7 @@
 import numpy as np
 import trimesh
 from scipy.sparse.linalg import lgmres
+
 # from scipy import sparse as ssp
 
 import slam.differential_geometry as sdg
