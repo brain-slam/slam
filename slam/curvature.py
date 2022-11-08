@@ -92,7 +92,6 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
     return curvature, directions
 
 
-
 def determine_local_basis(normal, tol):
     """Compute an orthonormal basis of a 2d plane defined by its normal.
 
