@@ -6,7 +6,8 @@
 [![Build Status](https://travis-ci.org/gauzias/slam.svg?branch=master)](https://travis-ci.org/gauzias/slam) 
 [![Coverage Status](https://coveralls.io/repos/github/gauzias/slam/badge.svg?branch=master)](https://coveralls.io/github/gauzias/slam?branch=master)
 
-Slam is an open source python package dedicated to the representation of neuroanatomical surfaces stemming from MRI data in the form of triangular meshes and to their processing and analysis.
+Slam is an open source python package dedicated to the representation of 
+neuroanatomical surfaces stemming from MRI data in the form of triangular meshes and to their processing and analysis.
 Slam is an extension of [Trimesh](https://github.com/mikedh/trimesh), an open source python package dedicated to triangular meshes processing.
 
 
@@ -51,10 +52,12 @@ Slam is an extension of [Trimesh](https://github.com/mikedh/trimesh), an open so
 
 
 ## User installation
-
+``
 pip install brain-slam
+``
 
-Then have a llok at the [examples](https://brain-slam.github.io/slam/auto_examples/index.html) from the doc website.
+Then have a look at the [examples](https://brain-slam.github.
+io/slam/auto_examples/index.html) from the doc website.
 We will propose soon real tutorials dedicated to users.
 
 ## For developers / contributors
@@ -71,7 +74,7 @@ If you are interested in contributing, please first have a look at it and contac
 
 ### Developers installation
 1. [Create an account](https://github.com/) on Github if you do not already have one
-2. Sign in Github and fork  the [slam Github repository](https://github.com/brain-slam/slam)
+2. Sign in GitHub and fork  the [slam GitHub repository](https://github.com/brain-slam/slam)
 3. Clone your personal slam fork in your current local directory
     ```# replace <username> by your Github login 
     git clone https://github.com/<username>/slam
@@ -110,23 +113,12 @@ In order to work fine, slam requires:
 
 
     
-### Optional
+### Distance computation (Optional)
 
-#### Distance computation
 
 tvb-gdist is recommended for geodesic distance/shortest paths computations
 
-#### Visualisation 
 
-visbrain is highly recommended for visualisation see (https://github.com/EtienneCmb/visbrain)
-
-#### Developers might install in addition the following packages for CI
-
-+  flake8, autopep8
-
-+ pytest, pytest-cov
-
-+ codecov
    
 
 ## Hall of fame
