@@ -22,13 +22,13 @@ class TestIOMethods(unittest.TestCase):
         mesh_a = self.sphere_A.copy()
         mesh_a_save = self.sphere_A.copy()
 
-        sio.write_mesh(mesh_a, "tests/data/io/temp.gii")
+        sio.write_mesh(mesh_a, "./data/io/temp.gii")
 
         # Non modification
         assert (mesh_a.vertices == mesh_a_save.vertices).all()
         assert (mesh_a.faces == mesh_a_save.faces).all()
 
-        mesh_b = sio.load_mesh("tests/data/io/temp.gii")
+        mesh_b = sio.load_mesh("./data/io/temp.gii")
 
         precision_A = 0.00001
 
