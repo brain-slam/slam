@@ -1,7 +1,6 @@
 import unittest
 
 import numpy as np
-import trimesh
 
 import slam.differential_geometry as sdg
 import slam.generate_parametric_surfaces as sgpm
