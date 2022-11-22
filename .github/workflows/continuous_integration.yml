@@ -16,18 +16,20 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       # You can test your matrix by printing the current Python version
-      - name: Install all the dependencies
-        run : |
-             python -m pip install .['full']
-             $CONDA/bin/conda install flake8 autopep8 pytest pytest-cov coveralls
       - name: Lint code with flake8 and autopep8
         run: | 
+            $CONDA/bin/conda install flake8 autopep8 -n base
             $CONDA/bin/flake8 --ignore=E501,W503,W504 slam/
             $CONDA/bin/flake8 --ignore=E501,W503,W504 tests/
             $CONDA/bin/autopep8 --recursive --aggressive -i --exit-code slam/
             $CONDA/bin/autopep8 --recursive --aggressive -i --exit-code tests/
-      - name: Run test with pytest
+      - name: Install all the dependencies
         run: |
+          $CONDA/bin/conda env update --file environment.yml --name base
+
+      - name: Run tests with pytest
+        run: |
+            $CONDA/bin/conda install pytest pytest-cov coveralls
             $CONDA/bin/pytest -W default --cov=slam/
           
          
