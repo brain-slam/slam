@@ -25,7 +25,7 @@ jobs:
             $CONDA/bin/autopep8 --recursive --aggressive -i --exit-code tests/
       - name: Install all the dependencies
         run: |
-          $CONDA/bin/conda env update --file environment.yml 
+          $CONDA/bin/conda env update --file ../environment.yml 
 
       - name: Run tests with pytest
         run: |
@@ -33,5 +33,4 @@ jobs:
             $CONDA/bin/pytest -W default --cov=slam/
           
          
-
 
