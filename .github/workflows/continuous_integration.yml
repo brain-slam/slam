@@ -15,23 +15,24 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-      # You can test your matrix by printing the current Python version
-      - name: Lint code with flake8 and autopep8
+      - name: VirtualEnv
+        run: |
+          python -m venv slam-env
+          source slam-env/bin/activate
+      - name: Linting
         run: | 
-            $CONDA/bin/conda install flake8 autopep8 -n base
-            $CONDA/bin/flake8 --ignore=E501,W503,W504 slam/
-            $CONDA/bin/flake8 --ignore=E501,W503,W504 tests/
-            $CONDA/bin/autopep8 --recursive --aggressive -i --exit-code slam/
-            $CONDA/bin/autopep8 --recursive --aggressive -i --exit-code tests/
+            pip install flake8 autopep8 
+            flake8 --ignore=E501,W503,W504 slam/
+            flake8 --ignore=E501,W503,W504 tests/
+            autopep8 --recursive --aggressive -i --exit-code slam/
+            autopep8 --recursive --aggressive -i --exit-code tests/
       - name: Install all the dependencies
         run: |
-          $CONDA/bin/conda env list
-          $CONDA/bin/conda env update --file ../environment.yml 
-
+             pip install .['full']
       - name: Run tests with pytest
         run: |
-            $CONDA/bin/conda install pytest pytest-cov coveralls
-            $CONDA/bin/pytest -W default --cov=slam/
+            pip install pytest pytest-cov coveralls
+            pytest -W default --cov=slam/
           
          
 
