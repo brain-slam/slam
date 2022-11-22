@@ -98,7 +98,7 @@ def determine_local_basis(normal, tol):
     A test vector (1,0,0) is first projected on the 2d plane.
     The normalized projection vec1 constituting the first vector of the basis.
     The second vector vec2 is obtained using cross product.
-    
+
     :param normal: unitary normal vector to the plan
     :type normal: (3,1) ndarray
     :param tol: minimal norm value
