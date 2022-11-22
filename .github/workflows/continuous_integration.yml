@@ -18,7 +18,7 @@ jobs:
       # You can test your matrix by printing the current Python version
       - name: Install all the dependencies
         run : |
-            python -m pip install .['full']
+            python -m pip install .['dev']
       - name: Lint code with flake8 and autopep8
         run: | 
             $CONDA/bin/flake8 slam/
