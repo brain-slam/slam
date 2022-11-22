@@ -1,4 +1,5 @@
 import unittest
+import tempfile
 import numpy as np
 import trimesh
 
@@ -22,13 +23,17 @@ class TestIOMethods(unittest.TestCase):
         mesh_a = self.sphere_A.copy()
         mesh_a_save = self.sphere_A.copy()
 
-        sio.write_mesh(mesh_a, "./data/io/temp.gii")
+        fo = tempfile.NamedTemporaryFile(suffix='.gii')
+
+        sio.write_mesh(mesh_a, fo.name)
 
         # Non modification
         assert (mesh_a.vertices == mesh_a_save.vertices).all()
         assert (mesh_a.faces == mesh_a_save.faces).all()
 
-        mesh_b = sio.load_mesh("./data/io/temp.gii")
+        mesh_b = sio.load_mesh(fo.name)
+
+        fo.close()
 
         precision_A = 0.00001
 
