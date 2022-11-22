@@ -21,10 +21,15 @@ jobs:
             python -m pip install .['full']
       - name: Lint code with flake8 and autopep8
         run: | 
-          ./.github/workflows/linting.sh
+            $CONDA/bin/flake8 slam/
+            $CONDA/bin/flake8 examples/
+            $CONDA/bin/flake8 tests/
+            $CONDA/bin/autopep8 --recursive --aggressive --diff --exit-code slam/
+            $CONDA/bin/flake8 --recursive --aggressive --diff --exit-code examples/
+            $CONDA/bin/autopep8 --recursive --aggressive --diff --exit-code tests/
       - name: Run test with pytest
         run: |
-          ./.github/workflows/tests.sh
+            $CONDA/bin/pytest -W default --cov=slam/
           
          
 
