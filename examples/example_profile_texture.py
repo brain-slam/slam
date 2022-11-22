@@ -76,7 +76,7 @@ prof_mesh_points_color = trimesh.visual.color.interpolate(
     prof_mesh_tex_color, color_map=color_map
 )
 
-mesh.visual.vertex_colors = prof_mesh_points_color[profile_texture.size :]
+mesh.visual.vertex_colors = prof_mesh_points_color[profile_texture.size:]
 
 # Create point cloud of profiling points
 prof_points_mesh = profile_points.reshape(

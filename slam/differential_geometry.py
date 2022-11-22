@@ -19,7 +19,8 @@ def mesh_laplacian_eigenvectors(mesh, nb_vectors=1):
     :return:
     """
     lap, lap_b = compute_mesh_laplacian(mesh, lap_type="fem")
-    w, v = eigsh(lap.tocsr(), nb_vectors + 1, M=lap_b.tocsr(), sigma=solver_tolerance)
+    w, v = eigsh(lap.tocsr(), nb_vectors +
+                 1, M=lap_b.tocsr(), sigma=solver_tolerance)
     return v[:, 1:]
 
 
@@ -122,7 +123,8 @@ def laplacian_smoothing(texture_data, lap, lap_b, nb_iter, dt):
                     M.tocsr(), texture_data[:, d], tol=solver_tolerance
                 )
         else:
-            texture_data, infos = lgmres(M.tocsr(), texture_data, tol=solver_tolerance)
+            texture_data, infos = lgmres(
+                M.tocsr(), texture_data, tol=solver_tolerance)
         if i % mod == 0:
             print(i)
 
@@ -322,7 +324,14 @@ def compute_mesh_weights(
     li = np.hstack(W.data)
     nb_Nan = len(np.where(np.isnan(li))[0])
     nb_neg = len(np.where(li < 0)[0])
-    print("    -number of Nan in weights: ", nb_Nan, " = ", 100 * nb_Nan / nnz, " %")
+    print(
+        "    -number of Nan in weights: ",
+        nb_Nan,
+        " = ",
+        100 *
+        nb_Nan /
+        nnz,
+        " %")
     print(
         "    -number of Negative values in weights: ",
         nb_neg,
@@ -334,7 +343,8 @@ def compute_mesh_weights(
     return W.tocsr(), femB.tocsr()
 
 
-def compute_mesh_laplacian(mesh, weights=None, fem_b=None, lap_type="conformal"):
+def compute_mesh_laplacian(
+        mesh, weights=None, fem_b=None, lap_type="conformal"):
     """
     compute laplacian of a mesh
     see compute_mesh_weight for details
@@ -509,9 +519,12 @@ def gradient_fast(mesh, texture_array):
     n_vertex = mesh.vertices.shape[0]
     texture = np.reshape(texture_array, (n_vertex, 1))
 
-    e_ij = mesh.vertices[mesh.faces[:, 1], :] - mesh.vertices[mesh.faces[:, 0], :]
-    e_ki = mesh.vertices[mesh.faces[:, 0], :] - mesh.vertices[mesh.faces[:, 2], :]
-    e_jk = mesh.vertices[mesh.faces[:, 2], :] - mesh.vertices[mesh.faces[:, 1], :]
+    e_ij = mesh.vertices[mesh.faces[:, 1], :] - \
+        mesh.vertices[mesh.faces[:, 0], :]
+    e_ki = mesh.vertices[mesh.faces[:, 0], :] - \
+        mesh.vertices[mesh.faces[:, 2], :]
+    e_jk = mesh.vertices[mesh.faces[:, 2], :] - \
+        mesh.vertices[mesh.faces[:, 1], :]
 
     N = cross_product(e_ij, e_jk)
     A = 0.5 * np.linalg.norm(N, 2, 1)
@@ -530,7 +543,8 @@ def gradient_fast(mesh, texture_array):
     # From faces to vertices,
     # use the Nvertex x Ntriangles sparse matrix correspondance
     grad_vertex = mesh.faces_sparse * grad_triangle
-    grad_vertex = grad_vertex * np.reshape(1 / mesh.vertex_degree, (n_vertex, 1))
+    grad_vertex = grad_vertex * \
+        np.reshape(1 / mesh.vertex_degree, (n_vertex, 1))
 
     return grad_vertex
 

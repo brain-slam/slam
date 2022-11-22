@@ -24,9 +24,9 @@ jobs:
         run: | 
             $CONDA/bin/flake8 --ignore=E501,W503 slam/
             $CONDA/bin/flake8 --ignore=E501,W503 tests/
-            $CONDA/bin/autopep8 --recursive --aggressive --diff --exit-code slam/
-            $CONDA/bin/flake8 --recursive --aggressive --diff --exit-code examples/
-            $CONDA/bin/autopep8 --recursive --aggressive --diff --exit-code tests/
+            $CONDA/bin/autopep8 --recursive --aggressive -i --exit-code slam/
+            $CONDA/bin/flake8 --recursive --aggressive -i --exit-code examples/
+            $CONDA/bin/autopep8 --recursive --aggressive -i --exit-code tests/
       - name: Run test with pytest
         run: |
             $CONDA/bin/pytest -W default --cov=slam/
