@@ -22,8 +22,8 @@ jobs:
              $CONDA/bin/conda install flake8 autopep8 pytest pytest-cov coveralls
       - name: Lint code with flake8 and autopep8
         run: | 
-            $CONDA/bin/flake8 --ignore=E501,W503 slam/
-            $CONDA/bin/flake8 --ignore=E501,W503 tests/
+            $CONDA/bin/flake8 --ignore=E501,W503,W504 slam/
+            $CONDA/bin/flake8 --ignore=E501,W503,W504 tests/
             $CONDA/bin/autopep8 --recursive --aggressive -i --exit-code slam/
             $CONDA/bin/flake8 --recursive --aggressive -i --exit-code examples/
             $CONDA/bin/autopep8 --recursive --aggressive -i --exit-code tests/
