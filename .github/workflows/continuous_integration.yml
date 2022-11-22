@@ -23,7 +23,6 @@ jobs:
       - name: Lint code with flake8 and autopep8
         run: | 
             $CONDA/bin/flake8 --ignore=E501,W503 slam/
-            $CONDA/bin/flake8 --ignore=E501,W503 examples/
             $CONDA/bin/flake8 --ignore=E501,W503 tests/
             $CONDA/bin/autopep8 --recursive --aggressive --diff --exit-code slam/
             $CONDA/bin/flake8 --recursive --aggressive --diff --exit-code examples/
