@@ -11,8 +11,6 @@ jobs:
         exclude:
           - os: 'ubuntu-22.04'
             python-version: '3.6'
-      runs-on: ${{ matrix.os }}
-
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}
