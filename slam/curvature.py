@@ -43,7 +43,8 @@ def curvature_fit(mesh, tol=1e-12, neighbour_size=2):
         # rotation_matrix = np.concatenate((vec1.transpose(),
         #                                  np.reshape(vec2, (1, 3)),
         #                                  normal.transpose()))
-        rotation_matrix = np.concatenate((vec1, vec2, normal), axis=1).transpose()
+        rotation_matrix = np.concatenate(
+            (vec1, vec2, normal), axis=1).transpose()
 
         # neighbours
         neigh = stop.k_ring_neighborhood(
@@ -98,7 +99,7 @@ def determine_local_basis(normal, tol):
     A test vector (1,0,0) is first projected on the 2d plane.
     The normalized projection vec1 constituting the first vector of the basis.
     The second vector vec2 is obtained using cross product.
-    
+
     :param normal: unitary normal vector to the plan
     :type normal: (3,1) ndarray
     :param tol: minimal norm value
@@ -156,7 +157,8 @@ def project_curvature_tensor(uf, vf, nf, old_ku, old_kuv, old_kv, up, vp):
     return new_ku, new_kuv, new_kv
 
 
-def compute_curvature(FV, VertexNormals, FaceNormals, Avertex, Acorner, up, vp):
+def compute_curvature(FV, VertexNormals, FaceNormals,
+                      Avertex, Acorner, up, vp):
     """
     CalcFaceCurvature recives a list of vertices and faces in FV structure
     and the normal at each vertex and calculates the second fundemental
@@ -335,9 +337,12 @@ def calcvertex_normals(FV, N):
     print("Calculating vertex normals .... Please wait")
 
     "Get all the edge vectors"
-    e0 = np.array(FV.vertices[FV.faces[:, 2], :] - FV.vertices[FV.faces[:, 1], :])
-    e1 = np.array(FV.vertices[FV.faces[:, 0], :] - FV.vertices[FV.faces[:, 2], :])
-    e2 = np.array(FV.vertices[FV.faces[:, 1], :] - FV.vertices[FV.faces[:, 0], :])
+    e0 = np.array(FV.vertices[FV.faces[:, 2], :] -
+                  FV.vertices[FV.faces[:, 1], :])
+    e1 = np.array(FV.vertices[FV.faces[:, 0], :] -
+                  FV.vertices[FV.faces[:, 2], :])
+    e2 = np.array(FV.vertices[FV.faces[:, 1], :] -
+                  FV.vertices[FV.faces[:, 0], :])
 
     "Normalize edge vectors "
     e0_norm = tut.unitize(e0)
@@ -396,26 +401,32 @@ def calcvertex_normals(FV, N):
 
         if ew[0][i] <= 0:
             Acorner[i][1] = (
-                -0.25 * l2[i][2] * Af[i] / (np.dot(e0[i, :], np.transpose(e2[i, :])))
+                -0.25 * l2[i][2] * Af[i] /
+                (np.dot(e0[i, :], np.transpose(e2[i, :])))
             )
             Acorner[i][2] = (
-                -0.25 * l2[i][1] * Af[i] / (np.dot(e0[i, :], np.transpose(e1[i, :])))
+                -0.25 * l2[i][1] * Af[i] /
+                (np.dot(e0[i, :], np.transpose(e1[i, :])))
             )
             Acorner[i][0] = Af[i] - Acorner[i][2] - Acorner[i][1]
         elif ew[1][i] <= 0:
             Acorner[i][2] = (
-                -0.25 * l2[i][0] * Af[i] / (np.dot(e1[i, :], np.transpose(e0[i, :])))
+                -0.25 * l2[i][0] * Af[i] /
+                (np.dot(e1[i, :], np.transpose(e0[i, :])))
             )
             Acorner[i][0] = (
-                -0.25 * l2[i][2] * Af[i] / (np.dot(e1[i, :], np.transpose(e2[i, :])))
+                -0.25 * l2[i][2] * Af[i] /
+                (np.dot(e1[i, :], np.transpose(e2[i, :])))
             )
             Acorner[i][1] = Af[i] - Acorner[i][2] - Acorner[i][0]
         elif ew[2][i] <= 0:
             Acorner[i][0] = (
-                -0.25 * l2[i][1] * Af[i] / (np.dot(e2[i, :], np.transpose(e1[i, :])))
+                -0.25 * l2[i][1] * Af[i] /
+                (np.dot(e2[i, :], np.transpose(e1[i, :])))
             )
             Acorner[i][1] = (
-                -0.25 * l2[i][0] * Af[i] / (np.dot(e2[i, :], np.transpose(e0[i, :])))
+                -0.25 * l2[i][0] * Af[i] /
+                (np.dot(e2[i, :], np.transpose(e0[i, :])))
             )
             Acorner[i][2] = Af[i] - Acorner[i][1] - Acorner[i][0]
         else:
@@ -537,10 +548,12 @@ def decompose_curvature(in_curv):
       Volume 10, Issue 8, October 1992, Pages 557-564 '
     """
     curvatures = np.array(
-        (np.maximum(in_curv[0], in_curv[1]), np.minimum(in_curv[0], in_curv[1]))
+        (np.maximum(in_curv[0], in_curv[1]),
+         np.minimum(in_curv[0], in_curv[1]))
     )
     shapeIndex = (2 / np.pi) * np.arctan(
-        (curvatures[0, :] + curvatures[1, :]) / (curvatures[1, :] - curvatures[0, :])
+        (curvatures[0, :] + curvatures[1, :]) /
+        (curvatures[1, :] - curvatures[0, :])
     )
     curvedness = np.sqrt((curvatures[0, :] ** 2 + curvatures[1, :] ** 2) / 2)
     return shapeIndex, curvedness
