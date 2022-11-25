@@ -51,15 +51,6 @@ Slam is an extension of [Trimesh](https://github.com/mikedh/trimesh), an open so
   (e.g. pip, setuptools) and make it the default python environment.
 
 
-## User installation
-``
-pip install brain-slam
-``
-
-Then have a look at the [examples](https://brain-slam.github.
-io/slam/auto_examples/index.html) from the doc website.
-We will propose soon real tutorials dedicated to users.
-
 ## For developers / contributors
 
 ### Code of conduct
