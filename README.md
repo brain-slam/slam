@@ -38,20 +38,8 @@ Slam is an extension of [Trimesh](https://github.com/mikedh/trimesh), an open so
 
 + ``plot``: extension of pyglet and visbrain viewers to visualize slam objects
 
-## Prerequisites
 
- We highly recommend to rely on a (conda) virtual environment as provided by miniconda.
- See [miniconda installation instructions](https://docs.conda.io/en/latest/miniconda.html)  if you do not already have one. 
- Then create a virtual environment by typing the following lines in a terminal:
-  ```
-    conda create -q -n slam python=3.6
-    conda activate slam
-  ``` 
- This creates an empty conda virtual environment with Python 3.6 and basic packages
-  (e.g. pip, setuptools) and make it the default python environment.
-
-
-## For developers / contributors
+## For contributors
 
 ### Code of conduct
 The very first thing to do before contributing is to read our 
@@ -63,14 +51,25 @@ https://github.com/orgs/brain-slam/projects/1
 
 If you are interested in contributing, please first have a look at it and contact us by creating a new issue.
 
-### Developers installation
+### Contributors Installation
+#### Prerequisites
 1. [Create an account](https://github.com/) on Github if you do not already have one
 2. Sign in GitHub and fork  the [slam GitHub repository](https://github.com/brain-slam/slam)
-3. Clone your personal slam fork in your current local directory
+3. We highly recommend to rely on a (conda) virtual environment as provided by miniconda.
+ See [miniconda installation instructions](https://docs.conda.io/en/latest/miniconda.html)  if you do not already have one. 
+ Then create a virtual environment by typing the following lines in a terminal:
+  ```
+    conda create -q -n slam python=3.8
+    conda activate slam
+  ``` 
+ This creates an empty conda virtual environment with Python 3.8 and basic packages
+  (e.g. pip, setuptools) and make it the default python environment.
+#### Installation
+1. Clone your personal slam fork in your current local directory
     ```# replace <username> by your Github login 
     git clone https://github.com/<username>/slam
     ```
-4. Perform a full slam installation in editable mode
+2. Perform a full slam installation in editable mode
    ```
     pip install -e .['dev']
    ```
@@ -86,7 +85,7 @@ These dependencies, whether mandatory or optional, are managed automatically and
 ### Mandatory
 In order to work fine, slam requires:
 
-+ a Python 3.6 installation 
++ a Python 3.8 installation 
 
 + setuptools
 
