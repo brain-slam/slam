@@ -54,7 +54,7 @@ def spherical_mapping(
     sph_vert = sdg.mesh_laplacian_eigenvectors(mesh, nb_vectors=3)
     norm_sph_vert = np.sqrt(np.sum(sph_vert * sph_vert, 1))
     sphere_vertices = sph_vert / np.tile(norm_sph_vert, (3, 1)).T
-    
+
     if mapping_type == "laplacian_eigenvectors":
         return trimesh.Trimesh(
             faces=mesh.faces,
@@ -99,7 +99,6 @@ def spherical_mapping(
     return trimesh.Trimesh(faces=mesh.faces,
                            vertices=sphere_vertices,
                            metadata=mesh.metadata, process=False), evol
-
 
 
 def disk_conformal_mapping(
