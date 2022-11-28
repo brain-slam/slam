@@ -24,19 +24,37 @@ def spherical_mapping(
     nb_it=10,
 ):
     """
-    ADD REF
-    :param mesh:
-    :param mapping_type:
-    :param conformal_w:
-    :param authalic_w:
-    :param dt:
-    :param nb_it:
-    :return:
+    Computes the mapping between the input mesh and a sphere centered on 0 and of radius=1
+    Several methods are implemented:
+    -for laplacian eigenvectors, see:
+    J. Lefèvre and G. Auzias, "Spherical Parameterization for Genus Zero Surfaces Using
+    Laplace-Beltrami Eigenfunctions," in 2nd Conference on Geometric Science of
+    Information, GSI, 2015, 121–29, https://doi.org/10.1007/978-3-319-25040-3_14.
+    -for conformal mapping, see:
+    Desbrun, M., Meyer, M., & Alliez, P., "Intrinsic parameterizations of surface meshes",
+    Computer Graphics Forum, 21(3), 2002, 209–218. https://doi.org/10.1111/1467-8659.00580
+    -for authalic and combined methods, see:
+    Rachel a Yotter, Paul M. Thompson, and Christian Gaser, “Algorithms to Improve the
+    Reparameterization of Spherical Mappings of Brain Surface Meshes.,” Journal of
+    Neuroimaging 21, no. 2 (April 2011): e134-47, https://doi.org/10.1111/j.1552-6569.2010.00484.x.
+    or
+    Ilja Friedel, Peter Schröder, and Mathieu Desbrun, “Unconstrained Spherical Parameterization”,
+    Journal of Graphics, GPU, and Game Tools 12, no. 1 (2007): 17–26.
+    :param mesh: Trimesh object, input mesh to be mapped onto a sphere
+    :param mapping_type: string, type of mapping method, possible options are:
+    'laplacian_eigenvectors', 'conformal', 'authalic' or 'combined'
+    :param conformal_w: Float, weight of the conformal constraint for the 'combined' method
+    :param authalic_w: Float, weight of the authalic constraint for the 'combined' method
+    :param dt: Float, discrtization step
+    :param nb_it: Int, number of iterations
+    :return: Trimesh object: the spherical representation of the input mesh, having the same
+    adjacency (faces, edges, vertex indexing) as the input mesh.
     """
     # computing spherical mapping based on laplacian eigenvectors
     sph_vert = sdg.mesh_laplacian_eigenvectors(mesh, nb_vectors=3)
     norm_sph_vert = np.sqrt(np.sum(sph_vert * sph_vert, 1))
     sphere_vertices = sph_vert / np.tile(norm_sph_vert, (3, 1)).T
+
     if mapping_type == "laplacian_eigenvectors":
         return trimesh.Trimesh(
             faces=mesh.faces,
@@ -45,28 +63,16 @@ def spherical_mapping(
             process=False,
         )
 
-    if mapping_type == "conformal":
-        """
-        Desbrun, M., Meyer, M., & Alliez, P. (2002).
-        Intrinsic parameterizations of surface meshes.
-        Computer Graphics Forum, 21(3), 209–218.
-        https://doi.org/10.1111/1467-8659.00580
-        """
+    if mapping_type == 'conformal':
+        L, B = sdg.compute_mesh_laplacian(mesh, lap_type='conformal')
 
-        # options.symmetrize = 0;
-        # options.normalize = 1;
-        L, B = sdg.compute_mesh_laplacian(mesh, lap_type="conformal")
+    if mapping_type == 'authalic':
+        L, B = sdg.compute_mesh_laplacian(mesh, lap_type='authalic')
 
-    if mapping_type == "authalic":
-        # options.symmetrize = 0;
-        # options.normalize = 1;
-        L, B = sdg.compute_mesh_laplacian(mesh, lap_type="authalic")
+    if mapping_type == 'combined':
+        Lconf, Bconf = sdg.compute_mesh_laplacian(mesh, lap_type='conformal')
+        Laut, Baut = sdg.compute_mesh_laplacian(mesh, lap_type='authalic')
 
-    if mapping_type == "combined":
-        # options.symmetrize = 0;
-        # options.normalize = 1;
-        Lconf, Bconf = sdg.compute_mesh_laplacian(mesh, lap_type="conformal")
-        Laut, Baut = sdg.compute_mesh_laplacian(mesh, lap_type="authalic")
         L = conformal_w * Lconf + authalic_w * Laut
     # continue the spherical mappig by minimizig the energy
     evol = list()
@@ -90,68 +96,22 @@ def spherical_mapping(
                 ]
             )
 
-    # ind = 0;
-    # for it=1:nb_it
-    # % it = 1;
-    # % while sum(I(: ) < 0)
-    # % it = it + 1;
-    # % vertex1 = vertex1 * L;
-    # vertex1 = vertex1 - eta * vertex1 * L;
-    # vertex1 = vertex1. / repmat(sqrt(sum(vertex1. ^ 2, 1)), [3 1]);
-    # if mod(it, 100) == 0
-    #     ind = ind + 1;
-    #     NFV.vertices = vertex1
-    #     ';
-    #     [nb_inward, inward] = reversed_faces(NFV, 'sphere');
-    #     bil_inward(ind) = nb_inward;
-    #     w = zeros(1, m);
-    #     E = zeros(1, m);
-    #     for i=1:3
-    #     i1 = mod(i, 3) + 1;
-    #     % directed
-    #     edge
-    #     u = vertex1(:, faces(i,:)) - vertex1(:, faces(i1,:));
-    #     % norm
-    #     squared
-    #     u = sum(u. ^ 2);
-    #     % weights
-    #     between
-    #     the
-    #     vertices
-    #     for j=1:m
-    #     w(j) = L(faces(i, j), faces(i1, j));
-    # end
-    # % w = W(faces(i,:) + (faces(i1,:) - 1)*n);
-    # E = E + w. * u;
-    #
-    #
-    # end
-    #
-    # bil_E(ind) = sum(E);
-    # if ind > 2
-    #     disp(['Ratio of inverted triangles:' num2str(100 * nb_inward / m, 3)
-    #           '% energy decrease:' num2str(bil_E(end - 1) - bil_E(end), 3)]);
-    # end
-    # end
-    # end
-
-    return (
-        trimesh.Trimesh(
-            faces=mesh.faces,
-            vertices=sphere_vertices,
-            metadata=mesh.metadata,
-            process=False,
-        ),
-        evol,
-    )
+    return trimesh.Trimesh(faces=mesh.faces,
+                           vertices=sphere_vertices,
+                           metadata=mesh.metadata, process=False), evol
 
 
 def disk_conformal_mapping(
     mesh, lap_type="conformal", boundary=None, boundary_coords=None
 ):
     """
-    compute comformal mapping of a mesh to a disk
-    ADD ref
+    Computes comformal mapping of a mesh to a disk, see the following references:
+    Ulrich Pinkall and Konrad Polthier, “Computing Discrete Minimal Surfaces and
+    Their Conjugates,” Experimental Mathematics, 1993, 1–33.
+    and
+    Mathieu Desbrun, Mark Meyer, and Pierre Alliez, “Intrinsic Parameterizations
+    of Surface Meshes,” Computer Graphics Forum 21, no. 3 (2002): 209–18,
+    https://doi.org/10.1111/1467-8659.00580.
     :param mesh: a trimesh object
     :param lap_type: type of mesh Laplacian to be used,
     see the function differential_geometry/compute_mesh_weights for more
@@ -227,7 +187,7 @@ def moebius_transformation(a, b, c, d, plane_mesh):
 
 def stereo_projection(sphere_mesh, h=None, invert=True):
     """
-    compute the stereographic projection from the unit sphere (center = 0,
+    Computes the stereographic projection from the unit sphere (center = 0,
     radius = 1) onto the horizontal plane which 3rd coordinate is h of the
     vertices given
     :param sphere_mesh: trimesh spherical mesh to be projected onto the plane
@@ -254,7 +214,7 @@ def stereo_projection(sphere_mesh, h=None, invert=True):
 
 def inverse_stereo_projection(plane_mesh, h=None, invert=True):
     """
-    compute the inverse stereograhic projection from an horizontal plane onto
+    Computes the inverse stereograhic projection from an horizontal plane onto
     the unit sphere (center = 0, radius = 1)
     :param plane_mesh: trimesh planar mesh to be inverse projected onto the
     sphere
