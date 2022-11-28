@@ -10,11 +10,10 @@ def make_sphere(radius=1):
 
 
 class TestSurfaceProfiling(unittest.TestCase):
-
     def test_basic(self):
         print(1)
         pass
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

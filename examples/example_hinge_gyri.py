@@ -26,8 +26,8 @@ hinge_mesh = sgps.generate_hinge(n_hinge=4)
 mesh_curvatures = scurv.curvatures_and_derivatives(hinge_mesh)
 mean_curvature = 1 / 2 * mesh_curvatures[0].sum(axis=0)
 
-visb_sc = splt.visbrain_plot(mesh=hinge_mesh, tex=mean_curvature,
-                             caption='hinge',
-                             cblabel='mean curvature')
+visb_sc = splt.visbrain_plot(
+    mesh=hinge_mesh, tex=mean_curvature, caption="hinge", cblabel="mean curvature"
+)
 
 visb_sc.preview()

@@ -1,18 +1,28 @@
 import numpy as np
 import trimesh
+from scipy.sparse.linalg import lgmres
+
+# from scipy import sparse as ssp
+
 import slam.differential_geometry as sdg
 import slam.distortion as sdst
-# from scipy import sparse as ssp
 import slam.topology as stop
-from scipy.sparse.linalg import lgmres
+
+
 ########################
 # error tolerance for lgmres solver
 solver_tolerance = 1e-6
 ########################
 
 
-def spherical_mapping(mesh, mapping_type='laplacian_eigenvectors',
-                      conformal_w=1, authalic_w=1, dt=0.01, nb_it=10):
+def spherical_mapping(
+    mesh,
+    mapping_type="laplacian_eigenvectors",
+    conformal_w=1,
+    authalic_w=1,
+    dt=0.01,
+    nb_it=10,
+):
     """
     Computes the mapping between the input mesh and a sphere centered on 0 and of radius=1
     Several methods are implemented:
@@ -44,10 +54,14 @@ def spherical_mapping(mesh, mapping_type='laplacian_eigenvectors',
     sph_vert = sdg.mesh_laplacian_eigenvectors(mesh, nb_vectors=3)
     norm_sph_vert = np.sqrt(np.sum(sph_vert * sph_vert, 1))
     sphere_vertices = sph_vert / np.tile(norm_sph_vert, (3, 1)).T
-    if mapping_type == 'laplacian_eigenvectors':
-        return trimesh.Trimesh(faces=mesh.faces,
-                               vertices=sphere_vertices,
-                               metadata=mesh.metadata, process=False)
+    
+    if mapping_type == "laplacian_eigenvectors":
+        return trimesh.Trimesh(
+            faces=mesh.faces,
+            vertices=sphere_vertices,
+            metadata=mesh.metadata,
+            process=False,
+        )
 
     if mapping_type == 'conformal':
         L, B = sdg.compute_mesh_laplacian(mesh, lap_type='conformal')
@@ -58,6 +72,7 @@ def spherical_mapping(mesh, mapping_type='laplacian_eigenvectors',
     if mapping_type == 'combined':
         Lconf, Bconf = sdg.compute_mesh_laplacian(mesh, lap_type='conformal')
         Laut, Baut = sdg.compute_mesh_laplacian(mesh, lap_type='authalic')
+
         L = conformal_w * Lconf + authalic_w * Laut
     # continue the spherical mappig by minimizig the energy
     evol = list()
@@ -67,23 +82,29 @@ def spherical_mapping(mesh, mapping_type='laplacian_eigenvectors',
         norm_sph_vert = np.sqrt(np.sum(sphere_vertices * sphere_vertices, 1))
         sphere_vertices = sphere_vertices / np.tile(norm_sph_vert, (3, 1)).T
         if it % 10 == 0:
-            sph = trimesh.Trimesh(faces=mesh.faces,
-                                  vertices=sphere_vertices,
-                                  process=False)
+            sph = trimesh.Trimesh(
+                faces=mesh.faces, vertices=sphere_vertices, process=False
+            )
             angle_diff = sdst.angle_difference(sph, mesh)
             area_diff = sdst.area_difference(sph, mesh)
             edge_diff = sdst.edge_length_difference(sph, mesh)
-            evol.append([np.sum(np.abs(angle_diff.flatten())),
-                         np.sum(np.abs(area_diff.flatten())),
-                         np.sum(np.abs(edge_diff.flatten()))])
+            evol.append(
+                [
+                    np.sum(np.abs(angle_diff.flatten())),
+                    np.sum(np.abs(area_diff.flatten())),
+                    np.sum(np.abs(edge_diff.flatten())),
+                ]
+            )
 
     return trimesh.Trimesh(faces=mesh.faces,
                            vertices=sphere_vertices,
                            metadata=mesh.metadata, process=False), evol
 
 
-def disk_conformal_mapping(mesh, lap_type='conformal',
-                           boundary=None, boundary_coords=None):
+
+def disk_conformal_mapping(
+    mesh, lap_type="conformal", boundary=None, boundary_coords=None
+):
     """
     Computes comformal mapping of a mesh to a disk, see the following references:
     Ulrich Pinkall and Konrad Polthier, “Computing Discrete Minimal Surfaces and
@@ -112,8 +133,8 @@ def disk_conformal_mapping(mesh, lap_type='conformal',
         boundary_coords = np.array([np.cos(t), np.sin(t)])
     L, LB = sdg.compute_mesh_laplacian(mesh, lap_type=lap_type)
     Nv = len(mesh.vertices)  # np.array(mesh.vertex()).shape[0]
-    print('Boundary Size:', boundary.shape)
-    print('Laplacian Size:', L.shape)
+    print("Boundary Size:", boundary.shape)
+    print("Laplacian Size:", L.shape)
     for i in boundary:
         L[i, :] = 0
         L[i, i] = 1
@@ -128,9 +149,12 @@ def disk_conformal_mapping(mesh, lap_type='conformal',
     y, info = lgmres(L, Ry, tol=solver_tolerance)
     z = np.zeros(Nv)
 
-    return trimesh.Trimesh(faces=mesh.faces,
-                           vertices=np.array([x, y, z]).T,
-                           metadata=mesh.metadata, process=False)
+    return trimesh.Trimesh(
+        faces=mesh.faces,
+        vertices=np.array([x, y, z]).T,
+        metadata=mesh.metadata,
+        process=False,
+    )
 
 
 def moebius_transformation(a, b, c, d, plane_mesh):
@@ -143,19 +167,22 @@ def moebius_transformation(a, b, c, d, plane_mesh):
     :param plane_mesh: trimesh mesh
     :return:
     """
-    array_complex = plane_mesh.vertices[:, 0] + \
-        1.0j * plane_mesh.vertices[:, 1]
+    array_complex = plane_mesh.vertices[:,
+                                        0] + 1.0j * plane_mesh.vertices[:, 1]
     numerator = (a * array_complex) + b
     denominator = (c * array_complex) + d
 
     transformed_complex_plane = numerator / denominator
-    transformed_vertices = np.array([transformed_complex_plane.real,
-                                     transformed_complex_plane.imag,
-                                     plane_mesh.vertices[:, 2]]).T.copy()
-    transformed_plane_mesh = \
-        trimesh.Trimesh(vertices=transformed_vertices,
-                        faces=plane_mesh.faces.copy(),
-                        process=False)
+    transformed_vertices = np.array(
+        [
+            transformed_complex_plane.real,
+            transformed_complex_plane.imag,
+            plane_mesh.vertices[:, 2],
+        ]
+    ).T.copy()
+    transformed_plane_mesh = trimesh.Trimesh(
+        vertices=transformed_vertices, faces=plane_mesh.faces.copy(), process=False
+    )
     return transformed_plane_mesh
 
 
@@ -178,9 +205,9 @@ def stereo_projection(sphere_mesh, h=None, invert=True):
         vertices[ind, 1] = (-h + 1) * vert[1] / (1 - vert[2])
         vertices[ind, 2] = h
 
-    plane_mesh = trimesh.Trimesh(vertices=vertices,
-                                 faces=sphere_mesh.faces.copy(),
-                                 process=False)
+    plane_mesh = trimesh.Trimesh(
+        vertices=vertices, faces=sphere_mesh.faces.copy(), process=False
+    )
     if invert:
         plane_mesh.invert()
     return plane_mesh
@@ -203,13 +230,13 @@ def inverse_stereo_projection(plane_mesh, h=None, invert=True):
     if h is None:
         h = vertices[0, 2]
     for ind, vert in enumerate(vertices):
-        denom = ((1 - h) ** 2 + vert[0] ** 2 + vert[1] ** 2)
-        vertices[ind, 2] = (-(1 - h) ** 2 + vert[0] ** 2 + vert[1] ** 2)\
-            / denom
+        denom = (1 - h) ** 2 + vert[0] ** 2 + vert[1] ** 2
+        vertices[ind, 2] = (-((1 - h) ** 2) + vert[0]
+                            ** 2 + vert[1] ** 2) / denom
         vertices[ind, 1] = 2 * (1 - h) * vert[1] / denom
         vertices[ind, 0] = 2 * (1 - h) * vert[0] / denom
 
-    sphere_mesh = trimesh.Trimesh(vertices=vertices,
-                                  faces=plane_mesh.faces.copy(),
-                                  process=False)
+    sphere_mesh = trimesh.Trimesh(
+        vertices=vertices, faces=plane_mesh.faces.copy(), process=False
+    )
     return sphere_mesh

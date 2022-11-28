@@ -31,15 +31,19 @@ K = [-1, -1]
 open_mesh = sps.generate_quadric(K, nstep=[5, 5])
 open_mesh_boundary = stop.mesh_boundary(open_mesh)
 # Visualization
-visb_sc = splt.visbrain_plot(mesh=open_mesh, caption='open mesh')
+visb_sc = splt.visbrain_plot(mesh=open_mesh, caption="open mesh")
 for bound in open_mesh_boundary:
     points = open_mesh.vertices[bound]
-    s_rad = SourceObj('rad', points, color='red', symbol='square',
-                      radius_min=10)
+    s_rad = SourceObj(
+        "rad",
+        points,
+        color="red",
+        symbol="square",
+        radius_min=10)
     visb_sc.add_to_subplot(s_rad)
-    lines = Line(pos=open_mesh.vertices[bound], width=10, color='b')
+    lines = Line(pos=open_mesh.vertices[bound], width=10, color="b")
     # wrap the vispy object using visbrain
-    l_obj = VispyObj('line', lines)
+    l_obj = VispyObj("line", lines)
     visb_sc.add_to_subplot(l_obj)
 visb_sc.preview()
 
@@ -47,15 +51,19 @@ visb_sc.preview()
 # Mapping onto a planar disk
 disk_mesh = smap.disk_conformal_mapping(open_mesh)
 # Visualization
-visb_sc2 = splt.visbrain_plot(mesh=disk_mesh, caption='disk mesh')
+visb_sc2 = splt.visbrain_plot(mesh=disk_mesh, caption="disk mesh")
 for bound in open_mesh_boundary:
     points = disk_mesh.vertices[bound]
-    s_rad = SourceObj('rad', points, color='red', symbol='square',
-                      radius_min=10)
+    s_rad = SourceObj(
+        "rad",
+        points,
+        color="red",
+        symbol="square",
+        radius_min=10)
     visb_sc2.add_to_subplot(s_rad)
-    lines = Line(pos=disk_mesh.vertices[bound], width=10, color='b')
+    lines = Line(pos=disk_mesh.vertices[bound], width=10, color="b")
     # wrap the vispy object using visbrain
-    l_obj = VispyObj('line', lines)
+    l_obj = VispyObj("line", lines)
     visb_sc2.add_to_subplot(l_obj)
 visb_sc2.preview()
 

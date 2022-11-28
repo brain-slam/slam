@@ -7,4 +7,4 @@ def test_generate_ellipsoid():
     a = 2
     b = 1
     ellips = sps.generate_ellipsiod(a, b, nstep, randomSampling)
-    assert len(ellips.vertices) == nstep**2
+    assert len(ellips.vertices) == nstep ** 2

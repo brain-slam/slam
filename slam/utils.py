@@ -29,11 +29,13 @@ def dotprod(vec1, vec2):
     :param vec2:
     :return:
     """
-    return np.dot(vec1, vec2) / (np.sqrt(np.dot(vec1, vec1) * np.dot(vec2, vec2)))
+    return np.dot(vec1, vec2) / \
+        (np.sqrt(np.dot(vec1, vec1) * np.dot(vec2, vec2)))
 
 
-def compare_analytic_estimated_directions(analytic_directions,
-                                          estimated_directions, abs=False):
+def compare_analytic_estimated_directions(
+    analytic_directions, estimated_directions, abs=False
+):
     """
     Compare the analytic principal directions with a estimated directions
     :param analytic_directions: (n,3) array
@@ -53,8 +55,9 @@ def compare_analytic_estimated_directions(analytic_directions,
     return angular_error, dotprods
 
 
-def compare_analytic_estimated_directions_min(analytic_directions,
-                                              estimated_directions):
+def compare_analytic_estimated_directions_min(
+    analytic_directions, estimated_directions
+):
     """
     Compare the analytic principal directions with a estimated directions
     :param analytic_directions: (n,3) array
@@ -70,12 +73,19 @@ def compare_analytic_estimated_directions_min(analytic_directions,
                        estimated_directions[i, :, 0])
         angle1 = angle(analytic_directions[i, :],
                        estimated_directions[i, :, 1])
-        angular_error[i] = min(np.mod(angle0, np.pi / 4),
-                               np.mod(angle1, np.pi / 4))
-        dotprods[i, 0] = dotprod(analytic_directions[i, :],
-                                 estimated_directions[i, :, 0])
-        dotprods[i, 1] = dotprod(analytic_directions[i, :],
-                                 estimated_directions[i, :, 1])
+        angular_error[i] = min(
+            np.mod(
+                angle0,
+                np.pi / 4),
+            np.mod(
+                angle1,
+                np.pi / 4))
+        dotprods[i, 0] = dotprod(
+            analytic_directions[i, :], estimated_directions[i, :, 0]
+        )
+        dotprods[i, 1] = dotprod(
+            analytic_directions[i, :], estimated_directions[i, :, 1]
+        )
     return angular_error, dotprods
 
 
@@ -88,11 +98,11 @@ def get_rotate_matrix(rot_axis, angle):
     """
 
     if np.linalg.norm(rot_axis) == 0:
-        raise Exception('The axis of rotation cannot be 0.')
+        raise Exception("The axis of rotation cannot be 0.")
 
     # normalize the rotate axis
     r_n = rot_axis / np.linalg.norm(rot_axis)
-    rot_matrix = np.zeros((3, 3), dtype='float32')
+    rot_matrix = np.zeros((3, 3), dtype="float32")
 
     cos_theta = np.cos(angle)
     sin_theta = np.sin(angle)

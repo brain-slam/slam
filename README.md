@@ -6,7 +6,8 @@
 [![Build Status](https://travis-ci.org/gauzias/slam.svg?branch=master)](https://travis-ci.org/gauzias/slam) 
 [![Coverage Status](https://coveralls.io/repos/github/gauzias/slam/badge.svg?branch=master)](https://coveralls.io/github/gauzias/slam?branch=master)
 
-Slam is an open source python package dedicated to the representation of neuroanatomical surfaces stemming from MRI data in the form of triangular meshes and to their processing and analysis.
+Slam is an open source python package dedicated to the representation of 
+neuroanatomical surfaces stemming from MRI data in the form of triangular meshes and to their processing and analysis.
 Slam is an extension of [Trimesh](https://github.com/mikedh/trimesh), an open source python package dedicated to triangular meshes processing.
 
 
@@ -37,27 +38,8 @@ Slam is an extension of [Trimesh](https://github.com/mikedh/trimesh), an open so
 
 + ``plot``: extension of pyglet and visbrain viewers to visualize slam objects
 
-## Prerequisites
 
- We highly recommend to rely on a (conda) virtual environment as provided by miniconda.
- See [miniconda installation instructions](https://docs.conda.io/en/latest/miniconda.html)  if you do not already have one. 
- Then create a virtual environment by typing the following lines in a terminal:
-  ```
-    conda create -q -n slam python=3.6
-    conda activate slam
-  ``` 
- This creates an empty conda virtual environment with Python 3.6 and basic packages
-  (e.g. pip, setuptools) and make it the default python environment.
-
-
-## User installation
-
-pip install brain-slam
-
-Then have a llok at the [examples](https://brain-slam.github.io/slam/auto_examples/index.html) from the doc website.
-We will propose soon real tutorials dedicated to users.
-
-## For developers / contributors
+## For contributors
 
 ### Code of conduct
 The very first thing to do before contributing is to read our 
@@ -69,16 +51,27 @@ https://github.com/orgs/brain-slam/projects/1
 
 If you are interested in contributing, please first have a look at it and contact us by creating a new issue.
 
-### Developers installation
+### Contributors Installation
+#### Prerequisites
 1. [Create an account](https://github.com/) on Github if you do not already have one
-2. Sign in Github and fork  the [slam Github repository](https://github.com/brain-slam/slam)
-3. Clone your personal slam fork in your current local directory
+2. Sign in GitHub and fork  the [slam GitHub repository](https://github.com/brain-slam/slam)
+3. We highly recommend to rely on a (conda) virtual environment as provided by miniconda.
+ See [miniconda installation instructions](https://docs.conda.io/en/latest/miniconda.html)  if you do not already have one. 
+ Then create a virtual environment by typing the following lines in a terminal:
+  ```
+    conda create -q -n slam python=3.8
+    conda activate slam
+  ``` 
+ This creates an empty conda virtual environment with Python 3.8 and basic packages
+  (e.g. pip, setuptools) and make it the default python environment.
+#### Installation
+1. Clone your personal slam fork in your current local directory
     ```# replace <username> by your Github login 
     git clone https://github.com/<username>/slam
     ```
-4. Perform a full slam installation in editable mode
+2. Perform a full slam installation in editable mode
    ```
-    pip install -e .['full']
+    pip install -e .['dev']
    ```
 5. Set upstream repository to keep your clone up-to-date
    ```
@@ -92,7 +85,7 @@ These dependencies, whether mandatory or optional, are managed automatically and
 ### Mandatory
 In order to work fine, slam requires:
 
-+ a Python 3.6 installation 
++ a Python 3.8 installation 
 
 + setuptools
 
@@ -110,23 +103,12 @@ In order to work fine, slam requires:
 
 
     
-### Optional
+### Distance computation (Optional)
 
-#### Distance computation
 
 tvb-gdist is recommended for geodesic distance/shortest paths computations
 
-#### Visualisation 
 
-visbrain is highly recommended for visualisation see (https://github.com/EtienneCmb/visbrain)
-
-#### Developers might install in addition the following packages for CI
-
-+  flake8, autopep8
-
-+ pytest, pytest-cov
-
-+ codecov
    
 
 ## Hall of fame

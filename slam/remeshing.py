@@ -1,8 +1,6 @@
-
-
-def spherical_interpolation_nearest_neigbhor(source_spherical_mesh,
-                                             target_spherical_mesh,
-                                             info_to_interpolate):
+def spherical_interpolation_nearest_neigbhor(
+    source_spherical_mesh, target_spherical_mesh, info_to_interpolate
+):
     """
     nearest neighbor interpolation between two spheres
     For each vertex of target_spherical_mesh, find the nearest one
@@ -23,8 +21,8 @@ def spherical_interpolation_nearest_neigbhor(source_spherical_mesh,
     # t0 = time.time()
 
     # the use of kdtree from trimesh is ~100x faster than the loop hereafter
-    distance, index = \
-        source_spherical_mesh.kdtree.query(target_spherical_mesh.vertices)
+    distance, index = source_spherical_mesh.kdtree.query(
+        target_spherical_mesh.vertices)
 
     # t1 = time.time()
     # source_vertex_number = source_spherical_mesh.vertices.shape[0]

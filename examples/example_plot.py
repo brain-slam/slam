@@ -22,42 +22,47 @@ import slam.io as sio
 
 ###############################################################################
 # loading an examplar mesh and corresponding texture
-mesh_file = '../examples/data/example_mesh.gii'
-texture_file = '../examples/data/example_texture.gii'
+mesh_file = "../examples/data/example_mesh.gii"
+texture_file = "../examples/data/example_texture.gii"
 mesh = sio.load_mesh(mesh_file)
 tex = sio.load_texture(texture_file)
 
 ###############################################################################
 # here is the range of values in the texture:
-print('[{a:2.3f}, {b:2.3f}]'.format(a=tex.min(), b=tex.max()))
+print("[{a:2.3f}, {b:2.3f}]".format(a=tex.min(), b=tex.max()))
 
 ###############################################################################
 # plot only the mesh geometry
-visb_sc = splt.visbrain_plot(mesh=mesh, caption='simple mesh')
+visb_sc = splt.visbrain_plot(mesh=mesh, caption="simple mesh")
 visb_sc.preview()
 
 ###############################################################################
 # plot the mesh with the curvature as a texture
-visb_sc = splt.visbrain_plot(mesh=mesh, tex=tex.darray[0],
-                             caption='with curvature',
-                             cblabel='curvature')
+visb_sc = splt.visbrain_plot(
+    mesh=mesh, tex=tex.darray[0], caption="with curvature", cblabel="curvature"
+)
 visb_sc.preview()
 
 ###############################################################################
 # change the colormap
-visb_sc2 = splt.visbrain_plot(mesh=mesh, tex=tex.darray[0],
-                              caption='change cmap', cblabel='curvature',
-                              cmap='hot')
+visb_sc2 = splt.visbrain_plot(
+    mesh=mesh, tex=tex.darray[0], caption="change cmap", cblabel="curvature", cmap="hot"
+)
 visb_sc2.preview()
 
 ###############################################################################
 # combine two plots in one single figure, allowing for sinchronization
-visb_sc = splt.visbrain_plot(mesh=mesh, tex=tex.darray[0],
-                             caption='with curvature',
-                             cblabel='curvature')
-visb_sc = splt.visbrain_plot(mesh=mesh, tex=tex.darray[0],
-                             caption='change cmap', cblabel='curvature',
-                             cmap='hot', visb_sc=visb_sc)
+visb_sc = splt.visbrain_plot(
+    mesh=mesh, tex=tex.darray[0], caption="with curvature", cblabel="curvature"
+)
+visb_sc = splt.visbrain_plot(
+    mesh=mesh,
+    tex=tex.darray[0],
+    caption="change cmap",
+    cblabel="curvature",
+    cmap="hot",
+    visb_sc=visb_sc,
+)
 visb_sc.preview()
 
 # save the 3D rendering figure

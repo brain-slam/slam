@@ -27,31 +27,31 @@ class TestDistortionMethods(unittest.TestCase):
 
         # tmp = sdst.angle_difference(mesh_a, mesh_b)
 
-        assert(mesh_a.vertices == mesh_a_save.vertices).all()
-        assert(mesh_a.faces == mesh_a_save.faces).all()
+        assert (mesh_a.vertices == mesh_a_save.vertices).all()
+        assert (mesh_a.faces == mesh_a_save.faces).all()
 
-        assert(mesh_b.vertices == mesh_b_save.vertices).all()
-        assert(mesh_b.faces == mesh_b_save.faces).all()
+        assert (mesh_b.vertices == mesh_b_save.vertices).all()
+        assert (mesh_b.faces == mesh_b_save.faces).all()
 
         # tmp = sdst.area_difference(mesh_a, mesh_b)
 
-        assert(mesh_a.vertices == mesh_a_save.vertices).all()
-        assert(mesh_a.faces == mesh_a_save.faces).all()
+        assert (mesh_a.vertices == mesh_a_save.vertices).all()
+        assert (mesh_a.faces == mesh_a_save.faces).all()
 
-        assert(mesh_b.vertices == mesh_b_save.vertices).all()
-        assert(mesh_b.faces == mesh_b_save.faces).all()
+        assert (mesh_b.vertices == mesh_b_save.vertices).all()
+        assert (mesh_b.faces == mesh_b_save.faces).all()
 
         # tmp = sdst.edge_length_difference(mesh_a, mesh_b)
 
-        assert(mesh_a.vertices == mesh_a_save.vertices).all()
-        assert(mesh_a.faces == mesh_a_save.faces).all()
+        assert (mesh_a.vertices == mesh_a_save.vertices).all()
+        assert (mesh_a.faces == mesh_a_save.faces).all()
 
-        assert(mesh_b.vertices == mesh_b_save.vertices).all()
-        assert(mesh_b.faces == mesh_b_save.faces).all()
+        assert (mesh_b.vertices == mesh_b_save.vertices).all()
+        assert (mesh_b.faces == mesh_b_save.faces).all()
 
     def test_correctness_area(self):
 
-        precisionA = .001
+        precisionA = 0.001
 
         n_sub = 5
 
@@ -64,11 +64,11 @@ class TestDistortionMethods(unittest.TestCase):
 
         area_diff_analytical = 4 * np.pi * 2 * 2 - 4 * np.pi * 1 * 1
 
-        assert(np.isclose(area_diff_estim, area_diff_analytical, precisionA))
+        assert np.isclose(area_diff_estim, area_diff_analytical, precisionA)
 
     def test_correctness_angle(self):
 
-        precisionA = .001
+        precisionA = 0.001
 
         n_sub = 5
 
@@ -81,8 +81,8 @@ class TestDistortionMethods(unittest.TestCase):
 
         angle_diff_analytical = 0
 
-        assert(np.isclose(angle_diff_estim, angle_diff_analytical, precisionA))
+        assert np.isclose(angle_diff_estim, angle_diff_analytical, precisionA)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

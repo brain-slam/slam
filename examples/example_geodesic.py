@@ -20,11 +20,12 @@ import slam.plot as splt
 import slam.io as sio
 import slam.geodesics as sgeo
 import numpy as np
+
 # import trimesh
 
 ###############################################################################
 # Mesh importation
-mesh = sio.load_mesh('../examples/data/example_mesh.gii')
+mesh = sio.load_mesh("../examples/data/example_mesh.gii")
 
 ###############################################################################
 # Getting the vertex index in specified geo_distance of vert
@@ -39,9 +40,9 @@ print(area_geodist_vi)
 ###############################################################################
 # Visualization
 
-visb_sc = splt.visbrain_plot(mesh=mesh, tex=geo_distance,
-                             caption='geodesic distance',
-                             cblabel='distance')
+visb_sc = splt.visbrain_plot(
+    mesh=mesh, tex=geo_distance, caption="geodesic distance", cblabel="distance"
+)
 visb_sc.preview()
 
 ###############################################################################
@@ -49,10 +50,12 @@ visb_sc.preview()
 
 area_geodist = sgeo.local_gdist_matrix(mesh, max_geodist)
 
-visb_sc2 = splt.visbrain_plot(mesh=mesh,
-                              tex=area_geodist[0].toarray().squeeze(),
-                              caption='local geodesic distance',
-                              cblabel='distance')
+visb_sc2 = splt.visbrain_plot(
+    mesh=mesh,
+    tex=area_geodist[0].toarray().squeeze(),
+    caption="local geodesic distance",
+    cblabel="distance",
+)
 visb_sc2.preview()
 ###############################################################################
 # Get the vertex index

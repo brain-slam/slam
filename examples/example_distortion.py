@@ -25,17 +25,17 @@ import numpy as np
 ###############################################################################
 # Loading an example mesh and a smoothed copy of it
 
-mesh = sio.load_mesh('../examples/data/example_mesh.gii')
+mesh = sio.load_mesh("../examples/data/example_mesh.gii")
 mesh_s = sdg.laplacian_mesh_smoothing(mesh, nb_iter=50, dt=0.1)
 
 ##########################################################################
 # Visualization of the original mesh
-visb_sc = splt.visbrain_plot(mesh=mesh, caption='original mesh')
+visb_sc = splt.visbrain_plot(mesh=mesh, caption="original mesh")
 visb_sc.preview()
 
 ###############################################################################
 # Visualization of the smoothed mesh
-visb_sc = splt.visbrain_plot(mesh=mesh_s, caption='smoothed mesh')
+visb_sc = splt.visbrain_plot(mesh=mesh_s, caption="smoothed mesh")
 visb_sc.preview()
 
 ###############################################################################

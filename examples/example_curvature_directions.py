@@ -25,6 +25,7 @@ import slam.curvature as scurv
 ###############################################################################
 # Visualization of vector fields with matplotlib
 
+
 def visualize(mesh, vector_field, colors=None, params=None):
     """
     Visualize a mesh and a vector field over it
@@ -44,22 +45,23 @@ def visualize(mesh, vector_field, colors=None, params=None):
 
     fig = plt.figure()
     ax = Axes3D(fig)
-    ax.plot_trisurf(mesh.vertices[:, 0], mesh.vertices[:, 1],
-                    mesh.vertices[:, 2], triangles=mesh.faces, shade=True)
-    plt.quiver(mesh.vertices[:,
-               0],
-               mesh.vertices[:,
-               1],
-               mesh.vertices[:,
-               2],
-               vector_field[:,
-               0],
-               vector_field[:,
-               1],
-               vector_field[:,
-               2],
-               length=params[0],
-               colors=colors)
+    ax.plot_trisurf(
+        mesh.vertices[:, 0],
+        mesh.vertices[:, 1],
+        mesh.vertices[:, 2],
+        triangles=mesh.faces,
+        shade=True,
+    )
+    plt.quiver(
+        mesh.vertices[:, 0],
+        mesh.vertices[:, 1],
+        mesh.vertices[:, 2],
+        vector_field[:, 0],
+        vector_field[:, 1],
+        vector_field[:, 2],
+        length=params[0],
+        colors=colors,
+    )
 
     return fig
 
@@ -73,21 +75,21 @@ equilateral = True
 K = [1, 0.5]
 quadric_mesh = sgps.generate_quadric(
     K,
-    nstep=[
-        int(nstep),
-        int(nstep)],
+    nstep=[int(nstep), int(nstep)],
     equilateral=equilateral,
     ax=1,
     ay=1,
     random_sampling=False,
     ratio=0.2,
-    random_distribution_type='gaussian')
+    random_distribution_type="gaussian",
+)
 
 ###############################################################################
 # Compute principal directions of curvature
 
 PrincipalCurvatures, PrincipalDir1, PrincipalDir2 = scurv.curvatures_and_derivatives(
-    quadric_mesh)
+    quadric_mesh
+)
 
 ###############################################################################
 # Visualization
