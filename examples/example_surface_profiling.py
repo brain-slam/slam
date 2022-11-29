@@ -32,7 +32,8 @@ norm0 = mesh.vertex_normals[vert_index]
 
 ###############################################################################
 # Set the parameters for surface profiling
-# initial direction of rotation, rotation angle, length and number of sampling steps
+# initial direction of rotation, rotation angle, length and number of
+# sampling steps
 init_rot_dir = np.array([1, 1, 1]) - vert0
 rot_angle = 10
 r_step = 0.1

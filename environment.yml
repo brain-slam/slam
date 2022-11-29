@@ -1,0 +1,9 @@
+name: base
+
+dependencies:
+  - pip:
+    - numpy
+    - scipy
+    - trimesh
+    - nibabel>=2.1
+    - networkx
