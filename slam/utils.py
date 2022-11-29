@@ -29,8 +29,7 @@ def dotprod(vec1, vec2):
     :param vec2:
     :return:
     """
-    return np.dot(vec1, vec2) / \
-        (np.sqrt(np.dot(vec1, vec1) * np.dot(vec2, vec2)))
+    return np.dot(vec1, vec2) / (np.sqrt(np.dot(vec1, vec1) * np.dot(vec2, vec2)))
 
 
 def compare_analytic_estimated_directions(
@@ -46,11 +45,9 @@ def compare_analytic_estimated_directions(
     angular_error = np.zeros((n,))
     dotprods = np.zeros((n,))
     for i in range(n):
-        angle0 = angle(analytic_directions[i, :],
-                       estimated_directions[i, :], abs)
+        angle0 = angle(analytic_directions[i, :], estimated_directions[i, :], abs)
         angular_error[i] = angle0
-        dotprods[i] = dotprod(analytic_directions[i, :],
-                              estimated_directions[i, :])
+        dotprods[i] = dotprod(analytic_directions[i, :], estimated_directions[i, :])
 
     return angular_error, dotprods
 
@@ -69,17 +66,9 @@ def compare_analytic_estimated_directions_min(
     angular_error = np.zeros((n,))
     dotprods = np.zeros((n, 2))
     for i in range(n):
-        angle0 = angle(analytic_directions[i, :],
-                       estimated_directions[i, :, 0])
-        angle1 = angle(analytic_directions[i, :],
-                       estimated_directions[i, :, 1])
-        angular_error[i] = min(
-            np.mod(
-                angle0,
-                np.pi / 4),
-            np.mod(
-                angle1,
-                np.pi / 4))
+        angle0 = angle(analytic_directions[i, :], estimated_directions[i, :, 0])
+        angle1 = angle(analytic_directions[i, :], estimated_directions[i, :, 1])
+        angular_error[i] = min(np.mod(angle0, np.pi / 4), np.mod(angle1, np.pi / 4))
         dotprods[i, 0] = dotprod(
             analytic_directions[i, :], estimated_directions[i, :, 0]
         )
