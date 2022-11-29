@@ -30,7 +30,6 @@ def spangy_eigenpairs(mesh,nb_eig):
     return eigVal, eigVects, lap_b.tocsr()
 
 
-
 def spangy_spectrum(f2analyse,MassMatrix,eigVec,eValues):
     """
     
@@ -98,29 +97,29 @@ def spangy_local_dominance_map(coefficients,f2analyse,nlevels,group_indices,eigV
         recomposition of f2analyse in each frequency band
     """
     N = np.size(coefficients)
-    frecomposed = np.zeros((nlevels), dtype = 'object')
-
+    #frecomposed = np.zeros((len(f2analyse), nlevels), dtype='object')
+    frecomposed = np.zeros((len(f2analyse), nlevels-1), dtype='object')
+    coefficients = np.flip(coefficients, 0)
     #band by band recomposition
-    for i in range(0, nlevels):
-        levels_i = np.arange(group_indices[i,0], group_indices[i,1]+1, 1)
-        f_ii = eigVec[:,N-levels_i-1]*coefficients[levels_i-1]
-        frecomposed[i] = f_ii
-    frecomposed = np.concatenate((frecomposed[:nlevels]), axis=1) # np.array (number of vertices, number of eigenpairs) --> provides f2analyse spectrum per vertex
-        
+    for i in range(nlevels-1):
+        levels_i = np.arange(group_indices[i+1, 0], group_indices[i+1, 1]+1) # levels_ii: number of frequency band wihin the compact Band i
+        f_ii = np.dot(eigVec[:, N-levels_i-1], coefficients[levels_i].T) # np.array((number of vertices, number of levels_ii))
+        frecomposed[:,i] = f_ii
+
     #locally dominant band
     loc_dom_band = np.zeros((f2analyse.shape))
 
     diff_recomposed = frecomposed[:,0]
-    diff_recomposed.shape = (frecomposed[:,0].size, 1)
-    diff_recomposed = np.append(diff_recomposed, np.diff(frecomposed, axis=1), axis=1).T
+    # diff_recomposed.shape = (frecomposed[:,0].size, 1)
+    diff_recomposed = np.concatenate((np.expand_dims(diff_recomposed, axis=1), np.diff(frecomposed, axis=1)), axis=1)
 
     # sulci
-    idx = np.argmin(diff_recomposed, axis=0)
+    idx = np.argmin(diff_recomposed, axis=1)
     #loc_dom_band[f2analyse<=0] = idx[(f2analyse<=0)[0]]*(-1)
     loc_dom_band[f2analyse<=0] = idx[f2analyse<=0]*(-1)
 
     # gyri
-    idx = np.argmax(diff_recomposed, axis=0)
+    idx = np.argmax(diff_recomposed, axis=1)
     #loc_dom_band[f2analyse>0] = idx[(f2analyse>0)[0]]
     loc_dom_band[f2analyse>0] = idx[f2analyse>0]
 
