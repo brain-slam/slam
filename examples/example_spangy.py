@@ -52,7 +52,10 @@ levels=len(group_indices)
 
 ### SPECTRAL BANDS
 loc_dom_band, frecomposed = spgy.spangy_local_dominance_map(coefficients,mean_curv,levels,group_indices,eigVects)
-import pdb; pdb.set_trace()
+
+#save loc_dom_band and frecomposed to disk as txt
+np.savetxt("../spangy/Data/mar0003_recons_nobias_cortex_smooth_hemil.bouchee.loc_dom_band_python.txt",loc_dom_band)
+np.savetxt("../spangy/Data/mar0003_recons_nobias_cortex_smooth_hemil.bouchee.frecomposed_python.txt",frecomposed)
 
 ## Convert previous MATLAB code to Python
 # a. Whole brain parameters

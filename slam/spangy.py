@@ -99,7 +99,8 @@ def spangy_local_dominance_map(coefficients,f2analyse,nlevels,group_indices,eigV
     N = np.size(coefficients)
     #frecomposed = np.zeros((len(f2analyse), nlevels), dtype='object')
     frecomposed = np.zeros((len(f2analyse), nlevels-1), dtype='object')
-    coefficients = np.flip(coefficients, 0)
+    eigVec = np.flip(eigVec,1)
+    # coefficients = np.flip(coefficients, 0)
     #band by band recomposition
     for i in range(nlevels-1):
         levels_i = np.arange(group_indices[i+1, 0], group_indices[i+1, 1]+1) # levels_ii: number of frequency band wihin the compact Band i
@@ -112,15 +113,13 @@ def spangy_local_dominance_map(coefficients,f2analyse,nlevels,group_indices,eigV
     diff_recomposed = frecomposed[:,0]
     # diff_recomposed.shape = (frecomposed[:,0].size, 1)
     diff_recomposed = np.concatenate((np.expand_dims(diff_recomposed, axis=1), np.diff(frecomposed, axis=1)), axis=1)
-
     # sulci
+
     idx = np.argmin(diff_recomposed, axis=1)
-    #loc_dom_band[f2analyse<=0] = idx[(f2analyse<=0)[0]]*(-1)
     loc_dom_band[f2analyse<=0] = idx[f2analyse<=0]*(-1)
 
     # gyri
     idx = np.argmax(diff_recomposed, axis=1)
-    #loc_dom_band[f2analyse>0] = idx[(f2analyse>0)[0]]
     loc_dom_band[f2analyse>0] = idx[f2analyse>0]
 
     return loc_dom_band, frecomposed
