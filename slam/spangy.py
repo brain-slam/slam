@@ -75,3 +75,53 @@ def spangy_spectrum(f2analyse,MassMatrix,eigVec,eValues):
     grouped_spectrum[-1] = np.sum(coefficients[group_indices[-1,0]:group_indices[-1,1]]**2)
     
     return grouped_spectrum,group_indices,coefficients
+
+def spangy_local_dominance_map(coefficients,f2analyse,nlevels,group_indices,eigVec):
+    """
+    Parameters
+    ----------
+    coefficients : Array of floats
+        Fourier coefficients of the input function f2analyse
+    f2analyse : Array of floats
+        function to analyze (mean curvature)
+    nlevels : Array of ints 
+        number of spectral bands
+    group_indices : Array of ints 
+        indices of spectral bands
+    eigVec : Array of floats
+        eigenvectors (reversed order for computation and memory reasons)
+    
+    OUTPUTS
+    loc_dom_band : Array of floats
+        texture with the band contributing the most to f2analyse
+    frecomposed : Array of floats
+        recomposition of f2analyse in each frequency band
+    """
+    N = np.size(coefficients)
+    frecomposed = np.zeros((nlevels), dtype = 'object')
+
+    #band by band recomposition
+    for i in range(0, nlevels):
+        levels_i = np.arange(group_indices[i,0], group_indices[i,1]+1, 1)
+        f_ii = eigVec[:,N-levels_i-1]*coefficients[levels_i-1]
+        frecomposed[i] = f_ii
+    frecomposed = np.concatenate((frecomposed[:nlevels]), axis=1) # np.array (number of vertices, number of eigenpairs) --> provides f2analyse spectrum per vertex
+        
+    #locally dominant band
+    loc_dom_band = np.zeros((f2analyse.shape))
+
+    diff_recomposed = frecomposed[:,0]
+    diff_recomposed.shape = (frecomposed[:,0].size, 1)
+    diff_recomposed = np.append(diff_recomposed, np.diff(frecomposed, axis=1), axis=1).T
+
+    # sulci
+    idx = np.argmin(diff_recomposed, axis=0)
+    #loc_dom_band[f2analyse<=0] = idx[(f2analyse<=0)[0]]*(-1)
+    loc_dom_band[f2analyse<=0] = idx[f2analyse<=0]*(-1)
+
+    # gyri
+    idx = np.argmax(diff_recomposed, axis=0)
+    #loc_dom_band[f2analyse>0] = idx[(f2analyse>0)[0]]
+    loc_dom_band[f2analyse>0] = idx[f2analyse>0]
+
+    return loc_dom_band, frecomposed
