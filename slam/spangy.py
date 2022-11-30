@@ -34,7 +34,6 @@ def eigenpairs(mesh, nb_eig):
 
 def spectrum(f2analyse, MassMatrix, eigVec, eValues):
     """
-
     Parameters
     ----------
     f2analyse : Array of floats
@@ -56,11 +55,9 @@ def spectrum(f2analyse, MassMatrix, eigVec, eValues):
     """
 
     coefficients = f2analyse.dot(MassMatrix.transpose().dot(eigVec))
-
     nlevels = int(0.5 * np.log(eValues[-1] / eValues[1]) / np.log(2))
     grouped_spectrum = np.zeros((nlevels + 2, 1))
     grouped_spectrum[0] = coefficients[0]**2
-
     group_indices = np.zeros((nlevels + 2, 2), dtype=int)
     group_indices[0, :] = [0, 0]
 
@@ -83,8 +80,8 @@ def spectrum(f2analyse, MassMatrix, eigVec, eValues):
     return grouped_spectrum, group_indices, coefficients
 
 
-def local_dominance_map(coefficients, f2analyse, nlevels, group_indices,
-                        eigVec):
+def local_dominance_map(
+        coefficients, f2analyse, nlevels, group_indices, eigVec):
     """
     Parameters
     ----------
