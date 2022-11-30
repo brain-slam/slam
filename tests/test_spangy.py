@@ -2,9 +2,11 @@
 Unit test for the spangy module
 TODO: everything
 """
-
 import unittest
 import trimesh
+import numpy as np
+import slam.spangy as spgy
+import slam.differential_geometry as sdg
 
 
 def make_sphere():
@@ -27,29 +29,18 @@ class TestSpangy(unittest.TestCase):
         code.
         which we assume is correct.
         """
-        """
         mesh = self.sphere_test.copy()
-        # Save mesh to disk in .mesh format
-        sio.write_mesh(mesh, '../spangy/Data/test_spangy_eigenpairs.gii')
+
         # Compute the eigenpairs, for N = 20
         N = 20
-        eigVal, eigVects, lap_b = spgy.spangy_eigenpairs(mesh, N)
+        eigVal, eigVects, _ = spgy.eigenpairs(mesh, N)
 
-        # Assert the results are correct
-        eigVal_corr = [1.33235160658447e-16,
-                       2.18647331318054,
-                       2.18647331318055,
-                       2.18647331318055,
-                       7.16750557270010,
-                       7.16750557270011,
-                       7.16750558409602,
-                       7.16750558409602,
-                       16.1774872478754,
-                       16.1774872478754]
-        print(eigVal)
-        assert np.isclose(eigVal, eigVal_corr, self.precision).all()
-        """
-        assert 2 == 2
+        # Compute the mesh laplacian outside
+        lap, lap_b = sdg.compute_mesh_laplacian(mesh, lap_type='fem')
+        assert np.allclose(lap @ eigVects - eigVal * (lap_b @ eigVects),
+               np.zeros((mesh.vertices.shape[0], N)), atol=self.precision)
+
+        # TODO: some extra tests could be added
 
     def test_spangy_spectrum(self):
         """
