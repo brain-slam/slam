@@ -13,12 +13,10 @@ def load_mesh(gifti_file):
     """
     g = nb.load(gifti_file)
     coords, faces = (
-        g.get_arrays_from_intent(nb.nifti1.intent_codes["NIFTI_INTENT_POINTSET"])[
-            0
-        ].data,
-        g.get_arrays_from_intent(nb.nifti1.intent_codes["NIFTI_INTENT_TRIANGLE"])[
-            0
-        ].data,
+        g.get_arrays_from_intent(
+            nb.nifti1.intent_codes["NIFTI_INTENT_POINTSET"])[0].data,
+        g.get_arrays_from_intent(
+            nb.nifti1.intent_codes["NIFTI_INTENT_TRIANGLE"])[0].data,
     )
     metadata = g.meta.metadata
     metadata["filename"] = gifti_file
