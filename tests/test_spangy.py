@@ -38,7 +38,8 @@ class TestSpangy(unittest.TestCase):
         # Compute the mesh laplacian outside
         lap, lap_b = sdg.compute_mesh_laplacian(mesh, lap_type='fem')
         assert np.allclose(lap @ eigVects - eigVal * (lap_b @ eigVects),
-               np.zeros((mesh.vertices.shape[0], N)), atol=self.precision)
+                           np.zeros((mesh.vertices.shape[0], N)
+                                    ), atol=self.precision)
 
         # TODO: some extra tests could be added
 
