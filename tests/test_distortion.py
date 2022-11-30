@@ -7,7 +7,7 @@ import trimesh
 
 
 def make_sphere(radius=1):
-    """ Create a sphere"""
+    """Create a sphere"""
     mesh_a = trimesh.creation.icosphere(subdivisions=1, radius=radius)
     return mesh_a
 

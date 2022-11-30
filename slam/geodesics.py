@@ -18,15 +18,12 @@ def shortest_path(mesh, start_idx, end_idx):
     # alternative method for weighted graph creation
     # you can also create the graph with from_edgelist and
     # a list comprehension, which is like 1.5x faster
+
     ga = nx.from_edgelist([(e[0], e[1], {"length": L})
                            for e, L in zip(edges, length)])
 
     # run the shortest path query using length for edge weight
-    path = nx.shortest_path(
-        ga,
-        source=start_idx,
-        target=end_idx,
-        weight="length")
+    path = nx.shortest_path(ga, source=start_idx, target=end_idx, weight="length")
 
     return path
 
