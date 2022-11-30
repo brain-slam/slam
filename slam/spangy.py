@@ -34,7 +34,12 @@ import slam.differential_geometry as sdg
 
 
 def eigenpairs(mesh, nb_eig):
-    """
+    """Compute nb_eig eigen pairs (eigen value and associated eigenvector) of
+    the Laplace-Beltrami operator defined on the input mesh
+
+    The nb_eig smallest eigen pairs of the spectrum of the discrete
+    Laplace-Beltrami operator.
+
     Parameters
     ----------
     mesh : Base.Trimesh
@@ -43,15 +48,22 @@ def eigenpairs(mesh, nb_eig):
         number of eigenpairs to compute.
     Returns
     -------
-    eigVal : Array of float
+    eig_val : Array of float
         eigenvalues computed.
-    eigVects : Array of float
+    eig_vec : Array of float
         eigenvectors computed.
+    Notes
+    -----
+    The nb_eig smallest of the Laplacian spectrum are computed using the
+    shift-invert method of eighsh as LAPACK library is far more efficient at
+    finding the largest eigenvalues of a matrix
+    (see https://docs.scipy.org/doc/scipy/tutorial/arpack.html) for complete
+    explanations
     """
     lap, lap_b = sdg.compute_mesh_laplacian(mesh, lap_type='fem')
-    eigVal, eigVects = eigsh(lap.tocsr(), nb_eig, M=lap_b.tocsr(),
+    eig_val, eig_vec = eigsh(lap.tocsr(), nb_eig, M=lap_b.tocsr(),
                              sigma=1e-6, which='LM')
-    return eigVal, eigVects, lap_b.tocsr()
+    return eig_val, eig_vec, lap_b.tocsr()
 
 
 def spectrum(f2analyse, MassMatrix, eigVec, eValues):
