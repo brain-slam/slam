@@ -3,9 +3,6 @@
 
 ===================================
 Example of Spectral Analysis of Gyrification (SPANGY) decomposition
-D. Germanaud*, J. Lefevre*,R. Toro, C. Fischer, J.Dubois, L. Hertz-Pannier,
-J.F. Mangin, Larger is twistier:Spectral Analysis of Gyrification (SPANGY)
-applied to adult brain size polymorphism,Neuroimage, 63 (3), 1257-1272, 2012.
 ===================================
 """
 import slam.io as sio
@@ -17,6 +14,11 @@ import time
 import slam.plot as splt
 import matplotlib.pyplot as plt
 import slam.spangy as spgy
+
+## D. Germanaud*, J. Lefevre*,R. Toro, C. Fischer, J.Dubois, L. Hertz-Pannier,
+## J.F. Mangin, Larger is twistier:Spectral Analysis of Gyrification (SPANGY)
+## applied to adult brain size polymorphism,Neuroimage, 63 (3), 1257-1272, 2012.
+
 
 ## LOAD MESH
 mesh = sio.load_mesh("../examples/data/example_mesh.gii")
