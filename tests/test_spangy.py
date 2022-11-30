@@ -55,7 +55,7 @@ class TestSpangy(unittest.TestCase):
         """
         Test that the spectrum generation is correct, for a simple case.
 
-        We compare the obtained results to the ones obtained with the 
+        We compare the obtained results to the ones obtained with the
         matlab code.
         which we assume is correct.
         """
@@ -66,7 +66,7 @@ class TestSpangy(unittest.TestCase):
         """
         Test the output of the local dominance maps for a simple case.
 
-        We compare the obtained results to the ones obtained with the 
+        We compare the obtained results to the ones obtained with the
         matlab code.
         which we assume is correct.
         """

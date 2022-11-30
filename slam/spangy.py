@@ -1,14 +1,14 @@
 """
 Spectral Analysis of Gyrification
-This module implements the Spectral Analysis described in D. Germanaud*, J. Lefevre*,
-R. Toro, C. Fischer, J.Dubois, L. Hertz-Pannier, J.F. Mangin, Larger is twistier:
-Spectral Analysis of Gyrification (SPANGY) applied to adult brain size polymorphism,
+This module implements the Spectral Analysis described in D. Germanaud*, J.
+Lefevre*, R. Toro, C. Fischer, J.Dubois, L. Hertz-Pannier, J.F. Mangin,
+Larger is twistier: Spectral Analysis of Gyrification (SPANGY) applied
+to adult brain size polymorphism,
 Neuroimage, 63 (3), 1257-1272, 2012.
 """
 
 import numpy as np
 from scipy.sparse.linalg import eigsh
-
 import slam.differential_geometry as sdg
 
 
@@ -30,7 +30,6 @@ def eigenpairs(mesh, nb_eig):
     eigVal, eigVects = eigsh(lap.tocsr(), nb_eig, M=lap_b.tocsr(),
                              sigma=1e-6, which='LM')
     return eigVal, eigVects, lap_b.tocsr()
-
 
 
 def spectrum(f2analyse, MassMatrix, eigVec, eValues):
@@ -55,7 +54,7 @@ def spectrum(f2analyse, MassMatrix, eigVec, eValues):
     coefficients : Array of floats
         Fourier coefficients of the input function f2analyse.
     """
-    
+
     coefficients = f2analyse.dot(MassMatrix.transpose().dot(eigVec))
 
     nlevels = int(0.5 * np.log(eValues[-1] / eValues[1]) / np.log(2))
@@ -72,21 +71,20 @@ def spectrum(f2analyse, MassMatrix, eigVec, eValues):
         group_indices[k + 1, 1] = indice[0][-1]
         grouped_spectrum[k +
                          1] = np.sum(coefficients[group_indices[k +
-                                                                1, 0]:group_indices[k +
-                                                                                    1, 1] +
-                                                  1]**2)
+                                                  1, 0]:group_indices[k +
+                                                  1, 1] + 1]**2)
 
     group_indices[-1, 0] = group_indices[-2, 1] + 1
     group_indices[-1, 1] = eValues.size - 1
-    grouped_spectrum[-1] = np.sum(coefficients[group_indices[-1, 0]:group_indices[-1, 1]]**2)
-
+    grouped_spectrum[-1] = np.sum(coefficients[group_indices[-1,
+                                               0]:group_indices[-1,
+                                               1]]**2)
 
     return grouped_spectrum, group_indices, coefficients
 
 
-
-def local_dominance_map(
-        coefficients, f2analyse, nlevels, group_indices, eigVec):
+def local_dominance_map(coefficients, f2analyse, nlevels, group_indices,
+                        eigVec):
     """
     Parameters
     ----------
