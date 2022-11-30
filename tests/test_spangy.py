@@ -6,6 +6,7 @@ TODO: everything
 import unittest
 import trimesh
 
+
 def make_sphere():
     """ Create a sphere"""
     mesh_a = trimesh.creation.icosphere(subdivisions=1, radius=1.0)
@@ -22,7 +23,8 @@ class TestSpangy(unittest.TestCase):
         """
         Test that the eigenvalues generation is correct, for a simple case.
 
-        We compare the obtained results to the ones obtained with the matlab code.
+        We compare the obtained results to the ones obtained with the matlab
+        code.
         which we assume is correct.
         """
         """
@@ -53,7 +55,8 @@ class TestSpangy(unittest.TestCase):
         """
         Test that the spectrum generation is correct, for a simple case.
 
-        We compare the obtained results to the ones obtained with the matlab code.
+        We compare the obtained results to the ones obtained with the 
+        matlab code.
         which we assume is correct.
         """
         print('nyi')
@@ -63,7 +66,8 @@ class TestSpangy(unittest.TestCase):
         """
         Test the output of the local dominance maps for a simple case.
 
-        We compare the obtained results to the ones obtained with the matlab code.
+        We compare the obtained results to the ones obtained with the 
+        matlab code.
         which we assume is correct.
         """
         print('nyi')
