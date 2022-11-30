@@ -88,16 +88,15 @@ def spectrum(f2analyse, MassMatrix, eigVec, eValues):
         group_indices[k + 1, 0] = indice[0][0]
         indice = np.where(eValues <= eValues[1] * 2**(2 * (k + 1)))
         group_indices[k + 1, 1] = indice[0][-1]
-        grouped_spectrum[k +
-                         1] = np.sum(coefficients[group_indices[k +
-                                                  1, 0]:group_indices[k +
-                                                  1, 1] + 1]**2)
+        grouped_spectrum[k + 1] = \
+            np.sum(coefficients[
+                   group_indices[k + 1, 0]:group_indices[k + 1, 1] + 1]**2)
 
     group_indices[-1, 0] = group_indices[-2, 1] + 1
     group_indices[-1, 1] = eValues.size - 1
-    grouped_spectrum[-1] = np.sum(coefficients[group_indices[-1,
-                                               0]:group_indices[-1,
-                                               1]]**2)
+    grouped_spectrum[-1] = \
+        np.sum(coefficients[
+               group_indices[-1, 0]:group_indices[-1, 1]]**2)
 
     return grouped_spectrum, group_indices, coefficients
 

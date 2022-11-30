@@ -7,8 +7,8 @@ import slam.topology as stop
 
 
 def generate_hinge(
-    n_hinge=3, n_step=50, min_coord=-1 / 5, max_coord=1 / 5, regularity="regular"
-):
+    n_hinge=3, n_step=50,
+        min_coord=-1 / 5, max_coord=1 / 5, regularity="regular"):
     """
     Generate a hinge shaped surface
     :param n_hinge:
@@ -131,9 +131,8 @@ def adaptive_sampling(ymax, K, step):
     """
     # Curvilinear abscisse
     def f(x):
-        return (2 * K * x * np.sqrt((2 * K * x) ** 2 + 1) + np.arcsinh(2 * K * x)) / (
-            4 * K
-        )
+        return (2 * K * x * np.sqrt((2 * K * x) ** 2 + 1) +
+                np.arcsinh(2 * K * x)) / (4 * K)
 
     # Step 1
     curve_length = f(ymax)
