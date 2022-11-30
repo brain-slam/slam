@@ -203,7 +203,8 @@ def moebius_transformation(a, b, c, d, plane_mesh):
     :param plane_mesh: trimesh mesh
     :return:
     """
-    array_complex = plane_mesh.vertices[:, 0] + 1.0j * plane_mesh.vertices[:, 1]
+    array_complex = plane_mesh.vertices[:,
+                                        0] + 1.0j * plane_mesh.vertices[:, 1]
     numerator = (a * array_complex) + b
     denominator = (c * array_complex) + d
 
@@ -266,7 +267,8 @@ def inverse_stereo_projection(plane_mesh, h=None, invert=True):
         h = vertices[0, 2]
     for ind, vert in enumerate(vertices):
         denom = (1 - h) ** 2 + vert[0] ** 2 + vert[1] ** 2
-        vertices[ind, 2] = (-((1 - h) ** 2) + vert[0] ** 2 + vert[1] ** 2) / denom
+        vertices[ind, 2] = (-((1 - h) ** 2) + vert[0]
+                            ** 2 + vert[1] ** 2) / denom
         vertices[ind, 1] = 2 * (1 - h) * vert[1] / denom
         vertices[ind, 0] = 2 * (1 - h) * vert[0] / denom
 
