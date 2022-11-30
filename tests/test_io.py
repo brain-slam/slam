@@ -9,7 +9,7 @@ import slam.io as sio
 
 
 def make_sphere_a():
-    """ Create a sphere"""
+    """Create a sphere"""
     mesh_a = trimesh.creation.icosphere(subdivisions=1, radius=1.0)
     return mesh_a
 
@@ -23,7 +23,7 @@ class TestIOMethods(unittest.TestCase):
         mesh_a = self.sphere_A.copy()
         mesh_a_save = self.sphere_A.copy()
 
-        fo = tempfile.NamedTemporaryFile(suffix='.gii')
+        fo = tempfile.NamedTemporaryFile(suffix=".gii")
 
         sio.write_mesh(mesh_a, fo.name)
 

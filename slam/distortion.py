@@ -12,17 +12,17 @@ def angle_difference(mesh1, mesh2):
 
 def area_difference(mesh1, mesh2):
     """
-        Compare_mesh_angle
+    Compare_mesh_angle
 
-        Difference between the faces.
+    Difference between the faces.
 
-        :param mesh1
-        :type trimesh
+    :param mesh1
+    :type trimesh
 
-        :param mesh2
-        :type trimesh
+    :param mesh2
+    :type trimesh
 
-        :return
+    :return
     """
 
     return mesh1.area_faces - mesh2.area_faces

@@ -17,7 +17,10 @@ setup(
     license="MIT",
     python_requires=">=3.6",  # enforce Python 3.6 as minimum
     install_requires=BASE_REQUIREMENTS,
-    extras_require={"full": DIST, "dev": DIST + TEST_REQUIREMENTS,},
+    extras_require={
+        "full": DIST,
+        "dev": DIST + TEST_REQUIREMENTS,
+    },
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

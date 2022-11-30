@@ -17,13 +17,11 @@ def boundary_angles(boundary, vertices_coord):
     # pp = coordinates of consecutive vertices, including last-to-first to
     # close the path
     pp = np.zeros((len(boundary), 3))
-    pp[:-1, :] = vertices_coord[boundary[:-1], :] - \
-        vertices_coord[boundary[1:], :]
-    pp[-1, :] = vertices_coord[boundary[-1], :] - \
-        vertices_coord[boundary[0], :]
-    norm = np.sqrt(np.dot(pp ** 2, [1] * pp.shape[1]))
+    pp[:-1, :] = vertices_coord[boundary[:-1], :] - vertices_coord[boundary[1:], :]
+    pp[-1, :] = vertices_coord[boundary[-1], :] - vertices_coord[boundary[0], :]
+    norm = np.sqrt(np.dot(pp**2, [1] * pp.shape[1]))
     # tile reciprocal of norm
-    i_norm = norm ** -1
+    i_norm = norm**-1
     tiled = np.tile(i_norm, (pp.shape[1], 1)).T
     # multiply by reciprocal of norm
     u_pp = pp * tiled
@@ -116,8 +114,7 @@ def close_mesh(mesh, boundary_in=None):
                 elif ind_m == lb:
                     add_faces = [bound[ind_m], bound[0], bound[ind_m - 1]]
                 else:
-                    add_faces = [bound[ind_m],
-                                 bound[ind_m + 1], bound[ind_m - 1]]
+                    add_faces = [bound[ind_m], bound[ind_m + 1], bound[ind_m - 1]]
                 nb_faces = 1
 
                 K1 = ismember(faces[boundIndsF, :], add_faces[0])
@@ -153,8 +150,7 @@ def close_mesh(mesh, boundary_in=None):
                         [bound[ind_m], l_verts, bound[ind_m - 1]],
                     ]
                 else:
-                    tri_verts = [bound[ind_m],
-                                 bound[ind_m + 1], bound[ind_m - 1]]
+                    tri_verts = [bound[ind_m], bound[ind_m + 1], bound[ind_m - 1]]
                     add_faces = [
                         [bound[ind_m], bound[ind_m + 1], l_verts],
                         [bound[ind_m], l_verts, bound[ind_m - 1]],
@@ -165,11 +161,9 @@ def close_mesh(mesh, boundary_in=None):
                     [add_verts, r] = create_vertex(vertices[tri_verts, :])
                 else:  # bound_ang>135
                     # print('big angle!')
-                    [add_verts, r] = create_vertex(
-                        vertices[tri_verts, :], r=r_min)
+                    [add_verts, r] = create_vertex(vertices[tri_verts, :], r=r_min)
                 comp_faces = list(
-                    set(np.unique(faces[boundIndsF, :])
-                        ).difference(set(tri_verts))
+                    set(np.unique(faces[boundIndsF, :])).difference(set(tri_verts))
                 )
                 comp_verts = vertices[comp_faces, :]
                 dist_comp_verts = comp_verts - np.tile(
@@ -179,7 +173,7 @@ def close_mesh(mesh, boundary_in=None):
                 testing if the created vertex is not too close to another
                 existing vertex
                 """
-                if min(np.sum(dist_comp_verts ** 2, 1) - r_min ** 2) < 0:
+                if min(np.sum(dist_comp_verts**2, 1) - r_min**2) < 0:
                     admissible = False
                     bound_ang[ind_m] = 0  # => close with one single face
 
@@ -194,8 +188,7 @@ def close_mesh(mesh, boundary_in=None):
                     """
                     norm_add_faces = np.zeros(3)
                     if nb_faces > 1:
-                        pp = vertices[add_faces[0][1], :] - \
-                            vertices[add_faces[0][0], :]
+                        pp = vertices[add_faces[0][1], :] - vertices[add_faces[0][0], :]
                         qq = add_verts - vertices[add_faces[0][0], :]
                     else:
                         pp = vertices[add_faces[1], :]
@@ -205,12 +198,11 @@ def close_mesh(mesh, boundary_in=None):
                     norm_add_faces[0] = pp[1] * qq[2] - pp[2] * qq[1]
                     norm_add_faces[1] = pp[2] * qq[0] - pp[0] * qq[2]
                     norm_add_faces[2] = pp[0] * qq[1] - pp[1] * qq[0]
-                    norm = np.sqrt(np.sum(norm_add_faces ** 2))
+                    norm = np.sqrt(np.sum(norm_add_faces**2))
                     norm_add_faces = norm_add_faces / norm
 
                     f_b = ismember(faces[boundIndsF, :], bound[ind_m])
-                    boundsVertIndsF = boundIndsF[f_b[:, 0]
-                                                 | f_b[:, 1] | f_b[:, 2]]
+                    boundsVertIndsF = boundIndsF[f_b[:, 0] | f_b[:, 1] | f_b[:, 2]]
                     boundary_normalf = face_normals[boundsVertIndsF, :]
                     teta = max(np.dot(boundary_normalf, norm_add_faces))
                 """
@@ -281,8 +273,8 @@ def create_vertex(three_vertices, r=None):
     pp = three_vertices[1, :] - three_vertices[0, :]
     qq = three_vertices[2, :] - three_vertices[0, :]
     # their norm
-    n_pp = np.sqrt(np.sum(pp ** 2))
-    n_qq = np.sqrt(np.sum(qq ** 2))
+    n_pp = np.sqrt(np.sum(pp**2))
+    n_qq = np.sqrt(np.sum(qq**2))
     # the two vectors normalized
     u_pp = pp / n_pp
     u_qq = qq / n_qq
@@ -295,7 +287,7 @@ def create_vertex(three_vertices, r=None):
     ensure the distance between the new vertex and three_vertices[0,:]
     is equal to r
     """
-    k = np.sqrt(r ** 2 * np.sum(bisec ** 2)) / np.sum(bisec ** 2)
+    k = np.sqrt(r**2 * np.sum(bisec**2)) / np.sum(bisec**2)
     new_vert = k * bisec + three_vertices[0, :]
     return new_vert, r
 
@@ -363,8 +355,7 @@ def edges_to_boundary(edges_bound, mesh_edges):
                 pos.append(ind)
         return pos
 
-    sub_graphs = [graph.subgraph(c).copy()
-                  for c in nx.connected_components(graph)]
+    sub_graphs = [graph.subgraph(c).copy() for c in nx.connected_components(graph)]
     sub_graphs_path = list()
     for sub_graph in sub_graphs:
         # print(len(sub_graph.nodes))
@@ -507,8 +498,7 @@ def texture_boundary(mesh, atex, val):
         return list()
     else:
 
-        bound_verts = texture_boundary_vertices(
-            atex, val, mesh.vertex_neighbors)
+        bound_verts = texture_boundary_vertices(atex, val, mesh.vertex_neighbors)
         # select the edges that are on the boundary in the polygons
         u_edges = mesh.edges_unique
         u_edges_count = np.zeros_like(u_edges)
@@ -554,7 +544,7 @@ def texture_boundary_vertices(atex, val, vertex_neighbors):
         ####################################################################
         """identify the vertices that are on the boundary,
         i.e that have at least one neighbor that has not the same value in the
-        texture """
+        texture"""
         bound_verts = list()
         for i in tex_val_indices:
             ne_i = np.array(vertex_neighbors[i])
@@ -601,8 +591,7 @@ def adjacency_matrix(mesh):
     :param mesh:
     :return: nb_vertex X bn_vertex sparse matrix (scipy.sparse.coo_matrix)
     """
-    adja = graph.edges_to_coo(mesh.edges, data=np.ones(
-        len(mesh.edges), dtype=np.int64))
+    adja = graph.edges_to_coo(mesh.edges, data=np.ones(len(mesh.edges), dtype=np.int64))
     adja = adja + adja.transpose()
     adja[adja > 0] = 1
     return adja

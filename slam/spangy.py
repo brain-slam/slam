@@ -1,14 +1,35 @@
-"""
-Spectral Analysis of Gyrification
-This module implements the Spectral Analysis described in D. Germanaud*, J.
-Lefevre*, R. Toro, C. Fischer, J.Dubois, L. Hertz-Pannier, J.F. Mangin,
-Larger is twistier: Spectral Analysis of Gyrification (SPANGY) applied
-to adult brain size polymorphism,
-Neuroimage, 63 (3), 1257-1272, 2012.
+"""Spectral Analysis of Gyrification (SPANGY)
+
+
+This module implements the Spectral Analysis framework described in [1]_ and
+applied in [2]_. Hence this module:
+
+1. Perform spectral decomposition of a mesh (eigenvalues and eigenfunctions
+   of the laplace-beltrami operator defined on the mesh), i.e. obtaining a
+   functional basis
+2. Decompose a scalar function living on the mesh (e.g. mean
+   curvature) in this functional basis
+3. Compute the power spectrum associated to the obtained spectral decomposition
+4. Group power spectrum into frequency bands of interest
+
+
+References
+----------
+.. [1] D. Germanaud*, J. Lefevre*,R. Toro, C. Fischer, J.Dubois, L. Hertz-Pannier,
+ J.F. Mangin, Larger is twistier:Spectral Analysis of Gyrification (SPANGY)
+ applied to adult brain size polymorphism,Neuroimage, 63 (3), 1257-1272, 2012.
+
+.. [2] D. Germanaud, J. Lefèvre, C. Fischer, M. Bintner, A. Curie, V. des Portes,
+ S. Eliez, M. Elmaleh-Bergès, D. Lamblin, S. Passemard, G. Operto, M. Schaer,
+ A. Verloes, R. Toro, J.F. Mangin, L. Hertz-Pannier,Simplified gyral pattern in
+ severe developmental microcephalies?New insights from allometric modeling for
+ spatial and spectral analysis of gyrification,NeuroImage,Volume 102, Part 2,2014,
+ Pages 317-331, ISSN 1053-8119,
 """
 
 import numpy as np
 from scipy.sparse.linalg import eigsh
+
 import slam.differential_geometry as sdg
 
 
@@ -17,6 +38,7 @@ def eigenpairs(mesh, nb_eig):
     Parameters
     ----------
     mesh : Base.Trimesh
+
     nb_eig : Int
         number of eigenpairs to compute.
     Returns
@@ -66,16 +88,15 @@ def spectrum(f2analyse, MassMatrix, eigVec, eValues):
         group_indices[k + 1, 0] = indice[0][0]
         indice = np.where(eValues <= eValues[1] * 2**(2 * (k + 1)))
         group_indices[k + 1, 1] = indice[0][-1]
-        grouped_spectrum[k +
-                         1] = np.sum(coefficients[group_indices[k +
-                                                  1, 0]:group_indices[k +
-                                                  1, 1] + 1]**2)
+        grouped_spectrum[k + 1] = \
+            np.sum(coefficients[
+                   group_indices[k + 1, 0]:group_indices[k + 1, 1] + 1]**2)
 
     group_indices[-1, 0] = group_indices[-2, 1] + 1
     group_indices[-1, 1] = eValues.size - 1
-    grouped_spectrum[-1] = np.sum(coefficients[group_indices[-1,
-                                               0]:group_indices[-1,
-                                               1]]**2)
+    grouped_spectrum[-1] = \
+        np.sum(coefficients[
+               group_indices[-1, 0]:group_indices[-1, 1]]**2)
 
     return grouped_spectrum, group_indices, coefficients
 

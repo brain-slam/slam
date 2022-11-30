@@ -130,8 +130,7 @@ for i in range(len(k_mean_analytic)):
 ###############################################################################
 # Error computation
 
-k_mean_relative_change = abs(
-    (k_mean_analytic - k_mean_estim) / k_mean_analytic)
+k_mean_relative_change = abs((k_mean_analytic - k_mean_estim) / k_mean_analytic)
 k_mean_absolute_change = abs((k_mean_analytic - k_mean_estim))
 
 k1_relative_change = abs((k1_analytic - k1_estim) / k1_analytic)
@@ -173,8 +172,7 @@ p_curv_estim, d1_estim, d2_estim = scurv.curvatures_and_derivatives(quadric)
 
 ###############################################################################
 # Analytical computation of the directions
-analytical_directions = sgps.compute_all_principal_directions_3D(
-    K, quadric.vertices)
+analytical_directions = sgps.compute_all_principal_directions_3D(K, quadric.vertices)
 
 estimated_directions = np.zeros(analytical_directions.shape)
 estimated_directions[:, :, 0] = d1_estim
