@@ -34,12 +34,7 @@ open_mesh_boundary = stop.mesh_boundary(open_mesh)
 visb_sc = splt.visbrain_plot(mesh=open_mesh, caption="open mesh")
 for bound in open_mesh_boundary:
     points = open_mesh.vertices[bound]
-    s_rad = SourceObj(
-        "rad",
-        points,
-        color="red",
-        symbol="square",
-        radius_min=10)
+    s_rad = SourceObj("rad", points, color="red", symbol="square", radius_min=10)
     visb_sc.add_to_subplot(s_rad)
     lines = Line(pos=open_mesh.vertices[bound], width=10, color="b")
     # wrap the vispy object using visbrain
@@ -54,12 +49,7 @@ disk_mesh = smap.disk_conformal_mapping(open_mesh)
 visb_sc2 = splt.visbrain_plot(mesh=disk_mesh, caption="disk mesh")
 for bound in open_mesh_boundary:
     points = disk_mesh.vertices[bound]
-    s_rad = SourceObj(
-        "rad",
-        points,
-        color="red",
-        symbol="square",
-        radius_min=10)
+    s_rad = SourceObj("rad", points, color="red", symbol="square", radius_min=10)
     visb_sc2.add_to_subplot(s_rad)
     lines = Line(pos=disk_mesh.vertices[bound], width=10, color="b")
     # wrap the vispy object using visbrain

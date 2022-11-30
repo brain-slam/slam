@@ -9,13 +9,13 @@ import slam.utils as ut
 
 
 def make_sphere():
-    """ Create a sphere"""
+    """Create a sphere"""
     mesh_a = trimesh.creation.icosphere(subdivisions=1, radius=1.0)
     return mesh_a
 
 
 def make_box():
-    """ Create a box"""
+    """Create a box"""
     mesh_a = trimesh.creation.box((1, 1, 1))
     return mesh_a
 
@@ -68,8 +68,7 @@ class TestCurvatureMethods(unittest.TestCase):
             with self.subTest(i):
 
                 # Sphere of radius i
-                mesh_a = trimesh.creation.icosphere(
-                    subdivisions=1, radius=float(i))
+                mesh_a = trimesh.creation.icosphere(subdivisions=1, radius=float(i))
 
                 curv, d1, d2 = scurv.curvatures_and_derivatives(mesh_a)
 
@@ -83,14 +82,10 @@ class TestCurvatureMethods(unittest.TestCase):
                 analytical_mean = np.full(shape, 1 / i)
 
                 # The gaussian curvature in every point is 1/radius**2
-                analytical_gauss = np.full(shape, 1 / i ** 2)
+                analytical_gauss = np.full(shape, 1 / i**2)
 
-                assert np.isclose(
-                    mean_curv, analytical_mean, precision_A).all()
-                assert np.isclose(
-                    gauss_curv,
-                    analytical_gauss,
-                    precision_B).all()
+                assert np.isclose(mean_curv, analytical_mean, precision_A).all()
+                assert np.isclose(gauss_curv, analytical_gauss, precision_B).all()
 
         # Iterations on subdivisions
 
@@ -117,12 +112,8 @@ class TestCurvatureMethods(unittest.TestCase):
                 # The curvature in every point is 1/radius**2
                 analytical_gauss = np.full(shape, 1 / 4)
 
-                assert np.isclose(
-                    mean_curv, analytical_mean, precision_A).all()
-                assert np.isclose(
-                    analytical_gauss,
-                    analytical_gauss,
-                    precision_B).all()
+                assert np.isclose(mean_curv, analytical_mean, precision_A).all()
+                assert np.isclose(analytical_gauss, analytical_gauss, precision_B).all()
 
     # @unittest.skip
     def test_correctness_curvature_quadric(self):
@@ -168,8 +159,7 @@ class TestCurvatureMethods(unittest.TestCase):
 
         # /// STATS
 
-        k_mean_relative_change = abs(
-            (k_mean_analytic - k_mean_estim) / k_mean_analytic)
+        k_mean_relative_change = abs((k_mean_analytic - k_mean_estim) / k_mean_analytic)
         k_mean_absolute_change = abs((k_mean_analytic - k_mean_estim))
 
         k1_relative_change = abs((k1_analytic - k1_estim) / k1_analytic)
@@ -198,18 +188,12 @@ class TestCurvatureMethods(unittest.TestCase):
                 np.max(k_mean_relative_change * 100),
                 "%",
             ),
-            ["K_MEAN", "mean", "absolute change",
-                np.mean(k_mean_absolute_change)],
-            ["K_MEAN", "std", "absolute change",
-                np.std(k_mean_absolute_change)],
-            ["K_MEAN", "max", "absolute change",
-                np.max(k_mean_absolute_change)],
-            (" K1", "mean", "relative change",
-             np.mean(k1_relative_change * 100), "%"),
-            (" K1", "std", "relative change", np.std(
-                k1_relative_change * 100), "%"),
-            (" K1", "max", "relative change", np.max(
-                k1_relative_change * 100), "%"),
+            ["K_MEAN", "mean", "absolute change", np.mean(k_mean_absolute_change)],
+            ["K_MEAN", "std", "absolute change", np.std(k_mean_absolute_change)],
+            ["K_MEAN", "max", "absolute change", np.max(k_mean_absolute_change)],
+            (" K1", "mean", "relative change", np.mean(k1_relative_change * 100), "%"),
+            (" K1", "std", "relative change", np.std(k1_relative_change * 100), "%"),
+            (" K1", "max", "relative change", np.max(k1_relative_change * 100), "%"),
             (" K1", "mean", "absolute change", np.mean(k_mean_absolute_change)),
             (" K1", "std", "absolute change", np.std(k_mean_absolute_change)),
             (" K1", "max", "absolute change", np.max(k_mean_absolute_change)),
@@ -236,7 +220,7 @@ class TestCurvatureMethods(unittest.TestCase):
         print("----------------------------------------")
 
     def test_error_drop_curvature_quadric(self):
-        """ Asserts the error drops when the mesh resolution is increased"""
+        """Asserts the error drops when the mesh resolution is increased"""
 
         out = []
 
@@ -267,21 +251,18 @@ class TestCurvatureMethods(unittest.TestCase):
             # Computation of analytical curvatures
 
             k_mean_analytic = sgps.quadric_curv_mean(K)(
-                np.array(quadric.vertices[:, 0]), np.array(
-                    quadric.vertices[:, 1])
+                np.array(quadric.vertices[:, 0]), np.array(quadric.vertices[:, 1])
             )
 
             k_gauss_analytic = sgps.quadric_curv_gauss(K)(
-                np.array(quadric.vertices[:, 0]), np.array(
-                    quadric.vertices[:, 1])
+                np.array(quadric.vertices[:, 0]), np.array(quadric.vertices[:, 1])
             )
 
             k1_analytic = np.zeros((len(k_mean_analytic)))
             k2_analytic = np.zeros((len(k_mean_analytic)))
 
             for i in range(len(k_mean_analytic)):
-                a, b = np.roots(
-                    (1, -2 * k_mean_analytic[i], k_gauss_analytic[i]))
+                a, b = np.roots((1, -2 * k_mean_analytic[i], k_gauss_analytic[i]))
                 k1_analytic[i] = min(a, b)
                 k2_analytic[i] = max(a, b)
 
@@ -374,26 +355,28 @@ class TestCurvatureMethods(unittest.TestCase):
 
                 # Generate quadric
                 quadric = sgps.generate_quadric(
-                    K, nstep=[20, 20], ax=3, ay=1, random_sampling=False, ratio=0.3,
+                    K,
+                    nstep=[20, 20],
+                    ax=3,
+                    ay=1,
+                    random_sampling=False,
+                    ratio=0.3,
                 )
 
                 # Computation of analytical k_mean, k_gauss, k_1 and k_2
                 k_mean_analytic = sgps.quadric_curv_mean(K)(
-                    np.array(quadric.vertices[:, 0]), np.array(
-                        quadric.vertices[:, 1])
+                    np.array(quadric.vertices[:, 0]), np.array(quadric.vertices[:, 1])
                 )
 
                 k_gauss_analytic = sgps.quadric_curv_gauss(K)(
-                    np.array(quadric.vertices[:, 0]), np.array(
-                        quadric.vertices[:, 1])
+                    np.array(quadric.vertices[:, 0]), np.array(quadric.vertices[:, 1])
                 )
 
                 k1_analytic = np.zeros((len(k_mean_analytic)))
                 k2_analytic = np.zeros((len(k_mean_analytic)))
 
                 for i in range(len(k_mean_analytic)):
-                    a, b = np.roots(
-                        (1, -2 * k_mean_analytic[i], k_gauss_analytic[i]))
+                    a, b = np.roots((1, -2 * k_mean_analytic[i], k_gauss_analytic[i]))
                     k1_analytic[i] = min(a, b)
                     k2_analytic[i] = max(a, b)
 
@@ -407,7 +390,7 @@ class TestCurvatureMethods(unittest.TestCase):
 
                 def mag(p):
                     """Distance to the center for the point p, not considering
-                     the z axis"""
+                    the z axis"""
                     x = p[0]
                     y = p[1]
                     return np.sqrt(x * x + y * y)
@@ -455,8 +438,7 @@ class TestCurvatureMethods(unittest.TestCase):
         )
 
         # ESTIMATED Principal curvature, Direction1, Direction2
-        p_curv_estim, d1_estim, d2_estim = scurv.curvatures_and_derivatives(
-            quadric)
+        p_curv_estim, d1_estim, d2_estim = scurv.curvatures_and_derivatives(quadric)
 
         # ANALYTICAL directions
         analytical_directions = sgps.compute_all_principal_directions_3D(

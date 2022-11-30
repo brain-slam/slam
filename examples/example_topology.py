@@ -43,12 +43,7 @@ visb_sc = splt.visbrain_plot(mesh=open_mesh, caption="open mesh")
 # create points with vispy
 for bound in open_mesh_boundary:
     points = open_mesh.vertices[bound]
-    s_rad = SourceObj(
-        "rad",
-        points,
-        color="red",
-        symbol="square",
-        radius_min=10)
+    s_rad = SourceObj("rad", points, color="red", symbol="square", radius_min=10)
     visb_sc.add_to_subplot(s_rad)
     lines = Line(pos=open_mesh.vertices[bound], width=10, color="b")
     # wrap the vispy object using visbrain
@@ -67,12 +62,7 @@ visb_sc2 = splt.visbrain_plot(mesh=eroded_mesh, caption="eroded mesh")
 # corresponding faces by the erosion
 for bound in open_mesh_boundary:
     points = open_mesh.vertices[bound]
-    s_rad = SourceObj(
-        "rad",
-        points,
-        color="red",
-        symbol="square",
-        radius_min=10)
+    s_rad = SourceObj("rad", points, color="red", symbol="square", radius_min=10)
     visb_sc2.add_to_subplot(s_rad)
     lines = Line(pos=open_mesh.vertices[bound], width=10, color="b")
     # wrap the vispy object using visbrain
@@ -86,8 +76,7 @@ visb_sc2.preview()
 # Let us first load example data
 mesh = sio.load_mesh("../examples/data/example_mesh.gii")
 # rotate the mesh for better visualization
-transfo_flip = np.array(
-    [[-1, 0, 0, 0], [0, 1, 0, 0], [0, 0, -1, 0], [0, 0, 0, 1]])
+transfo_flip = np.array([[-1, 0, 0, 0], [0, 1, 0, 0], [0, 0, -1, 0], [0, 0, 0, 1]])
 mesh.apply_transform(transfo_flip)
 
 # Load the example texture and compute its boundary
@@ -103,12 +92,7 @@ cols = ["red", "green", "yellow", "blue"]
 ind = 0
 for bound in texture_bound:
     points = mesh.vertices[bound]
-    s_rad = SourceObj(
-        "rad",
-        points,
-        color="red",
-        symbol="square",
-        radius_min=10)
+    s_rad = SourceObj("rad", points, color="red", symbol="square", radius_min=10)
     visb_sc3.add_to_subplot(s_rad)
     lines = Line(pos=mesh.vertices[bound], width=10, color=cols[ind])
     # wrap the vispy object using visbrain
@@ -125,8 +109,7 @@ visb_sc3.preview()
 # the texture tex_parcel
 parc_u = np.unique(tex_parcel.darray[0])
 print(
-    "Here the texture contains {0} different values: {1}" "".format(
-        len(parc_u), parc_u)
+    "Here the texture contains {0} different values: {1}" "".format(len(parc_u), parc_u)
 )
 
 ###############################################################################
@@ -136,8 +119,7 @@ sub_meshes, sub_tex, sub_corresp = stop.cut_mesh(mesh, tex_parcel.darray[0])
 # The second output of cut_mesh gives the texture value corresponding to
 # each submesh
 print(
-    "Corresponding texture values are given by" " the second ouput: {}".format(
-        sub_tex)
+    "Corresponding texture values are given by" " the second ouput: {}".format(sub_tex)
 )
 
 # The respective indices of the vertices of each submesh in the original
@@ -185,12 +167,7 @@ visb_sc4 = splt.visbrain_plot(mesh=cuted_mesh, caption="open mesh")
 # create points with vispy
 for bound in boundaries:
     points = cuted_mesh.vertices[bound]
-    s_rad = SourceObj(
-        "rad",
-        points,
-        color="blue",
-        symbol="square",
-        radius_min=10)
+    s_rad = SourceObj("rad", points, color="blue", symbol="square", radius_min=10)
     visb_sc4.add_to_subplot(s_rad)
     lines = Line(pos=cuted_mesh.vertices[bound], width=10, color="r")
     # wrap the vispy object using visbrain
