@@ -1,56 +1,88 @@
+"""
+
+"""
+
+
 import numpy as np
 import trimesh
 from scipy.sparse.linalg import lgmres
 
-# from scipy import sparse as ssp
 
 import slam.differential_geometry as sdg
 import slam.distortion as sdst
 import slam.topology as stop
 
 
-########################
-# error tolerance for lgmres solver
-solver_tolerance = 1e-6
-########################
+# error tolerance for the lgmres solver
+SOLVER_TOL = 1e-6
 
 
 def spherical_mapping(
     mesh,
     mapping_type="laplacian_eigenvectors",
-    conformal_w=1,
-    authalic_w=1,
     dt=0.01,
     nb_it=10,
+    authalic_w=1,
+    conformal_w=1,
 ):
-    """
-    Computes the mapping between the input mesh and a sphere centered on 0 and of radius=1
-    Several methods are implemented:
-    -for laplacian eigenvectors, see:
-    J. Lefèvre and G. Auzias, "Spherical Parameterization for Genus Zero Surfaces Using
+    """Estimate a mapping between a 3d watertight triangular mesh and a sphere
+
+    The sphere is first derived from the 3 first eigen vectors of the input
+    triangular mesh. Then several mappings are estimated:
+
+    - Laplacian eigenvectors (see [1]_ for details)
+
+    - Conformal mapping (see [2]_ for details)
+
+    - Authalic mapping (see [3]_ and [4]_ for details)
+
+    - Combined mapping (see [3]_ and [4]_ for details)
+
+    Parameters:
+    ----------
+    mesh: Trimesh object
+     Input topologically spherical triangular mesh to be mapped onto a sphere
+
+    mapping_type: string
+        mapping method, possible options are:'laplacian_eigenvectors', 'conformal','authalic' or 'combined'
+
+    dt: Float
+        discretization step
+
+    nb_it: Int
+        number of iterations
+
+    authalic_w: Float
+        weight of the authalic constraint for the 'combined' method
+
+    conformal_w: Float
+        weight of the conformal constraint for the 'combined' method
+
+    Returns:
+    --------
+    Trimesh.Mesh
+        Spherical representation of the input mesh, having the same
+        adjacency (faces, edges, vertex indexing) as the input mesh.
+
+    References:
+    ----------
+    .. 1_ J. Lefèvre and G. Auzias, "Spherical Parameterization for Genus Zero Surfaces Using
     Laplace-Beltrami Eigenfunctions," in 2nd Conference on Geometric Science of
     Information, GSI, 2015, 121–29, https://doi.org/10.1007/978-3-319-25040-3_14.
-    -for conformal mapping, see:
-    Desbrun, M., Meyer, M., & Alliez, P., "Intrinsic parameterizations of surface meshes",
+
+    .. 2_ Desbrun, M., Meyer, M., & Alliez, P., "Intrinsic parameterizations of surface meshes",
     Computer Graphics Forum, 21(3), 2002, 209–218. https://doi.org/10.1111/1467-8659.00580
-    -for authalic and combined methods, see:
-    Rachel a Yotter, Paul M. Thompson, and Christian Gaser, “Algorithms to Improve the
+
+    .. 3_ Rachel a Yotter, Paul M. Thompson, and Christian Gaser, “Algorithms to Improve the
     Reparameterization of Spherical Mappings of Brain Surface Meshes.,” Journal of
     Neuroimaging 21, no. 2 (April 2011): e134-47, https://doi.org/10.1111/j.1552-6569.2010.00484.x.
-    or
-    Ilja Friedel, Peter Schröder, and Mathieu Desbrun, “Unconstrained Spherical Parameterization”,
+
+    .. 4_ Ilja Friedel, Peter Schröder, and Mathieu Desbrun, “Unconstrained Spherical Parameterization”,
     Journal of Graphics, GPU, and Game Tools 12, no. 1 (2007): 17–26.
-    :param mesh: Trimesh object, input mesh to be mapped onto a sphere
-    :param mapping_type: string, type of mapping method, possible options are:
-    'laplacian_eigenvectors', 'conformal', 'authalic' or 'combined'
-    :param conformal_w: Float, weight of the conformal constraint for the 'combined' method
-    :param authalic_w: Float, weight of the authalic constraint for the 'combined' method
-    :param dt: Float, discrtization step
-    :param nb_it: Int, number of iterations
-    :return: Trimesh object: the spherical representation of the input mesh, having the same
-    adjacency (faces, edges, vertex indexing) as the input mesh.
     """
-    # computing spherical mapping based on laplacian eigenvectors
+
+    # create a sphere from topologically spherical mesh using first three
+    # eigenvectors (empirically works)
     sph_vert = sdg.mesh_laplacian_eigenvectors(mesh, nb_vectors=3)
     norm_sph_vert = np.sqrt(np.sum(sph_vert * sph_vert, 1))
     sphere_vertices = sph_vert / np.tile(norm_sph_vert, (3, 1)).T
@@ -63,22 +95,21 @@ def spherical_mapping(
             process=False,
         )
 
-    if mapping_type == 'conformal':
-        L, B = sdg.compute_mesh_laplacian(mesh, lap_type='conformal')
+    if mapping_type == "conformal":
+        L, B = sdg.compute_mesh_laplacian(mesh, lap_type="conformal")
 
-    if mapping_type == 'authalic':
-        L, B = sdg.compute_mesh_laplacian(mesh, lap_type='authalic')
+    if mapping_type == "authalic":
+        L, B = sdg.compute_mesh_laplacian(mesh, lap_type="authalic")
 
-    if mapping_type == 'combined':
-        Lconf, Bconf = sdg.compute_mesh_laplacian(mesh, lap_type='conformal')
-        Laut, Baut = sdg.compute_mesh_laplacian(mesh, lap_type='authalic')
-
+    if mapping_type == "combined":
+        Lconf, Bconf = sdg.compute_mesh_laplacian(mesh, lap_type="conformal")
+        Laut, Baut = sdg.compute_mesh_laplacian(mesh, lap_type="authalic")
         L = conformal_w * Lconf + authalic_w * Laut
-    # continue the spherical mappig by minimizig the energy
+
+    # refine the spherical mapping by minimizing the energy
     evol = list()
     for it in range(nb_it):
         sphere_vertices = sphere_vertices - dt * L.dot(sphere_vertices)
-        # sphere_vertices * L
         norm_sph_vert = np.sqrt(np.sum(sphere_vertices * sphere_vertices, 1))
         sphere_vertices = sphere_vertices / np.tile(norm_sph_vert, (3, 1)).T
         if it % 10 == 0:
@@ -96,9 +127,15 @@ def spherical_mapping(
                 ]
             )
 
-    return trimesh.Trimesh(faces=mesh.faces,
-                           vertices=sphere_vertices,
-                           metadata=mesh.metadata, process=False), evol
+    return (
+        trimesh.Trimesh(
+            faces=mesh.faces,
+            vertices=sphere_vertices,
+            metadata=mesh.metadata,
+            process=False,
+        ),
+        evol,
+    )
 
 
 def disk_conformal_mapping(
@@ -144,8 +181,8 @@ def disk_conformal_mapping(
     Rx[boundary] = boundary_coords[0, :]
     Ry[boundary] = boundary_coords[1, :]
 
-    x, info = lgmres(L, Rx, tol=solver_tolerance)
-    y, info = lgmres(L, Ry, tol=solver_tolerance)
+    x, info = lgmres(L, Rx, tol=SOLVER_TOL)
+    y, info = lgmres(L, Ry, tol=SOLVER_TOL)
     z = np.zeros(Nv)
 
     return trimesh.Trimesh(
@@ -166,8 +203,7 @@ def moebius_transformation(a, b, c, d, plane_mesh):
     :param plane_mesh: trimesh mesh
     :return:
     """
-    array_complex = plane_mesh.vertices[:,
-                                        0] + 1.0j * plane_mesh.vertices[:, 1]
+    array_complex = plane_mesh.vertices[:, 0] + 1.0j * plane_mesh.vertices[:, 1]
     numerator = (a * array_complex) + b
     denominator = (c * array_complex) + d
 
@@ -230,8 +266,7 @@ def inverse_stereo_projection(plane_mesh, h=None, invert=True):
         h = vertices[0, 2]
     for ind, vert in enumerate(vertices):
         denom = (1 - h) ** 2 + vert[0] ** 2 + vert[1] ** 2
-        vertices[ind, 2] = (-((1 - h) ** 2) + vert[0]
-                            ** 2 + vert[1] ** 2) / denom
+        vertices[ind, 2] = (-((1 - h) ** 2) + vert[0] ** 2 + vert[1] ** 2) / denom
         vertices[ind, 1] = 2 * (1 - h) * vert[1] / denom
         vertices[ind, 0] = 2 * (1 - h) * vert[0] / denom
 

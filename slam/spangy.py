@@ -5,10 +5,11 @@ R. Toro, C. Fischer, J.Dubois, L. Hertz-Pannier, J.F. Mangin, Larger is twistier
 Spectral Analysis of Gyrification (SPANGY) applied to adult brain size polymorphism,
 Neuroimage, 63 (3), 1257-1272, 2012.
 """
+
 import numpy as np
-import slam.differential_geometry as sdg
-import time
 from scipy.sparse.linalg import eigsh
+
+import slam.differential_geometry as sdg
 
 
 def eigenpairs(mesh, nb_eig):
@@ -27,14 +28,8 @@ def eigenpairs(mesh, nb_eig):
         eigenvectors computed.
     """
     lap, lap_b = sdg.compute_mesh_laplacian(mesh, lap_type='fem')
-    tp1 = time.perf_counter()
     eigVal, eigVects = eigsh(lap.tocsr(), nb_eig, M=lap_b.tocsr(), sigma=1e-6)
-    tp2 = time.perf_counter()
-
-    print("    -computation time of eigenpairs : {} \n".format(tp2 - tp1))
-
     return eigVal, eigVects
-
 
 def spangy_spectrum(f2analyse, MassMatrix, eigVec, eValues):
     """
@@ -62,8 +57,8 @@ def spangy_spectrum(f2analyse, MassMatrix, eigVec, eValues):
 
     nlevels = int(0.5 * np.log(eValues[-1] / eValues[1]) / np.log(2))
 
-    grouped_spectrum = np.zeros((nlevels + 2, 1));
-    grouped_spectrum[0] = coefficients[0] ** 2;
+    grouped_spectrum = np.zeros((nlevels + 2, 1))
+    grouped_spectrum[0] = coefficients[0] ** 2
     group_indices = np.zeros((nlevels + 2, 2), dtype=int)
     group_indices[0, :] = [0, 0]
 
