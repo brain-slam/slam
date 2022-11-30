@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>slam.mapping &#8212; slam 0.0.1 documentation</title>
-    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="_static/gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/gallery-rendered-html.css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
-    <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
 <meta charset='utf-8'>
@@ -42,7 +45,7 @@
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
             
-                <li><a href="https://github.com/gauzias/slam">Github</a></li>
+                <li><a href="https://github.com/brain-slam/slam">Github</a></li>
                 <li><a href="faq.html">FAQ</a></li>
                 <li><a href="auto_examples/index.html">Examples</a></li>
                 <li><a href="api.html">API</a></li>
@@ -114,19 +117,19 @@
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">disk_conformal_mapping</span></code>(mesh[, lap_type, …])</p></td>
-<td><p>compute comformal mapping of a mesh to a disk ADD ref :param mesh: a trimesh object :param lap_type: type of mesh Laplacian to be used, see the function differential_geometry/compute_mesh_weights for more informations :param boundary: boundary of the mesh, resulting from the function topology/mesh_boundary :param boundary_coords: coordindates of the boundary vertices on the output disk, if None then uniform sampling :return: a trimesh object, planar disk representation of the input mesh</p></td>
+<td><p>Computes comformal mapping of a mesh to a disk, see the following references: Ulrich Pinkall and Konrad Polthier, “Computing Discrete Minimal Surfaces and Their Conjugates,” Experimental Mathematics, 1993, 1–33.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_stereo_projection</span></code>(plane_mesh[, h, …])</p></td>
-<td><p>compute the inverse stereograhic projection from an horizontal plane onto the unit sphere (center = 0, radius = 1) :param plane_mesh: trimesh planar mesh to be inverse projected onto the sphere :param h: 3rd coordinate of the projection plane :param invert: Boolean value to invert input mesh faces orientation upwards to be consistent with stereo_projection :return: trimesh unit sphere from inverse projected plane_mesh</p></td>
+<td><p>Computes the inverse stereograhic projection from an horizontal plane onto the unit sphere (center = 0, radius = 1) :param plane_mesh: trimesh planar mesh to be inverse projected onto the sphere :param h: 3rd coordinate of the projection plane :param invert: Boolean value to invert input mesh faces orientation upwards to be consistent with stereo_projection :return: trimesh unit sphere from inverse projected plane_mesh</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">moebius_transformation</span></code>(a, b, c, d, plane_mesh)</p></td>
 <td><p>see <a class="reference external" href="https://en.wikipedia.org/wiki/M%C3%B6bius_transformation">https://en.wikipedia.org/wiki/M%C3%B6bius_transformation</a> :param a:Complex :param b:Complex :param c:Complex :param d:Complex :param plane_mesh: trimesh mesh :return:</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">spherical_mapping</span></code>(mesh[, mapping_type, …])</p></td>
-<td><p>ADD REF :param mesh: :param mapping_type: :param conformal_w: :param authalic_w: :param dt: :param nb_it: :return:</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">spherical_mapping</span></code>(mesh[, mapping_type, dt, …])</p></td>
+<td><p>Estimate a mapping between a 3d watertight triangular mesh and a sphere</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">stereo_projection</span></code>(sphere_mesh[, h, invert])</p></td>
-<td><p>compute the stereographic projection from the unit sphere (center = 0, radius = 1) onto the horizontal plane which 3rd coordinate is h of the vertices given :param sphere_mesh: trimesh spherical mesh to be projected onto the plane :param h: 3rd coordinate of the projection plane :param invert: Boolean value to invert output mesh faces orientation upwards :return: trimesh planar mesh, 3rd coordinate is equal to h</p></td>
+<td><p>Computes the stereographic projection from the unit sphere (center = 0, radius = 1) onto the horizontal plane which 3rd coordinate is h of the vertices given :param sphere_mesh: trimesh spherical mesh to be projected onto the plane :param h: 3rd coordinate of the projection plane :param invert: Boolean value to invert output mesh faces orientation upwards :return: trimesh planar mesh, 3rd coordinate is equal to h</p></td>
 </tr>
 </tbody>
 </table>
@@ -144,8 +147,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2020, slam Developers. Last updated on 2020-12-04.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.<br/>
+        &copy; Copyright 2022, slam Developers. Last updated on 2022-11-30.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.4.3.<br/>
     </p>
   </div>
 </footer>

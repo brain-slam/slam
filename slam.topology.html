@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>slam.topology &#8212; slam 0.0.1 documentation</title>
-    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="_static/gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/gallery-rendered-html.css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
-    <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
 <meta charset='utf-8'>
@@ -42,7 +45,7 @@
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
             
-                <li><a href="https://github.com/gauzias/slam">Github</a></li>
+                <li><a href="https://github.com/brain-slam/slam">Github</a></li>
                 <li><a href="faq.html">FAQ</a></li>
                 <li><a href="auto_examples/index.html">Examples</a></li>
                 <li><a href="api.html">API</a></li>
@@ -113,17 +116,17 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">boundaries_intersection</span></code>(boundaries)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">adjacency_matrix</span></code>(mesh)</p></td>
+<td><p>Compute the adjacency matrix of the graph corresponding to the input mesh.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">boundaries_intersection</span></code>(boundaries)</p></td>
 <td><p>compute the intersections inside a boundary :param boundaries: list of list of vertex indices corresponding to the path :return: list of common vertices between each tuple</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">boundary_angles</span></code>(boundary, vertices_coord)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">boundary_angles</span></code>(boundary, vertices_coord)</p></td>
 <td><p>compute the angle between consecutive edges in a path :param boundary: list of vertex indices corresponding to the path :param vertices_coord: array (n, 3) of vertex coordinates :return:</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">cat_boundary</span></code></p></td>
-<td><p></p></td>
-</tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">close_mesh</span></code>(mesh[, boundary_in])</p></td>
-<td><p>see also trimesh.repair.fill_holes(mesh): This function implements the following paper with slight modifications.</p></td>
+<td><p>see also trimesh.repair.fill_holes(mesh): This function implements the following paper with slight modifications. Zhao, W., Gao, S., &amp; Lin, H. (2007). A robust hole-filling algorithm for  triangular mesh. The Visual Computer, 23(12), 987–997. <a class="reference external" href="https://doi.org/10.1007/s00371-007-0167-y">https://doi.org/10.1007/s00371-007-0167-y</a> :param mesh: :param boundary_in: :return:.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_vertex</span></code>(three_vertices[, r])</p></td>
 <td><p>create a vertex along the bisector of the angle formed by three vertices :param three_vertices: array(3,3) coordinates of the three vertices :param r: distance to the new vertex on the bisector :return:</p></td>
@@ -131,17 +134,17 @@
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">cut_mesh</span></code>(mesh, atex_in)</p></td>
 <td><p>cut the mesh into submeshes following the values in the texture returns as many meshes as the number of different values in the texture the vertices on the border between two submeshes are duplicated into both submeshes :param mesh: :param atex_in: :return:</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">edges_to_adjacency_matrix</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">edges_to_boundary</span></code>(edges_bound, mesh_edges)</p></td>
+<td><p>build the boundary by traversing edges return list of connected components ORDERED ACCORDING TO THEIR LENGTH, i.e. THE FIRST THE SHORTEST complex boundary corresponds to multiple holes in the surface or bad shaped boundary In each boundary, the output is a list of vertex indices that respects the order of mesh edges i.e. travelling direction along the edges of the boundary is the same as in edges of the mesh :param edges_bound: edges from the mesh that constitue the boundary but are not ordered properly :param mesh_edges: edges of the mesh that will serve to define the travelling direction of the output boundary path :return: list of boundaries that are themself lists of vertices.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ismember</span></code>(ar1, ar2)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">edges_to_boundary</span></code>(edges_bound, mesh_edges)</p></td>
-<td><p>build the boundary by traversing edges return list of connected components ORDERED ACCORDING TO THEIR LENGTH, i.e.</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">k_ring_neighborhood</span></code>(mesh, index[, k, adja])</p></td>
+<td><p>Generate the k-ring neighborhood around a vertex :param mesh: :param index: :param k: :param adja: adjacency matrix :return: texture is an array whose values are between 0 and k (all the i-ring neighborhoods) and k+1 else</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ismember</span></code>(ar1, ar2)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">list_count</span></code>(l)</p></td>
-<td><p>count the occurrences of all items in a list and return a dictionary that is of the form {nb_occurence:list_item}, which is the opposite of standard implementation usually found on the web —————————————————————– in python &gt;= 2.7, collections may be used, see example below &gt;&gt; from collections import Counter &gt;&gt; z = [‘blue’, ‘red’, ‘blue’, ‘yellow’, ‘blue’, ‘red’] &gt;&gt; Counter(z) Counter({‘blue’: 3, ‘red’: 2, ‘yellow’: 1}) :param l: :return:</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">list_count</span></code>(liste)</p></td>
+<td><p>count the occurrences of all items in a list and return a dictionary that is of the form {nb_occurence:list_item}, which is the opposite of standard implementation usually found on the web —————————————————————– in python &gt;= 2.7, collections may be used, see example below &gt;&gt; from collections import Counter &gt;&gt; z = [‘blue’, ‘red’, ‘blue’, ‘yellow’, ‘blue’, ‘red’] &gt;&gt; Counter(z) Counter({‘blue’: 3, ‘red’: 2, ‘yellow’: 1}) :param liste: :return:</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">local_barycentric_smoothing</span></code>(faces, vertices, …)</p></td>
 <td><p>local smoothing of the coordinates of vertices_to_smooth the smoothed coordinates of each vertex in vertices_to_smooth in vertices corrrespond to the barycenter of its neigbhors :param faces: :param vertices: :param vertices_to_smooth: :return:</p></td>
@@ -149,13 +152,16 @@
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mesh_boundary</span></code>(mesh[, verbose])</p></td>
 <td><p>compute borders of a mesh :param mesh: :return:</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">sub_cut_mesh</span></code>(mesh, atex, val)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_mesh_boundary_faces</span></code>(mesh[, …])</p></td>
+<td><p>remove from the mesh the faces and that have face_vertex_number number of vertices or more on the boundary of the mesh If face_vertex_number = 3 the faces with all 3 vertices on the boundary of the mesh will be removed.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">sub_cut_mesh</span></code>(mesh, atex, val)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">texture_boundary</span></code>(mesh, atex, val)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">texture_boundary</span></code>(mesh, atex, val)</p></td>
 <td><p>compute indexes that are the boundary of a region defined by value in a texture :param mesh: :param atex: :param val: :return:</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">texture_boundary_vertices</span></code>(atex, val, …)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">texture_boundary_vertices</span></code>(atex, val, …)</p></td>
 <td><p>compute indices of vertices that are the boundary of a region defined by value in the texture, without any topological or ordering constraint :param atex: :param val: :param vertex_neighbors: :return:</p></td>
 </tr>
 </tbody>
@@ -174,8 +180,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2020, slam Developers. Last updated on 2020-12-04.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.<br/>
+        &copy; Copyright 2022, slam Developers. Last updated on 2022-11-30.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.4.3.<br/>
     </p>
   </div>
 </footer>

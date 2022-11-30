@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Texture example in slam &#8212; slam 0.0.1 documentation</title>
-    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-rendered-html.css" />
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
-    <script src="../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
 <meta charset='utf-8'>
@@ -42,7 +45,7 @@
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
             
-                <li><a href="https://github.com/gauzias/slam">Github</a></li>
+                <li><a href="https://github.com/brain-slam/slam">Github</a></li>
                 <li><a href="../faq.html">FAQ</a></li>
                 <li><a href="index.html">Examples</a></li>
                 <li><a href="../api.html">API</a></li>
@@ -106,7 +109,8 @@
       
   <div class="sphx-glr-download-link-note admonition note">
 <p class="admonition-title">Note</p>
-<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-example-texture-py"><span class="std std-ref">here</span></a> to download the full example code</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-example-texture-py"><span class="std std-ref">here</span></a>
+to download the full example code</p>
 </div>
 <div class="sphx-glr-example-title section" id="texture-example-in-slam">
 <span id="example-texture"></span><span id="sphx-glr-auto-examples-example-texture-py"></span><h1>Texture example in slam<a class="headerlink" href="#texture-example-in-slam" title="Permalink to this headline">¶</a></h1>
@@ -124,17 +128,17 @@
 <span class="kn">from</span> <span class="nn">slam</span> <span class="kn">import</span> <span class="n">io</span> <span class="k">as</span> <span class="n">sio</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tex</span> <span class="o">=</span> <span class="n">sio</span><span class="o">.</span><span class="n">load_texture</span><span class="p">(</span><span class="s1">&#39;../examples/data/example_texture.gii&#39;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tex</span> <span class="o">=</span> <span class="n">sio</span><span class="o">.</span><span class="n">load_texture</span><span class="p">(</span><span class="s2">&quot;../examples/data/example_texture.gii&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">tex</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">tex</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">tex</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">tex</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tex</span><span class="o">.</span><span class="n">metadata</span></a><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#tuple" title="builtins.tuple" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tex</span><span class="o">.</span><span class="n">shape</span></a><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.dtype" title="numpy.dtype" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-np-class"><span class="n">tex</span><span class="o">.</span><span class="n">dtype</span></a><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">tex</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">tex</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;slam.texture.TextureND object at 0x7ffa92049fd0&gt;
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;slam.texture.TextureND object at 0x7fe3607a4e50&gt;
 {&#39;gifticlib-version&#39;: &#39;gifti library version 1.08, 8 March, 2010&#39;, &#39;processed&#39;: True}
 (1, 2328)
 float32
@@ -142,32 +146,32 @@ float32
 0.071442835
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">darray</span></a> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.zeros" title="View documentation for numpy.zeros"><span class="n">np</span><span class="o">.</span><span class="n">zeros</span></a><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-<span class="n">tex2</span> <span class="o">=</span> <span class="n">texture</span><span class="o">.</span><span class="n">TextureND</span><span class="p">(</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">darray</span></a><span class="o">=</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">darray</span></a><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">tex2</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-np-class"><span class="n">darray</span></a> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.zeros" title="numpy.zeros" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-np-function"><span class="n">np</span><span class="o">.</span><span class="n">zeros</span></a><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">tex2</span> <span class="o">=</span> <span class="n">texture</span><span class="o">.</span><span class="n">TextureND</span><span class="p">(</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-np-class"><span class="n">darray</span></a><span class="o">=</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-np-class"><span class="n">darray</span></a><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tex2</span><span class="o">.</span><span class="n">metadata</span></a><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">tex2</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">tex2</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">tex2</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#tuple" title="builtins.tuple" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tex2</span><span class="o">.</span><span class="n">shape</span></a><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.dtype" title="numpy.dtype" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-np-class"><span class="n">tex2</span><span class="o">.</span><span class="n">dtype</span></a><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">tex2</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">tex2</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
-<span class="n">sio</span><span class="o">.</span><span class="n">write_texture</span><span class="p">(</span><span class="n">tex2</span><span class="p">,</span> <span class="s1">&#39;test.gii&#39;</span><span class="p">)</span>
+<span class="n">sio</span><span class="o">.</span><span class="n">write_texture</span><span class="p">(</span><span class="n">tex2</span><span class="p">,</span> <span class="s2">&quot;test.gii&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>{&#39;processed&#39;: True}
-&lt;slam.texture.TextureND object at 0x7ffaa2843fd0&gt;
+&lt;slam.texture.TextureND object at 0x7fe3607a4940&gt;
 (2, 3)
 float64
 0.0
 0.0
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.014 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.003 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-example-texture-py">
-<div class="sphx-glr-download docutils container">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/9a51f8a84301b2cf1a752c4ec46aba43/example_texture.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">example_texture.py</span></code></a></p>
 </div>
-<div class="sphx-glr-download docutils container">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/86cfc2efe9100cd822bc5845b30f6bf6/example_texture.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">example_texture.ipynb</span></code></a></p>
 </div>
 </div>
@@ -186,8 +190,8 @@ float64
       
     </p>
     <p>
-        &copy; Copyright 2020, slam Developers. Last updated on 2020-12-04.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.<br/>
+        &copy; Copyright 2022, slam Developers. Last updated on 2022-11-30.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.4.3.<br/>
     </p>
   </div>
 </footer>

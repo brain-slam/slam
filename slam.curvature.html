@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>slam.curvature &#8212; slam 0.0.1 documentation</title>
-    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="_static/gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/gallery-rendered-html.css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
-    <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
 <meta charset='utf-8'>
@@ -42,7 +45,7 @@
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
             
-                <li><a href="https://github.com/gauzias/slam">Github</a></li>
+                <li><a href="https://github.com/brain-slam/slam">Github</a></li>
                 <li><a href="faq.html">FAQ</a></li>
                 <li><a href="auto_examples/index.html">Examples</a></li>
                 <li><a href="api.html">API</a></li>
@@ -119,16 +122,31 @@
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_curvature</span></code>(FV, VertexNormals, …)</p></td>
 <td><p>CalcFaceCurvature recives a list of vertices and faces in FV structure and the normal at each vertex and calculates the second fundemental matrix and the curvature using least squares :param FV: face-vertex data structure containing a list of vertices and a list of faces :param VertexNormals: n*3 matrix ( n = number of vertices ) containing the normal at each vertex :param FaceNormals: m*3 matrix ( m = number of faces ) containing the normal of each face :param Avertex: :param Acorner: :param up: :param vp: :return: FaceSFM - an m*1 cell matrix second fundemental VertexSFM - an n*w cell matrix second fundementel wfp - corner voronoi weights</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">curvatures_and_derivatives</span></code>(mesh)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">curvature_fit</span></code>(mesh[, tol, neighbour_size])</p></td>
+<td><p>Computation of the two principal curvatures based on: Petitjean, A survey of methods for recovering quadrics in triangle meshes, ACM Computing Surveys, 2002 :param mesh: :param tol: :param neighbour_size: :return:</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">curvatures_and_derivatives</span></code>(mesh)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">principal_curvatures</span></code>(FV, VertexSFM, up, vp)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">curvedness_shapeIndex</span></code>(mesh)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">decompose_curvature</span></code>(in_curv)</p></td>
+<td><p>Decompose the principal curvatures of a mesh in ShapeIndex and curvedness Implementation based on ‘ Surface shape and curvature scales   Jan JKoenderink &amp; Andrea Jvan Doorn   Image and Vision Computing   Volume 10, Issue 8, October 1992, Pages 557-564 ‘</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">determine_local_basis</span></code>(normal, tol)</p></td>
+<td><p>Compute an orthonormal basis of a 2d plane defined by its normal.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">norm</span></code>(vector)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">principal_curvatures</span></code>(FV, VertexSFM, up, vp)</p></td>
 <td><p>Calculates the principal curvatures and prncipal directions :param FV: triangular mesh :param VertexSFM: second fundemental matrix for each vertex :param up: vertex local coordinate frame :param vp: vertex local coordinate frame :return: PrincipalCurvature : Matrix containing pricipale curvatures ( dim = 2 * Number of vertices ) PrincipalDi1 , PrincipalDi2 : First and second principal directions</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">project_curvature_tensor</span></code>(uf, vf, nf, old_ku, …)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">project_curvature_tensor</span></code>(uf, vf, nf, old_ku, …)</p></td>
 <td><p>performs a projection of the tensor variables to the vertex coordinate system :param uf:face coordinates system :param vf:face coordinates system :param nf:face normal :param old_ku:face curvature tensor variables :param old_kuv:face curvature tensor variables :param old_kv:face curvature tensor variables :param up:vertex cordinate system :param vp:vertex cordinate system :return: new_ku,new_kuv,new_kv : vertex curvature tensor coordinates The tensor : [[new_ku, new_kuv], [new_kuv, new_kv]]</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotate_coordinate_system</span></code>(up, vp, nf)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotate_coordinate_system</span></code>(up, vp, nf)</p></td>
 <td><p>RotateCoordinateSystem performs the rotation of the vectors up and vp to the plane defined by nf as its normal vector :param up: vectors to be rotated (vertex coordinate system) :param vp: vectors to be rotated (vertex coordinate system) :param nf: face normal :return: r_new_u,r_new_v : new rotated vectors</p></td>
 </tr>
 </tbody>
@@ -147,8 +165,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2020, slam Developers. Last updated on 2020-12-04.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.<br/>
+        &copy; Copyright 2022, slam Developers. Last updated on 2022-11-30.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.4.3.<br/>
     </p>
   </div>
 </footer>

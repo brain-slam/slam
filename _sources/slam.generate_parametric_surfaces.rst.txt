@@ -1,7 +1,11 @@
-slam.generate\_parametric\_surfaces
+﻿slam.generate\_parametric\_surfaces
 ===================================
 
 .. automodule:: slam.generate_parametric_surfaces
+
+   
+   
+   
 
    
    
@@ -9,7 +13,15 @@ slam.generate\_parametric\_surfaces
 
    .. autosummary::
    
+      adaptive_sampling
+      compute_all_principal_directions
+      compute_all_principal_directions_3D
+      compute_local_basis
+      compute_principal_directions
+      compute_weingarten_map
       generate_ellipsiod
+      generate_hinge
+      generate_paraboloid_regular
       generate_quadric
       generate_sphere_icosahedron
       generate_sphere_random_sampling
@@ -27,3 +39,6 @@ slam.generate\_parametric\_surfaces
    
    
    
+
+
+

@@ -1,7 +1,11 @@
-slam.vertex\_voronoi
+﻿slam.vertex\_voronoi
 ====================
 
 .. automodule:: slam.vertex_voronoi
+
+   
+   
+   
 
    
    
@@ -20,3 +24,6 @@ slam.vertex\_voronoi
    
    
    
+
+
+

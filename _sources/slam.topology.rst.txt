@@ -1,7 +1,11 @@
-slam.topology
+﻿slam.topology
 =============
 
 .. automodule:: slam.topology
+
+   
+   
+   
 
    
    
@@ -9,18 +13,19 @@ slam.topology
 
    .. autosummary::
    
+      adjacency_matrix
       boundaries_intersection
       boundary_angles
-      cat_boundary
       close_mesh
       create_vertex
       cut_mesh
-      edges_to_adjacency_matrix
       edges_to_boundary
       ismember
+      k_ring_neighborhood
       list_count
       local_barycentric_smoothing
       mesh_boundary
+      remove_mesh_boundary_faces
       sub_cut_mesh
       texture_boundary
       texture_boundary_vertices
@@ -34,3 +39,6 @@ slam.topology
    
    
    
+
+
+

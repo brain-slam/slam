@@ -23,7 +23,7 @@ import slam.io as sio
 
 # loading a mesh stored on the disc as a gifti file,
 # this is a feature of SLAM
-mesh = sio.load_mesh('../examples/data/example_mesh.gii')
+mesh = sio.load_mesh("../examples/data/example_mesh.gii")
 
 ###############################################################################
 # affine transformations can be applied to mesh objects
@@ -39,7 +39,7 @@ mesh.apply_transform(mesh.principal_inertia_transform)
 # interesting properties / functions of a mesh
 # see base.py for more details
 # what's the euler number for the mesh?
-print('mesh.euler_number=', mesh.euler_number)
+print("mesh.euler_number=", mesh.euler_number)
 
 ###############################################################################
 # access mesh edges
@@ -59,7 +59,7 @@ mesh.edges
 
 ###############################################################################
 # what's the area of the mesh
-print('mesh.area=', mesh.area)
+print("mesh.area=", mesh.area)
 
 ###############################################################################
 # compute the area of each face
@@ -107,6 +107,7 @@ mesh.voxelized(2)
 
 ###############################################################################
 # boundary of the mesh or list of faces
+# this functionnality requires to install the optional package shapely
 mesh.outline()
 
 ###############################################################################
@@ -155,6 +156,8 @@ mesh.bounding_box_oriented.primitive.transform
 # available, and will be the minimum volume version of each
 # except in certain degenerate cases, where they will be no worse
 # than a least squares fit version of the primitive.
-print(mesh.bounding_box_oriented.volume,
-      mesh.bounding_cylinder.volume,
-      mesh.bounding_sphere.volume)
+print(
+    mesh.bounding_box_oriented.volume,
+    mesh.bounding_cylinder.volume,
+    mesh.bounding_sphere.volume,
+)

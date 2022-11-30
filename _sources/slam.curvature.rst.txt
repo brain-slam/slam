@@ -1,7 +1,11 @@
-slam.curvature
+﻿slam.curvature
 ==============
 
 .. automodule:: slam.curvature
+
+   
+   
+   
 
    
    
@@ -11,7 +15,12 @@ slam.curvature
    
       calcvertex_normals
       compute_curvature
+      curvature_fit
       curvatures_and_derivatives
+      curvedness_shapeIndex
+      decompose_curvature
+      determine_local_basis
+      norm
       principal_curvatures
       project_curvature_tensor
       rotate_coordinate_system
@@ -25,3 +34,6 @@ slam.curvature
    
    
    
+
+
+

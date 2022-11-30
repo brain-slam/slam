@@ -1,7 +1,11 @@
-slam.geodesics
+﻿slam.geodesics
 ==============
 
 .. automodule:: slam.geodesics
+
+   
+   
+   
 
    
    
@@ -22,3 +26,6 @@ slam.geodesics
    
    
    
+
+
+

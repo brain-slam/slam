@@ -24,7 +24,7 @@ import numpy as np
 
 ###############################################################################
 #
-mesh = sio.load_mesh('../examples/data/example_mesh.gii')
+mesh = sio.load_mesh("../examples/data/example_mesh.gii")
 mesh.apply_transform(mesh.principal_inertia_transform)
 
 ###############################################################################
@@ -36,7 +36,7 @@ print(np.sum(vert_vor) - mesh.area)
 
 ###############################################################################
 # Visualization
-visb_sc = splt.visbrain_plot(mesh=mesh, tex=vert_vor,
-                             caption='vertex voronoi',
-                             cblabel='vertex voronoi')
+visb_sc = splt.visbrain_plot(
+    mesh=mesh, tex=vert_vor, caption="vertex voronoi", cblabel="vertex voronoi"
+)
 visb_sc.preview()

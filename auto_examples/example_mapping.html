@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mapping example in slam &#8212; slam 0.0.1 documentation</title>
-    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-rendered-html.css" />
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
-    <script src="../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
 <meta charset='utf-8'>
@@ -42,7 +45,7 @@
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
             
-                <li><a href="https://github.com/gauzias/slam">Github</a></li>
+                <li><a href="https://github.com/brain-slam/slam">Github</a></li>
                 <li><a href="../faq.html">FAQ</a></li>
                 <li><a href="index.html">Examples</a></li>
                 <li><a href="../api.html">API</a></li>
@@ -106,7 +109,8 @@
       
   <div class="sphx-glr-download-link-note admonition note">
 <p class="admonition-title">Note</p>
-<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-example-mapping-py"><span class="std std-ref">here</span></a> to download the full example code</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-example-mapping-py"><span class="std std-ref">here</span></a>
+to download the full example code</p>
 </div>
 <div class="sphx-glr-example-title section" id="mapping-example-in-slam">
 <span id="example-mapping"></span><span id="sphx-glr-auto-examples-example-mapping-py"></span><h1>Mapping example in slam<a class="headerlink" href="#mapping-example-in-slam" title="Permalink to this headline">¶</a></h1>
@@ -130,81 +134,72 @@
 </pre></div>
 </div>
 <p>Generation of an open mesh</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">K</span></a> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">open_mesh</span> <span class="o">=</span> <span class="n">sps</span><span class="o">.</span><span class="n">generate_quadric</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">K</span></a><span class="p">,</span> <span class="n">nstep</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
-<a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">open_mesh_boundary</span></a> <span class="o">=</span> <span class="n">stop</span><span class="o">.</span><span class="n">mesh_boundary</span><span class="p">(</span><span class="n">open_mesh</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">K</span></a> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">open_mesh</span> <span class="o">=</span> <span class="n">sps</span><span class="o">.</span><span class="n">generate_quadric</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">K</span></a><span class="p">,</span> <span class="n">nstep</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">open_mesh_boundary</span></a> <span class="o">=</span> <span class="n">stop</span><span class="o">.</span><span class="n">mesh_boundary</span><span class="p">(</span><span class="n">open_mesh</span><span class="p">)</span>
 <span class="c1"># Visualization</span>
-<span class="n">visb_sc</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">visbrain_plot</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">open_mesh</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="s1">&#39;open mesh&#39;</span><span class="p">)</span>
-<span class="k">for</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">bound</span></a> <span class="ow">in</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">open_mesh_boundary</span></a><span class="p">:</span>
-    <span class="n">points</span> <span class="o">=</span> <span class="n">open_mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">bound</span></a><span class="p">]</span>
-    <span class="n">s_rad</span> <span class="o">=</span> <span class="n">SourceObj</span><span class="p">(</span><span class="s1">&#39;rad&#39;</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">symbol</span><span class="o">=</span><span class="s1">&#39;square&#39;</span><span class="p">,</span>
-                      <span class="n">radius_min</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">visb_sc</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">visbrain_plot</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">open_mesh</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="s2">&quot;open mesh&quot;</span><span class="p">)</span>
+<span class="k">for</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">bound</span></a> <span class="ow">in</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">open_mesh_boundary</span></a><span class="p">:</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="n">open_mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">bound</span></a><span class="p">]</span>
+    <span class="n">s_rad</span> <span class="o">=</span> <span class="n">SourceObj</span><span class="p">(</span><span class="s2">&quot;rad&quot;</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="n">symbol</span><span class="o">=</span><span class="s2">&quot;square&quot;</span><span class="p">,</span> <span class="n">radius_min</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
     <span class="n">visb_sc</span><span class="o">.</span><span class="n">add_to_subplot</span><span class="p">(</span><span class="n">s_rad</span><span class="p">)</span>
-    <span class="n">lines</span> <span class="o">=</span> <span class="n">Line</span><span class="p">(</span><span class="n">pos</span><span class="o">=</span><span class="n">open_mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">bound</span></a><span class="p">],</span> <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">Line</span><span class="p">(</span><span class="n">pos</span><span class="o">=</span><span class="n">open_mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">bound</span></a><span class="p">],</span> <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">)</span>
     <span class="c1"># wrap the vispy object using visbrain</span>
-    <span class="n">l_obj</span> <span class="o">=</span> <span class="n">VispyObj</span><span class="p">(</span><span class="s1">&#39;line&#39;</span><span class="p">,</span> <span class="n">lines</span><span class="p">)</span>
+    <span class="n">l_obj</span> <span class="o">=</span> <span class="n">VispyObj</span><span class="p">(</span><span class="s2">&quot;line&quot;</span><span class="p">,</span> <span class="n">lines</span><span class="p">)</span>
     <span class="n">visb_sc</span><span class="o">.</span><span class="n">add_to_subplot</span><span class="p">(</span><span class="n">l_obj</span><span class="p">)</span>
 <span class="n">visb_sc</span><span class="o">.</span><span class="n">preview</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/sphx_glr_example_mapping_001.png" class="sphx-glr-single-img" src="../_images/sphx_glr_example_mapping_001.png" />
-<p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/toz/miniconda3/envs/trimesh_visbrain/lib/python3.6/site-packages/matplotlib/figure.py:445: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
-  % get_backend())
-</pre></div>
-</div>
+<img alt="example mapping" class="sphx-glr-single-img" src="../_images/sphx_glr_example_mapping_001.png" />
 <p>Mapping onto a planar disk</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">disk_mesh</span> <span class="o">=</span> <span class="n">smap</span><span class="o">.</span><span class="n">disk_conformal_mapping</span><span class="p">(</span><span class="n">open_mesh</span><span class="p">)</span>
 <span class="c1"># Visualization</span>
-<span class="n">visb_sc2</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">visbrain_plot</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">disk_mesh</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="s1">&#39;disk mesh&#39;</span><span class="p">)</span>
-<span class="k">for</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">bound</span></a> <span class="ow">in</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">open_mesh_boundary</span></a><span class="p">:</span>
-    <span class="n">points</span> <span class="o">=</span> <span class="n">disk_mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">bound</span></a><span class="p">]</span>
-    <span class="n">s_rad</span> <span class="o">=</span> <span class="n">SourceObj</span><span class="p">(</span><span class="s1">&#39;rad&#39;</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">symbol</span><span class="o">=</span><span class="s1">&#39;square&#39;</span><span class="p">,</span>
-                      <span class="n">radius_min</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">visb_sc2</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">visbrain_plot</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">disk_mesh</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="s2">&quot;disk mesh&quot;</span><span class="p">)</span>
+<span class="k">for</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">bound</span></a> <span class="ow">in</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">open_mesh_boundary</span></a><span class="p">:</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="n">disk_mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">bound</span></a><span class="p">]</span>
+    <span class="n">s_rad</span> <span class="o">=</span> <span class="n">SourceObj</span><span class="p">(</span><span class="s2">&quot;rad&quot;</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="n">symbol</span><span class="o">=</span><span class="s2">&quot;square&quot;</span><span class="p">,</span> <span class="n">radius_min</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
     <span class="n">visb_sc2</span><span class="o">.</span><span class="n">add_to_subplot</span><span class="p">(</span><span class="n">s_rad</span><span class="p">)</span>
-    <span class="n">lines</span> <span class="o">=</span> <span class="n">Line</span><span class="p">(</span><span class="n">pos</span><span class="o">=</span><span class="n">disk_mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">bound</span></a><span class="p">],</span> <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">Line</span><span class="p">(</span><span class="n">pos</span><span class="o">=</span><span class="n">disk_mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">bound</span></a><span class="p">],</span> <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">)</span>
     <span class="c1"># wrap the vispy object using visbrain</span>
-    <span class="n">l_obj</span> <span class="o">=</span> <span class="n">VispyObj</span><span class="p">(</span><span class="s1">&#39;line&#39;</span><span class="p">,</span> <span class="n">lines</span><span class="p">)</span>
+    <span class="n">l_obj</span> <span class="o">=</span> <span class="n">VispyObj</span><span class="p">(</span><span class="s2">&quot;line&quot;</span><span class="p">,</span> <span class="n">lines</span><span class="p">)</span>
     <span class="n">visb_sc2</span><span class="o">.</span><span class="n">add_to_subplot</span><span class="p">(</span><span class="n">l_obj</span><span class="p">)</span>
 <span class="n">visb_sc2</span><span class="o">.</span><span class="n">preview</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/sphx_glr_example_mapping_002.png" class="sphx-glr-single-img" src="../_images/sphx_glr_example_mapping_002.png" />
+<img alt="example mapping" class="sphx-glr-single-img" src="../_images/sphx_glr_example_mapping_002.png" />
 <p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>  Computing Laplacian
     Computing mesh weights of type conformal
     -edge length threshold needed for  0  values =  0.0  %
     -number of Nan in weights:  0  =  0.0  %
-    -number of Negative values in weights:  12  =  11.538461538461538  %
+    -number of Negative values in weights:  4  =  4.0  %
     -nb Nan in Laplacian :  0
     -nb Inf in Laplacian :  0
-Boundary Size: (14,)
-Laplacian Size: (23, 23)
-/home/toz/miniconda3/envs/trimesh_visbrain/lib/python3.6/site-packages/matplotlib/figure.py:445: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
-  % get_backend())
+Boundary Size: (13,)
+Laplacian Size: (22, 22)
 </pre></div>
 </div>
 <p>Compute distortion measures between original and planar representations</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">angle_diff</span></a> <span class="o">=</span> <span class="n">sdst</span><span class="o">.</span><span class="n">angle_difference</span><span class="p">(</span><span class="n">disk_mesh</span><span class="p">,</span> <span class="n">open_mesh</span><span class="p">)</span>
-<a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">area_diff</span></a> <span class="o">=</span> <span class="n">sdst</span><span class="o">.</span><span class="n">area_difference</span><span class="p">(</span><span class="n">disk_mesh</span><span class="p">,</span> <span class="n">open_mesh</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-np-class"><span class="n">angle_diff</span></a> <span class="o">=</span> <span class="n">sdst</span><span class="o">.</span><span class="n">angle_difference</span><span class="p">(</span><span class="n">disk_mesh</span><span class="p">,</span> <span class="n">open_mesh</span><span class="p">)</span>
+<a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-np-class"><span class="n">area_diff</span></a> <span class="o">=</span> <span class="n">sdst</span><span class="o">.</span><span class="n">area_difference</span><span class="p">(</span><span class="n">disk_mesh</span><span class="p">,</span> <span class="n">open_mesh</span><span class="p">)</span>
 <span class="n">edge_diff</span> <span class="o">=</span> <span class="n">sdst</span><span class="o">.</span><span class="n">edge_length_difference</span><span class="p">(</span><span class="n">disk_mesh</span><span class="p">,</span> <span class="n">open_mesh</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.mean" title="View documentation for numpy.mean"><span class="n">np</span><span class="o">.</span><span class="n">mean</span></a><span class="p">(</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">angle_diff</span></a><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.mean" title="View documentation for numpy.mean"><span class="n">np</span><span class="o">.</span><span class="n">mean</span></a><span class="p">(</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">area_diff</span></a><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.mean" title="View documentation for numpy.mean"><span class="n">np</span><span class="o">.</span><span class="n">mean</span></a><span class="p">(</span><span class="n">edge_diff</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.mean" title="numpy.mean" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-np-function"><span class="n">np</span><span class="o">.</span><span class="n">mean</span></a><span class="p">(</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-np-class"><span class="n">angle_diff</span></a><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.mean" title="numpy.mean" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-np-function"><span class="n">np</span><span class="o">.</span><span class="n">mean</span></a><span class="p">(</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-np-class"><span class="n">area_diff</span></a><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.mean" title="numpy.mean" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-np-function"><span class="n">np</span><span class="o">.</span><span class="n">mean</span></a><span class="p">(</span><span class="n">edge_diff</span><span class="p">))</span>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>0.0
--0.02175204169139885
--0.10688450626337485
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>2.5522368382187506e-18
+-0.03526596276269568
+-0.09295198609266887
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  2.602 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.827 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-example-mapping-py">
-<div class="sphx-glr-download docutils container">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/4c9596f984ce2ee8fbb7a7c8aa3af804/example_mapping.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">example_mapping.py</span></code></a></p>
 </div>
-<div class="sphx-glr-download docutils container">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/8545bf415fdd090c121a68225e9f1409/example_mapping.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">example_mapping.ipynb</span></code></a></p>
 </div>
 </div>
@@ -223,8 +218,8 @@ Laplacian Size: (23, 23)
       
     </p>
     <p>
-        &copy; Copyright 2020, slam Developers. Last updated on 2020-12-04.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.<br/>
+        &copy; Copyright 2022, slam Developers. Last updated on 2022-11-30.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.4.3.<br/>
     </p>
   </div>
 </footer>

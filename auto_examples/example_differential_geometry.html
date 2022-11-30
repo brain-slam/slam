@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>example of differential geometry tools in slam &#8212; slam 0.0.1 documentation</title>
-    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-rendered-html.css" />
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
-    <script src="../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
 <meta charset='utf-8'>
@@ -42,7 +45,7 @@
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
             
-                <li><a href="https://github.com/gauzias/slam">Github</a></li>
+                <li><a href="https://github.com/brain-slam/slam">Github</a></li>
                 <li><a href="../faq.html">FAQ</a></li>
                 <li><a href="index.html">Examples</a></li>
                 <li><a href="../api.html">API</a></li>
@@ -106,7 +109,8 @@
       
   <div class="sphx-glr-download-link-note admonition note">
 <p class="admonition-title">Note</p>
-<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-example-differential-geometry-py"><span class="std std-ref">here</span></a> to download the full example code</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-example-differential-geometry-py"><span class="std std-ref">here</span></a>
+to download the full example code</p>
 </div>
 <div class="sphx-glr-example-title section" id="example-of-differential-geometry-tools-in-slam">
 <span id="example-differential-geometry"></span><span id="sphx-glr-auto-examples-example-differential-geometry-py"></span><h1>example of differential geometry tools in slam<a class="headerlink" href="#example-of-differential-geometry-tools-in-slam" title="Permalink to this headline">¶</a></h1>
@@ -123,30 +127,25 @@
 </pre></div>
 </div>
 <p>loading an examplar mesh and corresponding texture and show it</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="View documentation for builtins.str"><span class="n">mesh_file</span></a> <span class="o">=</span> <span class="s1">&#39;../examples/data/example_mesh.gii&#39;</span>
-<a href="https://docs.python.org/3/library/stdtypes.html#str" title="View documentation for builtins.str"><span class="n">texture_file</span></a> <span class="o">=</span> <span class="s1">&#39;../examples/data/example_texture.gii&#39;</span>
-<span class="n">mesh</span> <span class="o">=</span> <span class="n">sio</span><span class="o">.</span><span class="n">load_mesh</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="View documentation for builtins.str"><span class="n">mesh_file</span></a><span class="p">)</span>
-<span class="n">tex</span> <span class="o">=</span> <span class="n">sio</span><span class="o">.</span><span class="n">load_texture</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="View documentation for builtins.str"><span class="n">texture_file</span></a><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">mesh_file</span></a> <span class="o">=</span> <span class="s2">&quot;../examples/data/example_mesh.gii&quot;</span>
+<a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">texture_file</span></a> <span class="o">=</span> <span class="s2">&quot;../examples/data/example_texture.gii&quot;</span>
+<span class="n">mesh</span> <span class="o">=</span> <span class="n">sio</span><span class="o">.</span><span class="n">load_mesh</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">mesh_file</span></a><span class="p">)</span>
+<span class="n">tex</span> <span class="o">=</span> <span class="n">sio</span><span class="o">.</span><span class="n">load_texture</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">texture_file</span></a><span class="p">)</span>
 
-<span class="n">visb_sc</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">visbrain_plot</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span> <span class="n">tex</span><span class="o">=</span><span class="n">tex</span><span class="o">.</span><span class="n">darray</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                             <span class="n">caption</span><span class="o">=</span><span class="s1">&#39;mesh with curvature&#39;</span><span class="p">,</span>
-                             <span class="n">cblabel</span><span class="o">=</span><span class="s1">&#39;curvature&#39;</span><span class="p">)</span>
+<span class="n">visb_sc</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">visbrain_plot</span><span class="p">(</span>
+    <span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span> <span class="n">tex</span><span class="o">=</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-np-class"><span class="n">tex</span><span class="o">.</span><span class="n">darray</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">caption</span><span class="o">=</span><span class="s2">&quot;mesh with curvature&quot;</span><span class="p">,</span> <span class="n">cblabel</span><span class="o">=</span><span class="s2">&quot;curvature&quot;</span>
+<span class="p">)</span>
 <span class="n">visb_sc</span><span class="o">.</span><span class="n">preview</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/sphx_glr_example_differential_geometry_001.png" class="sphx-glr-single-img" src="../_images/sphx_glr_example_differential_geometry_001.png" />
-<p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/toz/miniconda3/envs/trimesh_visbrain/lib/python3.6/site-packages/matplotlib/figure.py:445: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
-  % get_backend())
-</pre></div>
-</div>
+<img alt="example differential geometry" class="sphx-glr-single-img" src="../_images/sphx_glr_example_differential_geometry_001.png" />
 <p>compute various types of Laplacian of the mesh</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="http://docs.scipy.org/doc/scipy-0.17.0/reference/generated/scipy.sparse.html#scipy.sparse.lil_matrix" title="View documentation for scipy.sparse.lil_matrix"><span class="n">lap</span></a><span class="p">,</span> <a href="http://docs.scipy.org/doc/scipy-0.17.0/reference/generated/scipy.sparse.html#scipy.sparse.lil_matrix" title="View documentation for scipy.sparse.lil_matrix"><span class="n">lap_b</span></a> <span class="o">=</span> <span class="n">sdg</span><span class="o">.</span><span class="n">compute_mesh_laplacian</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">lap_type</span><span class="o">=</span><span class="s1">&#39;fem&#39;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="http://docs.scipy.org/doc/scipy-0.17.0/reference/generated/scipy.sparse.html#scipy.sparse.lil_matrix" title="scipy.sparse.lil_matrix" class="sphx-glr-backref-module-scipy-sparse sphx-glr-backref-type-scipy-optimize-class"><span class="n">lap</span></a><span class="p">,</span> <a href="http://docs.scipy.org/doc/scipy-0.17.0/reference/generated/scipy.sparse.html#scipy.sparse.lil_matrix" title="scipy.sparse.lil_matrix" class="sphx-glr-backref-module-scipy-sparse sphx-glr-backref-type-scipy-optimize-class"><span class="n">lap_b</span></a> <span class="o">=</span> <span class="n">sdg</span><span class="o">.</span><span class="n">compute_mesh_laplacian</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">lap_type</span><span class="o">=</span><span class="s2">&quot;fem&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><a href="http://docs.scipy.org/doc/scipy-0.17.0/reference/generated/scipy.sparse.html#scipy.sparse.lil_matrix" title="View documentation for scipy.sparse.lil_matrix"><span class="n">lap</span></a><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<a href="http://docs.scipy.org/doc/scipy-0.17.0/reference/generated/scipy.sparse.html#scipy.sparse.lil_matrix" title="View documentation for scipy.sparse.lil_matrix"><span class="n">lap</span></a><span class="p">,</span> <a href="http://docs.scipy.org/doc/scipy-0.17.0/reference/generated/scipy.sparse.html#scipy.sparse.lil_matrix" title="View documentation for scipy.sparse.lil_matrix"><span class="n">lap_b</span></a> <span class="o">=</span> <span class="n">sdg</span><span class="o">.</span><span class="n">compute_mesh_laplacian</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">lap_type</span><span class="o">=</span><span class="s1">&#39;conformal&#39;</span><span class="p">)</span>
-<a href="http://docs.scipy.org/doc/scipy-0.17.0/reference/generated/scipy.sparse.html#scipy.sparse.lil_matrix" title="View documentation for scipy.sparse.lil_matrix"><span class="n">lap</span></a><span class="p">,</span> <a href="http://docs.scipy.org/doc/scipy-0.17.0/reference/generated/scipy.sparse.html#scipy.sparse.lil_matrix" title="View documentation for scipy.sparse.lil_matrix"><span class="n">lap_b</span></a> <span class="o">=</span> <span class="n">sdg</span><span class="o">.</span><span class="n">compute_mesh_laplacian</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">lap_type</span><span class="o">=</span><span class="s1">&#39;meanvalue&#39;</span><span class="p">)</span>
-<a href="http://docs.scipy.org/doc/scipy-0.17.0/reference/generated/scipy.sparse.html#scipy.sparse.lil_matrix" title="View documentation for scipy.sparse.lil_matrix"><span class="n">lap</span></a><span class="p">,</span> <a href="http://docs.scipy.org/doc/scipy-0.17.0/reference/generated/scipy.sparse.html#scipy.sparse.lil_matrix" title="View documentation for scipy.sparse.lil_matrix"><span class="n">lap_b</span></a> <span class="o">=</span> <span class="n">sdg</span><span class="o">.</span><span class="n">compute_mesh_laplacian</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">lap_type</span><span class="o">=</span><span class="s1">&#39;authalic&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><a href="http://docs.scipy.org/doc/scipy-0.17.0/reference/generated/scipy.sparse.lil_matrix.html#scipy.sparse.lil_matrix.shape" title="scipy.sparse.lil_matrix.shape" class="sphx-glr-backref-module-scipy-sparse sphx-glr-backref-type-scipy-optimize-attribute"><span class="n">lap</span><span class="o">.</span><span class="n">shape</span></a><span class="p">)</span>
+<a href="http://docs.scipy.org/doc/scipy-0.17.0/reference/generated/scipy.sparse.html#scipy.sparse.lil_matrix" title="scipy.sparse.lil_matrix" class="sphx-glr-backref-module-scipy-sparse sphx-glr-backref-type-scipy-optimize-class"><span class="n">lap</span></a><span class="p">,</span> <a href="http://docs.scipy.org/doc/scipy-0.17.0/reference/generated/scipy.sparse.html#scipy.sparse.lil_matrix" title="scipy.sparse.lil_matrix" class="sphx-glr-backref-module-scipy-sparse sphx-glr-backref-type-scipy-optimize-class"><span class="n">lap_b</span></a> <span class="o">=</span> <span class="n">sdg</span><span class="o">.</span><span class="n">compute_mesh_laplacian</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">lap_type</span><span class="o">=</span><span class="s2">&quot;conformal&quot;</span><span class="p">)</span>
+<a href="http://docs.scipy.org/doc/scipy-0.17.0/reference/generated/scipy.sparse.html#scipy.sparse.lil_matrix" title="scipy.sparse.lil_matrix" class="sphx-glr-backref-module-scipy-sparse sphx-glr-backref-type-scipy-optimize-class"><span class="n">lap</span></a><span class="p">,</span> <a href="http://docs.scipy.org/doc/scipy-0.17.0/reference/generated/scipy.sparse.html#scipy.sparse.lil_matrix" title="scipy.sparse.lil_matrix" class="sphx-glr-backref-module-scipy-sparse sphx-glr-backref-type-scipy-optimize-class"><span class="n">lap_b</span></a> <span class="o">=</span> <span class="n">sdg</span><span class="o">.</span><span class="n">compute_mesh_laplacian</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">lap_type</span><span class="o">=</span><span class="s2">&quot;meanvalue&quot;</span><span class="p">)</span>
+<a href="http://docs.scipy.org/doc/scipy-0.17.0/reference/generated/scipy.sparse.html#scipy.sparse.lil_matrix" title="scipy.sparse.lil_matrix" class="sphx-glr-backref-module-scipy-sparse sphx-glr-backref-type-scipy-optimize-class"><span class="n">lap</span></a><span class="p">,</span> <a href="http://docs.scipy.org/doc/scipy-0.17.0/reference/generated/scipy.sparse.html#scipy.sparse.lil_matrix" title="scipy.sparse.lil_matrix" class="sphx-glr-backref-module-scipy-sparse sphx-glr-backref-type-scipy-optimize-class"><span class="n">lap_b</span></a> <span class="o">=</span> <span class="n">sdg</span><span class="o">.</span><span class="n">compute_mesh_laplacian</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">lap_type</span><span class="o">=</span><span class="s2">&quot;authalic&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
@@ -207,23 +206,18 @@
 </pre></div>
 </div>
 <p>show it</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">visb_sc</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">visbrain_plot</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">s_mesh</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="s1">&#39;smoothed mesh&#39;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">visb_sc</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">visbrain_plot</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">s_mesh</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="s2">&quot;smoothed mesh&quot;</span><span class="p">)</span>
 <span class="n">visb_sc</span><span class="o">.</span><span class="n">preview</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/sphx_glr_example_differential_geometry_002.png" class="sphx-glr-single-img" src="../_images/sphx_glr_example_differential_geometry_002.png" />
-<p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/toz/miniconda3/envs/trimesh_visbrain/lib/python3.6/site-packages/matplotlib/figure.py:445: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
-  % get_backend())
-</pre></div>
-</div>
+<img alt="example differential geometry" class="sphx-glr-single-img" src="../_images/sphx_glr_example_differential_geometry_002.png" />
 <p>compute the gradient of texture tex</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">triangle_grad</span></a> <span class="o">=</span> <span class="n">sdg</span><span class="o">.</span><span class="n">triangle_gradient</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">tex</span><span class="o">.</span><span class="n">darray</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">triangle_grad</span></a><span class="p">)</span>
-<a href="https://docs.python.org/3/library/stdtypes.html#dict" title="View documentation for builtins.dict"><span class="n">grad</span></a> <span class="o">=</span> <span class="n">sdg</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">tex</span><span class="o">.</span><span class="n">darray</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#dict.values" title="View documentation for builtins.dict.values"><span class="n">grad</span><span class="o">.</span><span class="n">values</span></a><span class="p">)</span>
-<a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">norm_grad</span></a> <span class="o">=</span> <span class="n">sdg</span><span class="o">.</span><span class="n">norm_gradient</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">tex</span><span class="o">.</span><span class="n">darray</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">norm_grad</span></a><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-np-class"><span class="n">triangle_grad</span></a> <span class="o">=</span> <span class="n">sdg</span><span class="o">.</span><span class="n">triangle_gradient</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-np-class"><span class="n">tex</span><span class="o">.</span><span class="n">darray</span></a><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-np-class"><span class="n">triangle_grad</span></a><span class="p">)</span>
+<a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-np-class"><span class="n">grad</span></a> <span class="o">=</span> <span class="n">sdg</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-np-class"><span class="n">tex</span><span class="o">.</span><span class="n">darray</span></a><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-np-class"><span class="n">grad</span></a><span class="p">)</span>
+<a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-np-class"><span class="n">norm_grad</span></a> <span class="o">=</span> <span class="n">sdg</span><span class="o">.</span><span class="n">norm_gradient</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-np-class"><span class="n">tex</span><span class="o">.</span><span class="n">darray</span></a><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-np-class"><span class="n">norm_grad</span></a><span class="p">)</span>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
@@ -432,7 +426,13 @@
 97 %
 98 %
 99 %
-&lt;built-in method values of dict object at 0x7ffa91e10b88&gt;
+[[-3.16016138e-03 -1.21617037e-02 -7.56323397e-03]
+ [ 6.37035386e-05 -1.23221759e-02 -7.34847031e-03]
+ [ 1.88016554e-03 -3.03642985e-03  2.32632729e-03]
+ ...
+ [ 2.24089885e-03  1.09245023e-02  4.04642855e-03]
+ [-1.08939493e-04  4.64315729e-03  1.60189335e-03]
+ [-5.57641899e-04  6.48352716e-04 -1.52567188e-03]]
 1 %
 2 %
 3 %
@@ -536,20 +536,18 @@
 </pre></div>
 </div>
 <p>show it</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">visb_sc</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">visbrain_plot</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span> <span class="n">tex</span><span class="o">=</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">norm_grad</span></a><span class="p">,</span>
-                             <span class="n">caption</span><span class="o">=</span><span class="s1">&#39;norm of the gradient of curvature&#39;</span><span class="p">,</span>
-                             <span class="n">cblabel</span><span class="o">=</span><span class="s1">&#39;gradient magnitude&#39;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">visb_sc</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">visbrain_plot</span><span class="p">(</span>
+    <span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span>
+    <span class="n">tex</span><span class="o">=</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-np-class"><span class="n">norm_grad</span></a><span class="p">,</span>
+    <span class="n">caption</span><span class="o">=</span><span class="s2">&quot;norm of the gradient of curvature&quot;</span><span class="p">,</span>
+    <span class="n">cblabel</span><span class="o">=</span><span class="s2">&quot;gradient magnitude&quot;</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="n">visb_sc</span><span class="o">.</span><span class="n">preview</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/sphx_glr_example_differential_geometry_003.png" class="sphx-glr-single-img" src="../_images/sphx_glr_example_differential_geometry_003.png" />
-<p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/toz/miniconda3/envs/trimesh_visbrain/lib/python3.6/site-packages/matplotlib/figure.py:445: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
-  % get_backend())
-</pre></div>
-</div>
+<img alt="example differential geometry" class="sphx-glr-single-img" src="../_images/sphx_glr_example_differential_geometry_003.png" />
 <p>compute the depth potential function</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">dpf</span></a> <span class="o">=</span> <span class="n">sdg</span><span class="o">.</span><span class="n">depth_potential_function</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">tex</span><span class="o">.</span><span class="n">darray</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.3</span><span class="p">])</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">dpf</span></a> <span class="o">=</span> <span class="n">sdg</span><span class="o">.</span><span class="n">depth_potential_function</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-np-class"><span class="n">tex</span><span class="o">.</span><span class="n">darray</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.3</span><span class="p">])</span>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
@@ -563,24 +561,19 @@
 </pre></div>
 </div>
 <p>show it</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">visb_sc</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">visbrain_plot</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span> <span class="n">tex</span><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">dpf</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                             <span class="n">caption</span><span class="o">=</span><span class="s1">&#39;depth potential function&#39;</span><span class="p">,</span>
-                             <span class="n">cblabel</span><span class="o">=</span><span class="s1">&#39;dpf&#39;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">visb_sc</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">visbrain_plot</span><span class="p">(</span>
+    <span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span> <span class="n">tex</span><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">dpf</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">caption</span><span class="o">=</span><span class="s2">&quot;depth potential function&quot;</span><span class="p">,</span> <span class="n">cblabel</span><span class="o">=</span><span class="s2">&quot;dpf&quot;</span>
+<span class="p">)</span>
 <span class="n">visb_sc</span><span class="o">.</span><span class="n">preview</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/sphx_glr_example_differential_geometry_004.png" class="sphx-glr-single-img" src="../_images/sphx_glr_example_differential_geometry_004.png" />
-<p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/toz/miniconda3/envs/trimesh_visbrain/lib/python3.6/site-packages/matplotlib/figure.py:445: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
-  % get_backend())
-</pre></div>
-</div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  21.935 seconds)</p>
+<img alt="example differential geometry" class="sphx-glr-single-img" src="../_images/sphx_glr_example_differential_geometry_004.png" />
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  5.618 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-example-differential-geometry-py">
-<div class="sphx-glr-download docutils container">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/50675cfa6c3376b9ec783a15eaa49a81/example_differential_geometry.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">example_differential_geometry.py</span></code></a></p>
 </div>
-<div class="sphx-glr-download docutils container">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/e34f893fd4fbc0e49080bfb931ba8bb2/example_differential_geometry.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">example_differential_geometry.ipynb</span></code></a></p>
 </div>
 </div>
@@ -599,8 +592,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2020, slam Developers. Last updated on 2020-12-04.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.<br/>
+        &copy; Copyright 2022, slam Developers. Last updated on 2022-11-30.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.4.3.<br/>
     </p>
   </div>
 </footer>

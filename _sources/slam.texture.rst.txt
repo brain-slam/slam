@@ -1,7 +1,11 @@
-slam.texture
+﻿slam.texture
 ============
 
 .. automodule:: slam.texture
+
+   
+   
+   
 
    
    
@@ -20,3 +24,6 @@ slam.texture
    
    
    
+
+
+

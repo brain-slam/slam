@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>slam.generate_parametric_surfaces &#8212; slam 0.0.1 documentation</title>
-    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="_static/gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/gallery-rendered-html.css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
-    <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
 <meta charset='utf-8'>
@@ -42,7 +45,7 @@
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
             
-                <li><a href="https://github.com/gauzias/slam">Github</a></li>
+                <li><a href="https://github.com/brain-slam/slam">Github</a></li>
                 <li><a href="faq.html">FAQ</a></li>
                 <li><a href="auto_examples/index.html">Examples</a></li>
                 <li><a href="api.html">API</a></li>
@@ -113,20 +116,44 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">adaptive_sampling</span></code>(ymax, K, step)</p></td>
+<td><p>sample [-ymax,ymax] such as:</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_all_principal_directions</span></code>(K, vertices)</p></td>
+<td><p>Compute all the principal directions of a quadric surface defined through the input K and sampled points vertices in a local basis :param K: (2,) array such as z(x,y)=K[0]*x**2 + K[1]*y**2 :param vertices: (n,3) coordinates of the quadric.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_all_principal_directions_3D</span></code>(K, vertices)</p></td>
+<td><p>Compute all the principal directions of a quadric surface defined through the input K and sampled points vertices in 3D :param K: (2,) array such as z(x,y)=K[0]*x**2 + K[1]*y**2 :param vertices: (n,3) coordinates of the quadric.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_local_basis</span></code>(K, x, y)</p></td>
+<td><p>Compute the local basis of the tangent plane for the quadric z(x,y)=K[0]*x**2+K[1]*y**2 :param K: (2,) array such as z(x,y)=K[0]*x**2 + K[1]*y**2 :param x: x coordinate where to compute the matrix :param y: y coordinate where to compute the matrix :return: a 2-list of (3,1) vectors, obtained as d (x,y,z(x,y) /dx and d (x,y,z(x,y) /dy</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_principal_directions</span></code>(K, x, y)</p></td>
+<td><p>Compute the principal direction of a quadric, obtained as eigenvectors of the Weingarten matrix :param K: (2,) array such as z(x,y)=K[0]*x**2 + K[1]*y**2 :param x: x coordinate where to compute the matrix :param y: y coordinate where to compute the matrix :return: a 2-list of (2,1) vectors, i.e. principal directions ordered with Kmin,Kmax respectively.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_weingarten_map</span></code>(K, x, y)</p></td>
+<td><p>compute the weingarten matrix of a quadric depending on x and y coordinates :param K: (2,) array such as z(x,y)=K[0]*x**2 + K[1]*y**2 :param (x,y): coordinates where to compute the matrix :return: (2,2) matrix of the weingarten endomorphism to be evaluated at (x,y)</p></td>
+</tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_ellipsiod</span></code>(a, b, nstep[, …])</p></td>
 <td><p>generate an ellipsoid :param a: :param b: :param nstep: :param random_sampling: :return:</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_hinge</span></code>([n_hinge, n_step, min_coord, …])</p></td>
+<td><p>Generate a hinge shaped surface :param n_hinge: :param n_step: :param min_coord: :param max_coord: :param regularity: :return:</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_paraboloid_regular</span></code>(A[, nstep, ax, …])</p></td>
+<td><p>generate a regular paraboloid mesh Z=K*Y^2 ratio and random_distribution_type parameters are unused if random_sampling is set to False :param A: amplitude of the paraboloid :param nstep: nstepx or the sampling step stepx as a float ! :param ax: half length of the domain :param ay: half width of the domain :param random_sampling: :param random_distribution_type: :param ratio: :return:</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_quadric</span></code>(K[, nstep, equilateral, …])</p></td>
 <td><p>generate a quadric mesh Z=K1*X^2 + K2*Y^2 ratio and random_distribution_type parameters are unused if random_sampling is set to False :param K: list with [K1,K2] :param nstep: list with [nstepx,nstepy] or the sampling steps [stepx,stepy] as floats ! :param equilateral: to have an equilateral sampling scheme of the quadric :param ax: half length of the domain :param ay: half width of the domain :param random_sampling: :param ratio: :param random_distribution_type: :return:</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_sphere_icosahedron</span></code>([subdivisions, …])</p></td>
-<td><p>generate a sphere by subdividing an icosahedron simply call the trimesh function see trimesh.creation.icosphere for more details :param subdivisions:  int   How many times to subdivide the mesh.</p></td>
+<td><p>generate a sphere by subdividing an icosahedron simply call the trimesh function see trimesh.creation.icosphere for more details :param subdivisions:  int   How many times to subdivide the mesh. Note that the number of faces will grow as function of   4 ** subdivisions, so you probably want to keep this under ~5 :param radius: float   Desired radius of sphere :return:.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_sphere_random_sampling</span></code>([…])</p></td>
 <td><p>generate a sphere with random sampling :param vertex_number: number of vertices in the output spherical mesh :param radius: radius of the output sphere :return:</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">quadric</span></code>(K1, K2)</p></td>
-<td><p>compute the Z coordinate of a quadric dependeing on X and Y coordinates :param K1: :param K2: :return:</p></td>
+<td><p>compute the Z coordinate of a quadric depending on X and Y coordinates :param K1: :param K2: :return:</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">quadric_curv_gauss</span></code>(K)</p></td>
 <td><p>analytical Gaussian curvature of a quadric :param K1: :param K2: :return:</p></td>
@@ -153,8 +180,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2020, slam Developers. Last updated on 2020-12-04.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.<br/>
+        &copy; Copyright 2022, slam Developers. Last updated on 2022-11-30.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.4.3.<br/>
     </p>
   </div>
 </footer>

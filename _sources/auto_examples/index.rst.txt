@@ -23,6 +23,7 @@ Examples Gallery
 .. only:: html
 
  .. figure:: /auto_examples/images/thumb/sphx_glr_example_basics_thumb.png
+     :alt: Show basic use of slam
 
      :ref:`sphx_glr_auto_examples_example_basics.py`
 
@@ -43,6 +44,7 @@ Examples Gallery
 .. only:: html
 
  .. figure:: /auto_examples/images/thumb/sphx_glr_example_curvature_thumb.png
+     :alt: example of curvature estimation in slam
 
      :ref:`sphx_glr_auto_examples_example_curvature.py`
 
@@ -63,6 +65,7 @@ Examples Gallery
 .. only:: html
 
  .. figure:: /auto_examples/images/thumb/sphx_glr_example_curvature_directions_thumb.png
+     :alt: example of curvature directions in slam
 
      :ref:`sphx_glr_auto_examples_example_curvature_directions.py`
 
@@ -83,6 +86,7 @@ Examples Gallery
 .. only:: html
 
  .. figure:: /auto_examples/images/thumb/sphx_glr_example_differential_geometry_thumb.png
+     :alt: example of differential geometry tools in slam
 
      :ref:`sphx_glr_auto_examples_example_differential_geometry.py`
 
@@ -103,6 +107,7 @@ Examples Gallery
 .. only:: html
 
  .. figure:: /auto_examples/images/thumb/sphx_glr_example_distortion_thumb.png
+     :alt: Example of morphological distortion in slam
 
      :ref:`sphx_glr_auto_examples_example_distortion.py`
 
@@ -118,11 +123,33 @@ Examples Gallery
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbcontainer" tooltip="Example of depth potential function in slam">
+
+.. only:: html
+
+ .. figure:: /auto_examples/images/thumb/sphx_glr_example_dpf_Boucher_thumb.png
+     :alt: Example of depth potential function in slam
+
+     :ref:`sphx_glr_auto_examples_example_dpf_Boucher.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/example_dpf_Boucher
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="Generating parametric surfaces in slam">
 
 .. only:: html
 
  .. figure:: /auto_examples/images/thumb/sphx_glr_example_generate_parametric_surfaces_thumb.png
+     :alt: Generating parametric surfaces in slam
 
      :ref:`sphx_glr_auto_examples_example_generate_parametric_surfaces.py`
 
@@ -143,6 +170,7 @@ Examples Gallery
 .. only:: html
 
  .. figure:: /auto_examples/images/thumb/sphx_glr_example_geodesic_thumb.png
+     :alt: Geodesic in slam
 
      :ref:`sphx_glr_auto_examples_example_geodesic.py`
 
@@ -163,6 +191,7 @@ Examples Gallery
 .. only:: html
 
  .. figure:: /auto_examples/images/thumb/sphx_glr_example_hinge_gyri_thumb.png
+     :alt: example of hinge shaped surface
 
      :ref:`sphx_glr_auto_examples_example_hinge_gyri.py`
 
@@ -183,6 +212,7 @@ Examples Gallery
 .. only:: html
 
  .. figure:: /auto_examples/images/thumb/sphx_glr_example_kdtree_thumb.png
+     :alt: KDTree in slam
 
      :ref:`sphx_glr_auto_examples_example_kdtree.py`
 
@@ -203,6 +233,7 @@ Examples Gallery
 .. only:: html
 
  .. figure:: /auto_examples/images/thumb/sphx_glr_example_mapping_thumb.png
+     :alt: Mapping example in slam
 
      :ref:`sphx_glr_auto_examples_example_mapping.py`
 
@@ -218,13 +249,14 @@ Examples Gallery
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Show basic plot in slam">
+    <div class="sphx-glr-thumbcontainer" tooltip="example of profile texture in slam">
 
 .. only:: html
 
- .. figure:: /auto_examples/images/thumb/sphx_glr_example_plot_thumb.png
+ .. figure:: /auto_examples/images/thumb/sphx_glr_example_profile_texture_thumb.png
+     :alt: example of profile texture in slam
 
-     :ref:`sphx_glr_auto_examples_example_plot.py`
+     :ref:`sphx_glr_auto_examples_example_profile_texture.py`
 
 .. raw:: html
 
@@ -234,7 +266,7 @@ Examples Gallery
 .. toctree::
    :hidden:
 
-   /auto_examples/example_plot
+   /auto_examples/example_profile_texture
 
 .. raw:: html
 
@@ -243,6 +275,7 @@ Examples Gallery
 .. only:: html
 
  .. figure:: /auto_examples/images/thumb/sphx_glr_example_registration_thumb.png
+     :alt: Show mesh registration features in slam
 
      :ref:`sphx_glr_auto_examples_example_registration.py`
 
@@ -263,6 +296,7 @@ Examples Gallery
 .. only:: html
 
  .. figure:: /auto_examples/images/thumb/sphx_glr_example_remeshing_thumb.png
+     :alt: Remeshing example in slam
 
      :ref:`sphx_glr_auto_examples_example_remeshing.py`
 
@@ -278,11 +312,54 @@ Examples Gallery
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbcontainer" tooltip="Example of Spectral Analysis of Gyrification (SPANGY) decomposition">
+
+.. only:: html
+
+ .. figure:: /auto_examples/images/thumb/sphx_glr_example_spangy_thumb.png
+     :alt: Example of Spectral Analysis of Gyrification (SPANGY) decomposition
+
+     :ref:`sphx_glr_auto_examples_example_spangy.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/example_spangy
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="example of surface profiling in slam">
+
+.. only:: html
+
+ .. figure:: /auto_examples/images/thumb/sphx_glr_example_surface_profiling_thumb.png
+     :alt: example of surface profiling in slam
+
+     :ref:`sphx_glr_auto_examples_example_surface_profiling.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/example_surface_profiling
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="Texture example in slam">
 
 .. only:: html
 
  .. figure:: /auto_examples/images/thumb/sphx_glr_example_texture_thumb.png
+     :alt: Texture example in slam
 
      :ref:`sphx_glr_auto_examples_example_texture.py`
 
@@ -303,6 +380,7 @@ Examples Gallery
 .. only:: html
 
  .. figure:: /auto_examples/images/thumb/sphx_glr_example_topology_thumb.png
+     :alt: Show topology manipulation tools in slam
 
      :ref:`sphx_glr_auto_examples_example_topology.py`
 
@@ -323,6 +401,7 @@ Examples Gallery
 .. only:: html
 
  .. figure:: /auto_examples/images/thumb/sphx_glr_example_vertex_voronoi_thumb.png
+     :alt: Vertex voronoi example in slam
 
      :ref:`sphx_glr_auto_examples_example_vertex_voronoi.py`
 
@@ -347,15 +426,15 @@ Examples Gallery
     :class: sphx-glr-footer-gallery
 
 
-  .. container:: sphx-glr-download
+  .. container:: sphx-glr-download sphx-glr-download-python
 
-    :download:`Download all examples in Python source code: auto_examples_python.zip <//mnt/data/work/python_sandBox/slam/doc/auto_examples/auto_examples_python.zip>`
+    :download:`Download all examples in Python source code: auto_examples_python.zip </auto_examples/auto_examples_python.zip>`
 
 
 
-  .. container:: sphx-glr-download
+  .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-    :download:`Download all examples in Jupyter notebooks: auto_examples_jupyter.zip <//mnt/data/work/python_sandBox/slam/doc/auto_examples/auto_examples_jupyter.zip>`
+    :download:`Download all examples in Jupyter notebooks: auto_examples_jupyter.zip </auto_examples/auto_examples_jupyter.zip>`
 
 
 .. only:: html

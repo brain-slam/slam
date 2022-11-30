@@ -1,7 +1,11 @@
-slam.plot
+﻿slam.plot
 =========
 
 .. automodule:: slam.plot
+
+   
+   
+   
 
    
    
@@ -23,3 +27,6 @@ slam.plot
    
    
    
+
+
+

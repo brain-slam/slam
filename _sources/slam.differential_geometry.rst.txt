@@ -1,7 +1,11 @@
-slam.differential\_geometry
+﻿slam.differential\_geometry
 ===========================
 
 .. automodule:: slam.differential_geometry
+
+   
+   
+   
 
    
    
@@ -11,8 +15,10 @@ slam.differential\_geometry
    
       compute_mesh_laplacian
       compute_mesh_weights
+      cross_product
       depth_potential_function
       gradient
+      gradient_fast
       laplacian_mesh_smoothing
       laplacian_smoothing
       laplacian_texture_smoothing
@@ -29,3 +35,6 @@ slam.differential\_geometry
    
    
    
+
+
+

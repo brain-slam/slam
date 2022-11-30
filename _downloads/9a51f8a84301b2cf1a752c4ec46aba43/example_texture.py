@@ -22,7 +22,7 @@ from slam import io as sio
 
 ###############################################################################
 #
-tex = sio.load_texture('../examples/data/example_texture.gii')
+tex = sio.load_texture("../examples/data/example_texture.gii")
 print(tex)
 print(tex.metadata)
 print(tex.shape)
@@ -41,4 +41,4 @@ print(tex2.shape)
 print(tex2.dtype)
 print(tex2.min())
 print(tex2.max())
-sio.write_texture(tex2, 'test.gii')
+sio.write_texture(tex2, "test.gii")
