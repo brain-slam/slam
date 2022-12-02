@@ -15,15 +15,17 @@ applied in [2]_. Hence this module:
 
 References
 ----------
-.. [1] D. Germanaud*, J. Lefevre*,R. Toro, C. Fischer, J.Dubois, L. Hertz-Pannier,
- J.F. Mangin, Larger is twistier:Spectral Analysis of Gyrification (SPANGY)
- applied to adult brain size polymorphism,Neuroimage, 63 (3), 1257-1272, 2012.
+.. [1] D. Germanaud*, J. Lefevre*,R. Toro, C. Fischer, J.Dubois, L.
+ Hertz-Pannier, J.F. Mangin, Larger is twistier:Spectral Analysis of
+ Gyrification (SPANGY) applied to adult brain size polymorphism,
+ Neuroimage, 63 (3), 1257-1272, 2012.
 
-.. [2] D. Germanaud, J. Lefèvre, C. Fischer, M. Bintner, A. Curie, V. des Portes,
- S. Eliez, M. Elmaleh-Bergès, D. Lamblin, S. Passemard, G. Operto, M. Schaer,
- A. Verloes, R. Toro, J.F. Mangin, L. Hertz-Pannier,Simplified gyral pattern in
- severe developmental microcephalies?New insights from allometric modeling for
- spatial and spectral analysis of gyrification,NeuroImage,Volume 102, Part 2,2014,
+.. [2] D. Germanaud, J. Lefèvre, C. Fischer, M. Bintner, A. Curie, V.
+ des Portes, S. Eliez, M. Elmaleh-Bergès, D. Lamblin, S. Passemard,
+ G. Operto, M. Schaer, A. Verloes, R. Toro, J.F. Mangin, L. Hertz-Pannier,
+ Simplified gyral pattern in severe developmental microcephalies?
+ New insights from allometric modeling for spatial and spectral analysis
+ of gyrification,NeuroImage,Volume 102, Part 2, 2014,
  Pages 317-331, ISSN 1053-8119,
 """
 
@@ -121,7 +123,7 @@ def spectrum(f2analyse, mass_matrix, eig_vec, eig_val):
         np.sum(coefficients[
                group_indices[-1, 0]:group_indices[-1, 1]]**2)
 
-    return grouped_spectrum, group_indices, coefficients
+    return grouped_spectrum.squeeze(), group_indices, coefficients
 
 
 def local_dominance_map(
@@ -172,10 +174,12 @@ def local_dominance_map(
 
     # sulci
     idx = np.argmin(diff_recomposed, axis=1)
+    idx = idx + 1
     loc_dom_band[f2analyse <= 0] = idx[f2analyse <= 0] * (-1)
 
     # gyri
     idx = np.argmax(diff_recomposed, axis=1)
+    idx = idx + 1
     loc_dom_band[f2analyse > 0] = idx[f2analyse > 0]
 
     return loc_dom_band, frecomposed

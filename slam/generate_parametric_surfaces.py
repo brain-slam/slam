@@ -54,7 +54,10 @@ def generate_hinge(
     ) / 2
     Z = -amplitude * R**exponent
     coords = np.stack([X, Y, Z])
-    mesh = trimesh.Trimesh(faces=faces_tri.simplices, vertices=coords.T, process=False)
+    mesh = trimesh.Trimesh(
+        faces=faces_tri.simplices,
+        vertices=coords.T,
+        process=False)
     return mesh
 
 
@@ -204,7 +207,8 @@ def generate_paraboloid_regular(
             )
             mean = sigma
             variance = sigma**2
-            radius = np.random.gamma(mean**2 / variance, variance / mean, nb_vert)
+            radius = np.random.gamma(
+                mean**2 / variance, variance / mean, nb_vert)
             X = X + radius * np.cos(theta)
             Y = Y + radius * np.sin(theta)
         elif random_distribution_type == "uniform":
@@ -235,7 +239,8 @@ def generate_paraboloid_regular(
     # remove the faces having any vertex on the boundary to avoid
     # atypical faces geometry due to Delaunay triangulation in 2D
     # TO DO: same boundary removal as for generate_quadric
-    return stop.remove_mesh_boundary_faces(paraboloid_mesh, face_vertex_number=1)
+    return stop.remove_mesh_boundary_faces(
+        paraboloid_mesh, face_vertex_number=1)
 
 
 """
@@ -370,7 +375,8 @@ def generate_quadric(
             )
             mean = sigma
             variance = sigma**2
-            radius = np.random.gamma(mean**2 / variance, variance / mean, nb_vert)
+            radius = np.random.gamma(
+                mean**2 / variance, variance / mean, nb_vert)
             X = X + radius * np.cos(theta)
             Y = Y + radius * np.sin(theta)
         elif random_distribution_type == "uniform":
@@ -547,7 +553,8 @@ def compute_all_principal_directions(K, vertices):
     n = vertices.shape[0]
     res = np.zeros((n, 2, 2), dtype=float)
     for i in range(n):
-        u1, u2 = compute_principal_directions(K, vertices[i, 0], vertices[i, 1])
+        u1, u2 = compute_principal_directions(
+            K, vertices[i, 0], vertices[i, 1])
         res[i, :, 0] = u1
         res[i, :, 1] = u2
     return res
@@ -567,7 +574,8 @@ def compute_all_principal_directions_3D(K, vertices):
     n = vertices.shape[0]
     res = np.zeros((n, 3, 2), dtype=float)
     for i in range(n):
-        u1, u2 = compute_principal_directions(K, vertices[i, 0], vertices[i, 1])
+        u1, u2 = compute_principal_directions(
+            K, vertices[i, 0], vertices[i, 1])
         e1, e2 = compute_local_basis(K, vertices[i, 0], vertices[i, 1])
         res[i, :, 0] = u1[0] * e1 + u1[1] * e2
         res[i, :, 1] = u2[0] * e1 + u2[1] * e2
