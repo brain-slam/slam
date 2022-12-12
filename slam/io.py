@@ -32,7 +32,10 @@ def write_mesh(mesh, gifti_file):
     """
     coord = mesh.vertices
     triangles = mesh.faces
-    carray = nb.gifti.GiftiDataArray(coord.astype(np.float32), "NIFTI_INTENT_POINTSET")
+    carray = nb.gifti.GiftiDataArray(
+        coord.astype(
+            np.float32),
+        "NIFTI_INTENT_POINTSET")
     tarray = nb.gifti.GiftiDataArray(
         triangles.astype(np.float32), "NIFTI_INTENT_TRIANGLE"
     )
@@ -51,7 +54,8 @@ def load_texture(gifti_file):
     # read the gifti usinng nibabel
     nb_texture = nb.gifti.read(gifti_file)
     # concatenate all the data arrays in a single numpy array
-    cat_darrays = [nb_texture.darrays[i].data for i in range(len(nb_texture.darrays))]
+    cat_darrays = [nb_texture.darrays[i].data for i in range(
+        len(nb_texture.darrays))]
     return texture.TextureND(
         darray=np.array(cat_darrays), metadata=nb_texture.meta.metadata
     )

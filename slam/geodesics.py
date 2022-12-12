@@ -23,7 +23,11 @@ def shortest_path(mesh, start_idx, end_idx):
                            for e, L in zip(edges, length)])
 
     # run the shortest path query using length for edge weight
-    path = nx.shortest_path(ga, source=start_idx, target=end_idx, weight="length")
+    path = nx.shortest_path(
+        ga,
+        source=start_idx,
+        target=end_idx,
+        weight="length")
 
     return path
 
