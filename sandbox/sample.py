@@ -6,25 +6,26 @@ from slam import differential_geometry
 from slam import vertex_voronoi
 from slam import texture
 from slam import curvature
-import slam.plot as splt
+from slam import plot
+sys.path.append("/home/INT/leroux.b/Documents/python_code/slam")
+from sandbox.tools import utils
 import time
 import watershed
 
 
-def display_watershed(main_path, filename):
+def display_watershed(mesh_path, filename):
     """
     Function that display a Texture File
 
     :args: main_path: str to the directory which contains the mesh and the tex file
     :args: filename: str of the tex file (which is in the main_path)
     """
-    mesh = io.load_mesh(os.path.join(main_path, "mesh.gii"))
+    mesh = io.load_mesh(mesh_path)
 
-    tex_path = os.path.join(main_path, filename)
-    print(tex_path)
+    tex_path = os.path.join(filename)
     tex = io.load_texture(tex_path)
 
-    visb_sc = splt.visbrain_plot(
+    visb_sc = plot.visbrain_plot(
         mesh=mesh,
         tex=tex.darray[0],
         caption=filename.split(".")[0],
@@ -33,7 +34,7 @@ def display_watershed(main_path, filename):
     visb_sc.preview()
 
 
-def execution(main_path, side="left", mask_path=None):
+def extract_sulcal_pits(main_path, dst, side="left", mask_path=None):
     """
     Function that compute the extraction of the sulcal pits.
     Be sure to have at least the 'mesh.gii' file
@@ -45,8 +46,7 @@ def execution(main_path, side="left", mask_path=None):
     This function saves all the computed file in the main_path directory
     """
 
-    mesh_path = os.path.join(main_path, "mesh.gii")
-    mesh = io.load_mesh(mesh_path)
+    mesh = io.load_mesh(main_path)
 
     start_time = time.time()
 
@@ -56,13 +56,13 @@ def execution(main_path, side="left", mask_path=None):
         mesh)
     mean_curv = 0.5 * (PrincipalCurvatures[0, :] + PrincipalCurvatures[1, :])
     curv_tex = texture.TextureND(mean_curv)
-    io.write_texture(curv_tex, os.path.join(path, "curv.gii"))
+    io.write_texture(curv_tex, os.path.join(dst, "curv.gii"))
 
     # Compute the DPF and save it
     print("\n\tComputing the DPF\n")
     dpf = differential_geometry.depth_potential_function(mesh, mean_curv, [0.03])
     dpf_tex = texture.TextureND(darray=dpf[0])
-    io.write_texture(dpf_tex, os.path.join(main_path, "dpf.gii"))
+    io.write_texture(dpf_tex, os.path.join(dst, "dpf.gii"))
 
     # Compute Voronoi vertex and save it
     print("\n\tComputing Voronoi's vertex\n")
@@ -70,9 +70,10 @@ def execution(main_path, side="left", mask_path=None):
 
     print("\n\tComputing the Fiedler geodesic length and surface area\n")
     mesh_area = np.sum(vert_voronoi)
-    (min_mesh_fiedler_length, field_tex) = differential_geometry.mesh_fiedler_length(mesh, dist_type="euclidian")
+    # (min_mesh_fiedler_length, field_tex) = differential_geometry.mesh_fiedler_length(mesh, dist_type="euclidian")
 
-    # min_mesh_fiedler_length = compute_dist(mesh, mesh_fiedler_length)
+    (mesh_fiedler_length, field_tex) = differential_geometry.mesh_fiedler_length(mesh, dist_type="geodesic")
+    min_mesh_fiedler_length = utils.compute_dist(mesh, mesh_fiedler_length)
 
     thresh_dist = 20
     thresh_ridge = 1.5
@@ -84,7 +85,7 @@ def execution(main_path, side="left", mask_path=None):
     thresh_area *= mesh_area / group_average_surface_area
 
     if mask_path is not None:
-        maskTex = io.load_texture(os.path.join(main_path, mask_path))
+        maskTex = io.load_texture(mask_path)
         mask = np.array(maskTex.darray[0])
     else:
         mask = np.zeros(dpf[0].shape)
@@ -106,25 +107,25 @@ def execution(main_path, side="left", mask_path=None):
     end_time = time.time()
     print("Time elapsed: {:.5f} secondes".format(end_time - start_time))
 
-    io.write_texture(texture.TextureND(darray=labels.flatten()), os.path.join(main_path, "labels.gii"))
+    io.write_texture(texture.TextureND(darray=labels.flatten()), os.path.join(dst, "labels.gii"))
 
     # texture of pits
     atex_pits = np.zeros((len(labels), 1))
     for pit in pitsKept:
         atex_pits[int(pit[0])] = 1
-    io.write_texture(texture.TextureND(darray=atex_pits.flatten()), os.path.join(main_path, "pits_tex.gii"))
+    io.write_texture(texture.TextureND(darray=atex_pits.flatten()), os.path.join(dst, "pits_tex.gii"))
 
     # texture of noisy pits
     atex_noisypits = np.zeros((len(labels), 1))
     for pit in pitsRemoved:
         atex_noisypits[int(pit[0])] = 1
-    io.write_texture(texture.TextureND(darray=atex_noisypits.flatten()), os.path.join(main_path, "noisy_pits_tex.gii"))
+    io.write_texture(texture.TextureND(darray=atex_noisypits.flatten()), os.path.join(dst, "noisy_pits_tex.gii"))
 
     # texture of ridges
     atex_ridges = np.zeros((len(labels), 1))
     for ridge in ridgePoints:
         atex_ridges[ridge[2]] = 1
-    io.write_texture(texture.TextureND(darray=atex_ridges.flatten()), os.path.join(main_path, "rigdes_tex.gii"))
+    io.write_texture(texture.TextureND(darray=atex_ridges.flatten()), os.path.join(dst, "rigdes_tex.gii"))
 
 
 if __name__ == "__main__":
@@ -146,7 +147,7 @@ if __name__ == "__main__":
         except IndexError:
             mask = None
 
-        execution(path, side, mask)
+        extract_sulcal_pits(path, side, mask)
 
     elif run == "display":
         filename = sys.argv[3]

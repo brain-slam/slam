@@ -1,15 +1,19 @@
+import os
+import sys
 import numpy as np
+# sys.path.append("/home/INT/leroux.b/Documents/python_code/slam")
 import sandbox.tools.eval_watershed as eval_watershed
 import plotly.express as px
-from slam import plot
 from slam import io
 
 
-def run_eval_dpf(path1, path2):
-    dpf1 = io.load_texture(dpf1_path)
-    dpf2 = io.load_texture(dpf2_path)
+def run_eval_dpf(path1, path2, mesh_path=None, display=False):
+    dpf1 = io.load_texture(path1)
+    dpf2 = io.load_texture(path2)
 
-    diff = eval_watershed.eval_dpf(dpf1, dpf2)
+    mesh = None if mesh_path is None else io.load_mesh(mesh_path)
+
+    diff = eval_watershed.eval_dpf(dpf1, dpf2, mesh, display)
     fig = px.histogram(diff, nbins=100)
     fig.show()
 
@@ -19,26 +23,47 @@ def run_eval_mesh_fielder_length(mesh_path):
     eval_watershed.eval_mesh_fielder_length(mesh)
 
 
-def run_eval_labels(labels1_path, labels2_path):
-    labels1 = io.load_texture(labels1_path)
-    labels2 = io.load_texture(labels2_path)
+def run_eval_labels(path1, path2, mesh_path=None, display=False):
+    labels1 = io.load_texture(path1)
+    labels2 = io.load_texture(path2)
 
-    eval_watershed.eval_labels(labels1, labels2)
+    mesh = None if mesh_path is None else io.load_mesh(mesh_path)
+
+    diff = eval_watershed.eval_labels(labels1, labels2, mesh, display)
+    fig = px.histogram(diff, nbins=100)
+    fig.show()
 
 
 if __name__ == "__main__":
-    mesh_path = "~/Documents/test_sulcal/01/mesh.gii"
+    side_map = {"right": "R", "left": "L"}
 
-    dpf1_path = "~/Documents/test_sulcal/bv/01/brainmorph_01_Lwhite_DPF.gii"
-    dpf2_path = "~/Documents/test_sulcal/01/dpf.gii"
+    base_path_bv = "~/Documents/centreIRMf/data"
+    base_path_slam = "~/Documents/centreIRMf/sulcals"
 
-    labels1_path = "~/Documents/test_sulcal/bv/01/brainmorph_01_Lwhite_basins.gii"
-    labels2_path = "~/Documents/test_sulcal/01/labels.gii"
+    id_folder = "08"
+    side = "right"
+    file_side = f"brainmorph_{id_folder}_{side_map[side]}white_basins.gii"
 
-    run_eval_labels(labels1_path, labels2_path)
+    mesh_path = os.path.join(base_path_slam, id_folder, side, "mesh.gii")
 
-    # run_eval_dpf(dpf1_path, dpf2_path)
+    labels_1_path = os.path.join(base_path_slam, id_folder, side, "labels.gii")  # computed with slam
+    labels_2_path = os.path.join(base_path_slam, id_folder, side, file_side)  # computed with BV
+
+    run_eval_labels(labels_1_path, labels_2_path)
+
+    # mesh_path = os.path.join(base_path, "01/mesh.gii")
+    #
+    # dpf1_path = os.path.join(base_path, "bv/01/brainmorph_01_Lwhite_DPF.gii")
+    # dpf2_path = os.path.join(base_path, "01/dpf.gii")
+    #
+    # labels1_path = os.path.join(base_path, "bv/01/brainmorph_01_Lwhite_basins.gii")
+    #
+    # labels2_path = os.path.join(base_path, "01/labels.gii")
+
+    # run_eval_labels(labels1_path, labels2_path, mesh_path, display=True)
+    # run_eval_dpf(dpf1_path, dpf2_path, mesh_path, display=False)
     # run_eval_mesh_fielder_length(mesh_path)
+
 
 
 
