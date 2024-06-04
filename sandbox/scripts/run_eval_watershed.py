@@ -1,7 +1,7 @@
 import os
 import sys
 import numpy as np
-# sys.path.append("/home/INT/leroux.b/Documents/python_code/slam")
+sys.path.append("/home/INT/leroux.b/Documents/python_code/slam")
 import sandbox.tools.eval_watershed as eval_watershed
 import plotly.express as px
 from slam import io
@@ -34,22 +34,49 @@ def run_eval_labels(path1, path2, mesh_path=None, display=False):
     fig.show()
 
 
+def main():
+    try:
+        mode = sys.argv[1].lower()
+
+        path1 = sys.argv[2]
+        path2 = sys.argv[3]
+    except IndexError:
+        print("Error: missing arguments")
+        sys.exit()
+    try:
+        mesh_path = sys.argv[4]
+    except IndexError:
+        mesh_path = None
+
+    display = True if mesh_path is not None else False
+
+    if mode == "dpf":
+        run_eval_dpf(path1, path2, mesh_path=mesh_path, display=display)
+    elif mode == "basins":
+        run_eval_labels(path1, path2, mesh_path=mesh_path, display=display)
+    else:
+        print("No execution for the mode:", mode)
+        sys.exit()
+
+
 if __name__ == "__main__":
-    side_map = {"right": "R", "left": "L"}
+    main()
 
-    base_path_bv = "~/Documents/centreIRMf/data"
-    base_path_slam = "~/Documents/centreIRMf/sulcals"
-
-    id_folder = "08"
-    side = "right"
-    file_side = f"brainmorph_{id_folder}_{side_map[side]}white_basins.gii"
-
-    mesh_path = os.path.join(base_path_slam, id_folder, side, "mesh.gii")
-
-    labels_1_path = os.path.join(base_path_slam, id_folder, side, "labels.gii")  # computed with slam
-    labels_2_path = os.path.join(base_path_slam, id_folder, side, file_side)  # computed with BV
-
-    run_eval_labels(labels_1_path, labels_2_path)
+    # side_map = {"right": "R", "left": "L"}
+    #
+    # base_path_bv = "~/Documents/centreIRMf/data"
+    # base_path_slam = "~/Documents/centreIRMf/sulcals"
+    #
+    # id_folder = "08"
+    # side = "right"
+    # file_side = f"brainmorph_{id_folder}_{side_map[side]}white_basins.gii"
+    #
+    # mesh_path = os.path.join(base_path_slam, id_folder, side, "mesh.gii")
+    #
+    # labels_1_path = os.path.join(base_path_slam, id_folder, side, "labels.gii")  # computed with slam
+    # labels_2_path = os.path.join(base_path_slam, id_folder, side, file_side)  # computed with BV
+    #
+    # run_eval_labels(labels_1_path, labels_2_path)
 
     # mesh_path = os.path.join(base_path, "01/mesh.gii")
     #
