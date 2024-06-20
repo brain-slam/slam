@@ -67,6 +67,7 @@ def extract_sulcal_pits(main_path, dst, side="left", mask_path=None):
     # Compute Voronoi vertex and save it
     print("\n\tComputing Voronoi's vertex\n")
     vert_voronoi = vertex_voronoi.vertex_voronoi(mesh)
+    np.save(os.path.join(dst, "vertex.npy"), vert_voronoi)
 
     print("\n\tComputing the Fiedler geodesic length and surface area\n")
     mesh_area = np.sum(vert_voronoi)
