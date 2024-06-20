@@ -1,5 +1,7 @@
 import shutil
 import os
+import sys
+sys.path.insert(0, os.path.abspath(os.curdir))
 from sandbox.sample import extract_sulcal_pits
 
 
