@@ -4,11 +4,12 @@ import sys
 from slam import io
 from slam import differential_geometry
 from slam import vertex_voronoi
+from slam import geodesics
 from slam import texture
 from slam import curvature
-from slam import plot
-sys.path.append("/home/INT/leroux.b/Documents/python_code/slam")
-from sandbox.tools import utils
+# from slam import plot
+# sys.path.append("/home/INT/leroux.b/Documents/python_code/slam")
+sys.path.insert(0, os.path.abspath(os.curdir))
 import time
 import watershed
 
@@ -21,7 +22,6 @@ def display_watershed(mesh_path, filename):
     :args: filename: str of the tex file (which is in the main_path)
     """
     mesh = io.load_mesh(mesh_path)
-
     tex_path = os.path.join(filename)
     tex = io.load_texture(tex_path)
 
@@ -70,10 +70,14 @@ def extract_sulcal_pits(main_path, dst, side="left", mask_path=None):
 
     print("\n\tComputing the Fiedler geodesic length and surface area\n")
     mesh_area = np.sum(vert_voronoi)
-    # (min_mesh_fiedler_length, field_tex) = differential_geometry.mesh_fiedler_length(mesh, dist_type="euclidian")
 
-    (mesh_fiedler_length, field_tex) = differential_geometry.mesh_fiedler_length(mesh, dist_type="geodesic")
-    min_mesh_fiedler_length = utils.compute_dist(mesh, mesh_fiedler_length)
+    # (mesh_fiedler_length, field_tex) = differential_geometry.mesh_fiedler_length(mesh, dist_type="geodesic")
+    # min_mesh_fiedler_length = utils.compute_dist(mesh, mesh_fiedler_length)
+    fielder = differential_geometry.mesh_laplacian_eigenvectors(mesh, 1)
+    imin = fielder.argmin()
+    imax = fielder.argmax()
+    dist = geodesics.compute_gdist(mesh, imin)
+    min_mesh_fiedler_length = dist[imax]
 
     thresh_dist = 20
     thresh_ridge = 1.5
