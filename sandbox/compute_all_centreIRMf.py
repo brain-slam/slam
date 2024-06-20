@@ -54,13 +54,31 @@ def compute_all(meshs, masks, dst):
         print("Fin {}".format(id))
 
 
+def compute_one(meshs, masks, dst, id):
+    map_side = {"L": "left", "R": "right"}
+    mesh = meshs[id]
+    mask = masks[id]
+
+    if not os.path.isdir(os.path.join(dst, id)):
+        os.mkdir(os.path.join(dst, id))
+
+    for side in mesh:
+        dst_path = os.path.join(dst, id, map_side[side])
+        if not os.path.isdir(dst_path):
+            os.mkdir(dst_path)
+        extract_sulcal_pits(mesh[side], dst=dst_path, side=map_side[side], mask_path=mask[side])
+        shutil.copy(mesh[side], os.path.join(dst_path, "mesh.gii"))
+        print("Fin {}".format(side))
+
+
 if __name__ == "__main__":
     base_path = "/home/INT/leroux.b/Documents/centreIRMf/"
     base_path_input = os.path.join(base_path, "data")
-    base_path_output = os.path.join(base_path, "sulcals")
+    # base_path_output = os.path.join(base_path, "sulcals")
+    base_path_output = os.path.join(base_path, "new_watershed")
 
     folders = get_folders(base_path_input)
 
     meshs, masks = get_mesh_n_mask(folders)
-
-    compute_all(meshs, masks, dst=base_path_output)
+    # compute_all(meshs, masks, dst=base_path_output)
+    compute_one(meshs, masks, dst=base_path_output, id="08")
