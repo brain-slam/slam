@@ -46,6 +46,8 @@ def get_mask(subjs, path):
 
 def compute_all(meshs, masks, dst_path):
     for subj in meshs:
+        print(subj)
+        exit()
         if not os.path.isdir(os.path.join(dst_path, subj)):
             os.mkdir(os.path.join(dst_path, subj))
         for side in meshs[subj]:
