@@ -44,7 +44,8 @@ def get_mask(subjs, path):
     return masks_map
 
 
-def compute_all(meshs, masks, dst_path):
+def compute_all(meshs, masks, dst_path, nb_subj=5):
+    cpt_subj = 0
     for subj in meshs:
         if not os.path.isdir(os.path.join(dst_path, subj)):
             os.mkdir(os.path.join(dst_path, subj))
@@ -54,15 +55,17 @@ def compute_all(meshs, masks, dst_path):
                 os.mkdir(dst_full_path)
 
             print("Computing {}".format(side))
-            exit()
             extract_sulcal_pits(meshs[subj][side], dst_full_path, side=side, mask_path=masks[subj][side])
 
+            cpt_subj += 1
+        if cpt_subj == nb_subj:
+            break
         print("Fin {}".format(subj))
 
 
 if __name__ == "__main__":
     base_path = "/hpc/meca/data/REPRO_database"
-    dst_path = "/envau/work/meca/users/leroux.b/output_REPRO_database"
+    dst_path = "/envau/work/meca/users/leroux.b/output_REPRO_database_bis"
 
     sulcals_pits = os.path.join(base_path, "SulcalPits")
     meshs_path = os.path.join(base_path, "FS_database_OASIS_test_retest_FS5.3.0")
