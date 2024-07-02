@@ -46,14 +46,15 @@ def get_mask(subjs, path):
 
 def compute_all(meshs, masks, dst_path):
     for subj in meshs:
-        print(subj)
-        exit()
         if not os.path.isdir(os.path.join(dst_path, subj)):
             os.mkdir(os.path.join(dst_path, subj))
         for side in meshs[subj]:
             dst_full_path = os.path.join(dst_path, subj, side)
             if not os.path.isdir(dst_full_path):
                 os.mkdir(dst_full_path)
+
+            print("Computing {}".format(side))
+            exit()
             extract_sulcal_pits(meshs[subj][side], dst_full_path, side=side, mask_path=masks[subj][side])
 
         print("Fin {}".format(subj))
