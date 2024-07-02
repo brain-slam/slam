@@ -54,7 +54,7 @@ def compute_all(meshs, masks, dst_path, nb_subj=5):
             if not os.path.isdir(dst_full_path):
                 os.mkdir(dst_full_path)
 
-            print("Computing {}".format(side))
+            print("Computing {} for {} side".format(subj, side))
             extract_sulcal_pits(meshs[subj][side], dst_full_path, side=side, mask_path=masks[subj][side])
 
             cpt_subj += 1
