@@ -55,8 +55,8 @@ def compute_all(meshs, masks, dst_path, nb_subj=5):
                 os.mkdir(dst_full_path)
 
             print("Computing {} for {} side".format(subj, side))
-            extract_sulcal_pits(meshs[subj][side], dst_full_path, side=side, mask_path=masks[subj][side])
-
+            # extract_sulcal_pits(meshs[subj][side], dst_full_path, side=side, mask_path=masks[subj][side])
+            shutil.copy(meshs[id][side], os.path.join(dst_path, "mesh.gii"))
             cpt_subj += 1
         if cpt_subj == nb_subj:
             break
