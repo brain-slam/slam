@@ -59,10 +59,11 @@ def compute_all(meshs, masks, dst_path, nb_subj=5):
             extract_sulcal_pits(meshs[subj][side], dst_full_path, side=side, mask_path=masks[subj][side])
             shutil.copy(meshs[subj][side], os.path.join(dst_full_path, "mesh.gii"))
 
+        print(f"Fin {subj}")
         cpt_subj += 1
         if cpt_subj == nb_subj:
             break
-        print("Fin {}".format(subj))
+    print(f"Fin pour les {nb_subj} sujets")
 
 
 if __name__ == "__main__":
