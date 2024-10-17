@@ -78,6 +78,6 @@ if __name__ == "__main__":
     meshs = get_mesh(subjects, meshs_path)
     masks = get_mask(subjects, sulcals_pits)
 
-    compute_all(meshs, masks, dst_path, nb_subj=20)
+    compute_all(meshs, masks, dst_path, nb_subj=1)
 
 
