@@ -23,11 +23,9 @@ jobs:
           source slam-env/bin/activate
       - name: Linting
         run: | 
-            pip install flake8 autopep8 
+            pip install flake8
             flake8 --ignore=E501,W503,W504 slam/
             flake8 --ignore=E501,W503,W504 tests/
-            autopep8 --recursive --aggressive -i --exit-code slam/ 
-            autopep8 --recursive --aggressive -i --exit-code tests/
       - name: Install all the dependencies
         run: |
              pip install .['full']
