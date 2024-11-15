@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 import pyvista as pv
 
+# test CI
+
 """ import slam.io as sio
 import slam.curvature as scurv
 import slam.plot as splt
