@@ -210,9 +210,12 @@ class TestCurvatureMethods(unittest.TestCase):
                 k1_relative_change * 100), "%"),
             (" K1", "max", "relative change", np.max(
                 k1_relative_change * 100), "%"),
-            (" K1", "mean", "absolute change", np.mean(k_mean_absolute_change)),
-            (" K1", "std", "absolute change", np.std(k_mean_absolute_change)),
-            (" K1", "max", "absolute change", np.max(k_mean_absolute_change)),
+            (" K1", "mean", "absolute change",
+             np.mean(k_mean_absolute_change)),
+            (" K1", "std", "absolute change",
+             np.std(k_mean_absolute_change)),
+            (" K1", "max", "absolute change",
+             np.max(k_mean_absolute_change)),
         ]
 
         # PRINT STATS
