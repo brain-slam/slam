@@ -28,6 +28,7 @@ def get_mesh(subjs, path):
         }
     return meshs_map
 
+
 def get_mask(subjs, path):
     masks_map = dict()
 
