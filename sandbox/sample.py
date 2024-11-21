@@ -56,8 +56,11 @@ def extract_sulcal_pits(main_path, dst, side="left", mask_path=None):
         mesh)
     mean_curv = 0.5 * (PrincipalCurvatures[0, :] + PrincipalCurvatures[1, :])
     curv_tex = texture.TextureND(mean_curv)
-    # ajouter z_score filter ici
-    io.write_texture(curv_tex, os.path.join(dst, "curv.gii"))
+    curv_tex.z_score_filtering(z_thresh=3)
+    io.write_texture(curv_tex, os.path.join(dst, "curv_z_score.gii"))
+
+    mean_curv = io.load_texture(os.path.join(dst, "curv_z_score.gii"))
+    mean_curv = mean_curv.darray[0]
 
     # Compute the DPF and save it
     print("\n\tComputing the DPF\n")
