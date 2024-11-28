@@ -13,6 +13,8 @@ setup(
     packages=find_packages(),
     author="Guillaume Auzias",
     description="Surface anaLysis And Modeling",
+    long_description=open('README.md').read(),
+    long_description_content_type='text/markdown',
     url="https://github.com/brain-slam/slam",
     license="MIT",
     python_requires=">=3.6",  # enforce Python 3.6 as minimum
