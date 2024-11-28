@@ -7,4 +7,3 @@ dependencies:
     - trimesh
     - nibabel>=2.1
     - networkx
-    - tvb-gdist
