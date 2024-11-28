@@ -71,11 +71,11 @@ If you are interested in contributing, please first have a look at it and contac
     ```
 2. Perform a full slam installation in editable mode
    ```
-    pip install -e .['dev']
+   pip install -e .
    ```
 5. Set upstream repository to keep your clone up-to-date
    ```
-    git remote add upstream https://github.com/brain-slam/slam.git
+   git remote add upstream https://github.com/brain-slam/slam.git
    ```
 You are now ready to modify slam code and submit a pull request
 
