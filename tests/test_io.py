@@ -42,8 +42,8 @@ class TestIOMethods(unittest.TestCase):
         assert np.isclose(mesh_a.faces, mesh_b.faces, precision_A).all()
 
     def test_load_texture(self):
-        test_text = sio.load_texture('examples\data\example_texture_parcel.gii').darray[0]
-        self.assertTrue(test_text.size>0)
+        test_text = sio.load_texture('examples/data/example_texture_parcel.gii').darray[0]
+        self.assertTrue(test_text.size > 0)
 
 
 if __name__ == "__main__":
