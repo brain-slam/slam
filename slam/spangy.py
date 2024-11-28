@@ -99,16 +99,18 @@ def spectrum(f2analyse, mass_matrix, eig_vec, eig_val):
         Indices of spectral bands.
     coefficients : Array of floats
         Fourier coefficients of the input function f2analyse.
+    nlevels : int
+        Number of spectral bands into which the raw power spectrum will be compacted.
     """
 
     coefficients = f2analyse.dot(mass_matrix.transpose().dot(eig_vec))
-    nlevels = int(0.5 * np.log(eig_val[-1] / eig_val[1]) / np.log(2))
-    grouped_spectrum = np.zeros((nlevels + 2, 1))
-    grouped_spectrum[0] = coefficients[0]**2
-    group_indices = np.zeros((nlevels + 2, 2), dtype=int)
+    nlevels = int(0.5 * np.log(eig_val[-1] / eig_val[1]) / np.log(2)) + 2  # nlevels = 7
+    grouped_spectrum = np.zeros((nlevels, 1))
+    grouped_spectrum[0] = coefficients[0]**2  # projection coef of the neurofunctional signal on the principal eigenpair (brain shape)
+    group_indices = np.zeros((nlevels, 2), dtype=int)
     group_indices[0, :] = [0, 0]
 
-    for k in range(nlevels):
+    for k in range(nlevels - 2):
         indice = np.where(eig_val >= eig_val[1] * 2 ** (2 * (k)))
         group_indices[k + 1, 0] = indice[0][0]
         indice = np.where(eig_val <= eig_val[1] * 2 ** (2 * (k + 1)))
@@ -123,7 +125,7 @@ def spectrum(f2analyse, mass_matrix, eig_vec, eig_val):
         np.sum(coefficients[
                group_indices[-1, 0]:group_indices[-1, 1]]**2)
 
-    return grouped_spectrum.squeeze(), group_indices, coefficients
+    return grouped_spectrum.squeeze(), group_indices, coefficients, nlevels
 
 
 def local_dominance_map(

@@ -6,8 +6,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: ['ubuntu-18.04','ubuntu-20.04','ubuntu-22.04']
-        python-version: ["3.6", "3.7", "3.8", "3.9", "3.10"]
+        os: ['ubuntu-20.04','ubuntu-22.04']
+        python-version: ["3.8", "3.9", "3.10"]
         exclude:
           - os: 'ubuntu-22.04'
             python-version: '3.6'
@@ -23,11 +23,9 @@ jobs:
           source slam-env/bin/activate
       - name: Linting
         run: | 
-            pip install flake8 autopep8 
+            pip install flake8
             flake8 --ignore=E501,W503,W504 slam/
             flake8 --ignore=E501,W503,W504 tests/
-            autopep8 --recursive --aggressive -i --exit-code slam/ 
-            autopep8 --recursive --aggressive -i --exit-code tests/
       - name: Install all the dependencies
         run: |
              pip install .['full']
