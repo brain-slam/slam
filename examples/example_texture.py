@@ -10,7 +10,7 @@ Texture example in slam
 # Guillaume Auzias <guillaume.auzias@univ-amu.fr>
 # Julien Barrès <julien.barres@etu.univ-amu.fr>
 
-# License: BSD (3-clause)
+# License: MIT
 # sphinx_gallery_thumbnail_number = 2
 
 
@@ -22,7 +22,7 @@ from slam import io as sio
 
 ###############################################################################
 #
-tex = sio.load_texture("../examples/data/example_texture.gii")
+tex = sio.load_texture("examples/data/example_texture.gii")
 print(tex)
 print(tex.metadata)
 print(tex.shape)
