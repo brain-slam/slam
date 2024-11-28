@@ -2,7 +2,7 @@ name: base
 
 dependencies:
   - pip:
-    - numpy
+    - numpy==1.19.5
     - scipy
     - trimesh
     - nibabel>=2.1

@@ -8,7 +8,7 @@ Show basic use of slam
 
 # Authors: Guillaume Auzias <guillaume.auzias@univ-amu.fr>
 
-# License: BSD (3-clause)
+# License: MIT
 # sphinx_gallery_thumbnail_number = 2
 
 
@@ -23,7 +23,7 @@ import slam.io as sio
 
 # loading a mesh stored on the disc as a gifti file,
 # this is a feature of SLAM
-mesh = sio.load_mesh("../examples/data/example_mesh.gii")
+mesh = sio.load_mesh("examples/data/example_mesh.gii")
 
 ###############################################################################
 # affine transformations can be applied to mesh objects
@@ -108,7 +108,7 @@ mesh.voxelized(2)
 ###############################################################################
 # boundary of the mesh or list of faces
 # this functionnality requires to install the optional package shapely
-mesh.outline()
+# mesh.outline()
 
 ###############################################################################
 # the convex hull is another Trimesh object that is available as a property
