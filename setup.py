@@ -9,7 +9,7 @@ DIST = ["tvb-gdist"]
 
 setup(
     name="brain-slam",
-    version="0.0.4-rc3",
+    version="0.0.4-rc4",
     packages=find_packages(),
     author="Guillaume Auzias",
     description="Surface anaLysis And Modeling",
