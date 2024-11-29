@@ -80,7 +80,6 @@ author = "Guillaume Auzias"
 # built documents.
 #
 
-
 import slam
 # The short X.Y version.
 version = slam.__version__
