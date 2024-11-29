@@ -1,30 +1,30 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Show mesh registration features in slam &#8212; slam 0.0.1 documentation</title>
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/gallery-rendered-html.css" />
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/doctools.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Show mesh registration features in slam &#8212; slam 0.0.6 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css?v=45361654" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <script src="../_static/documentation_options.js?v=1fd71caa"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js "></script>
-<script type="text/javascript" src="../_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
-<script type="text/javascript" src="../_static/bootstrap-sphinx.js "></script>
+<script type="text/javascript" src="../_static/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+<script type="text/javascript" src="../_static/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
 
   </head><body>
 
@@ -39,7 +39,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           slam</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.0.6</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -71,7 +71,10 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">Show mesh registration features in slam</a></li>
+<li><a class="reference internal" href="#">Show mesh registration features in slam</a><ul>
+<li><a class="reference internal" href="#visualization-using-external-tools">VISUALIZATION USING EXTERNAL TOOLS</a></li>
+</ul>
+</li>
 </ul>
 </ul>
 </li>
@@ -105,89 +108,123 @@
 
 <div class="container">
   <div class="row">
-    <div class="body col-md-12 content" role="main">
+      <div class="col-md-3">
+        <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
+<li><a class="reference internal" href="#">Show mesh registration features in slam</a><ul>
+<li><a class="reference internal" href="#visualization-using-external-tools">VISUALIZATION USING EXTERNAL TOOLS</a></li>
+</ul>
+</li>
+</ul>
+
+<div id="sourcelink">
+  <a href="../_sources/auto_examples/example_registration.rst.txt"
+     rel="nofollow">Source</a>
+</div>
+<form action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+    <div class="body col-md-9 content" role="main">
       
   <div class="sphx-glr-download-link-note admonition note">
 <p class="admonition-title">Note</p>
-<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-example-registration-py"><span class="std std-ref">here</span></a>
-to download the full example code</p>
+<p><a class="reference internal" href="#sphx-glr-download-auto-examples-example-registration-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code.</p>
 </div>
-<div class="sphx-glr-example-title section" id="show-mesh-registration-features-in-slam">
-<span id="example-registration"></span><span id="sphx-glr-auto-examples-example-registration-py"></span><h1>Show mesh registration features in slam<a class="headerlink" href="#show-mesh-registration-features-in-slam" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Authors: Guillaume Auzias &lt;guillaume.auzias@univ-amu.fr&gt;</span>
+<section class="sphx-glr-example-title" id="show-mesh-registration-features-in-slam">
+<span id="example-registration"></span><span id="sphx-glr-auto-examples-example-registration-py"></span><h1>Show mesh registration features in slam<a class="headerlink" href="#show-mesh-registration-features-in-slam" title="Link to this heading">¶</a></h1>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Authors: Guillaume Auzias &lt;guillaume.auzias@univ-amu.fr&gt;</span>
 
-<span class="c1"># License: BSD (3-clause)</span>
+<span class="c1"># License: MIT</span>
 <span class="c1"># sphinx_gallery_thumbnail_number = 2</span>
 </pre></div>
 </div>
+<dl class="simple">
+<dt>NOTE: there is no visualization tool in slam, but we provide at the</dt><dd><p>end of this script exemplare code to do the visualization with
+an external solution</p>
+</dd>
+</dl>
+<hr class="docutils" />
 <p>importation of slam modules</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">slam.plot</span> <span class="k">as</span> <span class="nn">splt</span>
-<span class="kn">import</span> <span class="nn">slam.io</span> <span class="k">as</span> <span class="nn">sio</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">slam.io</span> <span class="k">as</span> <span class="nn">sio</span>
 <span class="kn">import</span> <span class="nn">trimesh</span>
 </pre></div>
 </div>
 <p>loading an two unregistered meshes</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mesh_1</span> <span class="o">=</span> <span class="n">sio</span><span class="o">.</span><span class="n">load_mesh</span><span class="p">(</span><span class="s2">&quot;../examples/data/example_mesh.gii&quot;</span><span class="p">)</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">mesh_1</span> <span class="o">=</span> <span class="n">sio</span><span class="o">.</span><span class="n">load_mesh</span><span class="p">(</span><span class="s2">&quot;../examples/data/example_mesh.gii&quot;</span><span class="p">)</span>
 <span class="n">mesh_2</span> <span class="o">=</span> <span class="n">sio</span><span class="o">.</span><span class="n">load_mesh</span><span class="p">(</span><span class="s2">&quot;../examples/data/example_mesh_2.gii&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>plot them to check the misalignment</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">joint_mesh</span> <span class="o">=</span> <span class="n">mesh_1</span> <span class="o">+</span> <span class="n">mesh_2</span>
-<a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-np-class"><span class="n">joint_tex</span></a> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ones" title="numpy.ones" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-np-function"><span class="n">np</span><span class="o">.</span><span class="n">ones</span></a><span class="p">((</span><span class="n">joint_mesh</span><span class="o">.</span><span class="n">vertices</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],))</span>
-<a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-np-class"><span class="n">joint_tex</span></a><span class="p">[:</span> <span class="n">mesh_1</span><span class="o">.</span><span class="n">vertices</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">10</span>
-<span class="n">visb_sc</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">visbrain_plot</span><span class="p">(</span>
-    <span class="n">mesh</span><span class="o">=</span><span class="n">joint_mesh</span><span class="p">,</span> <span class="n">tex</span><span class="o">=</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-np-class"><span class="n">joint_tex</span></a><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="s2">&quot;before registration&quot;</span>
-<span class="p">)</span>
-<span class="n">visb_sc</span><span class="o">.</span><span class="n">preview</span><span class="p">()</span>
-</pre></div>
-</div>
-<img alt="example registration" class="sphx-glr-single-img" src="../_images/sphx_glr_example_registration_001.png" />
 <p>compute ICP registration
 this functionnality requires to install the optional package rtree</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-np-class"><span class="n">transf_mat</span></a><span class="p">,</span> <span class="n">cost</span> <span class="o">=</span> <span class="n">trimesh</span><span class="o">.</span><span class="n">registration</span><span class="o">.</span><span class="n">mesh_other</span><span class="p">(</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">transf_mat</span><span class="p">,</span> <span class="n">cost</span> <span class="o">=</span> <span class="n">trimesh</span><span class="o">.</span><span class="n">registration</span><span class="o">.</span><span class="n">mesh_other</span><span class="p">(</span>
     <span class="n">mesh_1</span><span class="p">,</span> <span class="n">mesh_2</span><span class="p">,</span> <span class="n">samples</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">icp_first</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">icp_final</span><span class="o">=</span><span class="mi">100</span>
 <span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-np-class"><span class="n">transf_mat</span></a><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">transf_mat</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">cost</span><span class="p">)</span>
 </pre></div>
 </div>
-<p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[[-0.59202764 -0.09421463  0.8003917  62.85878541]
- [ 0.09168714  0.97882135  0.18303614 53.43305704]
- [-0.80068517  0.18174808 -0.57085103 49.62517482]
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[[-0.58422975 -0.10586108  0.8046546  62.71732473]
+ [ 0.06621478  0.98193402  0.1772602  52.90913857]
+ [-0.80888269  0.15684071 -0.5666655  49.54943842]
  [ 0.          0.          0.          1.        ]]
-0.006163062935171203
+0.006668052986457964
 </pre></div>
 </div>
 <p>apply the estimated rigid transformation to the mesh</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mesh_1</span><span class="o">.</span><span class="n">apply_transform</span><span class="p">(</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-np-class"><span class="n">transf_mat</span></a><span class="p">)</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">mesh_1</span><span class="o">.</span><span class="n">apply_transform</span><span class="p">(</span><span class="n">transf_mat</span><span class="p">)</span>
 </pre></div>
 </div>
-<p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;trimesh.Trimesh(vertices.shape=(2328, 3), faces.shape=(4652, 3))&gt;
 </pre></div>
 </div>
-<p>plot the two meshes to check they are now aligned</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">joint_mesh</span> <span class="o">=</span> <span class="n">mesh_1</span> <span class="o">+</span> <span class="n">mesh_2</span>
-<span class="n">visb_sc</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">visbrain_plot</span><span class="p">(</span>
-    <span class="n">mesh</span><span class="o">=</span><span class="n">joint_mesh</span><span class="p">,</span> <span class="n">tex</span><span class="o">=</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-np-class"><span class="n">joint_tex</span></a><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="s2">&quot;after registration&quot;</span>
-<span class="p">)</span>
-<span class="n">visb_sc</span><span class="o">.</span><span class="n">preview</span><span class="p">()</span>
-</pre></div>
-</div>
-<img alt="example registration" class="sphx-glr-single-img" src="../_images/sphx_glr_example_registration_002.png" />
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  8.256 seconds)</p>
-<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-example-registration-py">
-<div class="sphx-glr-download sphx-glr-download-python docutils container">
-<p><a class="reference download internal" download="" href="../_downloads/d4bdd7a53e24ef95a3a35a61443c1131/example_registration.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">example_registration.py</span></code></a></p>
-</div>
+<section id="visualization-using-external-tools">
+<h2>VISUALIZATION USING EXTERNAL TOOLS<a class="headerlink" href="#visualization-using-external-tools" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><p># Visualization with visbrain
+import slam.plot as splt
+import numpy as np
+###############################################################################
+# plot them to check the misalignment
+joint_mesh = mesh_1 + mesh_2
+joint_tex = np.ones((joint_mesh.vertices.shape[0],))
+joint_tex[: mesh_1.vertices.shape[0]] = 10
+visb_sc = splt.visbrain_plot(</p>
+<blockquote>
+<div><p>mesh=joint_mesh, tex=joint_tex, caption=”before registration”</p>
+</div></blockquote>
+<p>)
+visb_sc.preview()
+###############################################################################
+# plot the two meshes to check they are now aligned
+joint_mesh = mesh_1 + mesh_2
+visb_sc = splt.visbrain_plot(</p>
+<blockquote>
+<div><p>mesh=joint_mesh, tex=joint_tex, caption=”after registration”</p>
+</div></blockquote>
+<p>)
+visb_sc.preview()</p>
+</div></blockquote>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 5.311 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-example-registration-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/e3f06b23cdb77fd84312f70f7b31e7ab/example_registration.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">example_registration.ipynb</span></code></a></p>
 </div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/d4bdd7a53e24ef95a3a35a61443c1131/example_registration.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">example_registration.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/76fc41a46a9dc20b47493907c6c7f9b3/example_registration.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">example_registration.zip</span></code></a></p>
+</div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
-</div>
+</section>
+</section>
 
 
     </div>
@@ -201,8 +238,8 @@ this functionnality requires to install the optional package rtree</p>
       
     </p>
     <p>
-        &copy; Copyright 2022, slam Developers. Last updated on 2022-11-30.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.4.3.<br/>
+        &copy; Copyright 2024, slam Developers. Last updated on 2024-11-29.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 7.4.7.<br/>
     </p>
   </div>
 </footer>

@@ -4,11 +4,6 @@
 .. automodule:: slam.curvature
 
    
-   
-   
-
-   
-   
    .. rubric:: Functions
 
    .. autosummary::
@@ -25,15 +20,3 @@
       project_curvature_tensor
       rotate_coordinate_system
    
-   
-
-   
-   
-   
-
-   
-   
-   
-
-
-

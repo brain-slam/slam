@@ -10,8 +10,8 @@
     .. note::
         :class: sphx-glr-download-link-note
 
-        Click :ref:`here <sphx_glr_download_auto_examples_example_mapping.py>`
-        to download the full example code
+        :ref:`Go to the end <sphx_glr_download_auto_examples_example_mapping.py>`
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -24,16 +24,16 @@
 Mapping example in slam
 ===================================
 
-.. GENERATED FROM PYTHON SOURCE LINES 8-17
+.. GENERATED FROM PYTHON SOURCE LINES 8-16
 
-.. code-block:: default
+.. code-block:: Python
 
 
     # Authors:
     # Guillaume Auzias <guillaume.auzias@univ-amu.fr>
     # Julien Barrès <julien.barres@etu.univ-amu.fr>
 
-    # License: BSD (3-clause)
+    # License: MIT
     # sphinx_gallery_thumbnail_number = 2
 
 
@@ -43,23 +43,26 @@ Mapping example in slam
 
 
 
+.. GENERATED FROM PYTHON SOURCE LINES 17-21
 
-.. GENERATED FROM PYTHON SOURCE LINES 18-19
+NOTE: there is no visualization tool in slam, but we provide at the
+ end of this script exemplare code to do the visualization with
+ an external solution
+##############################################################################
+
+.. GENERATED FROM PYTHON SOURCE LINES 23-24
 
 Importation of slam modules
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-28
+.. GENERATED FROM PYTHON SOURCE LINES 24-30
 
-.. code-block:: default
+.. code-block:: Python
 
     import slam.generate_parametric_surfaces as sps
     import numpy as np
     import slam.topology as stop
-    import slam.plot as splt
     import slam.mapping as smap
     import slam.distortion as sdst
-    from vispy.scene import Line
-    from visbrain.objects import VispyObj, SourceObj
 
 
 
@@ -68,72 +71,40 @@ Importation of slam modules
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 29-30
+.. GENERATED FROM PYTHON SOURCE LINES 31-32
 
 Generation of an open mesh
 
-.. GENERATED FROM PYTHON SOURCE LINES 30-45
+.. GENERATED FROM PYTHON SOURCE LINES 32-36
 
-.. code-block:: default
+.. code-block:: Python
 
     K = [-1, -1]
     open_mesh = sps.generate_quadric(K, nstep=[5, 5])
     open_mesh_boundary = stop.mesh_boundary(open_mesh)
-    # Visualization
-    visb_sc = splt.visbrain_plot(mesh=open_mesh, caption="open mesh")
-    for bound in open_mesh_boundary:
-        points = open_mesh.vertices[bound]
-        s_rad = SourceObj("rad", points, color="red", symbol="square", radius_min=10)
-        visb_sc.add_to_subplot(s_rad)
-        lines = Line(pos=open_mesh.vertices[bound], width=10, color="b")
-        # wrap the vispy object using visbrain
-        l_obj = VispyObj("line", lines)
-        visb_sc.add_to_subplot(l_obj)
-    visb_sc.preview()
-
-
-
-
-.. image:: /auto_examples/images/sphx_glr_example_mapping_001.png
-    :alt: example mapping
-    :class: sphx-glr-single-img
 
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 46-47
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 37-38
 
 Mapping onto a planar disk
 
-.. GENERATED FROM PYTHON SOURCE LINES 47-60
+.. GENERATED FROM PYTHON SOURCE LINES 38-40
 
-.. code-block:: default
+.. code-block:: Python
 
     disk_mesh = smap.disk_conformal_mapping(open_mesh)
-    # Visualization
-    visb_sc2 = splt.visbrain_plot(mesh=disk_mesh, caption="disk mesh")
-    for bound in open_mesh_boundary:
-        points = disk_mesh.vertices[bound]
-        s_rad = SourceObj("rad", points, color="red", symbol="square", radius_min=10)
-        visb_sc2.add_to_subplot(s_rad)
-        lines = Line(pos=disk_mesh.vertices[bound], width=10, color="b")
-        # wrap the vispy object using visbrain
-        l_obj = VispyObj("line", lines)
-        visb_sc2.add_to_subplot(l_obj)
-    visb_sc2.preview()
 
 
 
-
-.. image:: /auto_examples/images/sphx_glr_example_mapping_002.png
-    :alt: example mapping
-    :class: sphx-glr-single-img
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -150,13 +121,13 @@ Mapping onto a planar disk
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 61-62
+.. GENERATED FROM PYTHON SOURCE LINES 41-42
 
 Compute distortion measures between original and planar representations
 
-.. GENERATED FROM PYTHON SOURCE LINES 62-68
+.. GENERATED FROM PYTHON SOURCE LINES 42-49
 
-.. code-block:: default
+.. code-block:: Python
 
     angle_diff = sdst.angle_difference(disk_mesh, open_mesh)
     area_diff = sdst.area_difference(disk_mesh, open_mesh)
@@ -168,44 +139,83 @@ Compute distortion measures between original and planar representations
 
 
 
-.. rst-class:: sphx-glr-script-out
 
- Out:
+.. rst-class:: sphx-glr-script-out
 
  .. code-block:: none
 
-    2.5522368382187506e-18
-    -0.03526596276269568
-    -0.09295198609266887
+    -6.380592095546877e-19
+    -0.028377725989368684
+    -0.07255784737327327
 
 
 
+
+.. GENERATED FROM PYTHON SOURCE LINES 50-89
+
+VISUALIZATION USING EXTERNAL TOOLS
+############################################################################
+ # Visualization with visbrain
+ import slam.plot as splt
+ from vispy.scene import Line
+ from visbrain.objects import VispyObj, SourceObj
+ # Visualization of the open mesh
+ visb_sc = splt.visbrain_plot(mesh=open_mesh, caption="open mesh")
+ for bound in open_mesh_boundary:
+     points = open_mesh.vertices[bound]
+     s_rad = SourceObj(
+         "rad",
+         points,
+         color="red",
+         symbol="square",
+         radius_min=10)
+     visb_sc.add_to_subplot(s_rad)
+     lines = Line(pos=open_mesh.vertices[bound], width=10, color="b")
+     # wrap the vispy object using visbrain
+     l_obj = VispyObj("line", lines)
+     visb_sc.add_to_subplot(l_obj)
+ visb_sc.preview()
+
+ # Visualization of the same mesh mapped onto a disk
+ visb_sc2 = splt.visbrain_plot(mesh=disk_mesh, caption="disk mesh")
+ for bound in open_mesh_boundary:
+     points = disk_mesh.vertices[bound]
+     s_rad = SourceObj(
+         "rad",
+         points,
+         color="red",
+         symbol="square",
+         radius_min=10)
+     visb_sc2.add_to_subplot(s_rad)
+     lines = Line(pos=disk_mesh.vertices[bound], width=10, color="b")
+     # wrap the vispy object using visbrain
+     l_obj = VispyObj("line", lines)
+     visb_sc2.add_to_subplot(l_obj)
+ visb_sc2.preview()
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.827 seconds)
+   **Total running time of the script:** (0 minutes 0.013 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_mapping.py:
 
+.. only:: html
 
-.. only :: html
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
+      :download:`Download Jupyter notebook: example_mapping.ipynb <example_mapping.ipynb>`
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: example_mapping.py <example_mapping.py>`
 
-     :download:`Download Python source code: example_mapping.py <example_mapping.py>`
+    .. container:: sphx-glr-download sphx-glr-download-zip
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: example_mapping.ipynb <example_mapping.ipynb>`
+      :download:`Download zipped: example_mapping.zip <example_mapping.zip>`
 
 
 .. only:: html

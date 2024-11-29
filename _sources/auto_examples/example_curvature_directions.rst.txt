@@ -10,8 +10,8 @@
     .. note::
         :class: sphx-glr-download-link-note
 
-        Click :ref:`here <sphx_glr_download_auto_examples_example_curvature_directions.py>`
-        to download the full example code
+        :ref:`Go to the end <sphx_glr_download_auto_examples_example_curvature_directions.py>`
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -24,14 +24,14 @@
 example of curvature directions in slam
 ===================================
 
-.. GENERATED FROM PYTHON SOURCE LINES 8-15
+.. GENERATED FROM PYTHON SOURCE LINES 8-14
 
-.. code-block:: default
+.. code-block:: Python
 
 
     # Authors: Julien Lefevre <julien.lefevre@univ-amu.fr>
 
-    # License: BSD (3-clause)
+    # License: MIT
     # sphinx_gallery_thumbnail_number = 2
 
 
@@ -41,19 +41,19 @@ example of curvature directions in slam
 
 
 
+.. GENERATED FROM PYTHON SOURCE LINES 15-19
 
-.. GENERATED FROM PYTHON SOURCE LINES 16-17
+NOTE: there is no visualization tool in slam, but we provide at the
+ end of this script exemplare code to do the visualization with
+ an external solution
+##############################################################################
 
-importation of slam modules
+.. GENERATED FROM PYTHON SOURCE LINES 19-24
 
-.. GENERATED FROM PYTHON SOURCE LINES 17-25
+.. code-block:: Python
 
-.. code-block:: default
 
-    import numpy as np
-    import matplotlib.pyplot as plt
-    from mpl_toolkits.mplot3d import Axes3D
-
+    # importation of slam modules
     import slam.generate_parametric_surfaces as sgps
     import slam.curvature as scurv
 
@@ -64,72 +64,13 @@ importation of slam modules
 
 
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 26-27
-
-Visualization of vector fields with matplotlib
-
-.. GENERATED FROM PYTHON SOURCE LINES 27-69
-
-.. code-block:: default
-
-
-
-    def visualize(mesh, vector_field, colors=None, params=None):
-        """
-        Visualize a mesh and a vector field over it
-        :param mesh: a mesh with n points
-        :param vector_field: (n,3) array
-        :param colors: (n,3) array
-        :param params: params[0] is the length of the quivers
-        :return:
-        """
-        n = mesh.vertices.shape[0]
-        if colors is None:
-            colors = np.zeros((n, 3))
-            colors[:, 0] = 1
-        if params is None:
-            params = []
-            params.append(0.1)
-
-        fig = plt.figure()
-        ax = Axes3D(fig)
-        ax.plot_trisurf(
-            mesh.vertices[:, 0],
-            mesh.vertices[:, 1],
-            mesh.vertices[:, 2],
-            triangles=mesh.faces,
-            shade=True,
-        )
-        plt.quiver(
-            mesh.vertices[:, 0],
-            mesh.vertices[:, 1],
-            mesh.vertices[:, 2],
-            vector_field[:, 0],
-            vector_field[:, 1],
-            vector_field[:, 2],
-            length=params[0],
-            colors=colors,
-        )
-
-        return fig
-
-
-
-
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 70-71
+.. GENERATED FROM PYTHON SOURCE LINES 25-26
 
 Create quadric mesh
 
-.. GENERATED FROM PYTHON SOURCE LINES 71-87
+.. GENERATED FROM PYTHON SOURCE LINES 26-41
 
-.. code-block:: default
-
+.. code-block:: Python
 
     nstep = 20
     equilateral = True
@@ -153,26 +94,22 @@ Create quadric mesh
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 88-89
+.. GENERATED FROM PYTHON SOURCE LINES 42-43
 
 Compute principal directions of curvature
 
-.. GENERATED FROM PYTHON SOURCE LINES 89-94
+.. GENERATED FROM PYTHON SOURCE LINES 43-46
 
-.. code-block:: default
+.. code-block:: Python
 
-
-    PrincipalCurvatures, PrincipalDir1, PrincipalDir2 = scurv.curvatures_and_derivatives(
-        quadric_mesh
-    )
+    PrincipalCurvatures, PrincipalDir1, PrincipalDir2 \
+        = scurv.curvatures_and_derivatives(quadric_mesh)
 
 
 
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -186,53 +123,81 @@ Compute principal directions of curvature
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 95-96
+.. GENERATED FROM PYTHON SOURCE LINES 47-96
 
-Visualization
+VISUALIZATION USING EXTERNAL TOOLS
+##############################################################################
+ import numpy as np
+ import matplotlib.pyplot as plt
+ from mpl_toolkits.mplot3d import Axes3D
 
-.. GENERATED FROM PYTHON SOURCE LINES 96-99
+ #############################################################################
+ # Visualization of vector fields with matplotlib
+ def visualize(mesh, vector_field, colors=None, params=None):
+     """
+     Visualize a mesh and a vector field over it
+     :param mesh: a mesh with n points
+     :param vector_field: (n,3) array
+     :param colors: (n,3) array
+     :param params: params[0] is the length of the quivers
+     :return:
+     """
+     n = mesh.vertices.shape[0]
+     if colors is None:
+         colors = np.zeros((n, 3))
+         colors[:, 0] = 1
+     if params is None:
+         params = []
+         params.append(0.1)
 
-.. code-block:: default
+     fig = plt.figure()
+     ax = Axes3D(fig)
+     ax.plot_trisurf(
+         mesh.vertices[:, 0],
+         mesh.vertices[:, 1],
+         mesh.vertices[:, 2],
+         triangles=mesh.faces,
+         shade=True,
+     )
+     plt.quiver(
+         mesh.vertices[:, 0],
+         mesh.vertices[:, 1],
+         mesh.vertices[:, 2],
+         vector_field[:, 0],
+         vector_field[:, 1],
+         vector_field[:, 2],
+         length=params[0],
+         colors=colors,
+     )
 
+     return fig
 
-    visualize(quadric_mesh, PrincipalDir1)
-    plt.show()
-
-
-
-.. image:: /auto_examples/images/sphx_glr_example_curvature_directions_001.png
-    :alt: example curvature directions
-    :class: sphx-glr-single-img
-
-
-
-
+ visualize(quadric_mesh, PrincipalDir1)
+ plt.show()
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.683 seconds)
+   **Total running time of the script:** (0 minutes 0.628 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_curvature_directions.py:
 
+.. only:: html
 
-.. only :: html
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
+      :download:`Download Jupyter notebook: example_curvature_directions.ipynb <example_curvature_directions.ipynb>`
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: example_curvature_directions.py <example_curvature_directions.py>`
 
-     :download:`Download Python source code: example_curvature_directions.py <example_curvature_directions.py>`
+    .. container:: sphx-glr-download sphx-glr-download-zip
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: example_curvature_directions.ipynb <example_curvature_directions.ipynb>`
+      :download:`Download zipped: example_curvature_directions.zip <example_curvature_directions.zip>`
 
 
 .. only:: html

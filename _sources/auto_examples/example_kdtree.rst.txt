@@ -10,8 +10,8 @@
     .. note::
         :class: sphx-glr-download-link-note
 
-        Click :ref:`here <sphx_glr_download_auto_examples_example_kdtree.py>`
-        to download the full example code
+        :ref:`Go to the end <sphx_glr_download_auto_examples_example_kdtree.py>`
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -26,7 +26,7 @@ KDTree in slam
 
 .. GENERATED FROM PYTHON SOURCE LINES 8-17
 
-.. code-block:: default
+.. code-block:: Python
 
 
     # Authors:
@@ -50,7 +50,7 @@ Importation of slam modules
 
 .. GENERATED FROM PYTHON SOURCE LINES 19-23
 
-.. code-block:: default
+.. code-block:: Python
 
     import slam.io as sio
 
@@ -70,7 +70,7 @@ here we compute the distance between a vector of two points and the mesh
 
 .. GENERATED FROM PYTHON SOURCE LINES 26-29
 
-.. code-block:: default
+.. code-block:: Python
 
     distance, index = mesh.kdtree.query([[0.0, 0.0, 0.0], [0.0, 0.0, 1.0]])
     distance
@@ -80,8 +80,6 @@ here we compute the distance between a vector of two points and the mesh
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -93,28 +91,26 @@ here we compute the distance between a vector of two points and the mesh
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.006 seconds)
+   **Total running time of the script:** (0 minutes 0.003 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_kdtree.py:
 
+.. only:: html
 
-.. only :: html
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
+      :download:`Download Jupyter notebook: example_kdtree.ipynb <example_kdtree.ipynb>`
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: example_kdtree.py <example_kdtree.py>`
 
-     :download:`Download Python source code: example_kdtree.py <example_kdtree.py>`
+    .. container:: sphx-glr-download sphx-glr-download-zip
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: example_kdtree.ipynb <example_kdtree.ipynb>`
+      :download:`Download zipped: example_kdtree.zip <example_kdtree.zip>`
 
 
 .. only:: html

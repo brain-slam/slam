@@ -1,30 +1,30 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Generating parametric surfaces in slam &#8212; slam 0.0.1 documentation</title>
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/gallery-rendered-html.css" />
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/doctools.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Generating parametric surfaces in slam &#8212; slam 0.0.6 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css?v=45361654" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <script src="../_static/documentation_options.js?v=1fd71caa"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js "></script>
-<script type="text/javascript" src="../_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
-<script type="text/javascript" src="../_static/bootstrap-sphinx.js "></script>
+<script type="text/javascript" src="../_static/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+<script type="text/javascript" src="../_static/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
 
   </head><body>
 
@@ -39,7 +39,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           slam</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.0.6</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -71,7 +71,10 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">Generating parametric surfaces in slam</a></li>
+<li><a class="reference internal" href="#">Generating parametric surfaces in slam</a><ul>
+<li><a class="reference internal" href="#visualization-using-external-tools">VISUALIZATION USING EXTERNAL TOOLS</a></li>
+</ul>
+</li>
 </ul>
 </ul>
 </li>
@@ -105,31 +108,57 @@
 
 <div class="container">
   <div class="row">
-    <div class="body col-md-12 content" role="main">
+      <div class="col-md-3">
+        <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
+<li><a class="reference internal" href="#">Generating parametric surfaces in slam</a><ul>
+<li><a class="reference internal" href="#visualization-using-external-tools">VISUALIZATION USING EXTERNAL TOOLS</a></li>
+</ul>
+</li>
+</ul>
+
+<div id="sourcelink">
+  <a href="../_sources/auto_examples/example_generate_parametric_surfaces.rst.txt"
+     rel="nofollow">Source</a>
+</div>
+<form action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+    <div class="body col-md-9 content" role="main">
       
   <div class="sphx-glr-download-link-note admonition note">
 <p class="admonition-title">Note</p>
-<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-example-generate-parametric-surfaces-py"><span class="std std-ref">here</span></a>
-to download the full example code</p>
+<p><a class="reference internal" href="#sphx-glr-download-auto-examples-example-generate-parametric-surfaces-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code.</p>
 </div>
-<div class="sphx-glr-example-title section" id="generating-parametric-surfaces-in-slam">
-<span id="example-generation-parametric-surfaces"></span><span id="sphx-glr-auto-examples-example-generate-parametric-surfaces-py"></span><h1>Generating parametric surfaces in slam<a class="headerlink" href="#generating-parametric-surfaces-in-slam" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Authors:</span>
+<section class="sphx-glr-example-title" id="generating-parametric-surfaces-in-slam">
+<span id="example-generation-parametric-surfaces"></span><span id="sphx-glr-auto-examples-example-generate-parametric-surfaces-py"></span><h1>Generating parametric surfaces in slam<a class="headerlink" href="#generating-parametric-surfaces-in-slam" title="Link to this heading">¶</a></h1>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Authors:</span>
 <span class="c1"># Guillaume Auzias &lt;guillaume.auzias@univ-amu.fr&gt;</span>
 <span class="c1"># Julien Barrès &lt;julien.barres@etu.univ-amu.fr&gt;</span>
 
-<span class="c1"># License: BSD (3-clause)</span>
+<span class="c1"># License: MIT</span>
 <span class="c1"># sphinx_gallery_thumbnail_number = 2</span>
 </pre></div>
 </div>
+<dl class="simple">
+<dt>NOTE: there is no visualization tool in slam, but we provide at the</dt><dd><p>end of this script exemplare code to do the visualization with
+an external solution</p>
+</dd>
+</dl>
+<hr class="docutils" />
 <p>Importation of slam modules</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">slam.generate_parametric_surfaces</span> <span class="k">as</span> <span class="nn">sgps</span>
-<span class="kn">import</span> <span class="nn">slam.plot</span> <span class="k">as</span> <span class="nn">splt</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">slam.generate_parametric_surfaces</span> <span class="k">as</span> <span class="nn">sgps</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 </pre></div>
 </div>
 <p>Generating a quadrix surface</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">K</span></a> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">K</span></a> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
 <span class="n">quadric</span> <span class="o">=</span> <span class="n">sgps</span><span class="o">.</span><span class="n">generate_quadric</span><span class="p">(</span>
     <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">K</span></a><span class="p">,</span>
     <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">nstep</span></a><span class="o">=</span><span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">],</span>
@@ -139,57 +168,32 @@ to download the full example code</p>
     <span class="n">ratio</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
     <span class="n">random_distribution_type</span><span class="o">=</span><span class="s2">&quot;gamma&quot;</span><span class="p">,</span>
 <span class="p">)</span>
-<a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-np-class"><span class="n">quadric_mean_curv</span></a> <span class="o">=</span> <span class="n">sgps</span><span class="o">.</span><span class="n">quadric_curv_mean</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">K</span></a><span class="p">)(</span>
-    <a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-np-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">(</span><span class="n">quadric</span><span class="o">.</span><span class="n">vertices</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]),</span> <a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-np-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">(</span><span class="n">quadric</span><span class="o">.</span><span class="n">vertices</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">quadric_mean_curv</span> <span class="o">=</span> <span class="n">sgps</span><span class="o">.</span><span class="n">quadric_curv_mean</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">K</span></a><span class="p">)(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">quadric</span><span class="o">.</span><span class="n">vertices</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">quadric</span><span class="o">.</span><span class="n">vertices</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="p">)</span>
-
-<span class="n">visb_sc</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">visbrain_plot</span><span class="p">(</span>
-    <span class="n">mesh</span><span class="o">=</span><span class="n">quadric</span><span class="p">,</span> <span class="n">tex</span><span class="o">=</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-np-class"><span class="n">quadric_mean_curv</span></a><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="s2">&quot;quadric&quot;</span><span class="p">,</span> <span class="n">cblabel</span><span class="o">=</span><span class="s2">&quot;mean curvature&quot;</span>
-<span class="p">)</span>
-
-<span class="n">visb_sc</span><span class="o">.</span><span class="n">preview</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="example generate parametric surfaces" class="sphx-glr-single-img" src="../_images/sphx_glr_example_generate_parametric_surfaces_001.png" />
 <p>Generating an ellipsiods</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">nstep</span></a> <span class="o">=</span> <span class="mi">50</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">nstep</span></a> <span class="o">=</span> <span class="mi">50</span>
 <a href="https://docs.python.org/3/library/functions.html#bool" title="builtins.bool" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">randomSampling</span></a> <span class="o">=</span> <span class="kc">True</span>
 <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">a</span></a> <span class="o">=</span> <span class="mi">2</span>
 <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">b</span></a> <span class="o">=</span> <span class="mi">1</span>
 <span class="n">ellips</span> <span class="o">=</span> <span class="n">sgps</span><span class="o">.</span><span class="n">generate_ellipsiod</span><span class="p">(</span><a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">a</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">b</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">nstep</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#bool" title="builtins.bool" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">randomSampling</span></a><span class="p">)</span>
-
-<span class="n">visb_sc</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">visbrain_plot</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">ellips</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="s2">&quot;ellipsoid&quot;</span><span class="p">)</span>
-
-<span class="n">visb_sc</span><span class="o">.</span><span class="n">preview</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="example generate parametric surfaces" class="sphx-glr-single-img" src="../_images/sphx_glr_example_generate_parametric_surfaces_002.png" />
 <p>Generating a sphere</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sphere_regular</span> <span class="o">=</span> <span class="n">sgps</span><span class="o">.</span><span class="n">generate_sphere_icosahedron</span><span class="p">(</span><span class="n">subdivisions</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-
-
-<span class="n">visb_sc</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">visbrain_plot</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">sphere_regular</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="s2">&quot;sphere_regular&quot;</span><span class="p">)</span>
-
-<span class="n">visb_sc</span><span class="o">.</span><span class="n">preview</span><span class="p">()</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">sphere_regular</span> <span class="o">=</span> <span class="n">sgps</span><span class="o">.</span><span class="n">generate_sphere_icosahedron</span><span class="p">(</span><span class="n">subdivisions</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 </pre></div>
 </div>
-<img alt="example generate parametric surfaces" class="sphx-glr-single-img" src="../_images/sphx_glr_example_generate_parametric_surfaces_003.png" />
 <p>Generating a more randomized sphere (random sampling with the same
 number of vertices)</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sphere_random</span> <span class="o">=</span> <span class="n">sgps</span><span class="o">.</span><span class="n">generate_sphere_random_sampling</span><span class="p">(</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">sphere_random</span> <span class="o">=</span> <span class="n">sgps</span><span class="o">.</span><span class="n">generate_sphere_random_sampling</span><span class="p">(</span>
     <span class="n">vertex_number</span><span class="o">=</span><span class="n">sphere_regular</span><span class="o">.</span><span class="n">vertices</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">radius</span><span class="o">=</span><span class="mi">4</span>
 <span class="p">)</span>
-
-<span class="n">visb_sc</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">visbrain_plot</span><span class="p">(</span>
-    <span class="n">mesh</span><span class="o">=</span><span class="n">sphere_random</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="s2">&quot;sphere_random&quot;</span><span class="p">,</span> <span class="n">visb_sc</span><span class="o">=</span><span class="n">visb_sc</span>
-<span class="p">)</span>
-
-<span class="n">visb_sc</span><span class="o">.</span><span class="n">preview</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="example generate parametric surfaces" class="sphx-glr-single-img" src="../_images/sphx_glr_example_generate_parametric_surfaces_004.png" />
 <p>Computation of the volume and volume error of the spheres</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">analytical_vol</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <a href="https://docs.python.org/3/library/functions.html#float" title="builtins.float" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">pi</span></a> <span class="o">*</span> <a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.html#numpy.power" title="numpy.power" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-np-data"><span class="n">np</span><span class="o">.</span><span class="n">power</span></a><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">analytical_vol</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <a href="https://docs.python.org/3/library/functions.html#float" title="builtins.float" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">pi</span></a> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span>
     <span class="s2">&quot;volume error for regular sampling: </span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
         <span class="n">sphere_regular</span><span class="o">.</span><span class="n">volume</span> <span class="o">-</span> <span class="n">analytical_vol</span>
@@ -202,22 +206,50 @@ number of vertices)</p>
 <span class="p">)</span>
 </pre></div>
 </div>
-<p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>volume error for regular sampling: -2.307
-volume error for random sampling: -5.000
+volume error for random sampling: -5.095
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.998 seconds)</p>
-<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-example-generate-parametric-surfaces-py">
-<div class="sphx-glr-download sphx-glr-download-python docutils container">
-<p><a class="reference download internal" download="" href="../_downloads/f9c544212c83916740543cfd9a3ff29e/example_generate_parametric_surfaces.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">example_generate_parametric_surfaces.py</span></code></a></p>
-</div>
+<section id="visualization-using-external-tools">
+<h2>VISUALIZATION USING EXTERNAL TOOLS<a class="headerlink" href="#visualization-using-external-tools" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><p># import visbrain # visu using visbrain
+# show the quadric with its mean curvature
+visb_sc = splt.visbrain_plot(</p>
+<blockquote>
+<div><p>mesh=quadric,
+tex=quadric_mean_curv,
+caption=”quadric”,
+cblabel=”mean curvature”</p>
+</div></blockquote>
+<p>)
+# show the ellipsoid
+visb_sc = splt.visbrain_plot(mesh=ellips, caption=”ellipsoid”)
+# show the sphere with regular sampling
+visb_sc = splt.visbrain_plot(mesh=sphere_regular, caption=”sphere_regular”)
+# show the sphere with random sampling
+visb_sc = splt.visbrain_plot(</p>
+<blockquote>
+<div><p>mesh=sphere_random, caption=”sphere_random”, visb_sc=visb_sc</p>
+</div></blockquote>
+<p>)
+visb_sc.preview()</p>
+</div></blockquote>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.075 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-example-generate-parametric-surfaces-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/8f2febbfc7cd4c4504802d2105b1ed05/example_generate_parametric_surfaces.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">example_generate_parametric_surfaces.ipynb</span></code></a></p>
 </div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/f9c544212c83916740543cfd9a3ff29e/example_generate_parametric_surfaces.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">example_generate_parametric_surfaces.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/69a76ec72e2576a1e094c239c6f6f945/example_generate_parametric_surfaces.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">example_generate_parametric_surfaces.zip</span></code></a></p>
+</div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
-</div>
+</section>
+</section>
 
 
     </div>
@@ -231,8 +263,8 @@ volume error for random sampling: -5.000
       
     </p>
     <p>
-        &copy; Copyright 2022, slam Developers. Last updated on 2022-11-30.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.4.3.<br/>
+        &copy; Copyright 2024, slam Developers. Last updated on 2024-11-29.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 7.4.7.<br/>
     </p>
   </div>
 </footer>

@@ -10,8 +10,8 @@
     .. note::
         :class: sphx-glr-download-link-note
 
-        Click :ref:`here <sphx_glr_download_auto_examples_example_curvature.py>`
-        to download the full example code
+        :ref:`Go to the end <sphx_glr_download_auto_examples_example_curvature.py>`
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -24,15 +24,15 @@
 example of curvature estimation in slam
 ===================================
 
-.. GENERATED FROM PYTHON SOURCE LINES 8-16
+.. GENERATED FROM PYTHON SOURCE LINES 8-15
 
-.. code-block:: default
+.. code-block:: Python
 
 
     # Authors: Guillaume Auzias <guillaume.auzias@univ-amu.fr>
     #          Julien Barrès <julien.barres@etu.univ-amu.fr>
 
-    # License: BSD (3-clause)
+    # License: MIT
     # sphinx_gallery_thumbnail_number = 2
 
 
@@ -42,20 +42,23 @@ example of curvature estimation in slam
 
 
 
+.. GENERATED FROM PYTHON SOURCE LINES 16-20
 
-.. GENERATED FROM PYTHON SOURCE LINES 17-18
+NOTE: there is no visualization tool in slam, but we provide at the
+ end of this script exemplare code to do the visualization with
+ an external solution
+##############################################################################
 
-importation of slam modules
+.. GENERATED FROM PYTHON SOURCE LINES 20-28
 
-.. GENERATED FROM PYTHON SOURCE LINES 18-25
+.. code-block:: Python
 
-.. code-block:: default
 
+    # importation of slam modules
     import slam.utils as ut
     import numpy as np
     import slam.generate_parametric_surfaces as sgps
     import slam.io as sio
-    import slam.plot as splt
     import slam.curvature as scurv
 
 
@@ -65,13 +68,13 @@ importation of slam modules
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 26-27
+.. GENERATED FROM PYTHON SOURCE LINES 29-30
 
 loading an examplar mesh
 
-.. GENERATED FROM PYTHON SOURCE LINES 27-30
+.. GENERATED FROM PYTHON SOURCE LINES 30-33
 
-.. code-block:: default
+.. code-block:: Python
 
     mesh_file = "../examples/data/example_mesh.gii"
     mesh = sio.load_mesh(mesh_file)
@@ -83,25 +86,22 @@ loading an examplar mesh
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 31-32
+.. GENERATED FROM PYTHON SOURCE LINES 34-35
 
 Comptue estimations of principal curvatures
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-36
+.. GENERATED FROM PYTHON SOURCE LINES 35-38
 
-.. code-block:: default
+.. code-block:: Python
 
-    PrincipalCurvatures, PrincipalDir1, PrincipalDir2 = scurv.curvatures_and_derivatives(
-        mesh
-    )
+    PrincipalCurvatures, PrincipalDir1, PrincipalDir2 \
+        = scurv.curvatures_and_derivatives(mesh)
 
 
 
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -115,13 +115,13 @@ Comptue estimations of principal curvatures
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 37-38
+.. GENERATED FROM PYTHON SOURCE LINES 39-40
 
 Comptue Gauss curvature from principal curvatures
 
-.. GENERATED FROM PYTHON SOURCE LINES 38-40
+.. GENERATED FROM PYTHON SOURCE LINES 40-42
 
-.. code-block:: default
+.. code-block:: Python
 
     gaussian_curv = PrincipalCurvatures[0, :] * PrincipalCurvatures[1, :]
 
@@ -132,13 +132,13 @@ Comptue Gauss curvature from principal curvatures
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-42
+.. GENERATED FROM PYTHON SOURCE LINES 43-44
 
 Comptue mean curvature from principal curvatures
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-44
+.. GENERATED FROM PYTHON SOURCE LINES 44-46
 
-.. code-block:: default
+.. code-block:: Python
 
     mean_curv = 0.5 * (PrincipalCurvatures[0, :] + PrincipalCurvatures[1, :])
 
@@ -149,67 +149,15 @@ Comptue mean curvature from principal curvatures
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 45-46
-
-Plot mean curvature
-
-.. GENERATED FROM PYTHON SOURCE LINES 46-51
-
-.. code-block:: default
-
-    visb_sc = splt.visbrain_plot(
-        mesh=mesh, tex=mean_curv, caption="mean curvature", cblabel="mean curvature"
-    )
-    visb_sc.preview()
-
-
-
-
-.. image:: /auto_examples/images/sphx_glr_example_curvature_001.png
-    :alt: example curvature
-    :class: sphx-glr-single-img
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 52-53
-
-Plot Gauss curvature
-
-.. GENERATED FROM PYTHON SOURCE LINES 53-62
-
-.. code-block:: default
-
-    visb_sc = splt.visbrain_plot(
-        mesh=mesh,
-        tex=gaussian_curv,
-        caption="Gaussian curvature",
-        cblabel="Gaussian curvature",
-        cmap="hot",
-    )
-    visb_sc.preview()
-
-
-
-
-.. image:: /auto_examples/images/sphx_glr_example_curvature_002.png
-    :alt: example curvature
-    :class: sphx-glr-single-img
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 63-66
+.. GENERATED FROM PYTHON SOURCE LINES 47-50
 
 Decomposition of the curvatures into ShapeIndex and Curvedness
 Based on 'Surface shape and curvature scales
           Jan JKoenderink & Andrea Jvan Doorn'
 
-.. GENERATED FROM PYTHON SOURCE LINES 66-68
+.. GENERATED FROM PYTHON SOURCE LINES 50-52
 
-.. code-block:: default
+.. code-block:: Python
 
     shapeIndex, curvedness = scurv.decompose_curvature(PrincipalCurvatures)
 
@@ -220,58 +168,13 @@ Based on 'Surface shape and curvature scales
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 69-70
-
-Plot of ShapeIndex and Curvedness
-
-.. GENERATED FROM PYTHON SOURCE LINES 70-85
-
-.. code-block:: default
-
-    visb_sc = splt.visbrain_plot(
-        mesh=mesh,
-        tex=shapeIndex,
-        caption="ShapeIndex",
-        cblabel="ShapeIndex",
-        cmap="coolwarm",
-    )
-    visb_sc.preview()
-
-    visb_sc = splt.visbrain_plot(
-        mesh=mesh, tex=curvedness, caption="Curvedness", cblabel="Curvedness", cmap="hot"
-    )
-    visb_sc.preview()
-
-
-
-
-
-.. rst-class:: sphx-glr-horizontal
-
-
-    *
-
-      .. image:: /auto_examples/images/sphx_glr_example_curvature_003.png
-          :alt: example curvature
-          :class: sphx-glr-multi-img
-
-    *
-
-      .. image:: /auto_examples/images/sphx_glr_example_curvature_004.png
-          :alt: example curvature
-          :class: sphx-glr-multi-img
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 86-87
+.. GENERATED FROM PYTHON SOURCE LINES 53-54
 
 Estimation error on the principal curvature length
 
-.. GENERATED FROM PYTHON SOURCE LINES 87-100
+.. GENERATED FROM PYTHON SOURCE LINES 54-67
 
-.. code-block:: default
+.. code-block:: Python
 
     K = [1, 0]
 
@@ -293,13 +196,13 @@ Estimation error on the principal curvature length
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 101-102
+.. GENERATED FROM PYTHON SOURCE LINES 68-69
 
 Estimated computation of the Principal curvature, K_gauss, K_mean
 
-.. GENERATED FROM PYTHON SOURCE LINES 102-110
+.. GENERATED FROM PYTHON SOURCE LINES 69-77
 
-.. code-block:: default
+.. code-block:: Python
 
     p_curv, d1_estim, d2_estim = scurv.curvatures_and_derivatives(quadric)
 
@@ -315,8 +218,6 @@ Estimated computation of the Principal curvature, K_gauss, K_mean
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
     Calculating vertex normals .... Please wait
@@ -329,13 +230,13 @@ Estimated computation of the Principal curvature, K_gauss, K_mean
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 111-112
+.. GENERATED FROM PYTHON SOURCE LINES 78-79
 
 Analytical computation of the curvatures
 
-.. GENERATED FROM PYTHON SOURCE LINES 112-130
+.. GENERATED FROM PYTHON SOURCE LINES 79-97
 
-.. code-block:: default
+.. code-block:: Python
 
 
     k_mean_analytic = sgps.quadric_curv_mean(K)(
@@ -362,16 +263,17 @@ Analytical computation of the curvatures
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 131-132
+.. GENERATED FROM PYTHON SOURCE LINES 98-99
 
 Error computation
 
-.. GENERATED FROM PYTHON SOURCE LINES 132-139
+.. GENERATED FROM PYTHON SOURCE LINES 99-107
 
-.. code-block:: default
+.. code-block:: Python
 
 
-    k_mean_relative_change = abs((k_mean_analytic - k_mean_estim) / k_mean_analytic)
+    k_mean_relative_change = abs(
+        (k_mean_analytic - k_mean_estim) / k_mean_analytic)
     k_mean_absolute_change = abs((k_mean_analytic - k_mean_estim))
 
     k1_relative_change = abs((k1_analytic - k1_estim) / k1_analytic)
@@ -384,44 +286,16 @@ Error computation
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 140-141
-
-Error plot
-
-.. GENERATED FROM PYTHON SOURCE LINES 141-150
-
-.. code-block:: default
-
-
-    visb_sc = splt.visbrain_plot(
-        mesh=quadric,
-        tex=k_mean_absolute_change,
-        caption="K_mean absolute error",
-        cblabel="K_mean absolute error",
-    )
-    visb_sc.preview()
-
-
-
-
-.. image:: /auto_examples/images/sphx_glr_example_curvature_005.png
-    :alt: example curvature
-    :class: sphx-glr-single-img
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 151-155
+.. GENERATED FROM PYTHON SOURCE LINES 108-112
 
 Estimation error on the curvature directions
 commented because there is a bug:
 ValueError: shapes (3,2) and (3,2) not aligned: 2 (dim 1) != 3 (dim 0)
 actually, vec1.shape=(3,) while vec2.shape=(3,2)
 
-.. GENERATED FROM PYTHON SOURCE LINES 155-169
+.. GENERATED FROM PYTHON SOURCE LINES 112-126
 
-.. code-block:: default
+.. code-block:: Python
 
 
     K = [1, 0]
@@ -444,13 +318,13 @@ actually, vec1.shape=(3,) while vec2.shape=(3,2)
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 170-171
+.. GENERATED FROM PYTHON SOURCE LINES 127-128
 
 Estimated computation of the Principal curvature, Direction1, Direction2
 
-.. GENERATED FROM PYTHON SOURCE LINES 171-173
+.. GENERATED FROM PYTHON SOURCE LINES 128-130
 
-.. code-block:: default
+.. code-block:: Python
 
     p_curv_estim, d1_estim, d2_estim = scurv.curvatures_and_derivatives(quadric)
 
@@ -459,8 +333,6 @@ Estimated computation of the Principal curvature, Direction1, Direction2
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -474,15 +346,16 @@ Estimated computation of the Principal curvature, Direction1, Direction2
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 174-175
+.. GENERATED FROM PYTHON SOURCE LINES 131-132
 
 Analytical computation of the directions
 
-.. GENERATED FROM PYTHON SOURCE LINES 175-191
+.. GENERATED FROM PYTHON SOURCE LINES 132-149
 
-.. code-block:: default
+.. code-block:: Python
 
-    analytical_directions = sgps.compute_all_principal_directions_3D(K, quadric.vertices)
+    analytical_directions = sgps.compute_all_principal_directions_3D(
+        K, quadric.vertices)
 
     estimated_directions = np.zeros(analytical_directions.shape)
     estimated_directions[:, :, 0] = d1_estim
@@ -505,77 +378,98 @@ Analytical computation of the directions
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 192-193
+.. GENERATED FROM PYTHON SOURCE LINES 150-216
 
-Error plot
+VISUALIZATION USING EXTERNAL TOOLS
+############################################################################
+ import visbrain # visu using visbrain
+ Plot mean curvature
+ visb_sc = splt.visbrain_plot(
+     mesh=mesh,
+     tex=mean_curv,
+     caption="mean curvature",
+     cblabel="mean curvature"
+ )
+ visb_sc.preview()
+############################################################################
+ # Plot Gauss curvature
+ visb_sc = splt.visbrain_plot(
+     mesh=mesh,
+     tex=gaussian_curv,
+     caption="Gaussian curvature",
+     cblabel="Gaussian curvature",
+     cmap="hot",
+ )
+ visb_sc.preview()
+##############################################################################
+ Plot of ShapeIndex and Curvedness
+ visb_sc = splt.visbrain_plot(
+     mesh=mesh,
+     tex=shapeIndex,
+     caption="ShapeIndex",
+     cblabel="ShapeIndex",
+     cmap="coolwarm",
+ )
+ visb_sc.preview()
 
-.. GENERATED FROM PYTHON SOURCE LINES 193-209
+ visb_sc = splt.visbrain_plot(
+     mesh=mesh,
+     tex=curvedness,
+     caption="Curvedness",
+     cblabel="Curvedness",
+     cmap="hot"
+ )
+ visb_sc.preview()
+##############################################################################
+ Error plot
+ visb_sc = splt.visbrain_plot(
+     mesh=quadric,
+     tex=k_mean_absolute_change,
+     caption="K_mean absolute error",
+     cblabel="K_mean absolute error",
+ )
+ visb_sc.preview()
+ ###############################################################################
+ # Error plot
+ visb_sc = splt.visbrain_plot(
+     mesh=quadric,
+     tex=angular_error_0,
+     caption="Angular error 0",
+     cblabel="Angular error 0",
+ )
+ visb_sc.preview()
 
-.. code-block:: default
-
-
-    visb_sc = splt.visbrain_plot(
-        mesh=quadric,
-        tex=angular_error_0,
-        caption="Angular error 0",
-        cblabel="Angular error 0",
-    )
-    visb_sc.preview()
-
-    visb_sc = splt.visbrain_plot(
-        mesh=quadric,
-        tex=angular_error_1,
-        caption="Angular error 1",
-        cblabel="Angular error 1",
-    )
-    visb_sc.preview()
-
-
-
-.. rst-class:: sphx-glr-horizontal
-
-
-    *
-
-      .. image:: /auto_examples/images/sphx_glr_example_curvature_006.png
-          :alt: example curvature
-          :class: sphx-glr-multi-img
-
-    *
-
-      .. image:: /auto_examples/images/sphx_glr_example_curvature_007.png
-          :alt: example curvature
-          :class: sphx-glr-multi-img
-
-
-
-
+ visb_sc = splt.visbrain_plot(
+     mesh=quadric,
+     tex=angular_error_1,
+     caption="Angular error 1",
+     cblabel="Angular error 1",
+ )
+ visb_sc.preview()
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  9.131 seconds)
+   **Total running time of the script:** (0 minutes 4.728 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_curvature.py:
 
+.. only:: html
 
-.. only :: html
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
+      :download:`Download Jupyter notebook: example_curvature.ipynb <example_curvature.ipynb>`
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: example_curvature.py <example_curvature.py>`
 
-     :download:`Download Python source code: example_curvature.py <example_curvature.py>`
+    .. container:: sphx-glr-download sphx-glr-download-zip
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: example_curvature.ipynb <example_curvature.ipynb>`
+      :download:`Download zipped: example_curvature.zip <example_curvature.zip>`
 
 
 .. only:: html

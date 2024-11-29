@@ -4,11 +4,6 @@
 .. automodule:: slam.distortion
 
    
-   
-   
-
-   
-   
    .. rubric:: Functions
 
    .. autosummary::
@@ -17,15 +12,3 @@
       area_difference
       edge_length_difference
    
-   
-
-   
-   
-   
-
-   
-   
-   
-
-
-

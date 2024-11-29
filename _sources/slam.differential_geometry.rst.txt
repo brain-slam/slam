@@ -4,11 +4,6 @@
 .. automodule:: slam.differential_geometry
 
    
-   
-   
-
-   
-   
    .. rubric:: Functions
 
    .. autosummary::
@@ -26,15 +21,3 @@
       norm_gradient
       triangle_gradient
    
-   
-
-   
-   
-   
-
-   
-   
-   
-
-
-

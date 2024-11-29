@@ -1,30 +1,30 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>slam.generate_parametric_surfaces &#8212; slam 0.0.1 documentation</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="_static/gallery.css" />
-    <link rel="stylesheet" type="text/css" href="_static/gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="_static/gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/gallery-rendered-html.css" />
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>slam.generate_parametric_surfaces &#8212; slam 0.0.6 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css?v=45361654" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <script src="_static/documentation_options.js?v=1fd71caa"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="_static/js/jquery-1.11.0.min.js "></script>
-<script type="text/javascript" src="_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
-<script type="text/javascript" src="_static/bootstrap-sphinx.js "></script>
+<script type="text/javascript" src="_static/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+<script type="text/javascript" src="_static/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
 
   </head><body>
 
@@ -39,7 +39,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           slam</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.0.6</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -105,16 +105,30 @@
 
 <div class="container">
   <div class="row">
-    <div class="body col-md-12 content" role="main">
+      <div class="col-md-3">
+        <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
+<li><a class="reference internal" href="#">slam.generate_parametric_surfaces</a></li>
+</ul>
+
+<div id="sourcelink">
+  <a href="_sources/slam.generate_parametric_surfaces.rst.txt"
+     rel="nofollow">Source</a>
+</div>
+<form action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+    <div class="body col-md-9 content" role="main">
       
-  <div class="section" id="module-slam.generate_parametric_surfaces">
-<span id="slam-generate-parametric-surfaces"></span><h1>slam.generate_parametric_surfaces<a class="headerlink" href="#module-slam.generate_parametric_surfaces" title="Permalink to this headline">¶</a></h1>
+  <section id="module-slam.generate_parametric_surfaces">
+<span id="slam-generate-parametric-surfaces"></span><h1>slam.generate_parametric_surfaces<a class="headerlink" href="#module-slam.generate_parametric_surfaces" title="Link to this heading">¶</a></h1>
 <p class="rubric">Functions</p>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
+<table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">adaptive_sampling</span></code>(ymax, K, step)</p></td>
 <td><p>sample [-ymax,ymax] such as:</p></td>
@@ -134,22 +148,22 @@
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_weingarten_map</span></code>(K, x, y)</p></td>
 <td><p>compute the weingarten matrix of a quadric depending on x and y coordinates :param K: (2,) array such as z(x,y)=K[0]*x**2 + K[1]*y**2 :param (x,y): coordinates where to compute the matrix :return: (2,2) matrix of the weingarten endomorphism to be evaluated at (x,y)</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_ellipsiod</span></code>(a, b, nstep[, …])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_ellipsiod</span></code>(a, b, nstep[, ...])</p></td>
 <td><p>generate an ellipsoid :param a: :param b: :param nstep: :param random_sampling: :return:</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_hinge</span></code>([n_hinge, n_step, min_coord, …])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_hinge</span></code>([n_hinge, n_step, min_coord, ...])</p></td>
 <td><p>Generate a hinge shaped surface :param n_hinge: :param n_step: :param min_coord: :param max_coord: :param regularity: :return:</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_paraboloid_regular</span></code>(A[, nstep, ax, …])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_paraboloid_regular</span></code>(A[, nstep, ax, ...])</p></td>
 <td><p>generate a regular paraboloid mesh Z=K*Y^2 ratio and random_distribution_type parameters are unused if random_sampling is set to False :param A: amplitude of the paraboloid :param nstep: nstepx or the sampling step stepx as a float ! :param ax: half length of the domain :param ay: half width of the domain :param random_sampling: :param random_distribution_type: :param ratio: :return:</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_quadric</span></code>(K[, nstep, equilateral, …])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_quadric</span></code>(K[, nstep, equilateral, ...])</p></td>
 <td><p>generate a quadric mesh Z=K1*X^2 + K2*Y^2 ratio and random_distribution_type parameters are unused if random_sampling is set to False :param K: list with [K1,K2] :param nstep: list with [nstepx,nstepy] or the sampling steps [stepx,stepy] as floats ! :param equilateral: to have an equilateral sampling scheme of the quadric :param ax: half length of the domain :param ay: half width of the domain :param random_sampling: :param ratio: :param random_distribution_type: :return:</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_sphere_icosahedron</span></code>([subdivisions, …])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_sphere_icosahedron</span></code>([subdivisions, ...])</p></td>
 <td><p>generate a sphere by subdividing an icosahedron simply call the trimesh function see trimesh.creation.icosphere for more details :param subdivisions:  int   How many times to subdivide the mesh. Note that the number of faces will grow as function of   4 ** subdivisions, so you probably want to keep this under ~5 :param radius: float   Desired radius of sphere :return:.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_sphere_random_sampling</span></code>([…])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_sphere_random_sampling</span></code>([...])</p></td>
 <td><p>generate a sphere with random sampling :param vertex_number: number of vertices in the output spherical mesh :param radius: radius of the output sphere :return:</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">quadric</span></code>(K1, K2)</p></td>
@@ -166,7 +180,7 @@
 </tr>
 </tbody>
 </table>
-</div>
+</section>
 
 
     </div>
@@ -180,8 +194,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2022, slam Developers. Last updated on 2022-11-30.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.4.3.<br/>
+        &copy; Copyright 2024, slam Developers. Last updated on 2024-11-29.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 7.4.7.<br/>
     </p>
   </div>
 </footer>

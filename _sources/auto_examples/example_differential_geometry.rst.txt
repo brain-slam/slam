@@ -10,8 +10,8 @@
     .. note::
         :class: sphx-glr-download-link-note
 
-        Click :ref:`here <sphx_glr_download_auto_examples_example_differential_geometry.py>`
-        to download the full example code
+        :ref:`Go to the end <sphx_glr_download_auto_examples_example_differential_geometry.py>`
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -24,14 +24,14 @@
 example of differential geometry tools in slam
 ===================================
 
-.. GENERATED FROM PYTHON SOURCE LINES 8-15
+.. GENERATED FROM PYTHON SOURCE LINES 8-14
 
-.. code-block:: default
+.. code-block:: Python
 
 
     # Authors: Guillaume Auzias <guillaume.auzias@univ-amu.fr>
 
-    # License: BSD (3-clause)
+    # License: MIT
     # sphinx_gallery_thumbnail_number = 2
 
 
@@ -41,18 +41,23 @@ example of differential geometry tools in slam
 
 
 
+.. GENERATED FROM PYTHON SOURCE LINES 15-19
 
-.. GENERATED FROM PYTHON SOURCE LINES 16-17
+NOTE: there is no visualization tool in slam, but we provide at the
+ end of this script exemplare code to do the visualization with
+ an external solution
+##############################################################################
+
+.. GENERATED FROM PYTHON SOURCE LINES 21-22
 
 importation of slam modules
 
-.. GENERATED FROM PYTHON SOURCE LINES 17-21
+.. GENERATED FROM PYTHON SOURCE LINES 22-25
 
-.. code-block:: default
+.. code-block:: Python
 
     import slam.io as sio
     import slam.differential_geometry as sdg
-    import slam.plot as splt
 
 
 
@@ -61,42 +66,33 @@ importation of slam modules
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 22-23
+.. GENERATED FROM PYTHON SOURCE LINES 26-27
 
-loading an examplar mesh and corresponding texture and show it
+loading an examplar mesh and corresponding texture
 
-.. GENERATED FROM PYTHON SOURCE LINES 23-33
+.. GENERATED FROM PYTHON SOURCE LINES 27-32
 
-.. code-block:: default
+.. code-block:: Python
 
     mesh_file = "../examples/data/example_mesh.gii"
     texture_file = "../examples/data/example_texture.gii"
     mesh = sio.load_mesh(mesh_file)
     tex = sio.load_texture(texture_file)
 
-    visb_sc = splt.visbrain_plot(
-        mesh=mesh, tex=tex.darray[0], caption="mesh with curvature", cblabel="curvature"
-    )
-    visb_sc.preview()
-
-
-
-
-.. image:: /auto_examples/images/sphx_glr_example_differential_geometry_001.png
-    :alt: example differential geometry
-    :class: sphx-glr-single-img
 
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 34-35
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 33-34
 
 compute various types of Laplacian of the mesh
 
-.. GENERATED FROM PYTHON SOURCE LINES 35-42
+.. GENERATED FROM PYTHON SOURCE LINES 34-41
 
-.. code-block:: default
+.. code-block:: Python
 
     lap, lap_b = sdg.compute_mesh_laplacian(mesh, lap_type="fem")
     print(mesh.vertices.shape)
@@ -110,8 +106,6 @@ compute various types of Laplacian of the mesh
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -147,13 +141,13 @@ compute various types of Laplacian of the mesh
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 43-44
+.. GENERATED FROM PYTHON SOURCE LINES 42-43
 
 smooth the mesh using Laplacian
 
-.. GENERATED FROM PYTHON SOURCE LINES 44-46
+.. GENERATED FROM PYTHON SOURCE LINES 43-45
 
-.. code-block:: default
+.. code-block:: Python
 
     s_mesh = sdg.laplacian_mesh_smoothing(mesh, nb_iter=100, dt=0.1)
 
@@ -162,8 +156,6 @@ smooth the mesh using Laplacian
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -190,35 +182,13 @@ smooth the mesh using Laplacian
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 47-48
-
-show it
-
-.. GENERATED FROM PYTHON SOURCE LINES 48-51
-
-.. code-block:: default
-
-    visb_sc = splt.visbrain_plot(mesh=s_mesh, caption="smoothed mesh")
-    visb_sc.preview()
-
-
-
-
-.. image:: /auto_examples/images/sphx_glr_example_differential_geometry_002.png
-    :alt: example differential geometry
-    :class: sphx-glr-single-img
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 52-53
+.. GENERATED FROM PYTHON SOURCE LINES 46-47
 
 compute the gradient of texture tex
 
-.. GENERATED FROM PYTHON SOURCE LINES 53-60
+.. GENERATED FROM PYTHON SOURCE LINES 47-54
 
-.. code-block:: default
+.. code-block:: Python
 
     triangle_grad = sdg.triangle_gradient(mesh, tex.darray[0])
     print(triangle_grad)
@@ -232,8 +202,6 @@ compute the gradient of texture tex
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -553,40 +521,13 @@ compute the gradient of texture tex
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 61-62
-
-show it
-
-.. GENERATED FROM PYTHON SOURCE LINES 62-70
-
-.. code-block:: default
-
-    visb_sc = splt.visbrain_plot(
-        mesh=mesh,
-        tex=norm_grad,
-        caption="norm of the gradient of curvature",
-        cblabel="gradient magnitude",
-    )
-    visb_sc.preview()
-
-
-
-
-.. image:: /auto_examples/images/sphx_glr_example_differential_geometry_003.png
-    :alt: example differential geometry
-    :class: sphx-glr-single-img
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 71-72
+.. GENERATED FROM PYTHON SOURCE LINES 55-56
 
 compute the depth potential function
 
-.. GENERATED FROM PYTHON SOURCE LINES 72-74
+.. GENERATED FROM PYTHON SOURCE LINES 56-58
 
-.. code-block:: default
+.. code-block:: Python
 
     dpf = sdg.depth_potential_function(mesh, tex.darray[0], [0.3])
 
@@ -595,8 +536,6 @@ compute the depth potential function
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -611,54 +550,66 @@ compute the depth potential function
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 75-76
+.. GENERATED FROM PYTHON SOURCE LINES 59-93
 
-show it
-
-.. GENERATED FROM PYTHON SOURCE LINES 76-80
-
-.. code-block:: default
-
-    visb_sc = splt.visbrain_plot(
-        mesh=mesh, tex=dpf[0], caption="depth potential function", cblabel="dpf"
-    )
-    visb_sc.preview()
-
-
-
-.. image:: /auto_examples/images/sphx_glr_example_differential_geometry_004.png
-    :alt: example differential geometry
-    :class: sphx-glr-single-img
-
-
-
-
+VISUALIZATION USING EXTERNAL TOOLS
+############################################################################
+ # import visbrain # visu using visbrain
+ visb_sc = splt.visbrain_plot(
+     mesh=mesh,
+     tex=tex.darray[0],
+     caption="mesh with curvature", cblabel="curvature"
+ )
+ visb_sc.preview()
+ ###############################################################################
+ # show the smoothed mesh
+ visb_sc = splt.visbrain_plot(
+ mesh=s_mesh,
+ caption="smoothed mesh"
+ )
+ visb_sc.preview()
+ ###############################################################################
+ # show the norm of the gradient of the curvature
+ visb_sc = splt.visbrain_plot(
+     mesh=mesh,
+     tex=norm_grad,
+     caption="norm of the gradient of curvature",
+     cblabel="gradient magnitude",
+ )
+ visb_sc.preview()
+ ###############################################################################
+ # show the depth potential function
+ visb_sc = splt.visbrain_plot(
+     mesh=mesh,
+     tex=dpf[0],
+     caption="depth potential function",
+     cblabel="dpf"
+ )
+ visb_sc.preview()
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  5.618 seconds)
+   **Total running time of the script:** (0 minutes 3.199 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_differential_geometry.py:
 
+.. only:: html
 
-.. only :: html
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
+      :download:`Download Jupyter notebook: example_differential_geometry.ipynb <example_differential_geometry.ipynb>`
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: example_differential_geometry.py <example_differential_geometry.py>`
 
-     :download:`Download Python source code: example_differential_geometry.py <example_differential_geometry.py>`
+    .. container:: sphx-glr-download sphx-glr-download-zip
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: example_differential_geometry.ipynb <example_differential_geometry.ipynb>`
+      :download:`Download zipped: example_differential_geometry.zip <example_differential_geometry.zip>`
 
 
 .. only:: html

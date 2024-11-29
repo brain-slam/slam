@@ -10,8 +10,8 @@
     .. note::
         :class: sphx-glr-download-link-note
 
-        Click :ref:`here <sphx_glr_download_auto_examples_example_geodesic.py>`
-        to download the full example code
+        :ref:`Go to the end <sphx_glr_download_auto_examples_example_geodesic.py>`
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -24,16 +24,16 @@
 Geodesic in slam
 ===================================
 
-.. GENERATED FROM PYTHON SOURCE LINES 8-17
+.. GENERATED FROM PYTHON SOURCE LINES 8-16
 
-.. code-block:: default
+.. code-block:: Python
 
 
     # Authors:
     # Guillaume Auzias <guillaume.auzias@univ-amu.fr>
     # Julien Barrès <julien.barres@etu.univ-amu.fr>
 
-    # License: BSD (3-clause)
+    # License: MIT
     # sphinx_gallery_thumbnail_number = 2
 
 
@@ -43,20 +43,24 @@ Geodesic in slam
 
 
 
+.. GENERATED FROM PYTHON SOURCE LINES 17-21
 
-.. GENERATED FROM PYTHON SOURCE LINES 18-19
+NOTE: there is no visualization tool in slam, but we provide at the
+ end of this script exemplare code to do the visualization with
+ an external solution
+##############################################################################
+
+.. GENERATED FROM PYTHON SOURCE LINES 23-24
 
 Importation of slam modules
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-26
+.. GENERATED FROM PYTHON SOURCE LINES 24-29
 
-.. code-block:: default
+.. code-block:: Python
 
-    import slam.plot as splt
     import slam.io as sio
     import slam.geodesics as sgeo
     import numpy as np
-
     # import trimesh
 
 
@@ -66,13 +70,13 @@ Importation of slam modules
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 27-28
+.. GENERATED FROM PYTHON SOURCE LINES 30-31
 
 Mesh importation
 
-.. GENERATED FROM PYTHON SOURCE LINES 28-30
+.. GENERATED FROM PYTHON SOURCE LINES 31-33
 
-.. code-block:: default
+.. code-block:: Python
 
     mesh = sio.load_mesh("../examples/data/example_mesh.gii")
 
@@ -83,20 +87,18 @@ Mesh importation
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 31-32
+.. GENERATED FROM PYTHON SOURCE LINES 34-35
 
 Getting the vertex index in specified geo_distance of vert
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-40
+.. GENERATED FROM PYTHON SOURCE LINES 35-41
 
-.. code-block:: default
+.. code-block:: Python
 
     vert_id = 200
     max_geodist = 10
-
     geo_distance = sgeo.compute_gdist(mesh, vert_id)
     area_geodist_vi = np.where(geo_distance < max_geodist)[0]
-
     print(area_geodist_vi)
 
 
@@ -104,8 +106,6 @@ Getting the vertex index in specified geo_distance of vert
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -124,68 +124,30 @@ Getting the vertex index in specified geo_distance of vert
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-42
-
-Visualization
-
-.. GENERATED FROM PYTHON SOURCE LINES 42-48
-
-.. code-block:: default
-
-
-    visb_sc = splt.visbrain_plot(
-        mesh=mesh, tex=geo_distance, caption="geodesic distance", cblabel="distance"
-    )
-    visb_sc.preview()
-
-
-
-
-.. image:: /auto_examples/images/sphx_glr_example_geodesic_001.png
-    :alt: example geodesic
-    :class: sphx-glr-single-img
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 49-50
+.. GENERATED FROM PYTHON SOURCE LINES 42-43
 
 Getting the vertex index in specified geo_distance of vert
 
-.. GENERATED FROM PYTHON SOURCE LINES 50-60
+.. GENERATED FROM PYTHON SOURCE LINES 43-45
 
-.. code-block:: default
-
+.. code-block:: Python
 
     area_geodist = sgeo.local_gdist_matrix(mesh, max_geodist)
 
-    visb_sc2 = splt.visbrain_plot(
-        mesh=mesh,
-        tex=area_geodist[0].toarray().squeeze(),
-        caption="local geodesic distance",
-        cblabel="distance",
-    )
-    visb_sc2.preview()
-
-
-
-.. image:: /auto_examples/images/sphx_glr_example_geodesic_002.png
-    :alt: example geodesic
-    :class: sphx-glr-single-img
 
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 61-62
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 46-47
 
 Get the vertex index
 
-.. GENERATED FROM PYTHON SOURCE LINES 62-70
+.. GENERATED FROM PYTHON SOURCE LINES 47-54
 
-.. code-block:: default
-
+.. code-block:: Python
 
     indices = []
 
@@ -201,14 +163,13 @@ Get the vertex index
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 71-72
+.. GENERATED FROM PYTHON SOURCE LINES 55-56
 
 Arbitrary indices of mesh.vertices to test with
 
-.. GENERATED FROM PYTHON SOURCE LINES 72-79
+.. GENERATED FROM PYTHON SOURCE LINES 56-61
 
-.. code-block:: default
-
+.. code-block:: Python
 
     start = 0
     end = int(len(mesh.vertices) / 2.0)
@@ -219,10 +180,7 @@ Arbitrary indices of mesh.vertices to test with
 
 
 
-
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -231,7 +189,29 @@ Arbitrary indices of mesh.vertices to test with
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 80-103
+.. GENERATED FROM PYTHON SOURCE LINES 62-81
+
+VISUALIZATION USING EXTERNAL TOOLS
+############################################################################
+ # Visualization with visbrain
+ # show the geodesic distance
+ visb_sc = splt.visbrain_plot(
+     mesh=mesh,
+     tex=geo_distance,
+     caption="geodesic distance",
+     cblabel="distance"
+ )
+ visb_sc.preview()
+ # show the geodesic distance locally
+ visb_sc2 = splt.visbrain_plot(
+     mesh=mesh,
+     tex=area_geodist[0].toarray().squeeze(),
+     caption="local geodesic distance",
+     cblabel="distance",
+ )
+ visb_sc2.preview()
+
+.. GENERATED FROM PYTHON SOURCE LINES 83-106
 
 # Visualization using pyglet
 
@@ -260,28 +240,26 @@ scene.show(smooth=False)
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  4.215 seconds)
+   **Total running time of the script:** (0 minutes 2.919 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_geodesic.py:
 
+.. only:: html
 
-.. only :: html
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
+      :download:`Download Jupyter notebook: example_geodesic.ipynb <example_geodesic.ipynb>`
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: example_geodesic.py <example_geodesic.py>`
 
-     :download:`Download Python source code: example_geodesic.py <example_geodesic.py>`
+    .. container:: sphx-glr-download sphx-glr-download-zip
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: example_geodesic.ipynb <example_geodesic.ipynb>`
+      :download:`Download zipped: example_geodesic.zip <example_geodesic.zip>`
 
 
 .. only:: html

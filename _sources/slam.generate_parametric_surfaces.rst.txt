@@ -4,11 +4,6 @@
 .. automodule:: slam.generate_parametric_surfaces
 
    
-   
-   
-
-   
-   
    .. rubric:: Functions
 
    .. autosummary::
@@ -30,15 +25,3 @@
       quadric_curv_mean
       tri_from_hull
    
-   
-
-   
-   
-   
-
-   
-   
-   
-
-
-

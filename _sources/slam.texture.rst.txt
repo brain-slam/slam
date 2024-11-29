@@ -4,26 +4,9 @@
 .. automodule:: slam.texture
 
    
-   
-   
-
-   
-   
-   
-
-   
-   
    .. rubric:: Classes
 
    .. autosummary::
    
       TextureND
    
-   
-
-   
-   
-   
-
-
-

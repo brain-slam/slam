@@ -10,8 +10,8 @@
     .. note::
         :class: sphx-glr-download-link-note
 
-        Click :ref:`here <sphx_glr_download_auto_examples_example_profile_texture.py>`
-        to download the full example code
+        :ref:`Go to the end <sphx_glr_download_auto_examples_example_profile_texture.py>`
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -24,14 +24,14 @@
 example of profile texture in slam
 ===================================
 
-.. GENERATED FROM PYTHON SOURCE LINES 8-15
+.. GENERATED FROM PYTHON SOURCE LINES 8-14
 
-.. code-block:: default
+.. code-block:: Python
 
 
     # Authors: Tianqi SONG <tianqisong0117@gmail.com>
 
-    # License: BSD (3-clause)
+    # License: MIT
     # sphinx_gallery_thumbnail_number = 2
 
 
@@ -41,19 +41,21 @@ example of profile texture in slam
 
 
 
+.. GENERATED FROM PYTHON SOURCE LINES 15-18
 
-.. GENERATED FROM PYTHON SOURCE LINES 16-17
+VISUALIZATION USING EXTERNAL TOOLS
+############################################################################
+ # Visualization with visbrain
+
+.. GENERATED FROM PYTHON SOURCE LINES 20-21
 
 importation of slam modules
 
-.. GENERATED FROM PYTHON SOURCE LINES 17-24
+.. GENERATED FROM PYTHON SOURCE LINES 21-25
 
-.. code-block:: default
+.. code-block:: Python
 
     import numpy as np
-    import trimesh.visual.color
-    from matplotlib import pyplot as plt
-
     import slam.surface_profiling as surfpf
     import slam.io as sio
 
@@ -64,31 +66,33 @@ importation of slam modules
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 25-26
+.. GENERATED FROM PYTHON SOURCE LINES 26-27
 
 loading an example mesh and its texture
 
-.. GENERATED FROM PYTHON SOURCE LINES 26-29
+.. GENERATED FROM PYTHON SOURCE LINES 27-32
 
-.. code-block:: default
+.. code-block:: Python
 
-    mesh = sio.load_mesh("data/example_mesh.gii")
-    texture = sio.load_texture("data/example_texture.gii")
-
-
-
-
+    mesh_file = "../examples/data/example_mesh.gii"
+    texture_file = "../examples/data/example_texture.gii"
+    mesh = sio.load_mesh(mesh_file)
+    texture = sio.load_texture(texture_file)
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 30-31
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 33-34
 
 Select a vertex and get the coordinate and normal.
 
-.. GENERATED FROM PYTHON SOURCE LINES 31-35
+.. GENERATED FROM PYTHON SOURCE LINES 34-38
 
-.. code-block:: default
+.. code-block:: Python
 
     vert_index = 1500
     vert0 = mesh.vertices[vert_index]
@@ -101,15 +105,15 @@ Select a vertex and get the coordinate and normal.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 36-39
+.. GENERATED FROM PYTHON SOURCE LINES 39-42
 
 Set the parameters for surface profiling
 initial direction of rotation, rotation angle, length and number of
 sampling steps
 
-.. GENERATED FROM PYTHON SOURCE LINES 39-44
+.. GENERATED FROM PYTHON SOURCE LINES 42-47
 
-.. code-block:: default
+.. code-block:: Python
 
     init_rot_dir = np.array([1, 1, 1]) - vert0
     rot_angle = 10
@@ -123,18 +127,25 @@ sampling steps
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 45-46
+.. GENERATED FROM PYTHON SOURCE LINES 48-49
 
 Surface profiling, here we do the second round profiling
 
-.. GENERATED FROM PYTHON SOURCE LINES 46-54
+.. GENERATED FROM PYTHON SOURCE LINES 49-64
 
-.. code-block:: default
+.. code-block:: Python
 
     num_face = len(mesh.faces)
     mesh_faces_id = np.linspace(0, num_face, num_face + 1).astype(int)
     profile_samples, profile_co_faces = surfpf.second_round_profiling_vert(
-        vert0, norm0, init_rot_dir, rot_angle, r_step, max_samples, mesh, mesh_faces_id
+        vert0,
+        norm0,
+        init_rot_dir,
+        rot_angle,
+        r_step,
+        max_samples,
+        mesh,
+        mesh_faces_id
     )
 
     profile_points = profile_samples[:, :, 2]
@@ -146,13 +157,13 @@ Surface profiling, here we do the second round profiling
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 55-56
+.. GENERATED FROM PYTHON SOURCE LINES 65-66
 
 Compute texture values of profile points
 
-.. GENERATED FROM PYTHON SOURCE LINES 56-62
+.. GENERATED FROM PYTHON SOURCE LINES 66-72
 
-.. code-block:: default
+.. code-block:: Python
 
     profile_samples = np.array([profile_samples])
     profile_samples_fid = np.array([profile_co_faces])
@@ -167,74 +178,62 @@ Compute texture values of profile points
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 63-65
+.. GENERATED FROM PYTHON SOURCE LINES 73-103
 
-Visualize result
-Generate colors of profile points
+VISUALIZATION USING EXTERNAL TOOLS
+############################################################################
+ # Visualization with visbrain
+ import trimesh.visual.color
+ from matplotlib import pyplot as plt
+ ###############################################################################
+ # Generate colors of profile points
+ # set color maps
+ color_map = plt.get_cmap("jet", 12)
+ # get texture value of profile points and mesh
+ profile_tex = profile_texture.reshape(profile_texture.size)
+ texture_value = texture.darray[0]
+ # put them together to generate the colors
+ prof_mesh_tex_color = np.hstack([profile_tex, texture_value])
+ prof_mesh_points_color = trimesh.visual.color.interpolate(
+     prof_mesh_tex_color, color_map=color_map
+ )
+ mesh.visual.vertex_colors = prof_mesh_points_color[profile_texture.size:]
 
-.. GENERATED FROM PYTHON SOURCE LINES 65-92
+ # Create point cloud of profiling points
+ prof_points_mesh = profile_points.reshape(
+     profile_points.shape[0] * profile_points.shape[1], 3
+ )
+ prof_points_colors = prof_mesh_points_color[: profile_texture.size]
+ points_mesh = trimesh.points.PointCloud(
+     prof_points_mesh, colors=np.array(prof_points_colors, dtype=np.uint8)
+ )
 
-.. code-block:: default
-
-
-    # set color maps
-    color_map = plt.get_cmap("jet", 12)
-
-    # get texture value of profile points and mesh
-    profile_tex = profile_texture.reshape(profile_texture.size)
-    texture_value = texture.darray[0]
-
-    # put them together to generate the colors
-    prof_mesh_tex_color = np.hstack([profile_tex, texture_value])
-    prof_mesh_points_color = trimesh.visual.color.interpolate(
-        prof_mesh_tex_color, color_map=color_map
-    )
-
-    mesh.visual.vertex_colors = prof_mesh_points_color[profile_texture.size :]
-
-    # Create point cloud of profiling points
-    prof_points_mesh = profile_points.reshape(
-        profile_points.shape[0] * profile_points.shape[1], 3
-    )
-    prof_points_colors = prof_mesh_points_color[: profile_texture.size]
-    points_mesh = trimesh.points.PointCloud(
-        prof_points_mesh, colors=np.array(prof_points_colors, dtype=np.uint8)
-    )
-
-    #scene = trimesh.Scene([points_mesh, mesh])
-    #scene.show()#smooth=False)
-
-
-
-
-
-
+ scene = trimesh.Scene([points_mesh, mesh])
+ scene.show(smooth=False)
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.104 seconds)
+   **Total running time of the script:** (0 minutes 0.106 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_profile_texture.py:
 
+.. only:: html
 
-.. only :: html
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
+      :download:`Download Jupyter notebook: example_profile_texture.ipynb <example_profile_texture.ipynb>`
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: example_profile_texture.py <example_profile_texture.py>`
 
-     :download:`Download Python source code: example_profile_texture.py <example_profile_texture.py>`
+    .. container:: sphx-glr-download sphx-glr-download-zip
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: example_profile_texture.ipynb <example_profile_texture.ipynb>`
+      :download:`Download zipped: example_profile_texture.zip <example_profile_texture.zip>`
 
 
 .. only:: html

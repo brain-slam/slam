@@ -10,8 +10,8 @@
     .. note::
         :class: sphx-glr-download-link-note
 
-        Click :ref:`here <sphx_glr_download_auto_examples_example_hinge_gyri.py>`
-        to download the full example code
+        :ref:`Go to the end <sphx_glr_download_auto_examples_example_hinge_gyri.py>`
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -24,14 +24,14 @@
 example of hinge shaped surface
 ===================================
 
-.. GENERATED FROM PYTHON SOURCE LINES 8-15
+.. GENERATED FROM PYTHON SOURCE LINES 8-14
 
-.. code-block:: default
+.. code-block:: Python
 
 
     # Authors: Julien Lefevre <julien.lefevre@univ-amu.fr>
 
-    # License: BSD (3-clause)
+    # License: MIT
     # sphinx_gallery_thumbnail_number = 2
 
 
@@ -41,16 +41,21 @@ example of hinge shaped surface
 
 
 
+.. GENERATED FROM PYTHON SOURCE LINES 15-19
 
-.. GENERATED FROM PYTHON SOURCE LINES 16-17
+NOTE: there is no visualization tool in slam, but we provide at the
+ end of this script exemplare code to do the visualization with
+ an external solution
+##############################################################################
+
+.. GENERATED FROM PYTHON SOURCE LINES 21-22
 
 importation of slam modules
 
-.. GENERATED FROM PYTHON SOURCE LINES 17-22
+.. GENERATED FROM PYTHON SOURCE LINES 22-25
 
-.. code-block:: default
+.. code-block:: Python
 
-    import slam.plot as splt
     import slam.curvature as scurv
     import slam.generate_parametric_surfaces as sgps
 
@@ -61,36 +66,23 @@ importation of slam modules
 
 
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 23-24
+.. GENERATED FROM PYTHON SOURCE LINES 26-27
 
 Creating an examplar 3-4-...n hinge mesh
 
-.. GENERATED FROM PYTHON SOURCE LINES 24-34
+.. GENERATED FROM PYTHON SOURCE LINES 27-31
 
-.. code-block:: default
-
+.. code-block:: Python
 
     hinge_mesh = sgps.generate_hinge(n_hinge=4)
     mesh_curvatures = scurv.curvatures_and_derivatives(hinge_mesh)
     mean_curvature = 1 / 2 * mesh_curvatures[0].sum(axis=0)
 
-    visb_sc = splt.visbrain_plot(
-        mesh=hinge_mesh, tex=mean_curvature, caption="hinge", cblabel="mean curvature"
-    )
-
-    visb_sc.preview()
 
 
-
-.. image:: /auto_examples/images/sphx_glr_example_hinge_gyri_001.png
-    :alt: example hinge gyri
-    :class: sphx-glr-single-img
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -104,31 +96,42 @@ Creating an examplar 3-4-...n hinge mesh
 
 
 
+.. GENERATED FROM PYTHON SOURCE LINES 32-42
+
+VISUALIZATION USING EXTERNAL TOOLS
+#############################################################################
+# Visualization with visbrain
+visb_sc = splt.visbrain_plot(
+    mesh=hinge_mesh,
+    tex=mean_curvature,
+    caption="hinge",
+    cblabel="mean curvature"
+)
+visb_sc.preview()
+
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  4.049 seconds)
+   **Total running time of the script:** (0 minutes 3.625 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_hinge_gyri.py:
 
+.. only:: html
 
-.. only :: html
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
+      :download:`Download Jupyter notebook: example_hinge_gyri.ipynb <example_hinge_gyri.ipynb>`
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: example_hinge_gyri.py <example_hinge_gyri.py>`
 
-     :download:`Download Python source code: example_hinge_gyri.py <example_hinge_gyri.py>`
+    .. container:: sphx-glr-download sphx-glr-download-zip
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: example_hinge_gyri.ipynb <example_hinge_gyri.ipynb>`
+      :download:`Download zipped: example_hinge_gyri.zip <example_hinge_gyri.zip>`
 
 
 .. only:: html

@@ -4,26 +4,9 @@
 .. automodule:: slam.vertex_voronoi
 
    
-   
-   
-
-   
-   
    .. rubric:: Functions
 
    .. autosummary::
    
       vertex_voronoi
    
-   
-
-   
-   
-   
-
-   
-   
-   
-
-
-

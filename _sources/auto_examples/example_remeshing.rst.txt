@@ -10,8 +10,8 @@
     .. note::
         :class: sphx-glr-download-link-note
 
-        Click :ref:`here <sphx_glr_download_auto_examples_example_remeshing.py>`
-        to download the full example code
+        :ref:`Go to the end <sphx_glr_download_auto_examples_example_remeshing.py>`
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -24,16 +24,16 @@
 Remeshing example in slam
 ===================================
 
-.. GENERATED FROM PYTHON SOURCE LINES 8-17
+.. GENERATED FROM PYTHON SOURCE LINES 8-16
 
-.. code-block:: default
+.. code-block:: Python
 
 
     # Authors:
     # Guillaume Auzias <guillaume.auzias@univ-amu.fr>
     # Julien Barrès <julien.barres@etu.univ-amu.fr>
 
-    # License: BSD (3-clause)
+    # License: MIT
     # sphinx_gallery_thumbnail_number = 2
 
 
@@ -43,16 +43,21 @@ Remeshing example in slam
 
 
 
+.. GENERATED FROM PYTHON SOURCE LINES 17-21
 
-.. GENERATED FROM PYTHON SOURCE LINES 18-19
+NOTE: there is no visualization tool in slam, but we provide at the
+ end of this script exemplare code to do the visualization with
+ an external solution
+##############################################################################
+
+.. GENERATED FROM PYTHON SOURCE LINES 23-24
 
 Importation of slam modules
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-23
+.. GENERATED FROM PYTHON SOURCE LINES 24-27
 
-.. code-block:: default
+.. code-block:: Python
 
-    import slam.plot as splt
     import slam.io as sio
     import slam.remeshing as srem
 
@@ -63,13 +68,13 @@ Importation of slam modules
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 24-25
+.. GENERATED FROM PYTHON SOURCE LINES 28-29
 
 Source object files
 
-.. GENERATED FROM PYTHON SOURCE LINES 25-29
+.. GENERATED FROM PYTHON SOURCE LINES 29-33
 
-.. code-block:: default
+.. code-block:: Python
 
     source_mesh_file = "../examples/data/example_mesh.gii"
     source_texture_file = "../examples/data/example_texture.gii"
@@ -82,13 +87,13 @@ Source object files
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 30-31
+.. GENERATED FROM PYTHON SOURCE LINES 34-35
 
 Target object files
 
-.. GENERATED FROM PYTHON SOURCE LINES 31-44
+.. GENERATED FROM PYTHON SOURCE LINES 35-49
 
-.. code-block:: default
+.. code-block:: Python
 
     target_mesh_file = "../examples/data/example_mesh_2.gii"
     target_spherical_mesh_file = "../examples/data/example_mesh_2_spherical.gii"
@@ -110,71 +115,59 @@ Target object files
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 45-46
 
-Plot
+.. GENERATED FROM PYTHON SOURCE LINES 50-76
 
-.. GENERATED FROM PYTHON SOURCE LINES 46-67
-
-.. code-block:: default
-
-    visb_sc = splt.visbrain_plot(
-        mesh=source_mesh,
-        tex=source_tex.darray[0],
-        caption="source with curvature",
-        cblabel="curvature",
-    )
-    visb_sc = splt.visbrain_plot(
-        mesh=source_spherical_mesh,
-        tex=source_tex.darray[0],
-        caption="spherical source mesh",
-        cblabel="curvature",
-        visb_sc=visb_sc,
-    )
-    visb_sc = splt.visbrain_plot(
-        mesh=target_mesh,
-        tex=interpolated_tex_values,
-        caption="target mesh with curvature " "from source mesh",
-        cblabel="curvature",
-        visb_sc=visb_sc,
-    )
-    visb_sc.preview()
-
-
-
-.. image:: /auto_examples/images/sphx_glr_example_remeshing_001.png
-    :alt: example remeshing
-    :class: sphx-glr-single-img
-
-
-
-
+VISUALIZATION USING EXTERNAL TOOLS
+############################################################################
+ # Visualization with visbrain
+ import slam.plot as splt
+ ###############################################################################
+ visb_sc = splt.visbrain_plot(
+     mesh=source_mesh,
+     tex=source_tex.darray[0],
+     caption="source with curvature",
+     cblabel="curvature",
+ )
+ visb_sc = splt.visbrain_plot(
+     mesh=source_spherical_mesh,
+     tex=source_tex.darray[0],
+     caption="spherical source mesh",
+     cblabel="curvature",
+     visb_sc=visb_sc,
+ )
+ visb_sc = splt.visbrain_plot(
+     mesh=target_mesh,
+     tex=interpolated_tex_values,
+     caption="target mesh with curvature " "from source mesh",
+     cblabel="curvature",
+     visb_sc=visb_sc,
+ )
+ visb_sc.preview()
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.754 seconds)
+   **Total running time of the script:** (0 minutes 0.009 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_remeshing.py:
 
+.. only:: html
 
-.. only :: html
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
+      :download:`Download Jupyter notebook: example_remeshing.ipynb <example_remeshing.ipynb>`
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: example_remeshing.py <example_remeshing.py>`
 
-     :download:`Download Python source code: example_remeshing.py <example_remeshing.py>`
+    .. container:: sphx-glr-download sphx-glr-download-zip
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: example_remeshing.ipynb <example_remeshing.ipynb>`
+      :download:`Download zipped: example_remeshing.zip <example_remeshing.zip>`
 
 
 .. only:: html

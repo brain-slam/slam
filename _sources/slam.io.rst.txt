@@ -4,11 +4,6 @@
 .. automodule:: slam.io
 
    
-   
-   
-
-   
-   
    .. rubric:: Functions
 
    .. autosummary::
@@ -18,15 +13,3 @@
       write_mesh
       write_texture
    
-   
-
-   
-   
-   
-
-   
-   
-   
-
-
-

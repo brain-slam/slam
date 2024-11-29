@@ -10,8 +10,8 @@
     .. note::
         :class: sphx-glr-download-link-note
 
-        Click :ref:`here <sphx_glr_download_auto_examples_example_generate_parametric_surfaces.py>`
-        to download the full example code
+        :ref:`Go to the end <sphx_glr_download_auto_examples_example_generate_parametric_surfaces.py>`
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -24,16 +24,16 @@
 Generating parametric surfaces in slam
 ===================================
 
-.. GENERATED FROM PYTHON SOURCE LINES 8-17
+.. GENERATED FROM PYTHON SOURCE LINES 8-16
 
-.. code-block:: default
+.. code-block:: Python
 
 
     # Authors:
     # Guillaume Auzias <guillaume.auzias@univ-amu.fr>
     # Julien Barrès <julien.barres@etu.univ-amu.fr>
 
-    # License: BSD (3-clause)
+    # License: MIT
     # sphinx_gallery_thumbnail_number = 2
 
 
@@ -43,17 +43,22 @@ Generating parametric surfaces in slam
 
 
 
+.. GENERATED FROM PYTHON SOURCE LINES 17-21
 
-.. GENERATED FROM PYTHON SOURCE LINES 18-19
+NOTE: there is no visualization tool in slam, but we provide at the
+ end of this script exemplare code to do the visualization with
+ an external solution
+##############################################################################
+
+.. GENERATED FROM PYTHON SOURCE LINES 23-24
 
 Importation of slam modules
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-23
+.. GENERATED FROM PYTHON SOURCE LINES 24-27
 
-.. code-block:: default
+.. code-block:: Python
 
     import slam.generate_parametric_surfaces as sgps
-    import slam.plot as splt
     import numpy as np
 
 
@@ -63,14 +68,13 @@ Importation of slam modules
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 24-25
+.. GENERATED FROM PYTHON SOURCE LINES 28-29
 
 Generating a quadrix surface
 
-.. GENERATED FROM PYTHON SOURCE LINES 25-47
+.. GENERATED FROM PYTHON SOURCE LINES 29-43
 
-.. code-block:: default
-
+.. code-block:: Python
 
     K = [1, 1]
     quadric = sgps.generate_quadric(
@@ -86,32 +90,20 @@ Generating a quadrix surface
         np.array(quadric.vertices[:, 0]), np.array(quadric.vertices[:, 1])
     )
 
-    visb_sc = splt.visbrain_plot(
-        mesh=quadric, tex=quadric_mean_curv, caption="quadric", cblabel="mean curvature"
-    )
-
-    visb_sc.preview()
 
 
 
 
 
-.. image:: /auto_examples/images/sphx_glr_example_generate_parametric_surfaces_001.png
-    :alt: example generate parametric surfaces
-    :class: sphx-glr-single-img
 
 
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 48-49
+.. GENERATED FROM PYTHON SOURCE LINES 44-45
 
 Generating an ellipsiods
 
-.. GENERATED FROM PYTHON SOURCE LINES 49-61
+.. GENERATED FROM PYTHON SOURCE LINES 45-51
 
-.. code-block:: default
-
+.. code-block:: Python
 
     nstep = 50
     randomSampling = True
@@ -119,89 +111,57 @@ Generating an ellipsiods
     b = 1
     ellips = sgps.generate_ellipsiod(a, b, nstep, randomSampling)
 
-    visb_sc = splt.visbrain_plot(mesh=ellips, caption="ellipsoid")
-
-    visb_sc.preview()
 
 
 
 
 
-.. image:: /auto_examples/images/sphx_glr_example_generate_parametric_surfaces_002.png
-    :alt: example generate parametric surfaces
-    :class: sphx-glr-single-img
 
 
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 62-63
+.. GENERATED FROM PYTHON SOURCE LINES 52-53
 
 Generating a sphere
 
-.. GENERATED FROM PYTHON SOURCE LINES 63-71
+.. GENERATED FROM PYTHON SOURCE LINES 53-55
 
-.. code-block:: default
+.. code-block:: Python
 
     sphere_regular = sgps.generate_sphere_icosahedron(subdivisions=3, radius=4)
 
 
-    visb_sc = splt.visbrain_plot(mesh=sphere_regular, caption="sphere_regular")
-
-    visb_sc.preview()
 
 
 
 
 
-.. image:: /auto_examples/images/sphx_glr_example_generate_parametric_surfaces_003.png
-    :alt: example generate parametric surfaces
-    :class: sphx-glr-single-img
 
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 72-74
+.. GENERATED FROM PYTHON SOURCE LINES 56-58
 
 Generating a more randomized sphere (random sampling with the same
 number of vertices)
 
-.. GENERATED FROM PYTHON SOURCE LINES 74-86
+.. GENERATED FROM PYTHON SOURCE LINES 58-62
 
-.. code-block:: default
-
+.. code-block:: Python
 
     sphere_random = sgps.generate_sphere_random_sampling(
         vertex_number=sphere_regular.vertices.shape[0], radius=4
     )
 
-    visb_sc = splt.visbrain_plot(
-        mesh=sphere_random, caption="sphere_random", visb_sc=visb_sc
-    )
-
-    visb_sc.preview()
 
 
 
 
 
-.. image:: /auto_examples/images/sphx_glr_example_generate_parametric_surfaces_004.png
-    :alt: example generate parametric surfaces
-    :class: sphx-glr-single-img
 
 
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 87-88
+.. GENERATED FROM PYTHON SOURCE LINES 63-64
 
 Computation of the volume and volume error of the spheres
 
-.. GENERATED FROM PYTHON SOURCE LINES 88-100
+.. GENERATED FROM PYTHON SOURCE LINES 64-76
 
-.. code-block:: default
-
+.. code-block:: Python
 
     analytical_vol = (4 / 3) * np.pi * np.power(4, 3)
     print(
@@ -218,43 +178,62 @@ Computation of the volume and volume error of the spheres
 
 
 
-.. rst-class:: sphx-glr-script-out
 
- Out:
+.. rst-class:: sphx-glr-script-out
 
  .. code-block:: none
 
     volume error for regular sampling: -2.307
-    volume error for random sampling: -5.000
+    volume error for random sampling: -5.095
 
 
 
+
+.. GENERATED FROM PYTHON SOURCE LINES 77-96
+
+VISUALIZATION USING EXTERNAL TOOLS
+############################################################################
+ # import visbrain # visu using visbrain
+ # show the quadric with its mean curvature
+ visb_sc = splt.visbrain_plot(
+     mesh=quadric,
+     tex=quadric_mean_curv,
+     caption="quadric",
+     cblabel="mean curvature"
+ )
+ # show the ellipsoid
+ visb_sc = splt.visbrain_plot(mesh=ellips, caption="ellipsoid")
+ # show the sphere with regular sampling
+ visb_sc = splt.visbrain_plot(mesh=sphere_regular, caption="sphere_regular")
+ # show the sphere with random sampling
+ visb_sc = splt.visbrain_plot(
+     mesh=sphere_random, caption="sphere_random", visb_sc=visb_sc
+ )
+ visb_sc.preview()
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.998 seconds)
+   **Total running time of the script:** (0 minutes 0.075 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_generate_parametric_surfaces.py:
 
+.. only:: html
 
-.. only :: html
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
+      :download:`Download Jupyter notebook: example_generate_parametric_surfaces.ipynb <example_generate_parametric_surfaces.ipynb>`
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: example_generate_parametric_surfaces.py <example_generate_parametric_surfaces.py>`
 
-     :download:`Download Python source code: example_generate_parametric_surfaces.py <example_generate_parametric_surfaces.py>`
+    .. container:: sphx-glr-download sphx-glr-download-zip
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: example_generate_parametric_surfaces.ipynb <example_generate_parametric_surfaces.ipynb>`
+      :download:`Download zipped: example_generate_parametric_surfaces.zip <example_generate_parametric_surfaces.zip>`
 
 
 .. only:: html

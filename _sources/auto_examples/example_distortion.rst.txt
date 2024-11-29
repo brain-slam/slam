@@ -10,8 +10,8 @@
     .. note::
         :class: sphx-glr-download-link-note
 
-        Click :ref:`here <sphx_glr_download_auto_examples_example_distortion.py>`
-        to download the full example code
+        :ref:`Go to the end <sphx_glr_download_auto_examples_example_distortion.py>`
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -24,16 +24,16 @@
 Example of morphological distortion in slam
 ===================================
 
-.. GENERATED FROM PYTHON SOURCE LINES 8-17
+.. GENERATED FROM PYTHON SOURCE LINES 8-16
 
-.. code-block:: default
+.. code-block:: Python
 
 
     # Authors:
     # Guillaume Auzias <guillaume.auzias@univ-amu.fr>
     # Julien Barrès <julien.barres@etu.univ-amu.fr>
 
-    # License: BSD (3-clause)
+    # License: MIT
     # sphinx_gallery_thumbnail_number = 2
 
 
@@ -43,18 +43,23 @@ Example of morphological distortion in slam
 
 
 
+.. GENERATED FROM PYTHON SOURCE LINES 17-21
 
-.. GENERATED FROM PYTHON SOURCE LINES 18-19
+NOTE: there is no visualization tool in slam, but we provide at the
+ end of this script exemplare code to do the visualization with
+ an external solution
+##############################################################################
+
+.. GENERATED FROM PYTHON SOURCE LINES 23-24
 
 Importation of slam modules
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-25
+.. GENERATED FROM PYTHON SOURCE LINES 24-29
 
-.. code-block:: default
+.. code-block:: Python
 
     import slam.distortion as sdst
     import slam.differential_geometry as sdg
-    import slam.plot as splt
     import slam.io as sio
     import numpy as np
 
@@ -65,13 +70,13 @@ Importation of slam modules
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 26-27
+.. GENERATED FROM PYTHON SOURCE LINES 30-31
 
 Loading an example mesh and a smoothed copy of it
 
-.. GENERATED FROM PYTHON SOURCE LINES 27-31
+.. GENERATED FROM PYTHON SOURCE LINES 31-35
 
-.. code-block:: default
+.. code-block:: Python
 
 
     mesh = sio.load_mesh("../examples/data/example_mesh.gii")
@@ -82,8 +87,6 @@ Loading an example mesh and a smoothed copy of it
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -105,57 +108,13 @@ Loading an example mesh and a smoothed copy of it
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-33
-
-Visualization of the original mesh
-
-.. GENERATED FROM PYTHON SOURCE LINES 33-36
-
-.. code-block:: default
-
-    visb_sc = splt.visbrain_plot(mesh=mesh, caption="original mesh")
-    visb_sc.preview()
-
-
-
-
-.. image:: /auto_examples/images/sphx_glr_example_distortion_001.png
-    :alt: example distortion
-    :class: sphx-glr-single-img
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 37-38
-
-Visualization of the smoothed mesh
-
-.. GENERATED FROM PYTHON SOURCE LINES 38-41
-
-.. code-block:: default
-
-    visb_sc = splt.visbrain_plot(mesh=mesh_s, caption="smoothed mesh")
-    visb_sc.preview()
-
-
-
-
-.. image:: /auto_examples/images/sphx_glr_example_distortion_002.png
-    :alt: example distortion
-    :class: sphx-glr-single-img
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 42-43
+.. GENERATED FROM PYTHON SOURCE LINES 36-37
 
 Computation of the angle difference between each faces of mesh and mesh_s
 
-.. GENERATED FROM PYTHON SOURCE LINES 43-46
+.. GENERATED FROM PYTHON SOURCE LINES 37-40
 
-.. code-block:: default
+.. code-block:: Python
 
     angle_diff = sdst.angle_difference(mesh, mesh_s)
     angle_diff
@@ -165,8 +124,6 @@ Computation of the angle difference between each faces of mesh and mesh_s
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -181,9 +138,9 @@ Computation of the angle difference between each faces of mesh and mesh_s
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 48-51
+.. GENERATED FROM PYTHON SOURCE LINES 42-45
 
-.. code-block:: default
+.. code-block:: Python
 
     face_angle_dist = np.sum(np.abs(angle_diff), 1)
     face_angle_dist
@@ -194,8 +151,6 @@ Computation of the angle difference between each faces of mesh and mesh_s
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
 
@@ -204,13 +159,13 @@ Computation of the angle difference between each faces of mesh and mesh_s
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 52-53
+.. GENERATED FROM PYTHON SOURCE LINES 46-47
 
 Computation of the area difference between each faces of mesh and mesh_s
 
-.. GENERATED FROM PYTHON SOURCE LINES 53-56
+.. GENERATED FROM PYTHON SOURCE LINES 47-50
 
-.. code-block:: default
+.. code-block:: Python
 
     area_diff = sdst.area_difference(mesh, mesh_s)
     area_diff
@@ -221,8 +176,6 @@ Computation of the area difference between each faces of mesh and mesh_s
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
 
@@ -231,13 +184,13 @@ Computation of the area difference between each faces of mesh and mesh_s
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 57-58
+.. GENERATED FROM PYTHON SOURCE LINES 51-52
 
 Computation of the length difference between each edges of mesh and mesh_s
 
-.. GENERATED FROM PYTHON SOURCE LINES 58-60
+.. GENERATED FROM PYTHON SOURCE LINES 52-55
 
-.. code-block:: default
+.. code-block:: Python
 
     edge_diff = sdst.edge_length_difference(mesh, mesh_s)
     edge_diff
@@ -245,9 +198,8 @@ Computation of the length difference between each edges of mesh and mesh_s
 
 
 
-.. rst-class:: sphx-glr-script-out
 
- Out:
+.. rst-class:: sphx-glr-script-out
 
  .. code-block:: none
 
@@ -257,31 +209,41 @@ Computation of the length difference between each edges of mesh and mesh_s
 
 
 
+.. GENERATED FROM PYTHON SOURCE LINES 56-65
+
+VISUALIZATION USING EXTERNAL TOOLS
+############################################################################
+ # Visualization of the original mesh
+ visb_sc = splt.visbrain_plot(mesh=mesh, caption="original mesh")
+ visb_sc.preview()
+ ############################################################################
+ # Visualization of the smoothed mesh
+ visb_sc = splt.visbrain_plot(mesh=mesh_s, caption="smoothed mesh")
+ visb_sc.preview()
+
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.389 seconds)
+   **Total running time of the script:** (0 minutes 0.443 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_distortion.py:
 
+.. only:: html
 
-.. only :: html
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
+      :download:`Download Jupyter notebook: example_distortion.ipynb <example_distortion.ipynb>`
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: example_distortion.py <example_distortion.py>`
 
-     :download:`Download Python source code: example_distortion.py <example_distortion.py>`
+    .. container:: sphx-glr-download sphx-glr-download-zip
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: example_distortion.ipynb <example_distortion.ipynb>`
+      :download:`Download zipped: example_distortion.zip <example_distortion.zip>`
 
 
 .. only:: html

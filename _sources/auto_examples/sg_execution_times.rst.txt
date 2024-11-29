@@ -3,46 +3,89 @@
 
 .. _sphx_glr_auto_examples_sg_execution_times:
 
+
 Computation times
 =================
-**00:32.380** total execution time for **auto_examples** files:
+**01:22.445** total execution time for 19 files **from auto_examples**:
 
-+---------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_example_spangy.py` (``example_spangy.py``)                                             | 00:32.380 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_example_basics.py` (``example_basics.py``)                                             | 00:00.000 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_example_curvature.py` (``example_curvature.py``)                                       | 00:00.000 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_example_curvature_directions.py` (``example_curvature_directions.py``)                 | 00:00.000 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_example_differential_geometry.py` (``example_differential_geometry.py``)               | 00:00.000 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_example_distortion.py` (``example_distortion.py``)                                     | 00:00.000 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_example_dpf_Boucher.py` (``example_dpf_Boucher.py``)                                   | 00:00.000 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_example_generate_parametric_surfaces.py` (``example_generate_parametric_surfaces.py``) | 00:00.000 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_example_geodesic.py` (``example_geodesic.py``)                                         | 00:00.000 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_example_hinge_gyri.py` (``example_hinge_gyri.py``)                                     | 00:00.000 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_example_kdtree.py` (``example_kdtree.py``)                                             | 00:00.000 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_example_mapping.py` (``example_mapping.py``)                                           | 00:00.000 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_example_profile_texture.py` (``example_profile_texture.py``)                           | 00:00.000 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_example_registration.py` (``example_registration.py``)                                 | 00:00.000 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_example_remeshing.py` (``example_remeshing.py``)                                       | 00:00.000 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_example_surface_profiling.py` (``example_surface_profiling.py``)                       | 00:00.000 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_example_texture.py` (``example_texture.py``)                                           | 00:00.000 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_example_topology.py` (``example_topology.py``)                                         | 00:00.000 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_example_vertex_voronoi.py` (``example_vertex_voronoi.py``)                             | 00:00.000 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------+-----------+--------+
+.. container::
+
+  .. raw:: html
+
+    <style scoped>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script type="text/javascript" class="init">
+    $(document).ready( function () {
+        $('table.sg-datatable').DataTable({order: [[1, 'desc']]});
+    } );
+    </script>
+
+  .. list-table::
+   :header-rows: 1
+   :class: table table-striped sg-datatable
+
+   * - Example
+     - Time
+     - Mem (MB)
+   * - :ref:`sphx_glr_auto_examples_example_dpf_Boucher.py` (``example_dpf_Boucher.py``)
+     - 00:41.633
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_example_spangy.py` (``example_spangy.py``)
+     - 00:17.512
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_example_registration.py` (``example_registration.py``)
+     - 00:05.311
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_example_curvature.py` (``example_curvature.py``)
+     - 00:04.728
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_example_hinge_gyri.py` (``example_hinge_gyri.py``)
+     - 00:03.625
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_example_differential_geometry.py` (``example_differential_geometry.py``)
+     - 00:03.199
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_example_geodesic.py` (``example_geodesic.py``)
+     - 00:02.919
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_example_topology.py` (``example_topology.py``)
+     - 00:01.200
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_example_curvature_directions.py` (``example_curvature_directions.py``)
+     - 00:00.628
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_example_vertex_voronoi.py` (``example_vertex_voronoi.py``)
+     - 00:00.525
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_example_distortion.py` (``example_distortion.py``)
+     - 00:00.443
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_example_basics.py` (``example_basics.py``)
+     - 00:00.415
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_example_profile_texture.py` (``example_profile_texture.py``)
+     - 00:00.106
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_example_surface_profiling.py` (``example_surface_profiling.py``)
+     - 00:00.099
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_example_generate_parametric_surfaces.py` (``example_generate_parametric_surfaces.py``)
+     - 00:00.075
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_example_mapping.py` (``example_mapping.py``)
+     - 00:00.013
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_example_remeshing.py` (``example_remeshing.py``)
+     - 00:00.009
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_example_kdtree.py` (``example_kdtree.py``)
+     - 00:00.003
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_example_texture.py` (``example_texture.py``)
+     - 00:00.003
+     - 0.0

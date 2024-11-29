@@ -10,8 +10,8 @@
     .. note::
         :class: sphx-glr-download-link-note
 
-        Click :ref:`here <sphx_glr_download_auto_examples_example_basics.py>`
-        to download the full example code
+        :ref:`Go to the end <sphx_glr_download_auto_examples_example_basics.py>`
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -26,12 +26,12 @@ Show basic use of slam
 
 .. GENERATED FROM PYTHON SOURCE LINES 8-15
 
-.. code-block:: default
+.. code-block:: Python
 
 
     # Authors: Guillaume Auzias <guillaume.auzias@univ-amu.fr>
 
-    # License: BSD (3-clause)
+    # License: MIT
     # sphinx_gallery_thumbnail_number = 2
 
 
@@ -51,7 +51,7 @@ This script does not plot anything, see example_plot.py for that purpose
 
 .. GENERATED FROM PYTHON SOURCE LINES 20-28
 
-.. code-block:: default
+.. code-block:: Python
 
     import numpy as np
     import trimesh
@@ -74,7 +74,7 @@ affine transformations can be applied to mesh objects
 
 .. GENERATED FROM PYTHON SOURCE LINES 30-34
 
-.. code-block:: default
+.. code-block:: Python
 
     mesh.apply_transform(mesh.principal_inertia_transform)
     # laplacian smoothing is available in Trimesh
@@ -85,8 +85,6 @@ affine transformations can be applied to mesh objects
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -108,7 +106,7 @@ what's the euler number for the mesh?
 
 .. GENERATED FROM PYTHON SOURCE LINES 42-44
 
-.. code-block:: default
+.. code-block:: Python
 
     print("mesh.euler_number=", mesh.euler_number)
 
@@ -117,8 +115,6 @@ what's the euler number for the mesh?
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -133,7 +129,7 @@ access mesh edges
 
 .. GENERATED FROM PYTHON SOURCE LINES 46-48
 
-.. code-block:: default
+.. code-block:: Python
 
     mesh.edges
 
@@ -142,8 +138,6 @@ access mesh edges
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -164,7 +158,7 @@ access mesh faces
 
 .. GENERATED FROM PYTHON SOURCE LINES 50-52
 
-.. code-block:: default
+.. code-block:: Python
 
     mesh.faces
 
@@ -173,8 +167,6 @@ access mesh faces
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -195,7 +187,7 @@ access mesh vertices
 
 .. GENERATED FROM PYTHON SOURCE LINES 54-56
 
-.. code-block:: default
+.. code-block:: Python
 
     mesh.vertices
 
@@ -204,8 +196,6 @@ access mesh vertices
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -226,7 +216,7 @@ access mesh edges
 
 .. GENERATED FROM PYTHON SOURCE LINES 58-60
 
-.. code-block:: default
+.. code-block:: Python
 
     mesh.edges
 
@@ -235,8 +225,6 @@ access mesh edges
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -257,7 +245,7 @@ what's the area of the mesh
 
 .. GENERATED FROM PYTHON SOURCE LINES 62-64
 
-.. code-block:: default
+.. code-block:: Python
 
     print("mesh.area=", mesh.area)
 
@@ -267,11 +255,9 @@ what's the area of the mesh
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
-    mesh.area= 6436.88374659252
+    mesh.area= 6436.883746592521
 
 
 
@@ -282,7 +268,7 @@ compute the area of each face
 
 .. GENERATED FROM PYTHON SOURCE LINES 66-68
 
-.. code-block:: default
+.. code-block:: Python
 
     mesh.area_faces
 
@@ -291,8 +277,6 @@ compute the area of each face
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -308,7 +292,7 @@ access mesh faces angles
 
 .. GENERATED FROM PYTHON SOURCE LINES 70-72
 
-.. code-block:: default
+.. code-block:: Python
 
     mesh.face_angles
 
@@ -317,8 +301,6 @@ access mesh faces angles
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -339,7 +321,7 @@ access mesh volume
 
 .. GENERATED FROM PYTHON SOURCE LINES 74-76
 
-.. code-block:: default
+.. code-block:: Python
 
     mesh.volume
 
@@ -349,12 +331,10 @@ access mesh volume
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
 
-    30652.09062408215
+    30652.090624082153
 
 
 
@@ -364,7 +344,7 @@ get the face_normal of the mesh
 
 .. GENERATED FROM PYTHON SOURCE LINES 78-80
 
-.. code-block:: default
+.. code-block:: Python
 
     mesh.face_normals
 
@@ -373,8 +353,6 @@ get the face_normal of the mesh
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -395,7 +373,7 @@ get the vertex_normals of the mesh
 
 .. GENERATED FROM PYTHON SOURCE LINES 82-84
 
-.. code-block:: default
+.. code-block:: Python
 
     mesh.vertex_normals
 
@@ -404,8 +382,6 @@ get the vertex_normals of the mesh
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -426,7 +402,7 @@ access mesh vertex connectivity
 
 .. GENERATED FROM PYTHON SOURCE LINES 86-88
 
-.. code-block:: default
+.. code-block:: Python
 
     mesh.vertex_neighbors
 
@@ -435,8 +411,6 @@ access mesh vertex connectivity
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -451,7 +425,7 @@ compute mesh convex hull
 
 .. GENERATED FROM PYTHON SOURCE LINES 90-92
 
-.. code-block:: default
+.. code-block:: Python
 
     c_h_mesh = mesh.convex_hull
 
@@ -473,7 +447,7 @@ mesh refinement by subdivision of face
 
 .. GENERATED FROM PYTHON SOURCE LINES 98-100
 
-.. code-block:: default
+.. code-block:: Python
 
     mesh.subdivide()
 
@@ -482,8 +456,6 @@ mesh refinement by subdivision of face
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -498,7 +470,7 @@ extract 100 mesh vertices picked at random
 
 .. GENERATED FROM PYTHON SOURCE LINES 102-104
 
-.. code-block:: default
+.. code-block:: Python
 
     mesh.sample(100)
 
@@ -508,111 +480,109 @@ extract 100 mesh vertices picked at random
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
 
-    array([[ -1.34999498, -11.99180261,  -9.41748909],
-           [  0.06975938,   4.72549152, -31.19420316],
-           [  8.3492679 ,  -3.87157563,   0.4564325 ],
-           [ -7.9066318 ,  -1.21468147,  22.13128647],
-           [ -3.31645764,  -6.99154368, -33.11279942],
-           [ 11.15244828,  14.26138703,  -3.72823441],
-           [ -3.79042159,  13.83899841, -24.00281869],
-           [ -3.51657473, -11.21130771,  15.87891707],
-           [  4.92322008,  15.94799292,  13.57854266],
-           [  2.26264088,  13.57416217, -21.96984497],
-           [  6.141376  ,  -0.45721402,  24.70782309],
-           [ -4.24433105,  22.01193022,  -1.97467477],
-           [ -5.05867039,  14.9288027 ,  16.66856837],
-           [  5.62014056,  -2.39305407,  -7.41568336],
-           [ -8.52187438,  -0.61439756, -19.11217191],
-           [  0.64175046,  21.55842417,  -3.57041014],
-           [  1.58871456,  -1.45242024,  31.19346997],
-           [ -3.35523226, -11.00674101,  -3.01860172],
-           [ 11.3875375 ,   9.58896376,  12.89318104],
-           [ 10.39860076,  13.72465022,   7.6835346 ],
-           [ 10.93764139, -15.17533385,  -0.44956903],
-           [ -9.08994425,  -4.45288544, -20.91637219],
-           [  2.30791961, -21.23656382,  -2.25621148],
-           [ -5.8798003 , -10.84484023,  22.75599374],
-           [  1.61332334,  20.53084359,   5.57982593],
-           [ -9.31699384,  -3.54763631,   2.77791828],
-           [-11.27305773,  -2.1131875 ,  29.66474981],
-           [ -6.62431449,   3.42958364,  33.92521496],
-           [ 11.02627164, -14.45616411,   8.87081585],
-           [ -8.16816195,   0.48188376,  -8.27614724],
-           [ -2.84002961, -15.60913106, -18.37784813],
-           [ -9.15258405,  -8.22567648,  21.63141288],
-           [ -0.92133488,  19.52886098,  11.36211798],
-           [ -1.54364488,  20.63903222,   8.59466062],
-           [ -7.52091238, -16.75163183, -23.65687728],
-           [  3.98436458,  -5.75822437, -16.10693645],
-           [ -8.26644537,  11.06178343,  -0.50643741],
-           [  2.79024929,  20.74055874,   0.86602968],
-           [ -9.72369428,  -7.23896277,   2.16343125],
-           [-10.59995858,  -0.55802742,  26.83212934],
-           [ -6.80898044,   5.49075358, -27.61933355],
-           [ -8.34652643,   1.37674149, -17.32976026],
-           [  6.68895326,  -4.92243887,  23.55702906],
-           [  2.99234417,  13.27842802, -21.79529402],
-           [ -7.73730538,  -9.86461965,  30.02803575],
-           [ -9.38933625, -10.94760803, -12.4640803 ],
-           [ -5.35664869,  20.82694891,  -7.23252154],
-           [  2.0553257 ,  15.83854163,  16.32489945],
-           [ -4.85686265, -15.60471076, -17.31949565],
-           [ -8.5085336 , -13.26513686, -28.65735389],
-           [ -8.71425372,   1.15677766,  -2.83320576],
-           [ 11.01315801,   8.53978626, -14.43886043],
-           [ -8.90128956,  -0.80091665,  -0.14780766],
-           [ -8.32408335,   8.66047962,  -3.38513933],
-           [  9.11491003,  10.49350509,  15.58741313],
-           [ -6.21323059,  10.57695932, -22.88610854],
-           [  7.19270045, -18.65041428,   8.5290442 ],
-           [  5.25558542,  -5.36850063,  -4.7857511 ],
-           [ -8.48699839,   3.0756614 , -13.52875977],
-           [ -9.82231478, -10.6281508 , -19.92907616],
-           [ 12.18471208,   1.73175473,  10.05649025],
-           [  6.75183554,   0.58960303,  -4.49599535],
-           [  4.07786993, -19.60524846,   7.36450534],
-           [ -2.87473545, -11.59958172,  10.06219184],
-           [ -6.07357312,  11.69218149,  18.98594137],
-           [  6.81212602,   0.37650924,  23.39872314],
-           [ -5.67777621,  -3.02973503,  20.11866008],
-           [ -9.65798222,   5.83282184,   3.87959785],
-           [ 10.130361  , -16.65597715,   7.58814303],
-           [  2.22148474,  -8.84020917, -30.3829208 ],
-           [ -7.85295221,  -6.88395553, -28.14403461],
-           [ 11.7342996 ,  -7.13473136,  11.15279862],
-           [  2.36801809, -14.51996798, -23.6224122 ],
-           [ -9.47665506,   0.68914314,  22.60852564],
-           [ -0.5364107 , -20.86302145,   0.19490162],
-           [  9.66295988,  -3.67690027,  18.87617017],
-           [ 11.5399382 ,  -4.1374704 ,  11.62990317],
-           [ 11.71329806,   2.01888805,  11.74825931],
-           [  9.39742224,  -1.63278648, -19.12894625],
-           [ -1.92681211,  13.41684246,  20.20616968],
-           [ -9.39043502,   3.96002831,  -2.10654917],
-           [ -8.11953068, -11.17352058, -10.95163558],
-           [  0.82192483,  -7.36278502, -31.70028418],
-           [ -7.80985515,   2.3212469 ,  15.5546738 ],
-           [  9.24993296,  11.40387867, -15.46007791],
-           [  3.65260726,  -0.70574031, -30.64489033],
-           [ -8.57614754,   9.54100912,   0.1188907 ],
-           [ 12.22548223, -11.48662999,   5.45503102],
-           [ 11.98724247, -11.05845018,   1.21488217],
-           [  5.00030111,  -9.98117753, -27.33444332],
-           [ -0.63381978, -10.98094701,   4.0336383 ],
-           [ -5.26848725, -10.40968425,  -4.90944505],
-           [ -8.50063724, -12.18989849, -28.46447599],
-           [  8.53904298, -17.92099639,   8.5322442 ],
-           [ -8.0334765 ,  -9.36715773,  -4.96825782],
-           [  0.96890241, -21.1701526 ,   1.25497367],
-           [ 11.27922596,   8.59326118,  13.39987475],
-           [  4.35283105, -16.36943503,  12.87763944],
-           [ -7.54068214,   7.73976409, -17.56924638],
-           [ -1.99259694,  10.38808218,  23.66834927]])
+    TrackedArray([[ 1.23686122e+01,  1.09934794e+01, -1.36636659e+00],
+                  [ 9.82310740e+00,  1.29122776e+01,  1.16451030e+01],
+                  [-2.11276671e+00, -1.25070746e+01,  1.40709231e+01],
+                  [ 1.13574495e+01, -8.89590147e+00,  2.86533273e-02],
+                  [-1.02595751e+01,  8.90020036e+00,  1.01599489e+01],
+                  [-2.40072256e+00,  1.22820642e+01,  2.13391564e+01],
+                  [ 8.47006794e+00, -3.53296153e+00, -1.89434074e+01],
+                  [-6.70447563e+00,  1.24117043e+01, -1.32431094e+01],
+                  [ 6.99559272e+00, -2.24735850e+00, -1.32835859e+01],
+                  [-9.09543963e+00, -1.08865864e+01, -2.45860897e+01],
+                  [-2.63412384e+00, -1.18790704e+01,  2.10425137e+01],
+                  [ 1.21607614e+01,  7.13620993e+00, -1.26418894e+01],
+                  [ 1.95686978e+00, -1.13424596e+01, -1.75160685e+01],
+                  [ 1.13381794e+01, -2.65717429e+00,  4.53642723e+00],
+                  [ 1.11760965e+01, -1.49929369e+01,  6.94419593e+00],
+                  [-7.96705592e+00, -2.67540379e+00, -1.48725853e+01],
+                  [-1.00729210e+01, -1.55392703e+01, -2.32647961e+01],
+                  [-5.21037621e+00, -1.16316389e+00,  1.07015423e+01],
+                  [ 1.39259169e+01,  6.19481269e+00, -5.75245273e+00],
+                  [-1.06216380e+01,  7.80522939e+00,  1.05320312e+01],
+                  [ 5.41377997e+00, -1.85830339e+01,  9.51474846e+00],
+                  [ 9.92816469e+00,  1.25772509e-01, -1.82673893e+01],
+                  [ 7.04783322e-01,  1.90573206e+00, -3.17213681e+01],
+                  [ 1.19918982e+01, -1.11577323e+01,  7.55386837e+00],
+                  [ 1.26043400e+01,  5.44846762e+00,  1.02333002e+01],
+                  [-9.79196393e+00, -7.93355686e+00, -6.22113571e+00],
+                  [-8.96879487e+00, -9.95823775e+00,  2.68893500e+01],
+                  [-3.54090629e+00, -3.95506746e+00,  9.59755088e+00],
+                  [ 1.13120099e+01,  1.23316604e+00, -8.52883422e+00],
+                  [ 5.17058487e+00,  1.88030055e+01,  8.28369012e-01],
+                  [-1.03153265e+01, -6.62912248e+00,  2.32129710e+01],
+                  [-6.98146005e+00,  7.92076337e+00, -2.19552478e+01],
+                  [ 7.56679356e+00,  1.65080382e+01, -7.20984506e+00],
+                  [ 9.91728715e-02, -1.48581204e+01, -1.98906151e+01],
+                  [ 1.00963818e+01, -1.19181232e+01,  1.48130179e+01],
+                  [ 1.24625419e+01, -9.99733623e+00,  5.16446292e+00],
+                  [ 3.84642565e+00,  1.90382065e+01,  6.56489401e+00],
+                  [-1.97081806e+00, -1.40413778e+01,  6.24667215e+00],
+                  [-6.19263607e+00,  1.13898298e+01, -2.14710500e+01],
+                  [-1.82395794e+00,  1.53677733e+01, -2.16846023e+01],
+                  [-1.14624516e+01, -1.88709152e-01,  2.91834473e+01],
+                  [-9.00362501e+00,  1.68090875e+00, -4.07877167e+00],
+                  [ 7.10957085e-01,  1.21326100e+01, -2.48842903e+01],
+                  [ 6.13752993e-01, -1.58742375e+01,  1.10522163e+01],
+                  [ 1.12993770e+01, -1.25170454e+01,  1.05689324e+01],
+                  [ 1.18981638e+01, -3.37707773e+00,  5.05015922e+00],
+                  [-9.27175340e+00,  4.66019529e+00, -2.65189241e+00],
+                  [-1.94001015e+00,  9.26865840e+00,  2.53189187e+01],
+                  [ 3.66419355e+00,  1.75487350e+01, -1.35051855e+01],
+                  [-5.97707405e+00,  1.11304181e+00,  9.48605214e+00],
+                  [-8.76210403e+00, -3.37669914e+00, -1.83508810e+01],
+                  [ 1.35825025e+01,  8.54244897e+00, -4.26544203e+00],
+                  [-5.05039623e+00,  1.27825352e+01,  1.90608968e+01],
+                  [ 1.00739554e+01,  3.16654863e+00, -1.88655012e+01],
+                  [ 3.14744087e+00,  1.97278860e+01, -4.80643369e+00],
+                  [-6.91989592e+00,  1.84468786e+01,  5.74755058e+00],
+                  [-7.97544723e+00, -9.16637830e+00, -2.95974330e+01],
+                  [-6.17783075e+00, -1.38862344e+01, -1.38442442e+01],
+                  [-2.56210913e+00, -1.61164555e+01, -2.12831826e+01],
+                  [-4.91105760e+00,  1.78709282e+01, -1.52038513e+01],
+                  [ 5.91677180e+00,  1.75763199e+01, -9.82061231e+00],
+                  [ 1.10324450e+01,  1.29656187e+01,  2.44558640e+00],
+                  [-2.10905966e+00, -1.30294328e+01, -3.06655632e+01],
+                  [-1.43289774e+00,  7.76587635e-01, -3.25849441e+01],
+                  [ 3.34324334e+00, -7.67800838e+00,  2.75371467e+01],
+                  [ 5.20543958e+00, -1.90719012e+01,  8.75084458e+00],
+                  [ 5.28376442e+00,  1.77708677e+01,  5.51030734e+00],
+                  [-1.27770587e+00, -1.41993919e+01, -1.55004885e+01],
+                  [-6.08962680e+00,  1.78097098e+01, -9.09032886e+00],
+                  [-9.26826309e+00, -8.26269532e+00,  3.28604168e+01],
+                  [ 1.15741988e+00, -1.27838720e+01,  2.07040077e+01],
+                  [-7.53945645e+00,  8.06165954e+00, -1.65983874e+01],
+                  [-3.71140750e+00,  2.16925584e+01, -7.82875592e+00],
+                  [ 6.67863711e+00, -3.20957966e-01, -6.12026404e+00],
+                  [ 1.11214163e+01,  6.37387495e-01,  1.32105520e+01],
+                  [ 7.57183577e+00, -1.09268846e+01,  1.98588558e+01],
+                  [ 4.18371303e+00,  1.42584721e+01,  1.67484040e+01],
+                  [-9.67736870e+00,  4.53712843e+00,  3.23032991e+01],
+                  [-1.05344301e+01,  2.52125223e-01,  2.49607606e+01],
+                  [-3.59365228e+00, -2.19019705e+00,  3.56120388e+01],
+                  [-8.76990335e+00,  3.70955544e-01, -2.79949968e-01],
+                  [-1.49405347e-01,  6.45871330e+00,  2.81008410e+01],
+                  [-8.36779536e+00, -1.00367401e+01, -8.24506169e+00],
+                  [ 8.12004917e+00,  8.23080077e+00,  1.79836137e+01],
+                  [ 6.57566873e+00,  1.02181674e+00,  1.11351894e+00],
+                  [ 9.17175588e+00,  3.53197948e-01, -2.19187857e+01],
+                  [ 4.93298399e+00,  1.82326287e+01,  7.93289899e+00],
+                  [-3.19902073e+00,  2.10550446e+01,  7.14468222e+00],
+                  [ 4.55217862e+00, -3.33584407e+00,  2.75053951e+01],
+                  [-1.56599028e+00,  3.24096135e+00,  3.16069614e+01],
+                  [-9.06474835e+00, -3.52790107e+00, -2.92515118e+00],
+                  [-2.35085841e+00,  1.77518826e+01,  1.53224994e+01],
+                  [-7.88472285e+00,  4.55083714e+00,  2.00261283e+01],
+                  [-9.09800988e+00, -9.79052615e+00,  2.43807782e+01],
+                  [-2.13763258e+00, -8.26535682e+00, -3.25488868e+01],
+                  [-9.39459282e+00,  3.45369552e+00, -4.24590210e+00],
+                  [ 4.61438235e+00,  1.84830135e+01,  6.88188604e+00],
+                  [ 6.72108703e+00, -8.94295960e+00, -2.40544671e+01],
+                  [-1.16916833e+00,  1.96557767e+01,  1.11092777e+01],
+                  [ 4.88591789e+00, -8.28599260e+00, -6.39575667e+00]])
 
 
 
@@ -622,7 +592,7 @@ voxelize the mesh
 
 .. GENERATED FROM PYTHON SOURCE LINES 106-108
 
-.. code-block:: default
+.. code-block:: Python
 
     mesh.voxelized(2)
 
@@ -632,8 +602,6 @@ voxelize the mesh
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
 
@@ -641,31 +609,11 @@ voxelize the mesh
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 109-111
+.. GENERATED FROM PYTHON SOURCE LINES 109-112
 
 boundary of the mesh or list of faces
 this functionnality requires to install the optional package shapely
-
-.. GENERATED FROM PYTHON SOURCE LINES 111-113
-
-.. code-block:: default
-
-    mesh.outline()
-
-
-
-
-
-.. rst-class:: sphx-glr-script-out
-
- Out:
-
- .. code-block:: none
-
-
-    <trimesh.Path3D(vertices.shape=(2328, 3), len(entities)=0)>
-
-
+mesh.outline()
 
 .. GENERATED FROM PYTHON SOURCE LINES 114-116
 
@@ -674,7 +622,7 @@ lets compare the volume of our mesh with the volume of its convex hull
 
 .. GENERATED FROM PYTHON SOURCE LINES 116-118
 
-.. code-block:: default
+.. code-block:: Python
 
     np.divide(mesh.volume, mesh.convex_hull.volume)
 
@@ -684,12 +632,10 @@ lets compare the volume of our mesh with the volume of its convex hull
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
 
-    0.7994007397533588
+    0.7994007397533586
 
 
 
@@ -700,7 +646,7 @@ volumetric center of mass which we can set as the origin for our mesh
 
 .. GENERATED FROM PYTHON SOURCE LINES 121-123
 
-.. code-block:: default
+.. code-block:: Python
 
     mesh.vertices -= mesh.center_mass
 
@@ -717,7 +663,7 @@ what's the moment of inertia for the mesh?
 
 .. GENERATED FROM PYTHON SOURCE LINES 125-127
 
-.. code-block:: default
+.. code-block:: Python
 
     mesh.moment_inertia
 
@@ -727,14 +673,12 @@ what's the moment of inertia for the mesh?
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
 
-    array([[ 1.04733006e+07, -1.08654300e-09,  1.24176343e-10],
-           [-1.08654300e-09,  8.74194416e+06,  2.17308601e-10],
-           [ 1.24176343e-10,  2.17308601e-10,  3.48350686e+06]])
+    array([[ 1.04733006e+07, -1.64533655e-09,  3.10440858e-11],
+           [-1.64533655e-09,  8.74194416e+06,  9.31322575e-11],
+           [ 3.10440858e-11,  9.31322575e-11,  3.48350686e+06]])
 
 
 
@@ -752,7 +696,7 @@ find groups of coplanar adjacent faces
 
 .. GENERATED FROM PYTHON SOURCE LINES 136-138
 
-.. code-block:: default
+.. code-block:: Python
 
     facets = mesh.facets
 
@@ -770,7 +714,7 @@ transform
 
 .. GENERATED FROM PYTHON SOURCE LINES 141-143
 
-.. code-block:: default
+.. code-block:: Python
 
     mesh.apply_transform(trimesh.transformations.random_rotation_matrix())
 
@@ -779,8 +723,6 @@ transform
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -795,7 +737,7 @@ axis aligned bounding box is available
 
 .. GENERATED FROM PYTHON SOURCE LINES 145-147
 
-.. code-block:: default
+.. code-block:: Python
 
     mesh.bounding_box.extents
 
@@ -805,12 +747,10 @@ axis aligned bounding box is available
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
 
-    array([50.46650257, 57.4880038 , 42.50849362])
+    array([47.32439792, 36.08899042, 63.59726973])
 
 
 
@@ -822,7 +762,7 @@ faces and vertices from data stored in the 'primitive' attribute
 
 .. GENERATED FROM PYTHON SOURCE LINES 151-154
 
-.. code-block:: default
+.. code-block:: Python
 
     mesh.bounding_box_oriented.primitive.extents
     mesh.bounding_box_oriented.primitive.transform
@@ -833,14 +773,12 @@ faces and vertices from data stored in the 'primitive' attribute
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
 
-    TrackedArray([[ 0.71282528,  0.06299345,  0.69850694,  0.59843482],
-                  [ 0.41806235,  0.76150822, -0.49530709,  0.67605788],
-                  [-0.56311988,  0.64508686,  0.51648711, -0.71569866],
+    TrackedArray([[-0.29903696,  0.65983125,  0.68934724, -0.46047914],
+                  [ 0.87217555,  0.48208403, -0.0830951 ,  1.00954174],
+                  [-0.38715203,  0.57638331, -0.71964963, -0.14995535],
                   [ 0.        ,  0.        ,  0.        ,  1.        ]])
 
 
@@ -854,7 +792,7 @@ than a least squares fit version of the primitive.
 
 .. GENERATED FROM PYTHON SOURCE LINES 159-164
 
-.. code-block:: default
+.. code-block:: Python
 
     print(
         mesh.bounding_box_oriented.volume,
@@ -867,11 +805,9 @@ than a least squares fit version of the primitive.
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
-    71901.8523412572 107029.99087396225 182279.85405427477
+    71923.6031645266 94301.88291268659 182279.85405427602
 
 
 
@@ -879,28 +815,26 @@ than a least squares fit version of the primitive.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.504 seconds)
+   **Total running time of the script:** (0 minutes 0.415 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_basics.py:
 
+.. only:: html
 
-.. only :: html
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
+      :download:`Download Jupyter notebook: example_basics.ipynb <example_basics.ipynb>`
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: example_basics.py <example_basics.py>`
 
-     :download:`Download Python source code: example_basics.py <example_basics.py>`
+    .. container:: sphx-glr-download sphx-glr-download-zip
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: example_basics.ipynb <example_basics.ipynb>`
+      :download:`Download zipped: example_basics.zip <example_basics.zip>`
 
 
 .. only:: html

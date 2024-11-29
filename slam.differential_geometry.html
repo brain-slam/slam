@@ -1,30 +1,30 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>slam.differential_geometry &#8212; slam 0.0.1 documentation</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="_static/gallery.css" />
-    <link rel="stylesheet" type="text/css" href="_static/gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="_static/gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/gallery-rendered-html.css" />
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>slam.differential_geometry &#8212; slam 0.0.6 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css?v=45361654" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <script src="_static/documentation_options.js?v=1fd71caa"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="_static/js/jquery-1.11.0.min.js "></script>
-<script type="text/javascript" src="_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
-<script type="text/javascript" src="_static/bootstrap-sphinx.js "></script>
+<script type="text/javascript" src="_static/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+<script type="text/javascript" src="_static/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
 
   </head><body>
 
@@ -39,7 +39,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           slam</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.0.6</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -105,21 +105,35 @@
 
 <div class="container">
   <div class="row">
-    <div class="body col-md-12 content" role="main">
+      <div class="col-md-3">
+        <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
+<li><a class="reference internal" href="#">slam.differential_geometry</a></li>
+</ul>
+
+<div id="sourcelink">
+  <a href="_sources/slam.differential_geometry.rst.txt"
+     rel="nofollow">Source</a>
+</div>
+<form action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+    <div class="body col-md-9 content" role="main">
       
-  <div class="section" id="module-slam.differential_geometry">
-<span id="slam-differential-geometry"></span><h1>slam.differential_geometry<a class="headerlink" href="#module-slam.differential_geometry" title="Permalink to this headline">¶</a></h1>
+  <section id="module-slam.differential_geometry">
+<span id="slam-differential-geometry"></span><h1>slam.differential_geometry<a class="headerlink" href="#module-slam.differential_geometry" title="Link to this heading">¶</a></h1>
 <p class="rubric">Functions</p>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
+<table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_mesh_laplacian</span></code>(mesh[, weights, …])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_mesh_laplacian</span></code>(mesh[, weights, ...])</p></td>
 <td><p>compute laplacian of a mesh see compute_mesh_weight for details :param mesh: :param weights: :param fem_b: :param lap_type: :return:</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_mesh_weights</span></code>(mesh[, weight_type, …])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_mesh_weights</span></code>(mesh[, weight_type, ...])</p></td>
 <td><p>compute a weight matrix W is sparse weight matrix and W(i,j) = 0 is vertex i and vertex j are not connected in the mesh.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">cross_product</span></code>(vec1, vec2)</p></td>
@@ -137,24 +151,24 @@
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">laplacian_mesh_smoothing</span></code>(mesh, nb_iter, dt)</p></td>
 <td><p>smoothing the mesh by solving the heat equation using fem Laplacian ADD REF :param mesh: :param nb_iter: :param dt: :return:</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">laplacian_smoothing</span></code>(texture_data, lap, …)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">laplacian_smoothing</span></code>(texture_data, lap, ...)</p></td>
 <td><p>sub-function for smoothing using fem Laplacian :param texture_data: :param lap: :param lap_b: :param nb_iter: :param dt: :return:</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">laplacian_texture_smoothing</span></code>(mesh, tex, …)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">laplacian_texture_smoothing</span></code>(mesh, tex, ...)</p></td>
 <td><p>smoothing the texture by solving the heat equation using fem Laplacian :param mesh: :param tex: :param nb_iter: :param dt: :return:</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mesh_laplacian_eigenvectors</span></code>(mesh[, nb_vectors])</p></td>
 <td><p>compute the nb_vectors first non-null eigenvectors of the graph Laplacian</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">norm_gradient</span></code>(mesh, texture_array)</p></td>
-<td><p>Compute the norm of a vertex Gradient on vertex first version author: Guillaume Vicaigne (Internship 2018) :param mesh: Triangular mesh :param texture_array: Scalar function on Vertices, numpy array :return: Gradient’s Norm</p></td>
+<td><p>Compute the norm of a vertex Gradient on vertex first version author: Guillaume Vicaigne (Internship 2018) :param mesh: Triangular mesh :param texture_array: Scalar function on Vertices, numpy array :return: Gradient's Norm</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">triangle_gradient</span></code>(mesh, texture_array)</p></td>
 <td><p>Compute gradient on a triangular mesh with a scalar function.</p></td>
 </tr>
 </tbody>
 </table>
-</div>
+</section>
 
 
     </div>
@@ -168,8 +182,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2022, slam Developers. Last updated on 2022-11-30.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.4.3.<br/>
+        &copy; Copyright 2024, slam Developers. Last updated on 2024-11-29.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 7.4.7.<br/>
     </p>
   </div>
 </footer>

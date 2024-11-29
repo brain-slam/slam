@@ -10,8 +10,8 @@
     .. note::
         :class: sphx-glr-download-link-note
 
-        Click :ref:`here <sphx_glr_download_auto_examples_example_dpf_Boucher.py>`
-        to download the full example code
+        :ref:`Go to the end <sphx_glr_download_auto_examples_example_dpf_Boucher.py>`
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -24,15 +24,15 @@
 Example of depth potential function in slam
 ===================================
 
-.. GENERATED FROM PYTHON SOURCE LINES 8-16
+.. GENERATED FROM PYTHON SOURCE LINES 8-15
 
-.. code-block:: default
+.. code-block:: Python
 
 
 
     # Authors: Julien Lefevre <julien.lefevre@univ-amu.fr>
 
-    # License: BSD (3-clause)
+    # License: MIT
     # sphinx_gallery_thumbnail_number = 2
 
 
@@ -42,19 +42,23 @@ Example of depth potential function in slam
 
 
 
+.. GENERATED FROM PYTHON SOURCE LINES 16-20
 
-.. GENERATED FROM PYTHON SOURCE LINES 17-18
+NOTE: there is no visualization tool in slam, but we provide at the
+ end of this script exemplare code to do the visualization with
+ an external solution
+##############################################################################
 
-Import of slam modules
+.. GENERATED FROM PYTHON SOURCE LINES 22-23
 
-.. GENERATED FROM PYTHON SOURCE LINES 18-26
+Import of modules
 
-.. code-block:: default
+.. GENERATED FROM PYTHON SOURCE LINES 23-29
+
+.. code-block:: Python
 
     import slam.curvature as sc
     import slam.differential_geometry as sdg
-    import slam.plot as splt
-    import matplotlib.pyplot as plt
     import trimesh
     import numpy as np
     from scipy.spatial import Delaunay
@@ -66,16 +70,16 @@ Import of slam modules
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 27-31
+.. GENERATED FROM PYTHON SOURCE LINES 30-34
 
 Define the example provided in Figure 5 of
 Depth potential function for folding pattern representation,
 registration and analysis
 Maxime Boucher a,b, * , Sue Whitesides a , Alan Evans
 
-.. GENERATED FROM PYTHON SOURCE LINES 31-75
+.. GENERATED FROM PYTHON SOURCE LINES 34-81
 
-.. code-block:: default
+.. code-block:: Python
 
 
 
@@ -111,7 +115,10 @@ Maxime Boucher a,b, * , Sue Whitesides a , Alan Evans
 
         # Mesh
         coords = np.array([X, Y, Z]).transpose()
-        mesh = trimesh.Trimesh(faces=faces_tri.simplices, vertices=coords, process=False)
+        mesh = trimesh.Trimesh(
+            faces=faces_tri.simplices,
+            vertices=coords,
+            process=False)
         return mesh
 
 
@@ -128,42 +135,19 @@ Maxime Boucher a,b, * , Sue Whitesides a , Alan Evans
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 76-77
-
-Visualization of the mesh
-
-.. GENERATED FROM PYTHON SOURCE LINES 77-81
-
-.. code-block:: default
-
-    visb_sc = splt.visbrain_plot(mesh=mesh, caption="Boucher mesh", bgcolor=[0.3, 0.5, 0.7])
-    visb_sc
-    visb_sc.preview()
-
-
-
-
-.. image:: /auto_examples/images/sphx_glr_example_dpf_Boucher_001.png
-    :alt: example dpf Boucher
-    :class: sphx-glr-single-img
-
-
-
-
-
 .. GENERATED FROM PYTHON SOURCE LINES 82-83
 
 Compute dpf for various alpha
 
-.. GENERATED FROM PYTHON SOURCE LINES 83-105
+.. GENERATED FROM PYTHON SOURCE LINES 83-97
 
-.. code-block:: default
-
+.. code-block:: Python
 
     res = sc.curvatures_and_derivatives(mesh)
     mean_curvature = res[0].sum(axis=0)
     alphas = [0.001, 0.01, 0.1, 1, 10, 100]
-    dpfs = sdg.depth_potential_function(mesh, curvature=mean_curvature, alphas=alphas)
+    dpfs = sdg.depth_potential_function(
+        mesh, curvature=mean_curvature, alphas=alphas)
 
     amplitude_center = []
     amplitude_peak = []
@@ -173,25 +157,11 @@ Compute dpf for various alpha
         amplitude_center.append(dpfs[i][index_peak_neg])
         amplitude_peak.append(dpfs[i][index_peak_pos])
 
-    plt.semilogx(alphas, amplitude_center)
-    plt.semilogx(alphas, amplitude_peak)
-    plt.semilogx(alphas, len(alphas) * [params[0] * (1 + 2 * np.exp(-3 / 2))], "--")
-    plt.xlabel("alpha")
-    plt.ylabel("amplitude")
-    plt.legend(["DPF at center", "DPF (secondary peaks)", "True amplitude"])
-    plt.show()
 
 
-
-
-.. image:: /auto_examples/images/sphx_glr_example_dpf_Boucher_002.png
-    :alt: example dpf Boucher
-    :class: sphx-glr-single-img
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -212,42 +182,13 @@ Compute dpf for various alpha
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 106-107
-
-Display dpfs on the surfaces
-
-.. GENERATED FROM PYTHON SOURCE LINES 107-116
-
-.. code-block:: default
-
-
-    visb_sc = splt.visbrain_plot(
-        mesh=mesh, tex=dpfs[0], caption="Boucher mesh", bgcolor="white"
-    )
-    visb_sc = splt.visbrain_plot(
-        mesh=mesh, tex=dpfs[5], caption="Boucher mesh", visb_sc=visb_sc
-    )
-    visb_sc.preview()
-
-
-
-
-.. image:: /auto_examples/images/sphx_glr_example_dpf_Boucher_003.png
-    :alt: example dpf Boucher
-    :class: sphx-glr-single-img
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 117-118
+.. GENERATED FROM PYTHON SOURCE LINES 98-99
 
 Fix alpha and vary M = params[0]
 
-.. GENERATED FROM PYTHON SOURCE LINES 118-133
+.. GENERATED FROM PYTHON SOURCE LINES 99-110
 
-.. code-block:: default
-
+.. code-block:: Python
 
     all_M = [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2]
     all_amplitudes = []
@@ -256,24 +197,15 @@ Fix alpha and vary M = params[0]
         mesh = boucher_surface([M, 0.25], ax, ay, nstep)
         res = sc.curvatures_and_derivatives(mesh)
         mean_curvature = res[0].sum(axis=0)
-        dpfs = sdg.depth_potential_function(mesh, curvature=mean_curvature, alphas=[0.0015])
+        dpfs = sdg.depth_potential_function(
+            mesh, curvature=mean_curvature, alphas=[0.0015])
         all_amplitudes.append(dpfs[0][len(mesh.vertices) // 2])
 
-    plt.plot(all_M, all_amplitudes, "+-")
-    plt.xlabel("M")
-    plt.ylabel("Amplitude of DPF")
-    plt.show()
 
 
-
-.. image:: /auto_examples/images/sphx_glr_example_dpf_Boucher_004.png
-    :alt: example dpf Boucher
-    :class: sphx-glr-single-img
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -372,31 +304,76 @@ Fix alpha and vary M = params[0]
 
 
 
+.. GENERATED FROM PYTHON SOURCE LINES 111-155
+
+VISUALIZATION USING EXTERNAL TOOLS
+############################################################################
+ import visbrain # visu using visbrain
+ import slam.plot as splt
+ import matplotlib.pyplot as plt
+#########################################################################
+ # Visualization of the mesh
+ visb_sc = splt.visbrain_plot(
+     mesh=mesh,
+     caption="Boucher mesh",
+     bgcolor=[
+         0.3,
+         0.5,
+         0.7])
+ visb_sc
+ visb_sc.preview()
+##############################################################################
+ plt.figure()
+ plt.semilogx(alphas, amplitude_center)
+ plt.semilogx(alphas, amplitude_peak)
+ plt.semilogx(alphas, len(alphas) *
+              [params[0] * (1 + 2 * np.exp(-3 / 2))], "--")
+ plt.xlabel("alpha")
+ plt.ylabel("amplitude")
+ plt.legend(["DPF at center", "DPF (secondary peaks)", "True amplitude"])
+ plt.show()
+
+#####################################
+ #  Display dpfs on the surfaces
+
+ visb_sc = splt.visbrain_plot(
+     mesh=mesh, tex=dpfs[0], caption="Boucher mesh", bgcolor="white"
+ )
+ visb_sc = splt.visbrain_plot(
+     mesh=mesh, tex=dpfs[5], caption="Boucher mesh", visb_sc=visb_sc
+ )
+ visb_sc.preview()
+
+#############################################################################
+ plt.figure()
+ plt.plot(all_M, all_amplitudes, "+-")
+ plt.xlabel("M")
+ plt.ylabel("Amplitude of DPF")
+ plt.show()
+
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  38.127 seconds)
+   **Total running time of the script:** (0 minutes 41.633 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_dpf_Boucher.py:
 
+.. only:: html
 
-.. only :: html
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
+      :download:`Download Jupyter notebook: example_dpf_Boucher.ipynb <example_dpf_Boucher.ipynb>`
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: example_dpf_Boucher.py <example_dpf_Boucher.py>`
 
-     :download:`Download Python source code: example_dpf_Boucher.py <example_dpf_Boucher.py>`
+    .. container:: sphx-glr-download sphx-glr-download-zip
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: example_dpf_Boucher.ipynb <example_dpf_Boucher.ipynb>`
+      :download:`Download zipped: example_dpf_Boucher.zip <example_dpf_Boucher.zip>`
 
 
 .. only:: html

@@ -10,8 +10,8 @@
     .. note::
         :class: sphx-glr-download-link-note
 
-        Click :ref:`here <sphx_glr_download_auto_examples_example_registration.py>`
-        to download the full example code
+        :ref:`Go to the end <sphx_glr_download_auto_examples_example_registration.py>`
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -26,12 +26,12 @@ Show mesh registration features in slam
 
 .. GENERATED FROM PYTHON SOURCE LINES 8-14
 
-.. code-block:: default
+.. code-block:: Python
 
 
     # Authors: Guillaume Auzias <guillaume.auzias@univ-amu.fr>
 
-    # License: BSD (3-clause)
+    # License: MIT
     # sphinx_gallery_thumbnail_number = 2
 
 
@@ -41,17 +41,22 @@ Show mesh registration features in slam
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 15-16
+.. GENERATED FROM PYTHON SOURCE LINES 15-19
+
+NOTE: there is no visualization tool in slam, but we provide at the
+ end of this script exemplare code to do the visualization with
+ an external solution
+##############################################################################
+
+.. GENERATED FROM PYTHON SOURCE LINES 21-22
 
 importation of slam modules
 
-.. GENERATED FROM PYTHON SOURCE LINES 16-21
+.. GENERATED FROM PYTHON SOURCE LINES 22-25
 
-.. code-block:: default
+.. code-block:: Python
 
-    import slam.plot as splt
     import slam.io as sio
-    import numpy as np
     import trimesh
 
 
@@ -61,13 +66,13 @@ importation of slam modules
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 22-23
+.. GENERATED FROM PYTHON SOURCE LINES 26-27
 
 loading an two unregistered meshes
 
-.. GENERATED FROM PYTHON SOURCE LINES 23-26
+.. GENERATED FROM PYTHON SOURCE LINES 27-30
 
-.. code-block:: default
+.. code-block:: Python
 
     mesh_1 = sio.load_mesh("../examples/data/example_mesh.gii")
     mesh_2 = sio.load_mesh("../examples/data/example_mesh_2.gii")
@@ -79,41 +84,14 @@ loading an two unregistered meshes
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 27-28
-
-plot them to check the misalignment
-
-.. GENERATED FROM PYTHON SOURCE LINES 28-36
-
-.. code-block:: default
-
-    joint_mesh = mesh_1 + mesh_2
-    joint_tex = np.ones((joint_mesh.vertices.shape[0],))
-    joint_tex[: mesh_1.vertices.shape[0]] = 10
-    visb_sc = splt.visbrain_plot(
-        mesh=joint_mesh, tex=joint_tex, caption="before registration"
-    )
-    visb_sc.preview()
-
-
-
-
-.. image:: /auto_examples/images/sphx_glr_example_registration_001.png
-    :alt: example registration
-    :class: sphx-glr-single-img
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 37-39
+.. GENERATED FROM PYTHON SOURCE LINES 31-33
 
 compute ICP registration
 this functionnality requires to install the optional package rtree
 
-.. GENERATED FROM PYTHON SOURCE LINES 39-45
+.. GENERATED FROM PYTHON SOURCE LINES 33-39
 
-.. code-block:: default
+.. code-block:: Python
 
     transf_mat, cost = trimesh.registration.mesh_other(
         mesh_1, mesh_2, samples=500, scale=False, icp_first=10, icp_final=100
@@ -127,26 +105,24 @@ this functionnality requires to install the optional package rtree
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
-    [[-0.59202764 -0.09421463  0.8003917  62.85878541]
-     [ 0.09168714  0.97882135  0.18303614 53.43305704]
-     [-0.80068517  0.18174808 -0.57085103 49.62517482]
+    [[-0.58422975 -0.10586108  0.8046546  62.71732473]
+     [ 0.06621478  0.98193402  0.1772602  52.90913857]
+     [-0.80888269  0.15684071 -0.5666655  49.54943842]
      [ 0.          0.          0.          1.        ]]
-    0.006163062935171203
+    0.006668052986457964
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 46-47
+.. GENERATED FROM PYTHON SOURCE LINES 40-41
 
 apply the estimated rigid transformation to the mesh
 
-.. GENERATED FROM PYTHON SOURCE LINES 47-49
+.. GENERATED FROM PYTHON SOURCE LINES 41-43
 
-.. code-block:: default
+.. code-block:: Python
 
     mesh_1.apply_transform(transf_mat)
 
@@ -156,8 +132,6 @@ apply the estimated rigid transformation to the mesh
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
 
@@ -165,55 +139,53 @@ apply the estimated rigid transformation to the mesh
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 50-51
+.. GENERATED FROM PYTHON SOURCE LINES 44-65
 
-plot the two meshes to check they are now aligned
-
-.. GENERATED FROM PYTHON SOURCE LINES 51-56
-
-.. code-block:: default
-
-    joint_mesh = mesh_1 + mesh_2
-    visb_sc = splt.visbrain_plot(
-        mesh=joint_mesh, tex=joint_tex, caption="after registration"
-    )
-    visb_sc.preview()
-
-
-
-.. image:: /auto_examples/images/sphx_glr_example_registration_002.png
-    :alt: example registration
-    :class: sphx-glr-single-img
-
-
-
-
+VISUALIZATION USING EXTERNAL TOOLS
+############################################################################
+ # Visualization with visbrain
+ import slam.plot as splt
+ import numpy as np
+ ###############################################################################
+ # plot them to check the misalignment
+ joint_mesh = mesh_1 + mesh_2
+ joint_tex = np.ones((joint_mesh.vertices.shape[0],))
+ joint_tex[: mesh_1.vertices.shape[0]] = 10
+ visb_sc = splt.visbrain_plot(
+     mesh=joint_mesh, tex=joint_tex, caption="before registration"
+ )
+ visb_sc.preview()
+ ###############################################################################
+ # plot the two meshes to check they are now aligned
+ joint_mesh = mesh_1 + mesh_2
+ visb_sc = splt.visbrain_plot(
+     mesh=joint_mesh, tex=joint_tex, caption="after registration"
+ )
+ visb_sc.preview()
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  8.256 seconds)
+   **Total running time of the script:** (0 minutes 5.311 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_registration.py:
 
+.. only:: html
 
-.. only :: html
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
+      :download:`Download Jupyter notebook: example_registration.ipynb <example_registration.ipynb>`
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: example_registration.py <example_registration.py>`
 
-     :download:`Download Python source code: example_registration.py <example_registration.py>`
+    .. container:: sphx-glr-download sphx-glr-download-zip
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: example_registration.ipynb <example_registration.ipynb>`
+      :download:`Download zipped: example_registration.zip <example_registration.zip>`
 
 
 .. only:: html

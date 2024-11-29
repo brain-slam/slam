@@ -4,11 +4,6 @@
 .. automodule:: slam.geodesics
 
    
-   
-   
-
-   
-   
    .. rubric:: Functions
 
    .. autosummary::
@@ -17,15 +12,3 @@
       local_gdist_matrix
       shortest_path
    
-   
-
-   
-   
-   
-
-   
-   
-   
-
-
-
