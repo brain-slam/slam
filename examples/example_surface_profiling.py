@@ -25,7 +25,7 @@ import slam.io as sio
 
 ###############################################################################
 # loading an example mesh
-mesh = sio.load_mesh("examples/data/example_mesh.gii")
+mesh = sio.load_mesh("../examples/data/example_mesh.gii")
 
 ###############################################################################
 # Select a vertex and get the coordinate and normal.

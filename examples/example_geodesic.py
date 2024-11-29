@@ -28,7 +28,7 @@ import numpy as np
 
 ###############################################################################
 # Mesh importation
-mesh = sio.load_mesh("examples/data/example_mesh.gii")
+mesh = sio.load_mesh("../examples/data/example_mesh.gii")
 
 ###############################################################################
 # Getting the vertex index in specified geo_distance of vert

@@ -29,7 +29,7 @@ import numpy as np
 ###############################################################################
 # Loading an example mesh and a smoothed copy of it
 
-mesh = sio.load_mesh("examples/data/example_mesh.gii")
+mesh = sio.load_mesh("../examples/data/example_mesh.gii")
 mesh_s = sdg.laplacian_mesh_smoothing(mesh, nb_iter=50, dt=0.1)
 
 ###############################################################################

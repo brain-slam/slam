@@ -24,8 +24,8 @@ import slam.io as sio
 
 ###############################################################################
 # loading an example mesh and its texture
-mesh_file = "examples/data/example_mesh.gii"
-texture_file = "examples/data/example_texture.gii"
+mesh_file = "../examples/data/example_mesh.gii"
+texture_file = "../examples/data/example_texture.gii"
 mesh = sio.load_mesh(mesh_file)
 texture = sio.load_texture(texture_file)
 

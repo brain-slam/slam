@@ -27,7 +27,7 @@ import numpy as np
 
 
 ###############################################################################
-mesh = sio.load_mesh("examples/data/example_mesh.gii")
+mesh = sio.load_mesh("../examples/data/example_mesh.gii")
 mesh.apply_transform(mesh.principal_inertia_transform)
 
 ###############################################################################

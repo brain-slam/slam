@@ -24,8 +24,8 @@ import trimesh
 
 ###############################################################################
 # loading an two unregistered meshes
-mesh_1 = sio.load_mesh("examples/data/example_mesh.gii")
-mesh_2 = sio.load_mesh("examples/data/example_mesh_2.gii")
+mesh_1 = sio.load_mesh("../examples/data/example_mesh.gii")
+mesh_2 = sio.load_mesh("../examples/data/example_mesh_2.gii")
 
 ###############################################################################
 # compute ICP registration

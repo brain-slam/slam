@@ -26,14 +26,14 @@ import slam.remeshing as srem
 
 ###############################################################################
 # Source object files
-source_mesh_file = "examples/data/example_mesh.gii"
-source_texture_file = "examples/data/example_texture.gii"
-source_spherical_mesh_file = "examples/data/example_mesh_spherical.gii"
+source_mesh_file = "../examples/data/example_mesh.gii"
+source_texture_file = "../examples/data/example_texture.gii"
+source_spherical_mesh_file = "../examples/data/example_mesh_spherical.gii"
 
 ###############################################################################
 # Target object files
-target_mesh_file = "examples/data/example_mesh_2.gii"
-target_spherical_mesh_file = "examples/data/example_mesh_2_spherical.gii"
+target_mesh_file = "../examples/data/example_mesh_2.gii"
+target_spherical_mesh_file = "../examples/data/example_mesh_2_spherical.gii"
 
 source_mesh = sio.load_mesh(source_mesh_file)
 source_tex = sio.load_texture(source_texture_file)
