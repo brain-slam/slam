@@ -24,8 +24,8 @@ import slam.differential_geometry as sdg
 
 ###############################################################################
 # loading an examplar mesh and corresponding texture
-mesh_file = "examples/data/example_mesh.gii"
-texture_file = "examples/data/example_texture.gii"
+mesh_file = "../examples/data/example_mesh.gii"
+texture_file = "../examples/data/example_texture.gii"
 mesh = sio.load_mesh(mesh_file)
 tex = sio.load_texture(texture_file)
 

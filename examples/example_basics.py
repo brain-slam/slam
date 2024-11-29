@@ -23,7 +23,7 @@ import slam.io as sio
 
 # loading a mesh stored on the disc as a gifti file,
 # this is a feature of SLAM
-mesh = sio.load_mesh("examples/data/example_mesh.gii")
+mesh = sio.load_mesh("../examples/data/example_mesh.gii")
 
 ###############################################################################
 # affine transformations can be applied to mesh objects

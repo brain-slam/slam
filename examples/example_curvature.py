@@ -27,7 +27,7 @@ import slam.curvature as scurv
 
 ###############################################################################
 # loading an examplar mesh
-mesh_file = "examples/data/example_mesh.gii"
+mesh_file = "../examples/data/example_mesh.gii"
 mesh = sio.load_mesh(mesh_file)
 
 ###############################################################################

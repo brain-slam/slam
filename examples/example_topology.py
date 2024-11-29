@@ -47,14 +47,14 @@ eroded_mesh = stop.remove_mesh_boundary_faces(open_mesh, face_vertex_number=1)
 # here is how to get the vertices that define the boundary of
 # a texture on a mesh
 # Let us first load example data
-mesh = sio.load_mesh("examples/data/example_mesh.gii")
+mesh = sio.load_mesh("../examples/data/example_mesh.gii")
 # rotate the mesh for better visualization
 transfo_flip = np.array(
     [[-1, 0, 0, 0], [0, 1, 0, 0], [0, 0, -1, 0], [0, 0, 0, 1]])
 mesh.apply_transform(transfo_flip)
 
 # Load the example texture and compute its boundary
-tex_parcel = sio.load_texture("examples/data/example_texture_parcel.gii")
+tex_parcel = sio.load_texture("../examples/data/example_texture_parcel.gii")
 texture_bound = stop.texture_boundary(mesh, tex_parcel.darray[0], 20)
 
 ###############################################################################
@@ -95,131 +95,129 @@ print(mesh_closed.is_watertight)
 #############################################################################
 # VISUALIZATION USING EXTERNAL TOOLS
 #############################################################################
-"""
-import slam.plot as splt
-from vispy.scene import Line
-from visbrain.objects import VispyObj, SourceObj
-
-###############################################################################
-# show the result
-# WARNING : BrainObj should be added first before
-visb_sc = splt.visbrain_plot(mesh=open_mesh, caption="open mesh")
-# create points with vispy
-for bound in open_mesh_boundary:
-    points = open_mesh.vertices[bound]
-    s_rad = SourceObj(
-        "rad",
-        points,
-        color="red",
-        symbol="square",
-        radius_min=10)
-    visb_sc.add_to_subplot(s_rad)
-    lines = Line(pos=open_mesh.vertices[bound], width=10, color="b")
-    # wrap the vispy object using visbrain
-    l_obj = VispyObj("line", lines)
-    visb_sc.add_to_subplot(l_obj)
-visb_sc.preview()
-
-###############################################################################
-# show the result
-visb_sc2 = splt.visbrain_plot(mesh=eroded_mesh, caption="eroded mesh")
-# show again the boundary of original mesh which have been removed with
-# corresponding faces by the erosion
-for bound in open_mesh_boundary:
-    points = open_mesh.vertices[bound]
-    s_rad = SourceObj(
-        "rad",
-        points,
-        color="red",
-        symbol="square",
-        radius_min=10)
-    visb_sc2.add_to_subplot(s_rad)
-    lines = Line(pos=open_mesh.vertices[bound], width=10, color="b")
-    # wrap the vispy object using visbrain
-    l_obj = VispyObj("line", lines)
-    visb_sc2.add_to_subplot(l_obj)
-visb_sc2.preview()
-
-###############################################################################
-# show the results
-visb_sc3 = splt.visbrain_plot(
-    mesh=mesh, tex=tex_parcel.darray[0], caption="texture boundary"
-)
-cols = ["red", "green", "yellow", "blue"]
-ind = 0
-for bound in texture_bound:
-    points = mesh.vertices[bound]
-    s_rad = SourceObj(
-        "rad",
-        points,
-        color="red",
-        symbol="square",
-        radius_min=10)
-    visb_sc3.add_to_subplot(s_rad)
-    lines = Line(pos=mesh.vertices[bound], width=10, color=cols[ind])
-    # wrap the vispy object using visbrain
-    l_obj = VispyObj("line", lines)
-    visb_sc3.add_to_subplot(l_obj)
-    ind += 1
-    if ind == len(cols):
-        ind = 0
-visb_sc3.preview()
-
-###############################################################################
-# show the mesh with the cuted subparts in different colors
-scene_list = list()
-cuted_mesh = sub_meshes[-1]
-joint_mesh = sub_meshes[0]
-joint_tex = np.zeros((sub_meshes[0].vertices.shape[0],))
-last_ind = sub_meshes[0].vertices.shape[0]
-for ind, sub_mesh in enumerate(sub_meshes[1:]):
-    sub_tex = np.ones((sub_mesh.vertices.shape[0],)) * (ind + 1)
-    joint_mesh += sub_mesh
-    joint_tex = np.hstack((joint_tex, sub_tex))
-visb_sc3 = splt.visbrain_plot(
-    mesh=joint_mesh,
-    tex=joint_tex,
-    caption="mesh parts shown in different colors"
-)
-ind = 0
-boundaries = stop.mesh_boundary(cuted_mesh)
-for bound in boundaries:
-    s_rad = SourceObj(
-        "rad",
-        cuted_mesh.vertices[bound],
-        color=cols[ind],
-        symbol="square",
-        radius_min=10,
-    )
-    visb_sc3.add_to_subplot(s_rad)
-    lines = Line(pos=cuted_mesh.vertices[bound], color=cols[ind], width=10)
-    # wrap the vispy object using visbrain
-    l_obj = VispyObj("line", lines)
-    visb_sc3.add_to_subplot(l_obj)
-    ind += 1
-    if ind == len(cols):
-        ind = 0
-visb_sc3.preview()
-###############################################################################
-# show the largest submesh with the boundaries of cutted parts
-visb_sc4 = splt.visbrain_plot(mesh=cuted_mesh, caption="open mesh")
-# create points with vispy
-for bound in boundaries:
-    points = cuted_mesh.vertices[bound]
-    s_rad = SourceObj(
-        "rad",
-        points,
-        color="blue",
-        symbol="square",
-        radius_min=10)
-    visb_sc4.add_to_subplot(s_rad)
-    lines = Line(pos=cuted_mesh.vertices[bound], width=10, color="r")
-    # wrap the vispy object using visbrain
-    l_obj = VispyObj("line", lines)
-    visb_sc4.add_to_subplot(l_obj)
-visb_sc4.preview()
-###############################################################################
-# show the closed mesh
-visb_sc5 = splt.visbrain_plot(mesh=mesh_closed, caption="closed mesh")
-visb_sc5.preview()
-"""
+# import slam.plot as splt
+# from vispy.scene import Line
+# from visbrain.objects import VispyObj, SourceObj
+#
+# ###############################################################################
+# # show the result
+# # WARNING : BrainObj should be added first before
+# visb_sc = splt.visbrain_plot(mesh=open_mesh, caption="open mesh")
+# # create points with vispy
+# for bound in open_mesh_boundary:
+#     points = open_mesh.vertices[bound]
+#     s_rad = SourceObj(
+#         "rad",
+#         points,
+#         color="red",
+#         symbol="square",
+#         radius_min=10)
+#     visb_sc.add_to_subplot(s_rad)
+#     lines = Line(pos=open_mesh.vertices[bound], width=10, color="b")
+#     # wrap the vispy object using visbrain
+#     l_obj = VispyObj("line", lines)
+#     visb_sc.add_to_subplot(l_obj)
+# visb_sc.preview()
+#
+# ###############################################################################
+# # show the result
+# visb_sc2 = splt.visbrain_plot(mesh=eroded_mesh, caption="eroded mesh")
+# # show again the boundary of original mesh which have been removed with
+# # corresponding faces by the erosion
+# for bound in open_mesh_boundary:
+#     points = open_mesh.vertices[bound]
+#     s_rad = SourceObj(
+#         "rad",
+#         points,
+#         color="red",
+#         symbol="square",
+#         radius_min=10)
+#     visb_sc2.add_to_subplot(s_rad)
+#     lines = Line(pos=open_mesh.vertices[bound], width=10, color="b")
+#     # wrap the vispy object using visbrain
+#     l_obj = VispyObj("line", lines)
+#     visb_sc2.add_to_subplot(l_obj)
+# visb_sc2.preview()
+#
+# ###############################################################################
+# # show the results
+# visb_sc3 = splt.visbrain_plot(
+#     mesh=mesh, tex=tex_parcel.darray[0], caption="texture boundary"
+# )
+# cols = ["red", "green", "yellow", "blue"]
+# ind = 0
+# for bound in texture_bound:
+#     points = mesh.vertices[bound]
+#     s_rad = SourceObj(
+#         "rad",
+#         points,
+#         color="red",
+#         symbol="square",
+#         radius_min=10)
+#     visb_sc3.add_to_subplot(s_rad)
+#     lines = Line(pos=mesh.vertices[bound], width=10, color=cols[ind])
+#     # wrap the vispy object using visbrain
+#     l_obj = VispyObj("line", lines)
+#     visb_sc3.add_to_subplot(l_obj)
+#     ind += 1
+#     if ind == len(cols):
+#         ind = 0
+# visb_sc3.preview()
+#
+# ###############################################################################
+# # show the mesh with the cuted subparts in different colors
+# scene_list = list()
+# cuted_mesh = sub_meshes[-1]
+# joint_mesh = sub_meshes[0]
+# joint_tex = np.zeros((sub_meshes[0].vertices.shape[0],))
+# last_ind = sub_meshes[0].vertices.shape[0]
+# for ind, sub_mesh in enumerate(sub_meshes[1:]):
+#     sub_tex = np.ones((sub_mesh.vertices.shape[0],)) * (ind + 1)
+#     joint_mesh += sub_mesh
+#     joint_tex = np.hstack((joint_tex, sub_tex))
+# visb_sc3 = splt.visbrain_plot(
+#     mesh=joint_mesh,
+#     tex=joint_tex,
+#     caption="mesh parts shown in different colors"
+# )
+# ind = 0
+# boundaries = stop.mesh_boundary(cuted_mesh)
+# for bound in boundaries:
+#     s_rad = SourceObj(
+#         "rad",
+#         cuted_mesh.vertices[bound],
+#         color=cols[ind],
+#         symbol="square",
+#         radius_min=10,
+#     )
+#     visb_sc3.add_to_subplot(s_rad)
+#     lines = Line(pos=cuted_mesh.vertices[bound], color=cols[ind], width=10)
+#     # wrap the vispy object using visbrain
+#     l_obj = VispyObj("line", lines)
+#     visb_sc3.add_to_subplot(l_obj)
+#     ind += 1
+#     if ind == len(cols):
+#         ind = 0
+# visb_sc3.preview()
+# ###############################################################################
+# # show the largest submesh with the boundaries of cutted parts
+# visb_sc4 = splt.visbrain_plot(mesh=cuted_mesh, caption="open mesh")
+# # create points with vispy
+# for bound in boundaries:
+#     points = cuted_mesh.vertices[bound]
+#     s_rad = SourceObj(
+#         "rad",
+#         points,
+#         color="blue",
+#         symbol="square",
+#         radius_min=10)
+#     visb_sc4.add_to_subplot(s_rad)
+#     lines = Line(pos=cuted_mesh.vertices[bound], width=10, color="r")
+#     # wrap the vispy object using visbrain
+#     l_obj = VispyObj("line", lines)
+#     visb_sc4.add_to_subplot(l_obj)
+# visb_sc4.preview()
+# ###############################################################################
+# # show the closed mesh
+# visb_sc5 = splt.visbrain_plot(mesh=mesh_closed, caption="closed mesh")
+# visb_sc5.preview()
