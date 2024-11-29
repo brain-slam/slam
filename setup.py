@@ -18,6 +18,8 @@ DOC_REQUIREMENTS = ['sphinx',
 
 DIST = ["tvb-gdist"]
 
+TRIMESH_FULL = ["rtree", "shapely"]
+
 # grab version
 verstr = "unknown"
 try:
@@ -45,9 +47,9 @@ setup(
     python_requires=">=3.6",  # enforce Python 3.6 as minimum
     install_requires=BASE_REQUIREMENTS,
     extras_require={
-        "full": DIST,
-        "dev": DIST + TEST_REQUIREMENTS,
-        "doc": DIST + TEST_REQUIREMENTS + DOC_REQUIREMENTS,
+        "full": DIST + TRIMESH_FULL,
+        "dev": DIST + TEST_REQUIREMENTS + TRIMESH_FULL,
+        "doc": DIST + TEST_REQUIREMENTS + TRIMESH_FULL + DOC_REQUIREMENTS,
     },
     classifiers=[
         "Programming Language :: Python :: 3",
