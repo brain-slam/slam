@@ -6,6 +6,16 @@ from setuptools import setup, find_packages
 
 BASE_REQUIREMENTS = ["numpy", "scipy", "trimesh", "nibabel>=2.1", "networkx"]
 TEST_REQUIREMENTS = ["flake8", "autopep8", "pytest", "pytest-cov", "coveralls"]
+
+DOC_REQUIREMENTS = ['sphinx',
+                    'sphinx-gallery',
+                    'sphinx_bootstrap_theme',
+                    'numpydoc',
+                    'six',
+                    'python-dateutil',
+                    'sphinxcontrib-fulltoc',
+                    'matplotlib']
+
 DIST = ["tvb-gdist"]
 
 # grab version
@@ -35,6 +45,7 @@ setup(
     extras_require={
         "full": DIST,
         "dev": DIST + TEST_REQUIREMENTS,
+        "doc": DIST + TEST_REQUIREMENTS + DOC_REQUIREMENTS,
     },
     classifiers=[
         "Programming Language :: Python :: 3",
