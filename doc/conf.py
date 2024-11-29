@@ -20,12 +20,9 @@ import os
 import sys
 from datetime import date
 
-from visbrain.config import CONFIG
 import sphinx_gallery  # noqa
 from sphinx_gallery.sorting import FileNameSortKey
 import sphinx_bootstrap_theme
-
-CONFIG["MPL_RENDER"] = True
 
 
 curdir = os.path.dirname(__file__)
@@ -204,11 +201,5 @@ sphinx_gallery_conf = {
     "filename_pattern": "^((?!sgskip).)*$",
     "backreferences_dir": "generated",
     "within_subsection_order": FileNameSortKey,
-    "reference_url": {
-        "numpy": "http://docs.scipy.org/doc/numpy-1.9.1",
-        "scipy": "http://docs.scipy.org/doc/scipy-0.17.0/reference",
-        "trimesh": "https://github.com/mikedh/trimesh",
-        "visbrain": "https://github.com/EtienneCmb/visbrain",
-        "nibabel": "https://nipy.org/nibabel",
-    },
+    "reference_url": {},
 }

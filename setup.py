@@ -4,7 +4,7 @@
 import re
 from setuptools import setup, find_packages
 
-BASE_REQUIREMENTS = ["numpy", "scipy", "trimesh", "nibabel>=2.1", "networkx"]
+BASE_REQUIREMENTS = ["numpy==1.19.5", "scipy", "trimesh", "nibabel>=2.1", "networkx"]
 TEST_REQUIREMENTS = ["flake8", "autopep8", "pytest", "pytest-cov", "coveralls"]
 
 DOC_REQUIREMENTS = ['sphinx',
@@ -38,6 +38,8 @@ setup(
     packages=find_packages(),
     author="Guillaume Auzias",
     description="Surface anaLysis And Modeling",
+    long_description=open('README.md').read(),
+    long_description_content_type='text/markdown',
     url="https://github.com/brain-slam/slam",
     license="MIT",
     python_requires=">=3.6",  # enforce Python 3.6 as minimum
