@@ -1,15 +1,30 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import re
 from setuptools import setup, find_packages
 
 BASE_REQUIREMENTS = ["numpy", "scipy", "trimesh", "nibabel>=2.1", "networkx"]
 TEST_REQUIREMENTS = ["flake8", "autopep8", "pytest", "pytest-cov", "coveralls"]
 DIST = ["tvb-gdist"]
 
+# grab version
+verstr = "unknown"
+try:
+    verstrline = open('slam/_version.py', "rt").read()
+except EnvironmentError:
+    pass  # Okay, there is no version file.
+else:
+    VSRE = r"^__version__ = ['\"]([^'\"]*)['\"]"
+    mo = re.search(VSRE, verstrline, re.M)
+    if mo:
+        verstr = mo.group(1)
+    else:
+        raise RuntimeError("unable to find version in yourpackage/_version.py")
+
 setup(
     name="brain-slam",
-    version="0.0.4-rc1",
+    version=verstr,
     packages=find_packages(),
     author="Guillaume Auzias",
     description="Surface anaLysis And Modeling",
