@@ -3,7 +3,6 @@ from scipy.spatial.distance import cdist
 import trimesh
 import trimesh.intersections
 import trimesh.triangles
-
 import slam.geodesics
 import slam.utils as utils
 

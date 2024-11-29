@@ -1,5 +1,5 @@
 name: Python package
-on: [push, pull_request]
+on: [pull_request]
 
 jobs:
   build:
@@ -7,7 +7,7 @@ jobs:
     strategy:
       matrix:
         os: ['ubuntu-20.04','ubuntu-22.04']
-        python-version: ["3.8", "3.9", "3.10"]
+        python-version: ["3.8", "3.9"]
         exclude:
           - os: 'ubuntu-22.04'
             python-version: '3.6'
@@ -22,7 +22,7 @@ jobs:
           python -m venv slam-env
           source slam-env/bin/activate
       - name: Linting
-        run: | 
+        run: |
             pip install flake8
             flake8 --ignore=E501,W503,W504 slam/
             flake8 --ignore=E501,W503,W504 tests/
@@ -33,6 +33,6 @@ jobs:
         run: |
             pip install pytest pytest-cov coveralls
             pytest -W default --cov=slam/
-          
-         
+
+
 

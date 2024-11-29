@@ -10,7 +10,7 @@ Texture example in slam
 # Guillaume Auzias <guillaume.auzias@univ-amu.fr>
 # Julien Barrès <julien.barres@etu.univ-amu.fr>
 
-# License: BSD (3-clause)
+# License: MIT
 # sphinx_gallery_thumbnail_number = 2
 
 
