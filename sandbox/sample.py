@@ -65,6 +65,8 @@ def extract_sulcal_pits(main_path, dst, side="left", mask_path=None):
     # Compute the DPF and save it
     print("\n\tComputing the DPF\n")
     dpf = differential_geometry.depth_potential_function(mesh, mean_curv, [0.03])
+    print(dpf)
+    exit()
     dpf_tex = texture.TextureND(darray=dpf[0])
     io.write_texture(dpf_tex, os.path.join(dst, "dpf.gii"))
 
@@ -78,6 +80,9 @@ def extract_sulcal_pits(main_path, dst, side="left", mask_path=None):
 
     # (mesh_fiedler_length, field_tex) = differential_geometry.mesh_fiedler_length(mesh, dist_type="geodesic")
     # min_mesh_fiedler_length = utils.compute_dist(mesh, mesh_fiedler_length)
+
+    # This is used to reproduce the same result compared to BrainVisa. This is equivalent to:
+    # (mesh_fiedler_length, fiedler_tex) = pdeTls.meshFiedlerLength(mesh, 'geodesic')
     fielder = differential_geometry.mesh_laplacian_eigenvectors(mesh, 1)
     imin = fielder.argmin()
     imax = fielder.argmax()
