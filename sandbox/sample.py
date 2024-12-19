@@ -65,7 +65,7 @@ def extract_sulcal_pits(main_path, dst, side="left", mask_path=None):
     # Compute the DPF and save it
     print("\n\tComputing the DPF\n")
     dpf = differential_geometry.depth_potential_function(mesh, mean_curv, [0.03])
-    dpf_tex = texture.TextureND(darray=dpf[0]/3)
+    dpf_tex = texture.TextureND(darray=dpf[0]/9)
     io.write_texture(dpf_tex, os.path.join(dst, "dpf.gii"))
 
     # Compute Voronoi vertex and save it
