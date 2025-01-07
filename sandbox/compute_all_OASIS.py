@@ -55,10 +55,11 @@ def compute_all(meshs, masks, dst_path, nb_subj=5):
             if not os.path.isdir(dst_full_path):
                 os.mkdir(dst_full_path)
 
-            print("Computing {} for {} side".format(subj, side))
-            print("mesh file: {}".format(meshs[subj][side]))
-            extract_sulcal_pits(meshs[subj][side], dst_full_path, side=side, mask_path=masks[subj][side])
-            shutil.copy(meshs[subj][side], os.path.join(dst_full_path, "mesh.gii"))
+            if not os.path.exists(os.path.join(dst_full_path, "mesh.gii")):
+                print("Computing {} for {} side".format(subj, side))
+                print("mesh file: {}".format(meshs[subj][side]))
+                extract_sulcal_pits(meshs[subj][side], dst_full_path, side=side, mask_path=masks[subj][side])
+                shutil.copy(meshs[subj][side], os.path.join(dst_full_path, "mesh.gii"))
 
         print(f"Fin {subj}")
         cpt_subj += 1

@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 def eval_dpf(dpf1, dpf2, mesh=None, display=False):
     """
     Function that computes the difference between 2 dpf from the same mesh
-    Returns
+    Returns 
     -------
     object
     """
