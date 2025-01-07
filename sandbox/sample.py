@@ -60,6 +60,8 @@ def extract_sulcal_pits(main_path, dst, side="left", mask_path=None):
     curv_tex.z_score_filtering(z_thresh=3)
     io.write_texture(curv_tex, os.path.join(dst, "curv_z_score.gii"))
 
+    mean_curv = io.load_texture(os.path.join(dst, "curv_z_score.gii")).darray[0]
+
     # Compute the DPF and save it
     print("\n\tComputing the DPF\n")
     dpf = differential_geometry.depth_potential_function(mesh, mean_curv, [0.03])
