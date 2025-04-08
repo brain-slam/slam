@@ -110,7 +110,7 @@ Here the mesh has a single boundary
 
  .. code-block:: none
 
-    [[1, 2, 3, 8, 13, 18, 21, 20, 19, 14, 9, 4, 0]]
+    [[np.int64(1), np.int64(2), np.int64(3), np.int64(4), np.int64(9), np.int64(14), np.int64(19), np.int64(24), np.int64(23), np.int64(22), np.int64(21), np.int64(20), np.int64(15), np.int64(10), np.int64(5), np.int64(0)]]
 
 
 
@@ -387,7 +387,7 @@ VISUALIZATION USING EXTERNAL TOOLS
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.200 seconds)
+   **Total running time of the script:** (0 minutes 1.071 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_topology.py:

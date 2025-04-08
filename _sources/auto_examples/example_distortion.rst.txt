@@ -134,7 +134,7 @@ Computation of the angle difference between each faces of mesh and mesh_s
            ...,
            [-0.08685515,  0.03678422,  0.05007093],
            [ 0.0635167 , -0.10415994,  0.04064324],
-           [ 0.05023476, -0.0978278 ,  0.04759305]])
+           [ 0.05023476, -0.0978278 ,  0.04759305]], shape=(4652, 3))
 
 
 
@@ -155,7 +155,7 @@ Computation of the angle difference between each faces of mesh and mesh_s
 
 
     array([0.3776379 , 0.18968511, 0.46940683, ..., 0.1737103 , 0.20831988,
-           0.19565561])
+           0.19565561], shape=(4652,))
 
 
 
@@ -180,7 +180,7 @@ Computation of the area difference between each faces of mesh and mesh_s
 
 
     array([0.42263817, 0.20383547, 0.26206739, ..., 0.08069364, 0.08235209,
-           0.18712064])
+           0.18712064], shape=(4652,))
 
 
 
@@ -205,7 +205,7 @@ Computation of the length difference between each edges of mesh and mesh_s
 
 
     TrackedArray([0.2547129 , 0.23347774, 0.18442651, ..., 0.25986046,
-                  0.1005251 , 0.08211042])
+                  0.1005251 , 0.08211042], shape=(6978,))
 
 
 
@@ -224,7 +224,7 @@ VISUALIZATION USING EXTERNAL TOOLS
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.443 seconds)
+   **Total running time of the script:** (0 minutes 0.383 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_distortion.py:

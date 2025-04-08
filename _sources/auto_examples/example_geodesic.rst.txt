@@ -184,7 +184,7 @@ Arbitrary indices of mesh.vertices to test with
 
  .. code-block:: none
 
-    [0, 1506, 1511, 1525, 1534, 1535, 1537, 1582, 1625, 311, 396, 431, 780, 830, 883, 528, 558, 569, 595, 1074, 1083, 1102, 1135, 1134, 1164]
+    [0, np.int64(1506), np.int64(1511), np.int64(1525), np.int64(1534), np.int64(1535), np.int64(1537), np.int64(1582), np.int64(1625), np.int64(311), np.int64(396), np.int64(431), np.int64(780), np.int64(830), np.int64(883), np.int64(528), np.int64(558), np.int64(569), np.int64(595), np.int64(1074), np.int64(1083), np.int64(1102), np.int64(1135), np.int64(1134), 1164]
 
 
 
@@ -240,7 +240,7 @@ scene.show(smooth=False)
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 2.919 seconds)
+   **Total running time of the script:** (0 minutes 2.520 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_geodesic.py:

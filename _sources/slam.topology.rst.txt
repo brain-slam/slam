@@ -12,6 +12,7 @@
       boundaries_intersection
       boundary_angles
       close_mesh
+      compute_face_normal
       create_vertex
       cut_mesh
       edges_to_boundary
