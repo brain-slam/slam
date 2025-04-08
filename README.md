@@ -59,7 +59,7 @@ If you are interested in contributing, please first have a look at it and contac
  See [miniconda installation instructions](https://docs.conda.io/en/latest/miniconda.html)  if you do not already have one. 
  Then create a virtual environment by typing the following lines in a terminal:
   ```
-    conda create -q -n slam python=3.8
+    conda create -q -n slam python=3.12
     conda activate slam
   ``` 
  This creates an empty conda virtual environment with Python 3.8 and basic packages
@@ -85,21 +85,15 @@ These dependencies, whether mandatory or optional, are managed automatically and
 ### Mandatory
 In order to work fine, slam requires:
 
-+ a Python 3.8 installation 
-
++ a Python 3.12 installation
 + setuptools
-
-+ pip
- 
-+  numpy
-
-+  scipy
-
-+  cython
-
-+  trimesh
-
-+  nibabel
++ pip 
++ numpy 
++ scipy 
++ cython 
++ trimesh 
++ nibabel
++ networkx
 
 
     
