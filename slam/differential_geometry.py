@@ -120,11 +120,11 @@ def laplacian_smoothing(texture_data, lap, lap_b, nb_iter, dt):
         if texture_data.ndim > 1:
             for d in range(texture_data.shape[1]):
                 texture_data[:, d], infos = lgmres(
-                    M.tocsr(), texture_data[:, d], tol=solver_tolerance
+                    M.tocsr(), texture_data[:, d], rtol=solver_tolerance
                 )
         else:
             texture_data, infos = lgmres(
-                M.tocsr(), texture_data, tol=solver_tolerance)
+                M.tocsr(), texture_data, rtol=solver_tolerance)
         if i % mod == 0:
             print(i)
 
@@ -134,7 +134,7 @@ def laplacian_smoothing(texture_data, lap, lap_b, nb_iter, dt):
     # M = B-dt*L
     # for i in range(Niter):
     #     Mtex = M * Mtex
-    #     Mtex, infos = lgmres(B.tocsr(), Mtex, tol=solver_tolerance)
+    #     Mtex, infos = lgmres(B.tocsr(), Mtex, rtol=solver_tolerance)
     #     if (i % mod == 0):
     #         print(i)
     print("    OK")
@@ -410,7 +410,7 @@ def depth_potential_function(mesh, curvature, alphas):
     dpf = []
     for ind, alpha in enumerate(alphas):
         M = alpha * LB + L / 2
-        dpf_t, info = lgmres(M.tocsr(), B, tol=solver_tolerance)
+        dpf_t, info = lgmres(M.tocsr(), B, rtol=solver_tolerance)
         dpf.append(dpf_t)
 
     ############################
@@ -425,7 +425,7 @@ def depth_potential_function(mesh, curvature, alphas):
     # for ind, alpha in enumerate(alphas):
     #     A = sparse.dia_matrix((alpha*vert_voronoi, 0), shape=(Nbv, Nbv))
     #     M = A+L
-    #     dpf_t, info = lgmres(M.tocsr(), B, tol=solver_tolerance)
+    #     dpf_t, info = lgmres(M.tocsr(), B, rtol=solver_tolerance)
     #     dpf.append(dpf_t)
     return dpf
 

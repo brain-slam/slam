@@ -181,8 +181,8 @@ def disk_conformal_mapping(
     Rx[boundary] = boundary_coords[0, :]
     Ry[boundary] = boundary_coords[1, :]
 
-    x, info = lgmres(L, Rx, tol=SOLVER_TOL)
-    y, info = lgmres(L, Ry, tol=SOLVER_TOL)
+    x, info = lgmres(L, Rx, rtol=SOLVER_TOL)
+    y, info = lgmres(L, Ry, rtol=SOLVER_TOL)
     z = np.zeros(Nv)
 
     return trimesh.Trimesh(
