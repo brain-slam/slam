@@ -64,7 +64,7 @@ def vertex_voronoi(mesh):
     # area_VorOA : sum of the vornoi area only for vertex with Aigue angle in  Obtue faces
     # area_VorOO : sum of the vornoi area only for vertex with Obtue angle in  Obtue faces
     # area_VorA
-    mask_AAAF = obt_poly_df == False
+    mask_AAAF = ~obt_poly_df
     vertices = face_flat[mask_AAAF]
     VorA_values = VorA[mask_AAAF]
     # Replace "groupby" vertex and "sum" from pandas
@@ -74,7 +74,7 @@ def vertex_voronoi(mesh):
     area_VorA /= 8
     area_VorA = np.column_stack((unique_vertices, area_VorA))
     # area_VorOA
-    mask_AAOF = (obt_poly_df == True) & (obt_angs_flat == False)
+    mask_AAOF = obt_poly_df & ~obt_angs_flat
     vertices = face_flat[mask_AAOF]
     area_values = area_face_df[mask_AAOF]
     unique_vertices, inverse_indices = np.unique(vertices, return_inverse=True)
@@ -83,7 +83,7 @@ def vertex_voronoi(mesh):
     area_VorOA /= 4
     area_VorOA = np.column_stack((unique_vertices, area_VorOA))
     # area_VorOO
-    mask_OAOF = (obt_poly_df == True) & (obt_angs_flat == True)
+    mask_OAOF = obt_poly_df & ~obt_angs_flat
     vertices = face_flat[mask_OAOF]
     area_values = area_face_df[mask_OAOF]
     unique_vertices, inverse_indices = np.unique(vertices, return_inverse=True)
