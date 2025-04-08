@@ -165,7 +165,7 @@ def disk_conformal_mapping(
     boundary = np.array(boundary)
     if boundary_coords is None:
         p = boundary.size
-        t = np.arange(0, 2 * np.math.pi, (2 * np.math.pi / p))
+        t = np.arange(0, 2 * np.pi, (2 * np.pi / p))
         boundary_coords = np.array([np.cos(t), np.sin(t)])
     L, LB = sdg.compute_mesh_laplacian(mesh, lap_type=lap_type)
     Nv = len(mesh.vertices)  # np.array(mesh.vertex()).shape[0]
