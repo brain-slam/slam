@@ -44,7 +44,7 @@ setup(
     long_description_content_type='text/markdown',
     url="https://github.com/brain-slam/slam",
     license="MIT",
-    python_requires=">=3.12",  # enforce Python 3.6 as minimum
+    python_requires=">=3.9",  # enforce Python 3.9 as minimum
     install_requires=BASE_REQUIREMENTS,
     extras_require={
         "full": DIST + TRIMESH_FULL,
