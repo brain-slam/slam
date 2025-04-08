@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**01:07.583** total execution time for 19 files **from all galleries**:
+**01:07.853** total execution time for 19 files **from all galleries**:
 
 .. container::
 
@@ -33,37 +33,37 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_auto_examples_example_dpf_Boucher.py` (``../examples/example_dpf_Boucher.py``)
-     - 00:34.295
+     - 00:34.210
      - 0.0
    * - :ref:`sphx_glr_auto_examples_example_spangy.py` (``../examples/example_spangy.py``)
-     - 00:16.227
+     - 00:16.464
      - 0.0
    * - :ref:`sphx_glr_auto_examples_example_curvature.py` (``../examples/example_curvature.py``)
-     - 00:03.856
+     - 00:03.875
      - 0.0
    * - :ref:`sphx_glr_auto_examples_example_hinge_gyri.py` (``../examples/example_hinge_gyri.py``)
-     - 00:03.029
+     - 00:02.998
      - 0.0
    * - :ref:`sphx_glr_auto_examples_example_registration.py` (``../examples/example_registration.py``)
-     - 00:02.485
+     - 00:02.606
      - 0.0
    * - :ref:`sphx_glr_auto_examples_example_geodesic.py` (``../examples/example_geodesic.py``)
-     - 00:02.477
+     - 00:02.505
      - 0.0
    * - :ref:`sphx_glr_auto_examples_example_differential_geometry.py` (``../examples/example_differential_geometry.py``)
-     - 00:02.418
+     - 00:02.376
      - 0.0
    * - :ref:`sphx_glr_auto_examples_example_topology.py` (``../examples/example_topology.py``)
-     - 00:01.058
+     - 00:01.075
      - 0.0
    * - :ref:`sphx_glr_auto_examples_example_curvature_directions.py` (``../examples/example_curvature_directions.py``)
-     - 00:00.525
+     - 00:00.528
      - 0.0
    * - :ref:`sphx_glr_auto_examples_example_vertex_voronoi.py` (``../examples/example_vertex_voronoi.py``)
-     - 00:00.451
+     - 00:00.449
      - 0.0
    * - :ref:`sphx_glr_auto_examples_example_distortion.py` (``../examples/example_distortion.py``)
-     - 00:00.344
+     - 00:00.346
      - 0.0
    * - :ref:`sphx_glr_auto_examples_example_basics.py` (``../examples/example_basics.py``)
      - 00:00.240
@@ -72,19 +72,19 @@ Computation times
      - 00:00.056
      - 0.0
    * - :ref:`sphx_glr_auto_examples_example_surface_profiling.py` (``../examples/example_surface_profiling.py``)
-     - 00:00.051
+     - 00:00.052
      - 0.0
    * - :ref:`sphx_glr_auto_examples_example_generate_parametric_surfaces.py` (``../examples/example_generate_parametric_surfaces.py``)
-     - 00:00.046
+     - 00:00.047
      - 0.0
    * - :ref:`sphx_glr_auto_examples_example_mapping.py` (``../examples/example_mapping.py``)
      - 00:00.011
      - 0.0
    * - :ref:`sphx_glr_auto_examples_example_remeshing.py` (``../examples/example_remeshing.py``)
-     - 00:00.007
+     - 00:00.008
      - 0.0
    * - :ref:`sphx_glr_auto_examples_example_kdtree.py` (``../examples/example_kdtree.py``)
-     - 00:00.003
+     - 00:00.005
      - 0.0
    * - :ref:`sphx_glr_auto_examples_example_texture.py` (``../examples/example_texture.py``)
      - 00:00.003
