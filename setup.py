@@ -4,7 +4,7 @@
 import re
 from setuptools import setup, find_packages
 
-BASE_REQUIREMENTS = ["numpy==1.19.5", "scipy", "trimesh", "nibabel==2.1", "networkx"]
+BASE_REQUIREMENTS = ["numpy", "scipy", "trimesh", "nibabel", "networkx"]
 TEST_REQUIREMENTS = ["flake8", "autopep8", "pytest", "pytest-cov", "coveralls"]
 
 DOC_REQUIREMENTS = ['sphinx',
@@ -44,7 +44,7 @@ setup(
     long_description_content_type='text/markdown',
     url="https://github.com/brain-slam/slam",
     license="MIT",
-    python_requires=">=3.6",  # enforce Python 3.6 as minimum
+    python_requires=">=3.12",  # enforce Python 3.6 as minimum
     install_requires=BASE_REQUIREMENTS,
     extras_require={
         "full": DIST + TRIMESH_FULL,

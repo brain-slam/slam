@@ -2,9 +2,9 @@ name: base
 
 dependencies:
   - pip:
-    - numpy==1.19.5
+    - numpy
     - scipy
     - trimesh
-    - nibabel>=2.1
+    - nibabel
     - networkx
     - tvb-gdist
