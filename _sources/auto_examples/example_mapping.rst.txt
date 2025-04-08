@@ -144,9 +144,9 @@ Compute distortion measures between original and planar representations
 
  .. code-block:: none
 
-    -1.2761184191093753e-17
-    -0.006423244880054451
-    -0.024244998972070428
+    -1.595148023886719e-17
+    -0.031482611140092515
+    -0.07051421469656308
 
 
 
