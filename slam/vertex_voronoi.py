@@ -83,7 +83,7 @@ def vertex_voronoi(mesh):
     area_VorOA /= 4
     area_VorOA = np.column_stack((unique_vertices, area_VorOA))
     # area_VorOO
-    mask_OAOF = obt_poly_df & ~obt_angs_flat
+    mask_OAOF = obt_poly_df & obt_angs_flat
     vertices = face_flat[mask_OAOF]
     area_values = area_face_df[mask_OAOF]
     unique_vertices, inverse_indices = np.unique(vertices, return_inverse=True)

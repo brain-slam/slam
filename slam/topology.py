@@ -6,6 +6,19 @@ import trimesh
 from trimesh import graph
 from trimesh import grouping
 
+def compute_face_normal(face_vertices):
+    if face_vertices.ndim < 3:
+        face_vertices = np.array([face_vertices])
+    vectors = face_vertices[:, 1:, :] - face_vertices[:, :2, :]
+
+    cprod = np.cross(vectors[:, 0], vectors[:, 1])
+    norm = np.sqrt(np.dot(cprod * cprod, [1.0] * cprod.shape[1]))
+    # in-place reciprocal of nonzero norms
+    norm **= -1
+    # multiply by reciprocal of norm
+    unit_cprod = cprod * norm.reshape((-1, 1))
+    return unit_cprod
+
 
 def boundary_angles(boundary, vertices_coord):
     """
@@ -227,9 +240,11 @@ def close_mesh(mesh, boundary_in=None):
                     faces = np.vstack((faces, add_faces))
                     # print(np.array(add_faces))
                     # print(vertices[np.array(add_faces)])
-                    add_normals, valid = trimesh.triangles.normals(
-                        vertices[np.array(add_faces)]
-                    )
+                    # add_normals, valid = trimesh.triangles.normals(
+                    #     vertices[np.array(add_faces)]
+                    # )
+                    add_normals = compute_face_normal(vertices[np.array(add_faces)])
+
                     face_normals = np.vstack((face_normals, add_normals))
                     """ update of the boundary,  boundIndsF and bound_ang"""
                     if nb_faces < 2:
