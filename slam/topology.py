@@ -7,7 +7,7 @@ from trimesh import graph
 from trimesh import grouping
 
 def compute_face_normal(face_vertices):
-    if face_vertices.ndim<3:
+    if face_vertices.ndim < 3:
         face_vertices = np.array([face_vertices])
     vectors = face_vertices[:, 1:, :] - face_vertices[:, :2, :]
 
