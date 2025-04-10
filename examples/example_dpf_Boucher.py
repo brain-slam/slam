@@ -21,7 +21,7 @@ Example of depth potential function in slam
 ###############################################################################
 # Import of modules
 import slam.curvature as sc
-import slam.differential_geometry as sdg
+import slam.sulcal_depth as sdepth
 import trimesh
 import numpy as np
 from scipy.spatial import Delaunay
@@ -80,11 +80,9 @@ mesh = boucher_surface(params, ax, ay, nstep)
 
 ##################################
 # Compute dpf for various alpha
-res = sc.curvatures_and_derivatives(mesh)
-mean_curvature = res[0].sum(axis=0)
 alphas = [0.001, 0.01, 0.1, 1, 10, 100]
-dpfs = sdg.depth_potential_function(
-    mesh, curvature=mean_curvature, alphas=alphas)
+dpfs = sdepth.depth_potential_function(
+    mesh, alphas=alphas)
 
 amplitude_center = []
 amplitude_peak = []
@@ -101,10 +99,8 @@ all_amplitudes = []
 
 for M in all_M:
     mesh = boucher_surface([M, 0.25], ax, ay, nstep)
-    res = sc.curvatures_and_derivatives(mesh)
-    mean_curvature = res[0].sum(axis=0)
-    dpfs = sdg.depth_potential_function(
-        mesh, curvature=mean_curvature, alphas=[0.0015])
+    dpfs = sdepth.depth_potential_function(
+        mesh, alphas=[0.0015])
     all_amplitudes.append(dpfs[0][len(mesh.vertices) // 2])
 
 #############################################################################

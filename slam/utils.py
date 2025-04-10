@@ -1,5 +1,5 @@
 import numpy as np
-
+from scipy import stats as sps
 
 def clamp(val, a, b):
     if val < a:
@@ -176,3 +176,24 @@ def project_vector2vector(v_n, v_p):
     v_pn = coeff * unitev_n
 
     return v_pn
+
+
+def z_score_filtering(darray, z_thresh=3):
+    """
+    Filter out values in darray where z_score > z_thresh
+    The original outlier value is replaced by max(darray[not outlier])
+    :param z_thresh: z_score threshold
+    :return:
+    """
+    filtered_darray = darray.copy()
+    for ind, d in enumerate(darray):
+        z = sps.zscore(d)
+        outliers_pos = z > z_thresh
+        outliers_neg = z < -z_thresh
+        outliers = outliers_pos | outliers_neg
+        replace_value_pos = np.max(d[~outliers])
+        replace_value_neg = np.min(d[~outliers])
+        filtered_darray[ind, outliers_pos] = replace_value_pos
+        filtered_darray[ind, outliers_neg] = replace_value_neg
+    return filtered_darray
+

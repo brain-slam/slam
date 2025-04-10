@@ -391,51 +391,6 @@ def compute_mesh_laplacian(
     return L, B
 
 
-def depth_potential_function(mesh, curvature, alphas):
-    """
-    compute the depth potential function of a mesh as desribed in
-    Boucher, M., Whitesides, S., & Evans, A. (2009).
-    Depth potential function for folding pattern representation,
-    registration and analysis.
-    Medical Image Analysis, 13(2), 203–14.
-    doi:10.1016/j.media.2008.09.001
-    :param mesh:
-    :param curvature:
-    :param alphas:
-    :return:
-    """
-    L, LB = compute_mesh_laplacian(mesh, lap_type="fem")
-    B = (
-        -2
-        * LB
-        * (curvature - (np.sum(curvature * LB.diagonal())
-                        / np.sum(LB.diagonal())))
-    )
-    # be careful with factor 2 used in eq (13)
-
-    dpf = []
-    for ind, alpha in enumerate(alphas):
-        M = alpha * LB + L / 2
-        dpf_t, info = lgmres(M.tocsr(), B, rtol=solver_tolerance)
-        dpf.append(dpf_t)
-
-    ############################
-    # old, slower and less accurate implementation using conformal laplacian
-    # instead of fem
-    ############################
-    # vert_voronoi = vertexVoronoi(mesh)
-    # L, LB = compute_mesh_laplacian(mesh, lap_type='conformal')
-    # B = -2 * vert_voronoi * (curvature-( np.sum(curvature*vert_voronoi)
-    # / vert_voronoi.sum() ))
-    # B=B.squeeze()
-    # for ind, alpha in enumerate(alphas):
-    #     A = sparse.dia_matrix((alpha*vert_voronoi, 0), shape=(Nbv, Nbv))
-    #     M = A+L
-    #     dpf_t, info = lgmres(M.tocsr(), B, rtol=solver_tolerance)
-    #     dpf.append(dpf_t)
-    return dpf
-
-
 def triangle_gradient(mesh, texture_array):
     """
     Compute gradient on a triangular mesh with a scalar function.
