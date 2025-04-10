@@ -1,9 +1,9 @@
 import unittest
-
 import numpy as np
 from scipy.spatial import Delaunay
 import trimesh
-# import slam.geodesics as sg
+import slam.geodesics as sg
+
 
 TOL = 1e-10
 
@@ -30,7 +30,7 @@ def create_rectangular_grid(rows=3, cols=4):
     return trimesh.Trimesh(faces=tri.simplices, vertices=coords, process=False)
 
 
-"""
+
 class TestGeodesics(unittest.TestCase):
 
     def test_compute_gdist(self):
@@ -46,26 +46,36 @@ class TestGeodesics(unittest.TestCase):
         self.assertTrue(np.logical_and(distance[m * n - 1] >= low_bound,
                                        distance[-1] <= up_bound))
 
-    def test_dijkstra_length(self):
-        # Check if the max distance to one side of the rectangle
-        # equals the length of the other side
+    def test_compute_gdist_to_target(self):
         m = 4
         n = 5
         rectangle = create_rectangular_grid(m, n)
-        set_of_points = range(m)  # boundary with y = 0
-        distance = sg.dijkstra_length(rectangle, set_of_points)
-        self.assertTrue(np.abs(np.max(distance) - (n - 1) < TOL))
+        print(rectangle)
+        target = 10 #rectangle.vertices.shape[0]-1
+        distance = sg.compute_gdist(rectangle, 0)
+        distance_to_target = sg.compute_gdist(rectangle, 0, target)
+        self.assertTrue(distance[target]==distance_to_target)
 
-    def test_gdist_length(self):
-        # Check if the max distance to one side of the rectangle
-        # equals the length of the other side
-        m = 4
-        n = 5
-        rectangle = create_rectangular_grid(m, n)
-        set_of_points = range(m)  # boundary with y = 0
-        distance = sg.gdist_length(rectangle, set_of_points)
-        self.assertTrue(np.abs(np.max(distance) - (n - 1) < TOL))
-"""
+    # def test_dijkstra_length(self):
+    #     # Check if the max distance to one side of the rectangle
+    #     # equals the length of the other side
+    #     m = 4
+    #     n = 5
+    #     rectangle = create_rectangular_grid(m, n)
+    #     set_of_points = range(m)  # boundary with y = 0
+    #     distance = sg.dijkstra_length(rectangle, set_of_points)
+    #     self.assertTrue(np.abs(np.max(distance) - (n - 1) < TOL))
+    #
+    # def test_gdist_length(self):
+    #     # Check if the max distance to one side of the rectangle
+    #     # equals the length of the other side
+    #     m = 4
+    #     n = 5
+    #     rectangle = create_rectangular_grid(m, n)
+    #     set_of_points = range(m)  # boundary with y = 0
+    #     distance = sg.gdist_length(rectangle, set_of_points)
+    #     self.assertTrue(np.abs(np.max(distance) - (n - 1) < TOL))
+
 
 if __name__ == "__main__":
     unittest.main()
