@@ -143,9 +143,12 @@ def project_curvature_tensor(uf, vf, nf, old_ku, old_kuv, old_kv, up, vp):
     u1, v1 = np.dot(r_new_u, uf), np.dot(r_new_u, vf)
     u2, v2 = np.dot(r_new_v, uf), np.dot(r_new_v, vf)
 
-    new_ku = u1 * (OldTensor[0, 0] * u1 + OldTensor[0, 1] * v1) + v1 * (OldTensor[1, 0] * u1 + OldTensor[1, 1] * v1)
-    new_kuv = u1 * (OldTensor[0, 0] * u2 + OldTensor[0, 1] * v2) + v1 * (OldTensor[1, 0] * u2 + OldTensor[1, 1] * v2)
-    new_kv = u2 * (OldTensor[0, 0] * u2 + OldTensor[0, 1] * v2) + v2 * (OldTensor[1, 0] * u2 + OldTensor[1, 1] * v2)
+    new_ku = (u1 * (OldTensor[0, 0] * u1 + OldTensor[0, 1] * v1)
+              + v1 * (OldTensor[1, 0] * u1 + OldTensor[1, 1] * v1))
+    new_kuv = (u1 * (OldTensor[0, 0] * u2 + OldTensor[0, 1] * v2)
+               + v1 * (OldTensor[1, 0] * u2 + OldTensor[1, 1] * v2))
+    new_kv = (u2 * (OldTensor[0, 0] * u2 + OldTensor[0, 1] * v2)
+              + v2 * (OldTensor[1, 0] * u2 + OldTensor[1, 1] * v2))
 
     return new_ku, new_kuv, new_kv
 

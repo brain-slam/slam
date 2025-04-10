@@ -71,7 +71,10 @@ def laplacian_mesh_smoothing(mesh, nb_iter, dt, volume_preservation=False):
         # scale by volume ratio
         smoothed_vert *= (vol_ini / vol_new) ** (1.0 / 3.0)
     return trimesh.Trimesh(
-        faces=mesh.faces, vertices=smoothed_vert, metadata=mesh.metadata, process=False
+        faces=mesh.faces,
+        vertices=smoothed_vert,
+        metadata=mesh.metadata,
+        process=False
     )
 
 
@@ -287,10 +290,12 @@ def compute_mesh_weights(
             qq = -qq
             angi2 = np.arccos(np.sum(rr * qq, 1)) / 2
             W = W + sparse.coo_matrix(
-                (np.tan(angi1) / norr, (poly[:, i1], poly[:, i3])), shape=(Nbv, Nbv)
+                (np.tan(angi1)
+                 / norr, (poly[:, i1], poly[:, i3])), shape=(Nbv, Nbv)
             )
             W = W + sparse.coo_matrix(
-                (np.tan(angi2) / norr, (poly[:, i3], poly[:, i1])), shape=(Nbv, Nbv)
+                (np.tan(angi2)
+                 / norr, (poly[:, i3], poly[:, i1])), shape=(Nbv, Nbv)
             )
         nnz = W.nnz
     if weight_type == "authalic":
@@ -403,7 +408,8 @@ def depth_potential_function(mesh, curvature, alphas):
     B = (
         -2
         * LB
-        * (curvature - (np.sum(curvature * LB.diagonal()) / np.sum(LB.diagonal())))
+        * (curvature - (np.sum(curvature * LB.diagonal())
+                        / np.sum(LB.diagonal())))
     )
     # be careful with factor 2 used in eq (13)
 

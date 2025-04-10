@@ -100,13 +100,17 @@ def spectrum(f2analyse, mass_matrix, eig_vec, eig_val):
     coefficients : Array of floats
         Fourier coefficients of the input function f2analyse.
     nlevels : int
-        Number of spectral bands into which the raw power spectrum will be compacted.
+        Number of spectral bands into which the raw power
+        spectrum will be compacted.
     """
 
     coefficients = f2analyse.dot(mass_matrix.transpose().dot(eig_vec))
-    nlevels = int(0.5 * np.log(eig_val[-1] / eig_val[1]) / np.log(2)) + 2  # nlevels = 7
+    nlevels = int(0.5 * np.log(eig_val[-1]
+                               / eig_val[1]) / np.log(2)) + 2  # nlevels = 7
     grouped_spectrum = np.zeros((nlevels, 1))
-    grouped_spectrum[0] = coefficients[0]**2  # projection coef of the neurofunctional signal on the principal eigenpair (brain shape)
+    # projection coef of the neurofunctional signal on the principal
+    # eigenpair (brain shape)
+    grouped_spectrum[0] = coefficients[0]**2
     group_indices = np.zeros((nlevels, 2), dtype=int)
     group_indices[0, :] = [0, 0]
 
