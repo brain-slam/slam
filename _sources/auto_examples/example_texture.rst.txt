@@ -84,7 +84,7 @@ Importation of slam modules
 
  .. code-block:: none
 
-    <slam.texture.TextureND object at 0x7f950f2f9e50>
+    <slam.texture.TextureND object at 0x7f2936ad1a30>
     {'gifticlib-version': 'gifti library version 1.08, 8 March, 2010', 'processed': True}
     (1, 2328)
     float32
@@ -116,7 +116,7 @@ Importation of slam modules
  .. code-block:: none
 
     {'processed': True}
-    <slam.texture.TextureND object at 0x7f950f1aaed0>
+    <slam.texture.TextureND object at 0x7f2936ac5040>
     (2, 3)
     float64
     0.0

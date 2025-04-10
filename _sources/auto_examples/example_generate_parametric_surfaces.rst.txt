@@ -184,7 +184,7 @@ Computation of the volume and volume error of the spheres
  .. code-block:: none
 
     volume error for regular sampling: -2.307
-    volume error for random sampling: -5.078
+    volume error for random sampling: -4.802
 
 
 

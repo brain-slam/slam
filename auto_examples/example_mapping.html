@@ -5,14 +5,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Mapping example in slam &#8212; slam 0.0.7 documentation</title>
+    <title>Mapping example in slam &#8212; slam 0.0.8 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css?v=45361654" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
-    <script src="../_static/documentation_options.js?v=bbaf98b3"></script>
+    <script src="../_static/documentation_options.js?v=53b53b71"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -39,7 +39,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           slam</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.0.7</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.0.8</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -174,11 +174,11 @@ an external solution</p>
     Computing mesh weights of type conformal
     -edge length threshold needed for  0  values =  0.0  %
     -number of Nan in weights:  0  =  0.0  %
-    -number of Negative values in weights:  8  =  8.0  %
+    -number of Negative values in weights:  14  =  12.962962962962964  %
     -nb Nan in Laplacian :  0
     -nb Inf in Laplacian :  0
-Boundary Size: (13,)
-Laplacian Size: (22, 22)
+Boundary Size: (15,)
+Laplacian Size: (24, 24)
 </pre></div>
 </div>
 <p>Compute distortion measures between original and planar representations</p>
@@ -190,9 +190,9 @@ Laplacian Size: (22, 22)
 <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">edge_diff</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>-7.656710514656252e-18
--0.03229955315637547
--0.09968581320898322
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>5.9689409926083686e-18
+-0.04030828418926201
+-0.11979536132119302
 </pre></div>
 </div>
 <section id="visualization-using-external-tools">
