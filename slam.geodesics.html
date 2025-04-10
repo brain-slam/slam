@@ -130,8 +130,8 @@
 <p class="rubric">Functions</p>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_gdist</span></code>(mesh, vert_id)</p></td>
-<td><p>This func computes the geodesic distance from one point to all vertices on</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_gdist</span></code>(mesh, source_id[, target_id])</p></td>
+<td><p>This func computes the geodesic distance between a set of sources and targets on a mesh surface by using the gdist.compute_gdist().</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">local_gdist_matrix</span></code>(mesh, max_geodist)</p></td>
 <td><p>For every vertex, get all the vertices within the maximum distance. NOTE: It will take some time to compute all the geo-distance from point to  point. Details about the computing time and memory see in method gdist.local_gdist_matrix :param mesh: :param max_geodist: :return:.</p></td>
