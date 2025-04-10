@@ -38,6 +38,9 @@ Slam is an extension of [Trimesh](https://github.com/mikedh/trimesh), an open so
 
 + ``plot``: extension of pyglet and visbrain viewers to visualize slam objects
 
+## News in last release
+
++ acceleration of the computation of the vertex voronoi that is used in many algorithms
 
 ## For contributors
 
