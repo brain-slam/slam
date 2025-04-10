@@ -7,7 +7,7 @@ from trimesh import graph
 from trimesh import grouping
 
 def compute_face_normal(face_vertices):
-    if face_vertices.ndim<3:
+    if face_vertices.ndim < 3:
         face_vertices = np.array([face_vertices])
     vectors = face_vertices[:, 1:, :] - face_vertices[:, :2, :]
 
@@ -240,9 +240,9 @@ def close_mesh(mesh, boundary_in=None):
                     faces = np.vstack((faces, add_faces))
                     # print(np.array(add_faces))
                     # print(vertices[np.array(add_faces)])
-                    #add_normals, valid = trimesh.triangles.normals(
-                    #    vertices[np.array(add_faces)]
-                    #)
+                    # add_normals, valid = trimesh.triangles.normals(
+                    #     vertices[np.array(add_faces)]
+                    # )
                     add_normals = compute_face_normal(vertices[np.array(add_faces)])
 
                     face_normals = np.vstack((face_normals, add_normals))
