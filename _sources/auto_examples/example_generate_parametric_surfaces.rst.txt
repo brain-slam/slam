@@ -184,7 +184,7 @@ Computation of the volume and volume error of the spheres
  .. code-block:: none
 
     volume error for regular sampling: -2.307
-    volume error for random sampling: -4.802
+    volume error for random sampling: -5.187
 
 
 
@@ -214,7 +214,7 @@ VISUALIZATION USING EXTERNAL TOOLS
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.045 seconds)
+   **Total running time of the script:** (0 minutes 0.047 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_generate_parametric_surfaces.py:
