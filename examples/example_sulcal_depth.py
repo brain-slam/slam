@@ -13,7 +13,7 @@ example of differential geometry tools in slam
 
 ###############################################################################
 # NOTE: there is no visualization tool in slam, but we provide at the
-# end of this script exemplare code to do the visualization with
+# end of this script exemplar code to do the visualization with
 # an external solution
 ###############################################################################
 
@@ -27,7 +27,6 @@ import slam.sulcal_depth as sdepth
 mesh_file = "../examples/data/example_mesh.gii"
 texture_file = "../examples/data/example_texture.gii"
 mesh = sio.load_mesh(mesh_file)
-tex = sio.load_texture(texture_file)
 
 ###############################################################################
 # compute the depth potential function

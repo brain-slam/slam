@@ -6,7 +6,6 @@ definition of the Texture class
 """
 
 import numpy as np
-from scipy import stats as sps
 import slam.utils as sutl
 
 

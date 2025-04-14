@@ -29,13 +29,15 @@ def depth_potential_function(mesh, alphas=None, curvature=None):
         # Comptue mean curvature from principal curvatures
         PrincipalCurvatures, PrincipalDir1, PrincipalDir2 \
             = scurv.curvatures_and_derivatives(mesh)
-        mean_curv = 0.5 * (PrincipalCurvatures[0, :] + PrincipalCurvatures[1, :])
-        filt_mean_curv = sutl.z_score_filtering(np.array([mean_curv]), z_thresh=3)
+        mean_curv = (
+                0.5 * (PrincipalCurvatures[0, :] + PrincipalCurvatures[1, :]))
+        filt_mean_curv = (
+            sutl.z_score_filtering(np.array([mean_curv]), z_thresh=3))
         curvature = filt_mean_curv[0]
 
     L, LB = sdg.compute_mesh_laplacian(mesh, lap_type="fem")
     B = (
-        -2
+        2
         * LB
         * (curvature - (np.sum(curvature * LB.diagonal())
                         / np.sum(LB.diagonal())))
@@ -53,11 +55,12 @@ def depth_potential_function(mesh, alphas=None, curvature=None):
 
 def dpf_star(mesh, alphas=None, adaptation=None, curvature=None):
     """
-    compute the depth potential function of a mesh. The scale of interest is adapted to
-    the size of the mesh.
+    compute the depth potential function of a mesh. The scale of
+    interest is adapted to the size of the mesh.
     :param mesh: TRIMESH MESH
     :param curvature: TEXTURE (darray)
-    :param alphas: LIST : adapt the size of interest for computing sulcal depth
+    :param alphas: LIST : adapt the size of interest for computing
+    sulcal depth
     :return: TEXTURE (darray)
 
     Parameters
@@ -70,8 +73,10 @@ def dpf_star(mesh, alphas=None, adaptation=None, curvature=None):
         # Comptue mean curvature from principal curvatures
         PrincipalCurvatures, PrincipalDir1, PrincipalDir2 \
             = scurv.curvatures_and_derivatives(mesh)
-        mean_curv = 0.5 * (PrincipalCurvatures[0, :] + PrincipalCurvatures[1, :])
-        filt_mean_curv = sutl.z_score_filtering(np.array([mean_curv]), z_thresh=3)
+        mean_curv = (
+                0.5 * (PrincipalCurvatures[0, :] + PrincipalCurvatures[1, :]))
+        filt_mean_curv = (
+            sutl.z_score_filtering(np.array([mean_curv]), z_thresh=3))
         curvature = filt_mean_curv[0]
     if adaptation is None:
         adaptation = 'volume_hull'
@@ -82,10 +87,10 @@ def dpf_star(mesh, alphas=None, adaptation=None, curvature=None):
         hull = mesh.convex_hull
         vol_hull = hull.volume
         lc = np.power(vol_hull, 1/3)
-    if adaptation =='volume':
+    if adaptation == 'volume':
         vol = mesh.volume
         lc = np.power(vol, 1/3)
-    if adaptation =='surface':
+    if adaptation == 'surface':
         surface = mesh.area
         lc = np.power(surface, 1/2)
 
@@ -97,8 +102,10 @@ def dpf_star(mesh, alphas=None, adaptation=None, curvature=None):
     curvature = curvature * lc
 
     # compute the dpf
-    B = ( LB * ( curvature -( np.sum(curvature * LB.diagonal()) / np.sum(LB.diagonal()) ) ) )
-    # be careful with factor 2 used in eq (13)
+    B = (
+        LB
+        * (curvature - (np.sum(curvature * LB.diagonal())
+                        / np.sum(LB.diagonal()))))
 
     dpf = []
     for ind, alpha in enumerate(alphas):

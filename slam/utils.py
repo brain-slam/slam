@@ -1,6 +1,7 @@
 import numpy as np
 from scipy import stats as sps
 
+
 def clamp(val, a, b):
     if val < a:
         return a
@@ -196,4 +197,3 @@ def z_score_filtering(darray, z_thresh=3):
         filtered_darray[ind, outliers_pos] = replace_value_pos
         filtered_darray[ind, outliers_neg] = replace_value_neg
     return filtered_darray
-
