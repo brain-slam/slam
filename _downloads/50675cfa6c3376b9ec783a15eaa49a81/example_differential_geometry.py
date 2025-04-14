@@ -51,10 +51,6 @@ print(grad)
 norm_grad = sdg.norm_gradient(mesh, tex.darray[0])
 print(norm_grad)
 
-###############################################################################
-# compute the depth potential function
-dpf = sdg.depth_potential_function(mesh, tex.darray[0], [0.3])
-
 #############################################################################
 # VISUALIZATION USING EXTERNAL TOOLS
 #############################################################################

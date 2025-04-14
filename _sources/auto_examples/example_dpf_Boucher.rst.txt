@@ -58,7 +58,7 @@ Import of modules
 .. code-block:: Python
 
     import slam.curvature as sc
-    import slam.differential_geometry as sdg
+    import slam.sulcal_depth as sdepth
     import trimesh
     import numpy as np
     from scipy.spatial import Delaunay
@@ -139,15 +139,13 @@ Maxime Boucher a,b, * , Sue Whitesides a , Alan Evans
 
 Compute dpf for various alpha
 
-.. GENERATED FROM PYTHON SOURCE LINES 83-97
+.. GENERATED FROM PYTHON SOURCE LINES 83-95
 
 .. code-block:: Python
 
-    res = sc.curvatures_and_derivatives(mesh)
-    mean_curvature = res[0].sum(axis=0)
     alphas = [0.001, 0.01, 0.1, 1, 10, 100]
-    dpfs = sdg.depth_potential_function(
-        mesh, curvature=mean_curvature, alphas=alphas)
+    dpfs = sdepth.depth_potential_function(
+        mesh, alphas=alphas)
 
     amplitude_center = []
     amplitude_peak = []
@@ -182,11 +180,11 @@ Compute dpf for various alpha
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 98-99
+.. GENERATED FROM PYTHON SOURCE LINES 96-97
 
 Fix alpha and vary M = params[0]
 
-.. GENERATED FROM PYTHON SOURCE LINES 99-110
+.. GENERATED FROM PYTHON SOURCE LINES 97-106
 
 .. code-block:: Python
 
@@ -195,10 +193,8 @@ Fix alpha and vary M = params[0]
 
     for M in all_M:
         mesh = boucher_surface([M, 0.25], ax, ay, nstep)
-        res = sc.curvatures_and_derivatives(mesh)
-        mean_curvature = res[0].sum(axis=0)
-        dpfs = sdg.depth_potential_function(
-            mesh, curvature=mean_curvature, alphas=[0.0015])
+        dpfs = sdepth.depth_potential_function(
+            mesh, alphas=[0.0015])
         all_amplitudes.append(dpfs[0][len(mesh.vertices) // 2])
 
 
@@ -304,7 +300,7 @@ Fix alpha and vary M = params[0]
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 111-155
+.. GENERATED FROM PYTHON SOURCE LINES 107-151
 
 VISUALIZATION USING EXTERNAL TOOLS
 ############################################################################
@@ -354,7 +350,7 @@ VISUALIZATION USING EXTERNAL TOOLS
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 33.516 seconds)
+   **Total running time of the script:** (0 minutes 33.560 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_dpf_Boucher.py:

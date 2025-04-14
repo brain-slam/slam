@@ -11,7 +11,6 @@
       compute_mesh_laplacian
       compute_mesh_weights
       cross_product
-      depth_potential_function
       gradient
       gradient_fast
       laplacian_mesh_smoothing

@@ -521,36 +521,7 @@ compute the gradient of texture tex
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 55-56
-
-compute the depth potential function
-
-.. GENERATED FROM PYTHON SOURCE LINES 56-58
-
-.. code-block:: Python
-
-    dpf = sdg.depth_potential_function(mesh, tex.darray[0], [0.3])
-
-
-
-
-
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-      Computing Laplacian
-        Computing mesh weights of type fem
-        -edge length threshold needed for  0  values =  0.0  %
-        -number of Nan in weights:  0  =  0.0  %
-        -number of Negative values in weights:  936  =  6.706792777300086  %
-        -nb Nan in Laplacian :  0
-        -nb Inf in Laplacian :  0
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 59-93
+.. GENERATED FROM PYTHON SOURCE LINES 55-89
 
 VISUALIZATION USING EXTERNAL TOOLS
 ############################################################################
@@ -590,7 +561,7 @@ VISUALIZATION USING EXTERNAL TOOLS
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 2.458 seconds)
+   **Total running time of the script:** (0 minutes 2.425 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_differential_geometry.py:
