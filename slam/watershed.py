@@ -11,6 +11,7 @@ def compute_mesh_features(mesh, save=True, outdir=None, check_if_exist=True):
 
     if not outdir:
         outdir = ''
+
     path_to_mean_curvature = os.path.join(outdir, "mean_curvature.gii")
     path_to_dpf = os.path.join(outdir, "dpf.gii")
     path_to_voronoi = os.path.join(outdir, "voronoi.npy")
@@ -352,6 +353,8 @@ def get_textures_from_dict(mesh, basins, ridges, save=True, outdir=None):
     """
     Function that returns the textures from the dictionaries outputs of the watershed
     """
+    if save and not outdir:
+        outdir = ''
 
     vert = np.array(mesh.vertices)
     labels = np.full(vert.shape[0], -1, dtype=np.int64)
