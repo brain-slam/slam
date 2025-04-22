@@ -72,7 +72,7 @@ def get_sulcal_graph(adjacency, basins, ridges, save=True, outdir=None):
     # basins (only zeros inside)
     labels = list(basins.keys())
     adjacency = adjacency[labels, :][:, labels]
-    np.fill_diagonal(adjacency, 1.)  # ensure systematic self connection
+    #np.fill_diagonal(adjacency, 1.)  # ensure systematic self connection
     graph = nx.from_numpy_array(adjacency)  # , nodelist=basins)
     # nodelist not adapted to attribution of labels in plotly_visu.py
 
@@ -94,7 +94,14 @@ def get_sulcal_graph(adjacency, basins, ridges, save=True, outdir=None):
         i = labels.index(pair[0])
         j = labels.index(pair[1])
         edge_attributes[i, j] = values  # add all dictionary values
+        print(values)
+    for ed in range(len(graph.edges)):
+        print("Edge "+str(ed)+" attributes:", graph.edges[list(graph.edges)[ed]].keys())
+
     nx.set_edge_attributes(graph, edge_attributes)
+    for ed in range(len(graph.edges)):
+        print("Edge "+str(ed)+" attributes:", graph.edges[list(graph.edges)[ed]].keys())
+
 
     if save:
         if not outdir:
