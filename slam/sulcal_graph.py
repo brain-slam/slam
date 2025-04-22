@@ -11,7 +11,19 @@ def extract_sulcal_graph(side, path_to_mesh, path_to_features,
     """
     Main Function that extracts the sulcal graph from a mesh and saves
     it in the given directory.
+    Parameters
+    ----------
+    side
+    path_to_mesh
+    path_to_features
+    path_to_output
+    path_to_mask
+
+    Returns
+    -------
+
     """
+
     mesh = io.load_mesh(path_to_mesh)
 
     _, dpf, voronoi = swat.compute_mesh_features(mesh,
@@ -61,7 +73,19 @@ def get_sulcal_graph(adjacency, basins, ridges, save=True, outdir=None):
     - ridge_depth: depth of the ridge point
     - ridge_length: number of vertices in the ridge
 
+    Parameters
+    ----------
+    adjacency
+    basins
+    ridges
+    save
+    outdir
+
+    Returns
+    -------
+
     """
+
     ##############################################################
     # Initialize the graph using adjacency matrix
     ##############################################################
@@ -72,7 +96,7 @@ def get_sulcal_graph(adjacency, basins, ridges, save=True, outdir=None):
     # basins (only zeros inside)
     labels = list(basins.keys())
     adjacency = adjacency[labels, :][:, labels]
-    #np.fill_diagonal(adjacency, 1.)  # ensure systematic self connection
+    # np.fill_diagonal(adjacency, 1.)  # ensure systematic self connection
     graph = nx.from_numpy_array(adjacency)  # , nodelist=basins)
     # nodelist not adapted to attribution of labels in plotly_visu.py
 
@@ -96,12 +120,13 @@ def get_sulcal_graph(adjacency, basins, ridges, save=True, outdir=None):
         edge_attributes[i, j] = values  # add all dictionary values
         print(values)
     for ed in range(len(graph.edges)):
-        print("Edge "+str(ed)+" attributes:", graph.edges[list(graph.edges)[ed]].keys())
+        print("Edge "+str(ed)+" attributes:",
+              graph.edges[list(graph.edges)[ed]].keys())
 
     nx.set_edge_attributes(graph, edge_attributes)
     for ed in range(len(graph.edges)):
-        print("Edge "+str(ed)+" attributes:", graph.edges[list(graph.edges)[ed]].keys())
-
+        print("Edge "+str(ed)+" attributes:",
+              graph.edges[list(graph.edges)[ed]].keys())
 
     if save:
         if not outdir:
@@ -115,7 +140,16 @@ def save_graph(graph, outdir):
     """
     Save sulcal pits graph in the given directory under the
     name "graph.gpickle"
+    Parameters
+    ----------
+    graph
+    outdir
+
+    Returns
+    -------
+
     """
+
     file_path = os.path.join(outdir, "graph.gpickle")
     with open(file_path, 'wb') as f:
         pickle.dump(graph, f, pickle.HIGHEST_PROTOCOL)
@@ -127,7 +161,19 @@ def add_node_attribute_to_graph(graph, texture, name, save=True, outdir=None):
     """
     Add a node attribute to the graph using the value of the texture
     at pit positions
+    Parameters
+    ----------
+    graph
+    texture
+    name
+    save
+    outdir
+
+    Returns
+    -------
+
     """
+
     if save and not outdir:
         outdir = ''
 
@@ -149,9 +195,21 @@ def add_node_attribute_to_graph(graph, texture, name, save=True, outdir=None):
 
 def add_edge_attribute_to_graph(graph, texture, name, save=True, outdir=None):
     """
-    Add an edge attribute to the graph using the value of the texture at
+        Add an edge attribute to the graph using the value of the texture at
     ridge positions
+    Parameters
+    ----------
+    graph
+    texture
+    name
+    save
+    outdir
+
+    Returns
+    -------
+
     """
+
     if save and not outdir:
         outdir = ''
 
@@ -173,7 +231,7 @@ def add_edge_attribute_to_graph(graph, texture, name, save=True, outdir=None):
 
 def add_geodesic_distances_to_graph(graph, mesh, save=True, outdir=None):
     """
-    Add the geodesic distances between ridge and pits to the corresponding
+        Add the geodesic distances between ridge and pits to the corresponding
      ridge attributes in the graph:
 
     - geodesic_distance_btw_ridge_pit_i: geodesic distance between the
@@ -182,6 +240,16 @@ def add_geodesic_distances_to_graph(graph, mesh, save=True, outdir=None):
     ridge and the second pit
     - geodesic_distance_btw_pits: geodesic distance between the two pits
     connected by the ridge (sum of previous values)
+    Parameters
+    ----------
+    graph
+    mesh
+    save
+    outdir
+
+    Returns
+    -------
+
     """
     if save and not outdir:
         outdir = ''
@@ -213,8 +281,19 @@ def add_geodesic_distances_to_graph(graph, mesh, save=True, outdir=None):
 
 def add_mean_value_to_graph(graph, texture, name, save=True, outdir=None):
     """
-    Add the mean value of the texture over the vertices of each basin
+        Add the mean value of the texture over the vertices of each basin
     to the graph node attributes
+    Parameters
+    ----------
+    graph
+    texture
+    name
+    save
+    outdir
+
+    Returns
+    -------
+
     """
     if save and not outdir:
         outdir = ''
@@ -239,6 +318,16 @@ def add_mean_value_to_graph(graph, texture, name, save=True, outdir=None):
 def get_textures_from_graph(graph, mesh, save=True, outdir=None):
     """
     Function that returns the textures from a graph of sulcal pits
+    Parameters
+    ----------
+    graph
+    mesh
+    save
+    outdir
+
+    Returns
+    -------
+
     """
     if save and not outdir:
         outdir = ''

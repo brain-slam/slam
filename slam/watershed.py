@@ -11,6 +11,16 @@ def compute_mesh_features(mesh, save=True, outdir=None, check_if_exist=True):
     Function that computes the mean curvature, the depth potential function
     and the voronoi areas of a mesh.
     Returns numpy arrays.
+    Parameters
+    ----------
+    mesh
+    save
+    outdir
+    check_if_exist
+
+    Returns
+    -------
+
     """
 
     if not outdir:
@@ -77,6 +87,18 @@ def normalize_thresholds(mesh, voronoi, thresh_dist=20.0,
     :args: side: side of the brain (left or right)
     :return: normalized thresholds (thresh_dist, thresh_ridge, thresh_area)
 
+    Parameters
+    ----------
+    mesh
+    voronoi
+    thresh_dist
+    thresh_ridge
+    thresh_area
+    side
+
+    Returns
+    -------
+
     """
 
     # Compute Fiedler length and surface area for watershed threshold
@@ -118,19 +140,19 @@ def watershed(mesh, voronoi, dpf, thresh_dist, thresh_ridge,
     sulcal segmentation using watersheds on the cortical
     surface. Neuroimage. 15:329-344.
 
-    INPUTS
-
+    Parameters
+    ----------
     mesh : white matter triangular mesh of subject (trimesh object)
     voronoi : voronoi area for each vertex (numpy array)
     dpf : depth measure for each vertex (numpy array)
-    mask : binary array for cingular pole exclusion (with ones in the
-    region to exclude)
     thresh_dist : threshold on the distance between pits (unit: mm)
     thresh_ridge : threshold on the ridge height (unit: mm)
     thresh_area : threshold on the basin area (unit: mm²)
+    mask : binary array for cingular pole exclusion (with ones in the
+    region to exclude)
 
-    OUTPUTS
-
+    Returns
+    -------
     basins : dictionary with basin properties
         basins[label] = {}
             'pit_index': vertex index of the sulcal pit
@@ -144,7 +166,6 @@ def watershed(mesh, voronoi, dpf, thresh_dist, thresh_ridge,
             'ridge_length': number of vertices along the ridge
     adjacency : adjacency matrix of the basins
         adjacency[i,j] = 1 if basin i and j are adjacent, 0 otherwise
-
     """
 
     print('Computing watershed by flooding...')
@@ -419,9 +440,21 @@ def watershed(mesh, voronoi, dpf, thresh_dist, thresh_ridge,
 
 def get_textures_from_dict(mesh, basins, ridges, save=True, outdir=None):
     """
-    Function that returns the textures from the dictionaries outputs of
+        Function that returns the textures from the dictionaries outputs of
     the watershed
+    Parameters
+    ----------
+    mesh
+    basins
+    ridges
+    save
+    outdir
+
+    Returns
+    -------
+
     """
+
     if save and not outdir:
         outdir = ''
 
