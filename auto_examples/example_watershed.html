@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Example of watershed in slam &#8212; slam 0.0.9 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css?v=45361654" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <script src="../_static/documentation_options.js?v=f7cdbf68"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../_static/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+<script type="text/javascript" src="../_static/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          slam</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.0.9</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="https://github.com/brain-slam/slam">Github</a></li>
+                <li><a href="../faq.html">FAQ</a></li>
+                <li><a href="index.html">Examples</a></li>
+                <li><a href="../api.html">API</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Example of watershed in slam</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="../_sources/auto_examples/example_watershed.rst.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-3">
+        <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
+<li><a class="reference internal" href="#">Example of watershed in slam</a></li>
+</ul>
+
+<div id="sourcelink">
+  <a href="../_sources/auto_examples/example_watershed.rst.txt"
+     rel="nofollow">Source</a>
+</div>
+<form action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+    <div class="body col-md-9 content" role="main">
+      
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-auto-examples-example-watershed-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code.</p>
+</div>
+<section class="sphx-glr-example-title" id="example-of-watershed-in-slam">
+<span id="example-watershed"></span><span id="sphx-glr-auto-examples-example-watershed-py"></span><h1>Example of watershed in slam<a class="headerlink" href="#example-of-watershed-in-slam" title="Link to this heading">¶</a></h1>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Authors:</span>
+<span class="c1"># Lucile Hashimoto lucile-hashimoto</span>
+<span class="c1"># Guillaume Auzias &lt;guillaume.auzias@univ-amu.fr&gt;</span>
+
+<span class="c1"># License: MIT</span>
+<span class="c1"># sphinx_gallery_thumbnail_number = 2</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>NOTE: there is no visualization tool in slam, but we provide at the</dt><dd><p>end of this script exemplare code to do the visualization with
+an external solution</p>
+</dd>
+</dl>
+<hr class="docutils" />
+<p>importation of slam modules</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">slam.io</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sio</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">slam.watershed</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">swat</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">slam.sulcal_graph</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ssg</span>
+</pre></div>
+</div>
+<p>loading an examplar mesh and corresponding texture</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">path_to_mesh</span></a> <span class="o">=</span> <span class="s2">&quot;../examples/data/example_mesh.gii&quot;</span>
+<a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">path_to_mask</span></a> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">path_to_output</span></a> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+<span class="n">mesh</span> <span class="o">=</span> <span class="n">sio</span><span class="o">.</span><span class="n">load_mesh</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">path_to_mesh</span></a><span class="p">)</span>
+<a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">side</span></a> <span class="o">=</span> <span class="s2">&quot;left&quot;</span>
+</pre></div>
+</div>
+<p>compute curvature, dpf and voronoi</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">_</span><span class="p">,</span> <span class="n">dpf</span><span class="p">,</span> <span class="n">voronoi</span> <span class="o">=</span> <span class="n">swat</span><span class="o">.</span><span class="n">compute_mesh_features</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">outdir</span><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">path_to_output</span></a><span class="p">,</span> <span class="n">check_if_exist</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>normalize watershed thresholds</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">thresh_dist</span><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#float" title="builtins.float" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">thresh_ridge</span></a><span class="p">,</span> <span class="n">thresh_area</span> <span class="o">=</span> <span class="n">swat</span><span class="o">.</span><span class="n">normalize_thresholds</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">voronoi</span><span class="p">,</span>
+                                                                   <span class="n">thresh_dist</span><span class="o">=</span><span class="mf">20.0</span><span class="p">,</span>
+                                                                   <a href="https://docs.python.org/3/library/functions.html#float" title="builtins.float" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">thresh_ridge</span></a><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
+                                                                   <span class="n">thresh_area</span><span class="o">=</span><span class="mf">50.0</span><span class="p">,</span>
+                                                                   <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">side</span></a><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">side</span></a><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>        Computing the Fiedler geodesic length and surface area
+
+  Computing Laplacian
+    Computing mesh weights of type fem
+    -edge length threshold needed for  0  values =  0.0  %
+    -number of Nan in weights:  0  =  0.0  %
+    -number of Negative values in weights:  936  =  6.706792777300086  %
+    -nb Nan in Laplacian :  0
+    -nb Inf in Laplacian :  0
+Fielder length [76.42611449]
+Distance threshold : [6.47816186]
+</pre></div>
+</div>
+<p>define the exclusion mask (cingular pole)</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">path_to_mask</span></a><span class="p">:</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">sio</span><span class="o">.</span><span class="n">load_texture</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">path_to_mask</span></a><span class="p">)</span><span class="o">.</span><span class="n">darray</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="kc">None</span>
+</pre></div>
+</div>
+<p>extract sulcal pits and associated basins</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">basins</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ridges</span></a><span class="p">,</span> <span class="n">adjacency</span> <span class="o">=</span> <span class="n">swat</span><span class="o">.</span><span class="n">watershed</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">voronoi</span><span class="p">,</span> <span class="n">dpf</span><span class="p">,</span> <span class="n">thresh_dist</span><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#float" title="builtins.float" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">thresh_ridge</span></a><span class="p">,</span> <span class="n">thresh_area</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Computing watershed by flooding...
+Distance between 2 pits: [6.47816186] mm - Ridge height: 1.5 mm
+Number of basins found: 3
+nb of basins to remove: 0
+</pre></div>
+</div>
+<p>generate the textures from watershed outputs</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">tex_labels</span><span class="p">,</span> <span class="n">tex_pits</span><span class="p">,</span> <span class="n">tex_ridges</span> <span class="o">=</span> <span class="n">swat</span><span class="o">.</span><span class="n">get_textures_from_dict</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">basins</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ridges</span></a><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">outdir</span><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">path_to_output</span></a><span class="p">)</span>
+</pre></div>
+</div>
+<p>generate the sulcal graph</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">g</span> <span class="o">=</span> <span class="n">ssg</span><span class="o">.</span><span class="n">get_sulcal_graph</span><span class="p">(</span><span class="n">adjacency</span><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">basins</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ridges</span></a><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">outdir</span><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">path_to_output</span></a><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>{&#39;ridge_index&#39;: np.int64(1456), &#39;ridge_depth&#39;: np.float32(-0.001474528), &#39;ridge_length&#39;: 105}
+{&#39;ridge_index&#39;: np.int64(1582), &#39;ridge_depth&#39;: np.float32(0.017893096), &#39;ridge_length&#39;: 64}
+{&#39;ridge_index&#39;: np.int64(1425), &#39;ridge_depth&#39;: np.float32(-0.0014448662), &#39;ridge_length&#39;: 105}
+{&#39;ridge_index&#39;: np.int64(1852), &#39;ridge_depth&#39;: np.float32(-0.031923838), &#39;ridge_length&#39;: 39}
+{&#39;ridge_index&#39;: np.int64(1624), &#39;ridge_depth&#39;: np.float32(0.018081363), &#39;ridge_length&#39;: 64}
+{&#39;ridge_index&#39;: np.int64(1910), &#39;ridge_depth&#39;: np.float32(-0.031930108), &#39;ridge_length&#39;: 39}
+Edge 0 attributes: dict_keys([&#39;weight&#39;])
+Edge 1 attributes: dict_keys([&#39;weight&#39;])
+Edge 2 attributes: dict_keys([&#39;weight&#39;])
+Edge 0 attributes: dict_keys([&#39;weight&#39;, &#39;ridge_index&#39;, &#39;ridge_depth&#39;, &#39;ridge_length&#39;])
+Edge 1 attributes: dict_keys([&#39;weight&#39;, &#39;ridge_index&#39;, &#39;ridge_depth&#39;, &#39;ridge_length&#39;])
+Edge 2 attributes: dict_keys([&#39;weight&#39;, &#39;ridge_index&#39;, &#39;ridge_depth&#39;, &#39;ridge_length&#39;])
+Graph saved in graph.gpickle
+</pre></div>
+</div>
+<p>generate the textures from graph</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">tex_labels</span><span class="p">,</span> <span class="n">tex_pits</span><span class="p">,</span> <span class="n">tex_ridges</span> <span class="o">=</span> <span class="n">ssg</span><span class="o">.</span><span class="n">get_textures_from_graph</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">mesh</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">outdir</span><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">path_to_output</span></a><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.304 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-example-watershed-py">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/3504b037f8e71415b67db962ee4718a2/example_watershed.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">example_watershed.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/aa2194478efb712cd62cb2e62b466a9f/example_watershed.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">example_watershed.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/2f90affbab0fda990c33357048dad393/example_watershed.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">example_watershed.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2025, slam Developers. Last updated on 2025-04-22.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 8.2.3.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

@@ -107,11 +107,11 @@ this functionnality requires to install the optional package rtree
 
  .. code-block:: none
 
-    [[-0.58631275 -0.07659042  0.80645599 62.64094182]
-     [ 0.11166061  0.97837713  0.17409797 52.62458884]
-     [-0.80235234  0.19212522 -0.56508285 49.38420729]
+    [[-0.58616078 -0.0824102   0.80599262 62.84400041]
+     [ 0.08044586  0.98397738  0.15911309 52.93760223]
+     [-0.80619105  0.15810462 -0.57013939 49.8543329 ]
      [ 0.          0.          0.          1.        ]]
-    0.01544128357228994
+    0.016904686383301584
 
 
 
@@ -166,7 +166,7 @@ VISUALIZATION USING EXTERNAL TOOLS
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 2.492 seconds)
+   **Total running time of the script:** (0 minutes 2.858 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_registration.py:
