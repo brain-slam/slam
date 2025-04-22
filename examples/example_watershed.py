@@ -1,3 +1,24 @@
+"""
+.. _example_watershed:
+
+===================================
+Example of watershed in slam
+===================================
+"""
+
+# Authors:
+# Lucile Hashimoto lucile-hashimoto
+# Guillaume Auzias <guillaume.auzias@univ-amu.fr>
+
+# License: MIT
+# sphinx_gallery_thumbnail_number = 2
+
+###############################################################################
+# NOTE: there is no visualization tool in slam, but we provide at the
+# end of this script exemplare code to do the visualization with
+# an external solution
+###############################################################################
+
 ###############################################################################
 # importation of slam modules
 import slam.io as sio
