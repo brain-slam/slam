@@ -42,7 +42,7 @@ tex_labels, tex_pits, tex_ridges = swat.get_textures_from_dict(mesh, basins, rid
 
 ###############################################################################
 # generate the sulcal graph
-g = ssg.get_sulcal_graph(mesh, basins, ridges, save=True, outdir=path_to_output)
+g = ssg.get_sulcal_graph(adjacency, basins, ridges, save=True, outdir=path_to_output)
 
 ###############################################################################
 # generate the textures from graph
