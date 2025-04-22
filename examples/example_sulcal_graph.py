@@ -9,7 +9,6 @@ import numpy as np
 path_to_mesh = "../examples/data/example_mesh.gii"
 path_to_texture = "../examples/data/example_texture.gii"
 path_to_mask = ""
-
 mesh = sio.load_mesh(path_to_mesh)
 side = "left"
 texture = sio.load_texture(path_to_texture)
@@ -21,7 +20,6 @@ g = ssg.extract_sulcal_graph(side, path_to_mesh, path_to_features=None, path_to_
 
 ###############################################################################
 # add an attribute to nodes
-
 g = ssg.add_node_attribute_to_graph(g, dpf, name='pit_depth', save=False)
 print("Node attributes:\n", g.nodes[0].keys())
 print("First node:\n", g.nodes[0])
