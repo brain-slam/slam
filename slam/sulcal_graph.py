@@ -24,7 +24,7 @@ def extract_sulcal_graph(side, path_to_mesh, path_to_features, path_to_output, p
         mask = None
 
     basins, ridges, adjacency = swat.watershed(mesh, voronoi, dpf, thresh_dist, thresh_ridge, thresh_area, mask)
-    g = get_sulcal_graph(mesh, basins, ridges, save=True, outdir=path_to_output)
+    g = get_sulcal_graph(adjacency, basins, ridges, save=True, outdir=path_to_output)
     get_textures_from_graph(g, mesh, save=True, outdir=path_to_output)
     return g
 
@@ -129,7 +129,7 @@ def add_edge_attribute_to_graph(graph, texture, name, save=True, outdir=None):
         outdir = ''
 
     # Get the adjacency matrix with ridge positions
-    adjacency = nx.to_numpy_array(graph, weight='ridge_index', dtype=np.int8)
+    adjacency = nx.to_numpy_array(graph, weight='ridge_index', dtype=np.int32)
     # Create and fill a new edge dictionary with the texture values at ridge positions
     ridge_dict = {}
     for i, j in graph.edges:
