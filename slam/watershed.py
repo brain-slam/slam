@@ -186,7 +186,7 @@ def watershed(mesh, voronoi, dpf, thresh_dist, thresh_ridge,
     # Apply exclusion mask
     # All nodes included in the exclusion mask are not taken into
     # account in the watershed process
-    if not mask:
+    if mask is None:
         mask = np.zeros(dpf.shape)
     mask_indices = np.where(mask == 1)[0]
     nodes = np.vstack((vert_idx, vert_depth)).T
