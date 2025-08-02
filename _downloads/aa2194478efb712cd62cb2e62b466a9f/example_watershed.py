@@ -28,7 +28,7 @@ import slam.sulcal_graph as ssg
 ###############################################################################
 # loading an examplar mesh and corresponding texture
 path_to_mesh = "../examples/data/example_mesh.gii"
-path_to_mask = ""
+path_to_mask = None
 path_to_output = ""
 
 mesh = sio.load_mesh(path_to_mesh)
@@ -48,7 +48,7 @@ thresh_dist, thresh_ridge, thresh_area = swat.normalize_thresholds(mesh, voronoi
 
 ###############################################################################
 # define the exclusion mask (cingular pole)
-if path_to_mask:
+if path_to_mask is not None:
     mask = sio.load_texture(path_to_mask).darray[0]
 else:
     mask = None

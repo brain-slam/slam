@@ -154,7 +154,7 @@ an external solution</p>
 </div>
 <p>loading an examplar mesh and corresponding texture</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">path_to_mesh</span></a> <span class="o">=</span> <span class="s2">&quot;../examples/data/example_mesh.gii&quot;</span>
-<a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">path_to_mask</span></a> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<span class="n">path_to_mask</span> <span class="o">=</span> <span class="kc">None</span>
 <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">path_to_output</span></a> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
 <span class="n">mesh</span> <span class="o">=</span> <span class="n">sio</span><span class="o">.</span><span class="n">load_mesh</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">path_to_mesh</span></a><span class="p">)</span>
@@ -187,8 +187,8 @@ Distance threshold : [6.47816186]
 </pre></div>
 </div>
 <p>define the exclusion mask (cingular pole)</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">path_to_mask</span></a><span class="p">:</span>
-    <span class="n">mask</span> <span class="o">=</span> <span class="n">sio</span><span class="o">.</span><span class="n">load_texture</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">path_to_mask</span></a><span class="p">)</span><span class="o">.</span><span class="n">darray</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">path_to_mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">sio</span><span class="o">.</span><span class="n">load_texture</span><span class="p">(</span><span class="n">path_to_mask</span><span class="p">)</span><span class="o">.</span><span class="n">darray</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="n">mask</span> <span class="o">=</span> <span class="kc">None</span>
 </pre></div>
@@ -230,7 +230,7 @@ Graph saved in graph.gpickle
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">tex_labels</span><span class="p">,</span> <span class="n">tex_pits</span><span class="p">,</span> <span class="n">tex_ridges</span> <span class="o">=</span> <span class="n">ssg</span><span class="o">.</span><span class="n">get_textures_from_graph</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">mesh</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">outdir</span><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">path_to_output</span></a><span class="p">)</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.290 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.271 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-example-watershed-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/3504b037f8e71415b67db962ee4718a2/example_watershed.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">example_watershed.ipynb</span></code></a></p>
@@ -257,7 +257,7 @@ Graph saved in graph.gpickle
       
     </p>
     <p>
-        &copy; Copyright 2025, slam Developers. Last updated on 2025-04-22.<br/>
+        &copy; Copyright 2025, slam Developers. Last updated on 2025-08-02.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 8.2.3.<br/>
     </p>
   </div>
