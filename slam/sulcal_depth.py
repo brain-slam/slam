@@ -24,7 +24,7 @@ def depth_potential_function(mesh, alphas=None, curvature=None):
     :return:
     """
     if alphas is None:
-        alphas = [0.3]
+        alphas = [0.03]
     if curvature is None:
         # Comptue mean curvature from principal curvatures
         PrincipalCurvatures, PrincipalDir1, PrincipalDir2 \

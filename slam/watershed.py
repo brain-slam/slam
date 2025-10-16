@@ -49,7 +49,7 @@ def compute_mesh_features(mesh, save=True, outdir=None, check_if_exist=True):
         print("\n\tComputing the DPF\n")
         # returns a list of dpf for different alpha values
         dpf = sulcal_depth.dpf_star(mesh,
-                                    alphas=[0.03],
+                                    alphas=[500],
                                     curvature=mean_curvature)
         dpf = dpf[0]
 
@@ -144,7 +144,7 @@ def watershed(mesh, voronoi, dpf, thresh_dist, thresh_ridge,
     ----------
     mesh : white matter triangular mesh of subject (trimesh object)
     voronoi : voronoi area for each vertex (numpy array)
-    dpf : depth measure for each vertex (numpy array)
+    dpf : depth measure for each vertex. Deepest points should have smaller values (numpy array)
     thresh_dist : threshold on the distance between pits (unit: mm)
     thresh_ridge : threshold on the ridge height (unit: mm)
     thresh_area : threshold on the basin area (unit: mm²)
@@ -194,8 +194,8 @@ def watershed(mesh, voronoi, dpf, thresh_dist, thresh_ridge,
 
     # Sorting step
     # All nodes of the mesh are sorted by their depth
-    # (deepest nodes = highest values first)
-    nodes_sorted_by_depth = nodes[nodes[:, 1].argsort()[::-1]]
+    # (deepest nodes = smallest values first)
+    nodes_sorted_by_depth = nodes[nodes[:, 1].argsort()]
 
     # Initialize with first pit: deepest node
     idx = int(nodes_sorted_by_depth[0, 0])
@@ -255,7 +255,7 @@ def watershed(mesh, voronoi, dpf, thresh_dist, thresh_ridge,
         ################################################################
         else:
             # deepest neighbor
-            idx_max_depth = np.argmax(vert_depth[neigh_idx])
+            idx_max_depth = np.argmin(vert_depth[neigh_idx])
             lab = np.min(neigh_labels[idx_max_depth])  # lowest label
             # Update vertex
             vert_label[idx] = lab
@@ -431,8 +431,8 @@ def watershed(mesh, voronoi, dpf, thresh_dist, thresh_ridge,
              for v in neighbors_vertices[vert_label[neighbors_vertices] == j]]
         ridges[(i, j)] = {}
         ridges[(i, j)]['ridge_index'] = (
-            ridges_vertices)[np.argmax(vert_depth[ridges_vertices])]
-        ridges[(i, j)]['ridge_depth'] = np.max(vert_depth[ridges_vertices])
+            ridges_vertices)[np.argmin(vert_depth[ridges_vertices])]
+        ridges[(i, j)]['ridge_depth'] = np.min(vert_depth[ridges_vertices])
         ridges[(i, j)]['ridge_length'] = len(ridges_vertices)
 
     return basins, ridges, adjacency
