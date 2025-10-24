@@ -71,7 +71,8 @@ def get_sulcal_graph(adjacency, basins, ridges, save=True, outdir=None):
     Edge attributes are:
     - ridge_index: index of the ridge
     - ridge_depth: depth of the ridge point
-    - ridge_length: number of vertices in the ridge
+    - ridge_height: depth difference between ridge point and shallowest pit
+    - ridge_length: number of vertices along the frontier between basins
 
     Parameters
     ----------

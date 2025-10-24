@@ -163,7 +163,8 @@ def watershed(mesh, voronoi, dpf, thresh_dist, thresh_ridge,
         ridges[(i,j)] = {}
             'ridge_index': vertex index of the ridge point
             'ridge_depth': depth of the ridge point
-            'ridge_length': number of vertices along the ridge
+            'ridge_height': depth difference between ridge point and shallowest pit
+            'ridge_length': number of vertices along the frontier between basins
     adjacency : adjacency matrix of the basins
         adjacency[i,j] = 1 if basin i and j are adjacent, 0 otherwise
     """
@@ -433,6 +434,8 @@ def watershed(mesh, voronoi, dpf, thresh_dist, thresh_ridge,
         ridges[(i, j)]['ridge_index'] = (
             ridges_vertices)[np.argmin(vert_depth[ridges_vertices])]
         ridges[(i, j)]['ridge_depth'] = np.min(vert_depth[ridges_vertices])
+        ridges[(i, j)]['ridge_height'] = abs(basins[j]['pit_depth'] - ridges[(i, j)]['ridge_depth'])  # depth
+        # difference between ridge point and highest pit which should correspond to index j (> index i)
         ridges[(i, j)]['ridge_length'] = len(ridges_vertices)
 
     return basins, ridges, adjacency
