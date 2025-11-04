@@ -119,15 +119,15 @@ def get_sulcal_graph(adjacency, basins, ridges, save=True, outdir=None):
         i = labels.index(pair[0])
         j = labels.index(pair[1])
         edge_attributes[i, j] = values  # add all dictionary values
-        print(values)
-    for ed in range(len(graph.edges)):
-        print("Edge "+str(ed)+" attributes:",
-              graph.edges[list(graph.edges)[ed]].keys())
+        # print(values)
+    # for ed in range(len(graph.edges)):
+    #     print("Edge "+str(ed)+" attributes:",
+    #           graph.edges[list(graph.edges)[ed]].keys())
 
     nx.set_edge_attributes(graph, edge_attributes)
-    for ed in range(len(graph.edges)):
-        print("Edge "+str(ed)+" attributes:",
-              graph.edges[list(graph.edges)[ed]].keys())
+    # for ed in range(len(graph.edges)):
+    #     print("Edge "+str(ed)+" attributes:",
+    #           graph.edges[list(graph.edges)[ed]].keys())
 
     if save:
         if not outdir:
