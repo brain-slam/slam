@@ -107,7 +107,7 @@ def normalize_thresholds(mesh, voronoi, thresh_dist=20.0,
     fielder = differential_geometry.mesh_laplacian_eigenvectors(mesh, 1)
     imin = fielder.argmin()
     imax = fielder.argmax()
-    min_mesh_fiedler_length = geodesics.compute_gdist(mesh, imin, imax)
+    min_mesh_fiedler_length = geodesics.compute_gdist(mesh, imin, imax)[0]  # extract single element out of array
     mesh_area = np.sum(voronoi)
 
     # Set group average values
