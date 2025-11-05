@@ -107,7 +107,8 @@ def normalize_thresholds(mesh, voronoi, thresh_dist=20.0,
     fielder = differential_geometry.mesh_laplacian_eigenvectors(mesh, 1)
     imin = fielder.argmin()
     imax = fielder.argmax()
-    min_mesh_fiedler_length = geodesics.compute_gdist(mesh, imin, imax)[0]  # extract single element out of array
+    # extract single element out of array
+    min_mesh_fiedler_length = geodesics.compute_gdist(mesh, imin, imax)[0]
     mesh_area = np.sum(voronoi)
 
     # Set group average values
@@ -144,7 +145,8 @@ def watershed(mesh, voronoi, dpf, thresh_dist, thresh_ridge,
     ----------
     mesh : white matter triangular mesh of subject (trimesh object)
     voronoi : voronoi area for each vertex (numpy array)
-    dpf : depth measure for each vertex. Deepest points should have smaller values (numpy array)
+    dpf : depth measure for each vertex. Deepest points should have
+     smaller values (numpy array)
     thresh_dist : threshold on the distance between pits (unit: mm)
     thresh_ridge : threshold on the ridge height (unit: mm)
     thresh_area : threshold on the basin area (unit: mm²)
@@ -163,8 +165,10 @@ def watershed(mesh, voronoi, dpf, thresh_dist, thresh_ridge,
         ridges[(i,j)] = {}
             'ridge_index': vertex index of the ridge point
             'ridge_depth': depth of the ridge point
-            'ridge_height': depth difference between ridge point and shallowest pit
-            'ridge_length': number of vertices along the frontier between basins
+            'ridge_height': depth difference between ridge point and
+            shallowest pit
+            'ridge_length': number of vertices along the frontier
+            between basins
     adjacency : adjacency matrix of the basins
         adjacency[i,j] = 1 if basin i and j are adjacent, 0 otherwise
     """
@@ -434,8 +438,10 @@ def watershed(mesh, voronoi, dpf, thresh_dist, thresh_ridge,
         ridges[(i, j)]['ridge_index'] = (
             ridges_vertices)[np.argmin(vert_depth[ridges_vertices])]
         ridges[(i, j)]['ridge_depth'] = np.min(vert_depth[ridges_vertices])
-        ridges[(i, j)]['ridge_height'] = abs(basins[j]['pit_depth'] - ridges[(i, j)]['ridge_depth'])  # depth
-        # difference between ridge point and highest pit which should correspond to index j (> index i)
+        # 'ridge_height'] = depth difference between ridge point and highest
+        # pit which should correspond to index j (> index i)
+        ridges[(i, j)]['ridge_height'] = (
+            abs(basins[j]['pit_depth'] - ridges[(i, j)]['ridge_depth']))
         ridges[(i, j)]['ridge_length'] = len(ridges_vertices)
 
     return basins, ridges, adjacency
