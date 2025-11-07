@@ -70,16 +70,12 @@ def compute_mesh_features(mesh, save=True, outdir=None, check_if_exist=True):
     return mean_curvature, dpf, voronoi
 
 
-def normalize_thresholds(mesh, voronoi, thresh_dist=20.0,
-                         thresh_ridge=1.5, thresh_area=50.0, side="left"):
+def normalize_thresholds(voronoi, thresh_dist=20.0, thresh_ridge=1.5, thresh_area=50.0, side="left"):
     """
     Function that normalizes the thresholds for the watershed algorithm.
-    Threshold on distance between pits is normalized by the Fiedler geodesic
-    length.
     Threshold on basin's area is normalized by the surface area of the mesh.
+    Threshold on distance between pits is normalized by the square root of the surface area.
 
-    :args: mesh(trimesh object): surface triangular mesh loaded
-    with io.load_mesh()
     :args: voronoi(numpy array): voronoi areas of the mesh
     :args: thresh_dist(float): distance threshold for the watershed algorithm
     :args: thresh_ridge(float): ridge threshold for the watershed algorithm
@@ -89,7 +85,6 @@ def normalize_thresholds(mesh, voronoi, thresh_dist=20.0,
 
     Parameters
     ----------
-    mesh
     voronoi
     thresh_dist
     thresh_ridge
@@ -98,29 +93,29 @@ def normalize_thresholds(mesh, voronoi, thresh_dist=20.0,
 
     Returns
     -------
-
+    Normalized watershed parameters
     """
 
-    # Compute Fiedler length and surface area for watershed threshold
     # normalization
-    print("\n\tComputing the Fiedler geodesic length and surface area\n")
-    fielder = differential_geometry.mesh_laplacian_eigenvectors(mesh, 1)
-    imin = fielder.argmin()
-    imax = fielder.argmax()
-    # extract single element out of array
-    min_mesh_fiedler_length = geodesics.compute_gdist(mesh, imin, imax)[0]
+    print("\n\tComputing the surface area\n")
     mesh_area = np.sum(voronoi)
+    mesh_area_sqrt = np.sqrt(mesh_area)
 
     # Set group average values
-    group_average_fiedler_length = 238.25 if side == "right" else 235.95
-    group_average_surface_area = 91433.68 if side == "right" else 91369.33
+    # from OASIS database
+    # group_average_fiedler_length = 238.25 if side == "right" else 235.95
+    # group_average_surface_area = 91433.68 if side == "right" else 91369.33
+    # from HCP database
+    group_average_surface_area = 92161.30 if side == "right" else 91530.63
+    group_average_surface_area_sqrt = 303.20 if side == "right" else 302.16
 
     # Normalize the thresholds regarding brain size
-    thresh_dist *= min_mesh_fiedler_length / group_average_fiedler_length
+    thresh_dist *= mesh_area_sqrt / group_average_surface_area_sqrt
     thresh_area *= mesh_area / group_average_surface_area
 
-    print("Fielder length", min_mesh_fiedler_length)
-    print("Distance threshold :", thresh_dist)
+    # Stay at input precision level
+    thresh_dist = round(thresh_dist, 1)
+    thresh_area = round(thresh_area, 1)
 
     return thresh_dist, thresh_ridge, thresh_area
 

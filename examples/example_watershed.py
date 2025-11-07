@@ -40,11 +40,8 @@ _, dpf, voronoi = swat.compute_mesh_features(mesh, save=False, outdir=path_to_ou
 
 ###############################################################################
 # normalize watershed thresholds
-thresh_dist, thresh_ridge, thresh_area = swat.normalize_thresholds(mesh, voronoi,
-                                                                   thresh_dist=20.0,
-                                                                   thresh_ridge=1.5,
-                                                                   thresh_area=50.0,
-                                                                   side=side)
+thresh_dist, thresh_ridge, thresh_area = swat.normalize_thresholds(voronoi, thresh_dist=20.0, thresh_ridge=1.5,
+                                                                   thresh_area=50.0, side=side)
 
 ###############################################################################
 # define the exclusion mask (cingular pole)
