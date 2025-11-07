@@ -166,24 +166,11 @@ an external solution</p>
 </pre></div>
 </div>
 <p>normalize watershed thresholds</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">thresh_dist</span><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#float" title="builtins.float" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">thresh_ridge</span></a><span class="p">,</span> <span class="n">thresh_area</span> <span class="o">=</span> <span class="n">swat</span><span class="o">.</span><span class="n">normalize_thresholds</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">voronoi</span><span class="p">,</span>
-                                                                   <span class="n">thresh_dist</span><span class="o">=</span><span class="mf">20.0</span><span class="p">,</span>
-                                                                   <a href="https://docs.python.org/3/library/functions.html#float" title="builtins.float" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">thresh_ridge</span></a><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
-                                                                   <span class="n">thresh_area</span><span class="o">=</span><span class="mf">50.0</span><span class="p">,</span>
-                                                                   <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">side</span></a><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">side</span></a><span class="p">)</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">thresh_dist</span><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#float" title="builtins.float" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">thresh_ridge</span></a><span class="p">,</span> <span class="n">thresh_area</span> <span class="o">=</span> <span class="n">swat</span><span class="o">.</span><span class="n">normalize_thresholds</span><span class="p">(</span><span class="n">voronoi</span><span class="p">,</span> <span class="n">thresh_dist</span><span class="o">=</span><span class="mf">20.0</span><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#float" title="builtins.float" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">thresh_ridge</span></a><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
+                                                                   <span class="n">thresh_area</span><span class="o">=</span><span class="mf">50.0</span><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">side</span></a><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">side</span></a><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>        Computing the Fiedler geodesic length and surface area
-
-  Computing Laplacian
-    Computing mesh weights of type fem
-    -edge length threshold needed for  0  values =  0.0  %
-    -number of Nan in weights:  0  =  0.0  %
-    -number of Negative values in weights:  936  =  6.706792777300086  %
-    -nb Nan in Laplacian :  0
-    -nb Inf in Laplacian :  0
-Fielder length [76.42611449]
-Distance threshold : [6.47816186]
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Computing the surface area
 </pre></div>
 </div>
 <p>define the exclusion mask (cingular pole)</p>
@@ -198,8 +185,8 @@ Distance threshold : [6.47816186]
 </pre></div>
 </div>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Computing watershed by flooding...
-Distance between 2 pits: [6.47816186] mm - Ridge height: 1.5 mm
-Number of basins found: 3
+Distance between 2 pits: 5.3 mm - Ridge height: 1.5 mm
+Number of basins found: 27
 nb of basins to remove: 0
 </pre></div>
 </div>
@@ -211,26 +198,14 @@ nb of basins to remove: 0
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">g</span> <span class="o">=</span> <span class="n">ssg</span><span class="o">.</span><span class="n">get_sulcal_graph</span><span class="p">(</span><span class="n">adjacency</span><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">basins</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ridges</span></a><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">outdir</span><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">path_to_output</span></a><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>{&#39;ridge_index&#39;: np.int64(1456), &#39;ridge_depth&#39;: np.float32(-0.001474528), &#39;ridge_length&#39;: 105}
-{&#39;ridge_index&#39;: np.int64(1582), &#39;ridge_depth&#39;: np.float32(0.017893096), &#39;ridge_length&#39;: 64}
-{&#39;ridge_index&#39;: np.int64(1425), &#39;ridge_depth&#39;: np.float32(-0.0014448662), &#39;ridge_length&#39;: 105}
-{&#39;ridge_index&#39;: np.int64(1852), &#39;ridge_depth&#39;: np.float32(-0.031923838), &#39;ridge_length&#39;: 39}
-{&#39;ridge_index&#39;: np.int64(1624), &#39;ridge_depth&#39;: np.float32(0.018081363), &#39;ridge_length&#39;: 64}
-{&#39;ridge_index&#39;: np.int64(1910), &#39;ridge_depth&#39;: np.float32(-0.031930108), &#39;ridge_length&#39;: 39}
-Edge 0 attributes: dict_keys([&#39;weight&#39;])
-Edge 1 attributes: dict_keys([&#39;weight&#39;])
-Edge 2 attributes: dict_keys([&#39;weight&#39;])
-Edge 0 attributes: dict_keys([&#39;weight&#39;, &#39;ridge_index&#39;, &#39;ridge_depth&#39;, &#39;ridge_length&#39;])
-Edge 1 attributes: dict_keys([&#39;weight&#39;, &#39;ridge_index&#39;, &#39;ridge_depth&#39;, &#39;ridge_length&#39;])
-Edge 2 attributes: dict_keys([&#39;weight&#39;, &#39;ridge_index&#39;, &#39;ridge_depth&#39;, &#39;ridge_length&#39;])
-Graph saved in graph.gpickle
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Graph saved in graph.gpickle
 </pre></div>
 </div>
 <p>generate the textures from graph</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">tex_labels</span><span class="p">,</span> <span class="n">tex_pits</span><span class="p">,</span> <span class="n">tex_ridges</span> <span class="o">=</span> <span class="n">ssg</span><span class="o">.</span><span class="n">get_textures_from_graph</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">mesh</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">outdir</span><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">path_to_output</span></a><span class="p">)</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.273 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 2.761 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-example-watershed-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/3504b037f8e71415b67db962ee4718a2/example_watershed.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">example_watershed.ipynb</span></code></a></p>
@@ -257,7 +232,7 @@ Graph saved in graph.gpickle
       
     </p>
     <p>
-        &copy; Copyright 2025, slam Developers. Last updated on 2025-08-07.<br/>
+        &copy; Copyright 2025, slam Developers. Last updated on 2025-11-07.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 8.2.3.<br/>
     </p>
   </div>

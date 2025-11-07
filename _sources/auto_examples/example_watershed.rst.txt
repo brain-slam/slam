@@ -112,15 +112,12 @@ compute curvature, dpf and voronoi
 
 normalize watershed thresholds
 
-.. GENERATED FROM PYTHON SOURCE LINES 43-49
+.. GENERATED FROM PYTHON SOURCE LINES 43-46
 
 .. code-block:: Python
 
-    thresh_dist, thresh_ridge, thresh_area = swat.normalize_thresholds(mesh, voronoi,
-                                                                       thresh_dist=20.0,
-                                                                       thresh_ridge=1.5,
-                                                                       thresh_area=50.0,
-                                                                       side=side)
+    thresh_dist, thresh_ridge, thresh_area = swat.normalize_thresholds(voronoi, thresh_dist=20.0, thresh_ridge=1.5,
+                                                                       thresh_area=50.0, side=side)
 
 
 
@@ -131,26 +128,17 @@ normalize watershed thresholds
  .. code-block:: none
 
 
-            Computing the Fiedler geodesic length and surface area
-
-      Computing Laplacian
-        Computing mesh weights of type fem
-        -edge length threshold needed for  0  values =  0.0  %
-        -number of Nan in weights:  0  =  0.0  %
-        -number of Negative values in weights:  936  =  6.706792777300086  %
-        -nb Nan in Laplacian :  0
-        -nb Inf in Laplacian :  0
-    Fielder length [76.42611449]
-    Distance threshold : [6.47816186]
+            Computing the surface area
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 50-51
+
+.. GENERATED FROM PYTHON SOURCE LINES 47-48
 
 define the exclusion mask (cingular pole)
 
-.. GENERATED FROM PYTHON SOURCE LINES 51-56
+.. GENERATED FROM PYTHON SOURCE LINES 48-53
 
 .. code-block:: Python
 
@@ -166,11 +154,11 @@ define the exclusion mask (cingular pole)
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 57-58
+.. GENERATED FROM PYTHON SOURCE LINES 54-55
 
 extract sulcal pits and associated basins
 
-.. GENERATED FROM PYTHON SOURCE LINES 58-60
+.. GENERATED FROM PYTHON SOURCE LINES 55-57
 
 .. code-block:: Python
 
@@ -185,18 +173,18 @@ extract sulcal pits and associated basins
  .. code-block:: none
 
     Computing watershed by flooding...
-    Distance between 2 pits: [6.47816186] mm - Ridge height: 1.5 mm
-    Number of basins found: 3
+    Distance between 2 pits: 5.3 mm - Ridge height: 1.5 mm
+    Number of basins found: 27
     nb of basins to remove: 0
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 61-62
+.. GENERATED FROM PYTHON SOURCE LINES 58-59
 
 generate the textures from watershed outputs
 
-.. GENERATED FROM PYTHON SOURCE LINES 62-64
+.. GENERATED FROM PYTHON SOURCE LINES 59-61
 
 .. code-block:: Python
 
@@ -209,11 +197,11 @@ generate the textures from watershed outputs
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 65-66
+.. GENERATED FROM PYTHON SOURCE LINES 62-63
 
 generate the sulcal graph
 
-.. GENERATED FROM PYTHON SOURCE LINES 66-68
+.. GENERATED FROM PYTHON SOURCE LINES 63-65
 
 .. code-block:: Python
 
@@ -227,28 +215,16 @@ generate the sulcal graph
 
  .. code-block:: none
 
-    {'ridge_index': np.int64(1456), 'ridge_depth': np.float32(-0.001474528), 'ridge_length': 105}
-    {'ridge_index': np.int64(1582), 'ridge_depth': np.float32(0.017893096), 'ridge_length': 64}
-    {'ridge_index': np.int64(1425), 'ridge_depth': np.float32(-0.0014448662), 'ridge_length': 105}
-    {'ridge_index': np.int64(1852), 'ridge_depth': np.float32(-0.031923838), 'ridge_length': 39}
-    {'ridge_index': np.int64(1624), 'ridge_depth': np.float32(0.018081363), 'ridge_length': 64}
-    {'ridge_index': np.int64(1910), 'ridge_depth': np.float32(-0.031930108), 'ridge_length': 39}
-    Edge 0 attributes: dict_keys(['weight'])
-    Edge 1 attributes: dict_keys(['weight'])
-    Edge 2 attributes: dict_keys(['weight'])
-    Edge 0 attributes: dict_keys(['weight', 'ridge_index', 'ridge_depth', 'ridge_length'])
-    Edge 1 attributes: dict_keys(['weight', 'ridge_index', 'ridge_depth', 'ridge_length'])
-    Edge 2 attributes: dict_keys(['weight', 'ridge_index', 'ridge_depth', 'ridge_length'])
     Graph saved in graph.gpickle
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 69-70
+.. GENERATED FROM PYTHON SOURCE LINES 66-67
 
 generate the textures from graph
 
-.. GENERATED FROM PYTHON SOURCE LINES 70-70
+.. GENERATED FROM PYTHON SOURCE LINES 67-67
 
 .. code-block:: Python
 
@@ -262,7 +238,7 @@ generate the textures from graph
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.273 seconds)
+   **Total running time of the script:** (0 minutes 2.761 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_watershed.py:
