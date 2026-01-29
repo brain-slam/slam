@@ -123,7 +123,7 @@ def mes3d_projection(
                 i=faces[:, 0],
                 j=faces[:, 1],
                 k=faces[:, 2],
-                colorscale=colorscale,
+                colorscale=colorscale, # ou appel fonction pour générer colorbar
                 intensity=intensities,
                 intensitymode=intensitymode,
                 flatshading=True,
@@ -146,7 +146,7 @@ def mes3d_projection(
                     "fresnel": 0,
                 },
             )
-            # On peut également utiliser create_hover_trace()
+            # On peut également utiliser create_hover_trace() pour ajouter des traces
             # On peut jouer sur le nombre de scène
         ]
     )
