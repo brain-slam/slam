@@ -58,7 +58,7 @@ def load_texture(gifti_file):
     cat_darrays = [nb_texture.darrays[i].data for i in range(
         len(nb_texture.darrays))]
     return texture.TextureND(
-        darray=np.array(cat_darrays), metadata= dict(nb_texture.meta)
+        darray=np.array(cat_darrays), metadata=dict(nb_texture.meta)
     )
 
 

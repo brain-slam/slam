@@ -7,8 +7,8 @@ Auteur : Zoë LAFFITTE
 Date : 2026
 """
 
-from slam import io as sio
 import plotly.graph_objects as go
+
 
 def create_hover_trace(points, text, mode, **kwargs):
     """
@@ -107,7 +107,7 @@ def mes3d_projection(mesh_data, intensity_data=None, display_settings=None):
                 "tickfont": {"size": 16},
             },
             "flatshading": True,
-            "lighting":{
+            "lighting": {
                 "ambient": 1,
                 "diffuse": 0,
                 "specular": 0,
@@ -144,4 +144,3 @@ def mes3d_projection(mesh_data, intensity_data=None, display_settings=None):
     )
 
     return fig
-

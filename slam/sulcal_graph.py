@@ -31,7 +31,11 @@ def extract_sulcal_graph(side, path_to_mesh, path_to_features,
                                                  outdir=path_to_features,
                                                  check_if_exist=True)
     thresh_dist, thresh_ridge, thresh_area = (
-        swat.normalize_thresholds(voronoi, thresh_dist=20.0, thresh_ridge=1.5, thresh_area=50.0, side=side))
+        swat.normalize_thresholds(voronoi,
+                                  thresh_dist=20.0,
+                                  thresh_ridge=1.5,
+                                  thresh_area=50.0,
+                                  side=side))
     if path_to_mask:
         mask = io.load_texture(path_to_mask).darray[0]
     else:
