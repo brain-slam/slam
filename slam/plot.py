@@ -1,21 +1,11 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
 """
 plots.py.
 
 Centralisation des fonctions pour plots et figures.
 
 Auteur : Zoë LAFFITTE
-Date : 2023
+Date : 2026
 """
-
-# pylint
-# # ------------------------------------------------------------------
-# # Your code has been rated at 8.60/10 (previous run: 8.43/10, +0.17)
-
-# comments
-## convention sphynx
 
 import os
 import plotly.graph_objects as go
@@ -61,17 +51,23 @@ def create_hover_trace(points, text, mode, **kwargs):
     )
 
 
-def mes3d_projection(mesh_data, intensity_data, display_settings, output_settings):
+def mes3d_projection(
+        mesh_data,
+        intensity_data,
+        display_settings,
+        output_settings):
     """
     Crée une projection 3D d'un maillage avec intensités.
 
     Parameters
     ----------
     mesh_data : dict
-        Contient les coordonnées des sommets et les indices des faces du maillage.
+        Contient les coordonnées des sommets et
+        les indices des faces du maillage.
 
     intensity_data : dict
-        Contient les valeurs d'intensité et le mode d'affichage ("vertex" ou "cell").
+        Contient les valeurs d'intensité et le
+        mode d'affichage ("vertex" ou "cell").
 
     display_settings : dict
         Paramètres d'affichage (e.g., colorscale, labels).
@@ -99,20 +95,20 @@ def mes3d_projection(mesh_data, intensity_data, display_settings, output_setting
     )  # choix de la colorbar, par défaut Turbo (continue)
     cmin = intensity_data.get(
         "cmin", None
-    )  # si besoin, on modifie la plage de la colorbar, par défaut None
+    )  # si besoin, on modifie la plage de la colorbar
     cmax = intensity_data.get("cmax", None)
     title_colorbar = display_settings.get("colorbar_label", "")
     colorbar_tickvals = display_settings.get(
         "tickvals", None
-    )  # si besoin, on remplace les vals de la texture sur la colorbar, par défaut None
+    )  # si besoin, on remplace les vals de la texture sur la colorbar
     colorbar_ticktext = display_settings.get(
         "ticktext", None
-    )  # si besoin, on remplace les graduation de la colorbar, par défaut None
+    )  # si besoin, on remplace les graduation de la colorbar
 
     # Extraction des métadonnées
     title = output_settings["title"]
     path = output_settings["path"]  # au format Path()
-    ext = output_settings.get("ext", "html")  # choix de l'extension, par défaut html
+    ext = output_settings.get("ext", "html")  # choix de l'extension
     save_path = path / f"{title}.{ext}"
 
     print("Plotting ...")
@@ -127,7 +123,7 @@ def mes3d_projection(mesh_data, intensity_data, display_settings, output_setting
                 i=faces[:, 0],
                 j=faces[:, 1],
                 k=faces[:, 2],
-                colorscale=colorscale,  # on peut utiliser une fonction pour générer colorbar selon features
+                colorscale=colorscale,
                 intensity=intensities,
                 intensitymode=intensitymode,
                 flatshading=True,
@@ -150,7 +146,7 @@ def mes3d_projection(mesh_data, intensity_data, display_settings, output_setting
                     "fresnel": 0,
                 },
             )
-            # On peut également utiliser create_hover_trace() pour ajouter des traces
+            # On peut également utiliser create_hover_trace()
             # On peut jouer sur le nombre de scène
         ]
     )
