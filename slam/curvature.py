@@ -235,14 +235,14 @@ def compute_curvature(FV, VertexNormals, FaceNormals,
         FaceSFM[i] = np.array([[x[0][0], x[0][1]], [x[0][1], x[0][2]]])
         Kn[0][i] = np.dot(
             np.array([1, 0]), np.dot(FaceSFM[i], np.array([[1.0], [0.0]]))
-        )
+        ).item()
         """
         Calculate curvature per vertex
         Calculate voronoi weights
         """
-        wfp[i][0] = Acorner[i][0] / Avertex[FV.faces[i][0]]
-        wfp[i][1] = Acorner[i][1] / Avertex[FV.faces[i][1]]
-        wfp[i][2] = Acorner[i][2] / Avertex[FV.faces[i][2]]
+        wfp[i][0] = Acorner[i][0] / Avertex[FV.faces[i][0]].item()
+        wfp[i][1] = Acorner[i][1] / Avertex[FV.faces[i][1]].item()
+        wfp[i][2] = Acorner[i][2] / Avertex[FV.faces[i][2]].item()
 
         "Calculate new coordinate system and project the tensor"
 
