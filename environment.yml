@@ -1,6 +1,5 @@
-name: slam
-channels:
-  - defaults
+name: base
+
 dependencies:
   - pip:
     - numpy

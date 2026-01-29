@@ -1,6 +1,6 @@
 import os
 import numpy as np
-from slam import (io, differential_geometry,
+from slam import (io,
                   geodesics, texture,
                   curvature, vertex_voronoi,
                   sulcal_depth, utils)
@@ -70,11 +70,16 @@ def compute_mesh_features(mesh, save=True, outdir=None, check_if_exist=True):
     return mean_curvature, dpf, voronoi
 
 
-def normalize_thresholds(voronoi, thresh_dist=20.0, thresh_ridge=1.5, thresh_area=50.0, side="left"):
+def normalize_thresholds(voronoi,
+                         thresh_dist=20.0,
+                         thresh_ridge=1.5,
+                         thresh_area=50.0,
+                         side="left"):
     """
     Function that normalizes the thresholds for the watershed algorithm.
     Threshold on basin's area is normalized by the surface area of the mesh.
-    Threshold on distance between pits is normalized by the square root of the surface area.
+    Threshold on distance between pits is normalized by the square root of
+    the surface area.
 
     :args: voronoi(numpy array): voronoi areas of the mesh
     :args: thresh_dist(float): distance threshold for the watershed algorithm
@@ -275,7 +280,7 @@ def watershed(mesh, voronoi, dpf, thresh_dist, thresh_ridge,
                 if (neighbor_lab in np.unique(vert_label)
                         and lab in np.unique(vert_label)):
                     # Forcing label_i < label_j so that
-                    # pit(i) deeper than pit(j)
+                    # pit(i) is always deeper than pit(j)
                     label_i = min(lab, neighbor_lab)
                     label_j = max(lab, neighbor_lab)
                     if adjacency[label_i, label_j] == 0:  # first meet
@@ -286,6 +291,14 @@ def watershed(mesh, voronoi, dpf, thresh_dist, thresh_ridge,
                         ridge_height = (
                             abs(vert_depth[basins[label_j]['pit_index']]
                                 - node[1]))
+
+                        ridge_height_cus = (
+                            abs(vert_depth[basins[label_i]['pit_index']]
+                                - node[1]))
+                        print("ridge_height=", ridge_height)
+                        print("ridge_height_cus=", ridge_height_cus)
+                        print("ridge_height<ridge_height_cus :: ",
+                              ridge_height < ridge_height_cus)
                         if ridge_height < thresh_ridge:
 
                             # Compute distance between pits
@@ -306,13 +319,13 @@ def watershed(mesh, voronoi, dpf, thresh_dist, thresh_ridge,
                                 del basins[label_j]
                                 # Update ridges
                                 # Add adjacent basins of j to i
-                                # and clean out adjacency of j
                                 adjacency[label_i, :] = (
                                         adjacency[label_i, :] |
                                         adjacency[label_j, :])
                                 adjacency[:, label_i] = (
                                         adjacency[:, label_i] |
                                         adjacency[:, label_j])
+                                # clean out adjacency of j
                                 adjacency[label_j, :] = 0
                                 adjacency[:, label_j] = 0
 
@@ -433,11 +446,21 @@ def watershed(mesh, voronoi, dpf, thresh_dist, thresh_ridge,
         ridges[(i, j)]['ridge_index'] = (
             ridges_vertices)[np.argmin(vert_depth[ridges_vertices])]
         ridges[(i, j)]['ridge_depth'] = np.min(vert_depth[ridges_vertices])
-        # 'ridge_height'] = depth difference between ridge point and highest
-        # pit which should correspond to index j (> index i)
-        ridges[(i, j)]['ridge_height'] = (
-            abs(basins[j]['pit_depth'] - ridges[(i, j)]['ridge_depth']))
+        # depth difference between ridge point and corresponding pits
+        diff_i = abs(basins[i]['pit_depth'] - ridges[(i, j)]['ridge_depth'])
+        diff_j = abs(basins[j]['pit_depth'] - ridges[(i, j)]['ridge_depth'])
+        ridges[(i, j)]['ridge_depth_diff_min'] = min(diff_i, diff_j)
+        ridges[(i, j)]['ridge_depth_diff_max'] = max(diff_i, diff_j)
+        print('ridge_depth_diff_min=', ridges[(i, j)]['ridge_depth_diff_min'])
+        print('ridge_depth_diff_max=', ridges[(i, j)]['ridge_depth_diff_max'])
         ridges[(i, j)]['ridge_length'] = len(ridges_vertices)
+        ridges[(i, j)]['ridge_vertices'] = ridges_vertices
+
+    for i, j in adjacency_index:
+        print(ridges[(i, j)]['ridge_vertices'])
+        print(ridges[(i, j)]['ridge_index'])
+        print(ridges[(j, i)]['ridge_vertices'])
+        print(ridges[(j, i)]['ridge_index'])
 
     return basins, ridges, adjacency
 
@@ -466,13 +489,19 @@ def get_textures_from_dict(mesh, basins, ridges, save=True, outdir=None):
     labels = np.full(vert.shape[0], -1, dtype=np.int64)
     atex_pits = np.zeros(vert.shape[0])
     atex_ridges = np.zeros(vert.shape[0])
+    atex_ridges_vert = np.zeros(vert.shape[0])
 
     for b in basins.keys():
         labels[basins[b]['basin_vertices']] = b
         atex_pits[basins[b]['pit_index']] = 1
 
-    for i, j in ridges:
-        atex_ridges[ridges[(i, j)]['ridge_index']] = 1
+    # for i, j in ridges:
+    #     atex_ridges[ridges[(i, j)]['ridge_index']] = 1
+    #     r_v = np.array(ridges[(i, j)]['ridge_vertices'])
+    #     print(r_v)
+    #     print(ridges[(i, j)]['ridge_length'])
+    #     for v in r_v:
+    #         atex_ridges_vert[v] = 1
 
     # texture of labels
     tex_labels = texture.TextureND(darray=labels.flatten())
@@ -488,5 +517,11 @@ def get_textures_from_dict(mesh, basins, ridges, save=True, outdir=None):
     tex_ridges = texture.TextureND(darray=atex_ridges.flatten())
     if save:
         io.write_texture(tex_ridges, os.path.join(outdir, "rigdes_tex.gii"))
+
+    # texture of ridges vertices
+    tex_ridges_vert = texture.TextureND(darray=atex_ridges.flatten())
+    if save:
+        io.write_texture(tex_ridges_vert,
+                         os.path.join(outdir, "rigdes_vert_tex.gii"))
 
     return tex_labels, tex_pits, tex_ridges

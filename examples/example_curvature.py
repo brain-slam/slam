@@ -149,67 +149,89 @@ angular_error_1 = 180 * angular_error_1 / np.pi
 #############################################################################
 # VISUALIZATION USING EXTERNAL TOOLS
 #############################################################################
-# import visbrain # visu using visbrain
-# Plot mean curvature
-# visb_sc = splt.visbrain_plot(
-#     mesh=mesh,
-#     tex=mean_curv,
-#     caption="mean curvature",
-#     cblabel="mean curvature"
-# )
-# visb_sc.preview()
-#############################################################################
-# # Plot Gauss curvature
-# visb_sc = splt.visbrain_plot(
-#     mesh=mesh,
-#     tex=gaussian_curv,
-#     caption="Gaussian curvature",
-#     cblabel="Gaussian curvature",
-#     cmap="hot",
-# )
-# visb_sc.preview()
-###############################################################################
-# Plot of ShapeIndex and Curvedness
-# visb_sc = splt.visbrain_plot(
-#     mesh=mesh,
-#     tex=shapeIndex,
-#     caption="ShapeIndex",
-#     cblabel="ShapeIndex",
-#     cmap="coolwarm",
-# )
-# visb_sc.preview()
-#
-# visb_sc = splt.visbrain_plot(
-#     mesh=mesh,
-#     tex=curvedness,
-#     caption="Curvedness",
-#     cblabel="Curvedness",
-#     cmap="hot"
-# )
-# visb_sc.preview()
-###############################################################################
-# Error plot
-# visb_sc = splt.visbrain_plot(
-#     mesh=quadric,
-#     tex=k_mean_absolute_change,
-#     caption="K_mean absolute error",
-#     cblabel="K_mean absolute error",
-# )
-# visb_sc.preview()
-# ###############################################################################
-# # Error plot
-# visb_sc = splt.visbrain_plot(
-#     mesh=quadric,
-#     tex=angular_error_0,
-#     caption="Angular error 0",
-#     cblabel="Angular error 0",
-# )
-# visb_sc.preview()
-#
-# visb_sc = splt.visbrain_plot(
-#     mesh=quadric,
-#     tex=angular_error_1,
-#     caption="Angular error 1",
-#     cblabel="Angular error 1",
-# )
-# visb_sc.preview()
+import slam.plot as splt
+
+vertices = mesh.vertices
+# center the vertices
+vertices = vertices - np.mean(vertices, axis=0)
+vertices_translate = np.copy(vertices)
+# rotate the vertices
+theta = np.pi / 2
+rot_x = np.array([[1, 0, 0],
+                  [0, np.cos(theta), -np.sin(theta)],
+                  [0, np.sin(theta),  np.cos(theta)]])
+vertices_translate = np.dot(rot_x, vertices_translate.T).T
+rot_z = np.array([[np.cos(theta), -np.sin(theta),0],
+                  [np.sin(theta),  np.cos(theta),0],
+                  [0, 0, 1],])
+vertices_translate = np.dot(rot_z, vertices_translate.T).T
+display_settings = {}
+display_settings['colorbar_label'] = 'Mean Curvature'
+mesh_data = {}
+mesh_data['vertices'] = vertices_translate
+mesh_data['faces'] = mesh.faces
+mesh_data['title'] = 'example_mesh.gii Mean Curvature'
+intensity_data = {}
+intensity_data['values'] = mean_curv
+intensity_data["mode"] = "vertex"
+Fig = splt.mes3d_projection(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+Fig.show()
+
+mesh_data['title'] = 'example_mesh.gii Gaussian Curvature'
+intensity_data['values'] = gaussian_curv
+display_settings['colorbar_label'] = 'Gaussian Curvature'
+Fig = splt.mes3d_projection(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+Fig.show()
+
+mesh_data['title'] = 'example_mesh.gii Shape Index'
+intensity_data['values'] = shapeIndex
+display_settings['colorbar_label'] = 'Shape Index'
+Fig = splt.mes3d_projection(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+Fig.show()
+
+mesh_data['title'] = 'example_mesh.gii Curvedness'
+intensity_data['values'] = curvedness
+display_settings['colorbar_label'] = 'Curvedness'
+Fig = splt.mes3d_projection(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+Fig.show()
+
+mesh_data['vertices'] = quadric.vertices
+mesh_data['faces'] = quadric.faces
+mesh_data['title'] = 'Quadric K Mean Absolute Change'
+intensity_data['values'] = k_mean_absolute_change
+display_settings['colorbar_label'] = 'K Mean Absolute Change'
+Fig = splt.mes3d_projection(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+Fig.show()
+
+mesh_data['title'] = 'Quadric Angular Error 0'
+intensity_data['values'] = angular_error_0
+display_settings['colorbar_label'] = 'Angular Error 0'
+Fig = splt.mes3d_projection(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+Fig.show()
+
+mesh_data['title'] = ('Quadric Angular Error 1')
+intensity_data['values'] = angular_error_1
+display_settings['colorbar_label'] = 'Angular Error 1'
+Fig = splt.mes3d_projection(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+Fig.show()
