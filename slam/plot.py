@@ -20,6 +20,7 @@ Date : 2023
 import os
 import plotly.graph_objects as go
 
+
 def create_hover_trace(points, text, mode, **kwargs):
     """
     Crée une trace 3D pour un graphique Plotly.
@@ -93,12 +94,20 @@ def mes3d_projection(mesh_data, intensity_data, display_settings, output_setting
     )  # choix du mode de projection, par défaut par face
 
     # Colorbar
-    colorscale = display_settings.get("colorscale", "Turbo")  # choix de la colorbar, par défaut Turbo (continue)
-    cmin = intensity_data.get("cmin", None)  # si besoin, on modifie la plage de la colorbar, par défaut None
+    colorscale = display_settings.get(
+        "colorscale", "Turbo"
+    )  # choix de la colorbar, par défaut Turbo (continue)
+    cmin = intensity_data.get(
+        "cmin", None
+    )  # si besoin, on modifie la plage de la colorbar, par défaut None
     cmax = intensity_data.get("cmax", None)
     title_colorbar = display_settings.get("colorbar_label", "")
-    colorbar_tickvals = display_settings.get("tickvals", None)  # si besoin, on remplace les vals de la texture sur la colorbar, par défaut None
-    colorbar_ticktext = display_settings.get("ticktext", None)  # si besoin, on remplace les graduation de la colorbar, par défaut None
+    colorbar_tickvals = display_settings.get(
+        "tickvals", None
+    )  # si besoin, on remplace les vals de la texture sur la colorbar, par défaut None
+    colorbar_ticktext = display_settings.get(
+        "ticktext", None
+    )  # si besoin, on remplace les graduation de la colorbar, par défaut None
 
     # Extraction des métadonnées
     title = output_settings["title"]
@@ -118,7 +127,7 @@ def mes3d_projection(mesh_data, intensity_data, display_settings, output_setting
                 i=faces[:, 0],
                 j=faces[:, 1],
                 k=faces[:, 2],
-                colorscale=colorscale, #on peut utiliser une fonction pour générer colorbar selon features
+                colorscale=colorscale,  # on peut utiliser une fonction pour générer colorbar selon features
                 intensity=intensities,
                 intensitymode=intensitymode,
                 flatshading=True,
