@@ -16,11 +16,15 @@ Texture example in slam
 
 ###############################################################################
 # Importation of slam modules
+import sys
+import os
 from pathlib import Path
 import numpy as np
 from slam import texture
 from slam import io as sio
-from slam import plot as proj
+
+sys.path.insert(0, os.path.abspath(os.curdir))
+from slam import plot as plt
 
 ###############################################################################
 #
@@ -51,18 +55,20 @@ sio.write_texture(tex2, "test.gii")
 
 # dict for proj
 NAME_TEX = "sulc"
-SAVE_DIR = Path("./test")
 TITLE = "test"
 EXT = "png"
+PATH = Path("./test")
+SAVE_DIR = PATH / f"{TITLE}.{EXT}"
 
-mesh_data = {"vertices": mesh.vertices, "faces": mesh.faces, "center": mesh.center_mass}
+mesh_data = {"vertices": mesh.vertices, "faces": mesh.faces, "center": mesh.center_mass, "title": TITLE}
 intensity_data = {"values": tex.darray[0], "mode": "vertex"}
 display_settings = {"colorscale": "Turbo", "colorbar_label": NAME_TEX}
-output_settings = {"path": SAVE_DIR, "title": TITLE, "ext": EXT}
 
-proj.mes3d_projection(
+fig = plt.mes3d_projection(
     mesh_data,
     intensity_data,
     display_settings,
-    output_settings,
 )
+
+os.makedirs(PATH, exist_ok=True)
+fig.write_image(SAVE_DIR, width=1600, height=900)
