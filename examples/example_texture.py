@@ -16,14 +16,11 @@ Texture example in slam
 
 ###############################################################################
 # Importation of slam modules
-import sys
 import os
 from pathlib import Path
 import numpy as np
 from slam import texture
 from slam import io as sio
-
-sys.path.insert(0, os.path.abspath(os.curdir))
 from slam import plot as plt
 
 ###############################################################################
@@ -60,7 +57,12 @@ EXT = "png"
 PATH = Path("./test")
 SAVE_DIR = PATH / f"{TITLE}.{EXT}"
 
-mesh_data = {"vertices": mesh.vertices, "faces": mesh.faces, "center": mesh.center_mass, "title": TITLE}
+mesh_data = {
+    "vertices": mesh.vertices,
+    "faces": mesh.faces,
+    "center": mesh.center_mass,
+    "title": TITLE
+}
 intensity_data = {"values": tex.darray[0], "mode": "vertex"}
 display_settings = {"colorscale": "Turbo", "colorbar_label": NAME_TEX}
 
