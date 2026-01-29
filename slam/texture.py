@@ -143,3 +143,38 @@ class TextureND:
         self.darray = sutl.z_score_filtering(self.darray, z_thresh)
         self.metadata["z_score_filtered"] = True
         self.metadata["z_score_threshold"] = z_thresh
+
+    def extremum(self, mesh):
+        """
+        Function that returns the extrema texture
+
+        INPUT:
+
+        "mesh": Loaded mesh
+
+        OUTPUT:
+
+        "extremum": an array that indicates which areas are
+        local extrema, either local maxima or local minima
+
+        """
+
+        neigh = mesh.vertex_neighbors
+
+        # initiate extrema as the same shape as atex
+        extrema = np.zeros_like(self.darray)
+
+        # For every vertex in the mesh
+        for vertex, neight_vertex in enumerate(neigh):
+            # Compute the minimal and maximal value of the neighboring vertex
+            mi = np.min(self.darray[0, neight_vertex])
+            ma = np.max(self.darray[0, neight_vertex])
+
+            # If the vertex is smaller than the
+            # minimal or bigger than the maximal value
+            # The vertex is an extremum.
+            if self.darray[0, vertex] < mi:
+                extrema[0, vertex] = -1
+            elif self.darray[0, vertex] > ma:
+                extrema[0, vertex] = 1
+        return extrema
