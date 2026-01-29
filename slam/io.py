@@ -18,7 +18,7 @@ def load_mesh(gifti_file):
         g.get_arrays_from_intent(
             nb.nifti1.intent_codes["NIFTI_INTENT_TRIANGLE"])[0].data,
     )
-    metadata = g.meta.metadata
+    metadata = dict(g.meta)
     metadata["filename"] = gifti_file
     return trimesh.Trimesh(
         faces=faces, vertices=coords, metadata=metadata, process=False
@@ -58,7 +58,7 @@ def load_texture(gifti_file):
     cat_darrays = [nb_texture.darrays[i].data for i in range(
         len(nb_texture.darrays))]
     return texture.TextureND(
-        darray=np.array(cat_darrays), metadata=nb_texture.meta.metadata
+        darray=np.array(cat_darrays), metadata= dict(nb_texture.meta)
     )
 
 
