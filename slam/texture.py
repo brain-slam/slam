@@ -144,8 +144,7 @@ class TextureND:
         self.metadata["z_score_filtered"] = True
         self.metadata["z_score_threshold"] = z_thresh
 
-
-    def extremum(self,mesh):
+    def extremum(self, mesh):
         """
         Function that returns the extrema texture
 
@@ -155,7 +154,8 @@ class TextureND:
 
         OUTPUT:
 
-        "extremum": an array that indicates which areas are local extrema, either local maxima or local minima
+        "extremum": an array that indicates which areas are
+        local extrema, either local maxima or local minima
 
         """
 
@@ -170,11 +170,11 @@ class TextureND:
             mi = np.min(self.darray[0, neight_vertex])
             ma = np.max(self.darray[0, neight_vertex])
 
-            # If the vertex is smaller than the minimal or bigger than the maximal value
+            # If the vertex is smaller than the
+            # minimal or bigger than the maximal value
             # The vertex is an extremum.
             if self.darray[0, vertex] < mi:
                 extrema[0, vertex] = -1
             elif self.darray[0, vertex] > ma:
                 extrema[0, vertex] = 1
         return extrema
-
