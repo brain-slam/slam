@@ -7,7 +7,6 @@ Auteur : Zoë LAFFITTE
 Date : 2026
 """
 
-import os
 import plotly.graph_objects as go
 
 
@@ -51,11 +50,7 @@ def create_hover_trace(points, text, mode, **kwargs):
     )
 
 
-def mes3d_projection(
-        mesh_data,
-        intensity_data,
-        display_settings,
-        output_settings):
+def mes3d_projection(mesh_data, intensity_data, display_settings):
     """
     Crée une projection 3D d'un maillage avec intensités.
 
@@ -72,16 +67,15 @@ def mes3d_projection(
     display_settings : dict
         Paramètres d'affichage (e.g., colorscale, labels).
 
-    output_settings : dict
-        Paramètres de sauvegarde (e.g., chemin, titre).
-
     Returns
     -------
-    None
+    fig
+        L'objet plotly.
     """
     # Extraction des données du maillage et des intensités
     vertices = mesh_data["vertices"]
     faces = mesh_data["faces"]
+    title = mesh_data["title"]
 
     # Extraction pour la proj de la feature
     intensities = intensity_data["values"]
@@ -104,12 +98,6 @@ def mes3d_projection(
     colorbar_ticktext = display_settings.get(
         "ticktext", None
     )  # si besoin, on remplace les graduation de la colorbar
-
-    # Extraction des métadonnées
-    title = output_settings["title"]
-    path = output_settings["path"]  # au format Path()
-    ext = output_settings.get("ext", "html")  # choix de l'extension
-    save_path = path / f"{title}.{ext}"
 
     print("Plotting ...")
 
@@ -165,8 +153,4 @@ def mes3d_projection(
         },
     )
 
-    os.makedirs(path, exist_ok=True)
-    if ext == "html":
-        fig.write_html(save_path)
-    else:
-        fig.write_image(save_path, width=1600, height=900)
+    return fig
