@@ -42,3 +42,11 @@ print(tex2.dtype)
 print(tex2.min())
 print(tex2.max())
 sio.write_texture(tex2, "test.gii")
+
+#############
+print('extremum texture')
+mesh= sio.load_mesh("../examples/data/example_mesh.gii")
+print('maximum')
+print(np.count_nonzero(tex.extremum(mesh) == 1))
+print('minimum')
+print(np.count_nonzero(tex.extremum(mesh) == -1))
