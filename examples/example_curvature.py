@@ -161,6 +161,10 @@ rot_x = np.array([[1, 0, 0],
                   [0, np.cos(theta), -np.sin(theta)],
                   [0, np.sin(theta),  np.cos(theta)]])
 vertices_translate = np.dot(rot_x, vertices_translate.T).T
+rot_z = np.array([[np.cos(theta), -np.sin(theta),0],
+                  [np.sin(theta),  np.cos(theta),0],
+                  [0, 0, 1],])
+vertices_translate = np.dot(rot_z, vertices_translate.T).T
 display_settings = {}
 display_settings['colorbar_label'] = 'Mean Curvature'
 mesh_data = {}
