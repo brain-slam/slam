@@ -145,7 +145,7 @@ class TextureND:
         self.metadata["z_score_threshold"] = z_thresh
 
 
-    def extremum(self,mesh,dim):
+    def extremum(self,mesh):
         """
         Function that returns the extrema texture
 
