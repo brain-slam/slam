@@ -7,6 +7,20 @@ from trimesh import graph
 from trimesh import grouping
 
 
+def compute_face_normal(face_vertices):
+    if face_vertices.ndim < 3:
+        face_vertices = np.array([face_vertices])
+    vectors = face_vertices[:, 1:, :] - face_vertices[:, :2, :]
+
+    cprod = np.cross(vectors[:, 0], vectors[:, 1])
+    norm = np.sqrt(np.dot(cprod * cprod, [1.0] * cprod.shape[1]))
+    # in-place reciprocal of nonzero norms
+    norm **= -1
+    # multiply by reciprocal of norm
+    unit_cprod = cprod * norm.reshape((-1, 1))
+    return unit_cprod
+
+
 def boundary_angles(boundary, vertices_coord):
     """
     compute the angle between consecutive edges in a path
@@ -227,9 +241,12 @@ def close_mesh(mesh, boundary_in=None):
                     faces = np.vstack((faces, add_faces))
                     # print(np.array(add_faces))
                     # print(vertices[np.array(add_faces)])
-                    add_normals, valid = trimesh.triangles.normals(
-                        vertices[np.array(add_faces)]
-                    )
+                    # add_normals, valid = trimesh.triangles.normals(
+                    #     vertices[np.array(add_faces)]
+                    # )
+                    add_normals\
+                        = compute_face_normal(vertices[np.array(add_faces)])
+
                     face_normals = np.vstack((face_normals, add_normals))
                     """ update of the boundary,  boundIndsF and bound_ang"""
                     if nb_faces < 2:
@@ -375,7 +392,9 @@ def edges_to_boundary(edges_bound, mesh_edges):
         paths = sorted(
             list(
                 nx.shortest_simple_paths(
-                    sub_graph, source=sub_graph_nodes[0], target=sub_graph_nodes[1]
+                    sub_graph,
+                    source=sub_graph_nodes[0],
+                    target=sub_graph_nodes[1]
                 )
             ),
             key=len,
@@ -445,10 +464,10 @@ def remove_mesh_boundary_faces(mesh, face_vertex_number=1):
     """
     remove from the mesh the faces and that have face_vertex_number number of
     vertices or more on the boundary of the mesh
-    If face_vertex_number = 3 the faces with all 3 vertices on the boundary of
-    the mesh will be removed.
-    If face_vertex_number = 2 the faces with 2 or 3 vertices on the boundary of
-    the mesh will be removed.
+    If face_vertex_number = 3 the faces with all 3 vertices on the boundary
+    of the mesh will be removed.
+    If face_vertex_number = 2 the faces with 2 or 3 vertices on the boundary
+    of the mesh will be removed.
     If face_vertex_number = 1 the faces with 1 or 2 or 3 vertices on the
     boundary will be removed.
     The cases face_vertex_number = 0 or >= 3 does not make any sense, so an
@@ -461,7 +480,8 @@ def remove_mesh_boundary_faces(mesh, face_vertex_number=1):
     """
     if face_vertex_number == 0 or face_vertex_number > 3:
         raise NameError(
-            "Invalid parameter value: face_vertex_number value " "should be 1, 2, or 3"
+            "Invalid parameter value: face_vertex_number value "
+            "should be 1, 2, or 3"
         )
 
     open_mesh_boundary = mesh_boundary(mesh)
@@ -486,7 +506,9 @@ def sub_cut_mesh(mesh, atex, val):
     poly_set = poly[inds[:, 0] & inds[:, 1] & inds[:, 2], :]
     (uni, inds) = np.unique(poly_set, False, True)
     submesh = trimesh.Trimesh(
-        faces=np.reshape(inds, poly_set.shape), vertices=vert[uni, :], process=False
+        faces=np.reshape(inds, poly_set.shape),
+        vertices=vert[uni, :],
+        process=False
     )
     return submesh, tex_val_indices
 

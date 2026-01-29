@@ -75,7 +75,10 @@ def laplacian_mesh_smoothing(mesh, nb_iter, dt, volume_preservation=False):
         # scale by volume ratio
         smoothed_vert *= (vol_ini / vol_new) ** (1.0 / 3.0)
     return trimesh.Trimesh(
-        faces=mesh.faces, vertices=smoothed_vert, metadata=mesh.metadata, process=False
+        faces=mesh.faces,
+        vertices=smoothed_vert,
+        metadata=mesh.metadata,
+        process=False
     )
 
 
@@ -124,11 +127,11 @@ def laplacian_smoothing(texture_data, lap, lap_b, nb_iter, dt):
         if texture_data.ndim > 1:
             for d in range(texture_data.shape[1]):
                 texture_data[:, d], infos = lgmres(
-                    M.tocsr(), texture_data[:, d], tol=solver_tolerance
+                    M.tocsr(), texture_data[:, d], rtol=solver_tolerance
                 )
         else:
             texture_data, infos = lgmres(
-                M.tocsr(), texture_data, tol=solver_tolerance)
+                M.tocsr(), texture_data, rtol=solver_tolerance)
         if i % mod == 0:
             print(i)
 
@@ -138,7 +141,7 @@ def laplacian_smoothing(texture_data, lap, lap_b, nb_iter, dt):
     # M = B-dt*L
     # for i in range(Niter):
     #     Mtex = M * Mtex
-    #     Mtex, infos = lgmres(B.tocsr(), Mtex, tol=solver_tolerance)
+    #     Mtex, infos = lgmres(B.tocsr(), Mtex, rtol=solver_tolerance)
     #     if (i % mod == 0):
     #         print(i)
     print("    OK")
@@ -291,10 +294,12 @@ def compute_mesh_weights(
             qq = -qq
             angi2 = np.arccos(np.sum(rr * qq, 1)) / 2
             W = W + sparse.coo_matrix(
-                (np.tan(angi1) / norr, (poly[:, i1], poly[:, i3])), shape=(Nbv, Nbv)
+                (np.tan(angi1)
+                 / norr, (poly[:, i1], poly[:, i3])), shape=(Nbv, Nbv)
             )
             W = W + sparse.coo_matrix(
-                (np.tan(angi2) / norr, (poly[:, i3], poly[:, i1])), shape=(Nbv, Nbv)
+                (np.tan(angi2)
+                 / norr, (poly[:, i3], poly[:, i1])), shape=(Nbv, Nbv)
             )
         nnz = W.nnz
     if weight_type == "authalic":
@@ -388,50 +393,6 @@ def compute_mesh_laplacian(
     print("    -nb Inf in Laplacian : ", len(np.where(np.isinf(li))[0]))
 
     return L, B
-
-
-def depth_potential_function(mesh, curvature, alphas):
-    """
-    compute the depth potential function of a mesh as desribed in
-    Boucher, M., Whitesides, S., & Evans, A. (2009).
-    Depth potential function for folding pattern representation,
-    registration and analysis.
-    Medical Image Analysis, 13(2), 203–14.
-    doi:10.1016/j.media.2008.09.001
-    :param mesh:
-    :param curvature:
-    :param alphas:
-    :return:
-    """
-    L, LB = compute_mesh_laplacian(mesh, lap_type="fem")
-    B = (
-        -2
-        * LB
-        * (curvature - (np.sum(curvature * LB.diagonal()) / np.sum(LB.diagonal())))
-    )
-    # be careful with factor 2 used in eq (13)
-
-    dpf = []
-    for ind, alpha in enumerate(alphas):
-        M = alpha * LB + L / 2
-        dpf_t, info = lgmres(M.tocsr(), B, tol=solver_tolerance)
-        dpf.append(dpf_t)
-
-    ############################
-    # old, slower and less accurate implementation using conformal laplacian
-    # instead of fem
-    ############################
-    # vert_voronoi = vertexVoronoi(mesh)
-    # L, LB = compute_mesh_laplacian(mesh, lap_type='conformal')
-    # B = -2 * vert_voronoi * (curvature-( np.sum(curvature*vert_voronoi)
-    # / vert_voronoi.sum() ))
-    # B=B.squeeze()
-    # for ind, alpha in enumerate(alphas):
-    #     A = sparse.dia_matrix((alpha*vert_voronoi, 0), shape=(Nbv, Nbv))
-    #     M = A+L
-    #     dpf_t, info = lgmres(M.tocsr(), B, tol=solver_tolerance)
-    #     dpf.append(dpf_t)
-    return dpf
 
 
 def triangle_gradient(mesh, texture_array):

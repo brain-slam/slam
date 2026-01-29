@@ -10,17 +10,20 @@ Geodesic in slam
 # Guillaume Auzias <guillaume.auzias@univ-amu.fr>
 # Julien Barrès <julien.barres@etu.univ-amu.fr>
 
-# License: BSD (3-clause)
+# License: MIT
 # sphinx_gallery_thumbnail_number = 2
 
+###############################################################################
+# NOTE: there is no visualization tool in slam, but we provide at the
+# end of this script exemplare code to do the visualization with
+# an external solution
+###############################################################################
 
 ###############################################################################
 # Importation of slam modules
-import slam.plot as splt
 import slam.io as sio
 import slam.geodesics as sgeo
 import numpy as np
-
 # import trimesh
 
 ###############################################################################
@@ -31,35 +34,16 @@ mesh = sio.load_mesh("../examples/data/example_mesh.gii")
 # Getting the vertex index in specified geo_distance of vert
 vert_id = 200
 max_geodist = 10
-
 geo_distance = sgeo.compute_gdist(mesh, vert_id)
 area_geodist_vi = np.where(geo_distance < max_geodist)[0]
-
 print(area_geodist_vi)
 
 ###############################################################################
-# Visualization
-
-visb_sc = splt.visbrain_plot(
-    mesh=mesh, tex=geo_distance, caption="geodesic distance", cblabel="distance"
-)
-visb_sc.preview()
-
-###############################################################################
 # Getting the vertex index in specified geo_distance of vert
-
 area_geodist = sgeo.local_gdist_matrix(mesh, max_geodist)
 
-visb_sc2 = splt.visbrain_plot(
-    mesh=mesh,
-    tex=area_geodist[0].toarray().squeeze(),
-    caption="local geodesic distance",
-    cblabel="distance",
-)
-visb_sc2.preview()
 ###############################################################################
 # Get the vertex index
-
 indices = []
 
 for i in range(mesh.vertices.shape[0]):
@@ -69,12 +53,31 @@ for i in range(mesh.vertices.shape[0]):
 
 ###############################################################################
 # Arbitrary indices of mesh.vertices to test with
-
 start = 0
 end = int(len(mesh.vertices) / 2.0)
 path = sgeo.shortest_path(mesh, start, end)
 print(path)
 
+#############################################################################
+# VISUALIZATION USING EXTERNAL TOOLS
+#############################################################################
+# # Visualization with visbrain
+# # show the geodesic distance
+# visb_sc = splt.visbrain_plot(
+#     mesh=mesh,
+#     tex=geo_distance,
+#     caption="geodesic distance",
+#     cblabel="distance"
+# )
+# visb_sc.preview()
+# # show the geodesic distance locally
+# visb_sc2 = splt.visbrain_plot(
+#     mesh=mesh,
+#     tex=area_geodist[0].toarray().squeeze(),
+#     caption="local geodesic distance",
+#     cblabel="distance",
+# )
+# visb_sc2.preview()
 
 ###############################################################################
 # # Visualization using pyglet

@@ -1,0 +1,43 @@
+name: "Test and deploy"
+
+on:
+  push:
+    branches:
+        [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@master
+      - name: Set up Python  3.12
+        uses: actions/setup-python@v2
+        with:
+          python-version:  3.12
+
+      - name: VirtualEnv
+        run: |
+          python -m venv slam-env
+          source slam-env/bin/activate
+      - name: Install all the dependencies
+        run: |
+             pip install .['doc']
+      - name: Run tests with pytest
+        run: |
+            pip install pytest pytest-cov coveralls
+            pytest -W default --cov=slam/
+      - name: Build the Doc 🔧
+        run: |
+          cd doc
+          make clean
+          make html
+          touch _build/html/.nojekyll
+      - name: Deploy Github Pages 🚀
+        uses: JamesIves/github-pages-deploy-action@v4.4.3
+        with:
+          branch: gh-pages
+          folder: doc/_build/html/
+          clean: true
+          ssh-key: ${{ secrets.DEPLOY_KEY }}

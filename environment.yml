@@ -6,5 +6,6 @@ dependencies:
     - numpy
     - scipy
     - trimesh
-    - nibabel>=2.1
+    - nibabel
     - networkx
+    - tvb-gdist

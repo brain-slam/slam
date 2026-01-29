@@ -144,7 +144,3 @@ venv.bak/
 # modules.xml
 # .idea/misc.xml 
 # *.ipr
-
-curv_py.py
-.gitignore
-slam/plot.py

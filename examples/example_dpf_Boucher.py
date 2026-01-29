@@ -9,16 +9,19 @@ Example of depth potential function in slam
 
 # Authors: Julien Lefevre <julien.lefevre@univ-amu.fr>
 
-# License: BSD (3-clause)
+# License: MIT
 # sphinx_gallery_thumbnail_number = 2
 
+###############################################################################
+# NOTE: there is no visualization tool in slam, but we provide at the
+# end of this script exemplare code to do the visualization with
+# an external solution
+###############################################################################
 
 ###############################################################################
-# Import of slam modules
+# Import of modules
 import slam.curvature as sc
-import slam.differential_geometry as sdg
-import slam.plot as splt
-import matplotlib.pyplot as plt
+import slam.sulcal_depth as sdepth
 import trimesh
 import numpy as np
 from scipy.spatial import Delaunay
@@ -75,26 +78,11 @@ ay = 1
 nstep = 50
 mesh = boucher_surface(params, ax, ay, nstep)
 
-##########################################################################
-# Visualization of the mesh
-visb_sc = splt.visbrain_plot(
-    mesh=mesh,
-    caption="Boucher mesh",
-    bgcolor=[
-        0.3,
-        0.5,
-        0.7])
-visb_sc
-visb_sc.preview()
-
 ##################################
 # Compute dpf for various alpha
-
-res = sc.curvatures_and_derivatives(mesh)
-mean_curvature = res[0].sum(axis=0)
 alphas = [0.001, 0.01, 0.1, 1, 10, 100]
-dpfs = sdg.depth_potential_function(
-    mesh, curvature=mean_curvature, alphas=alphas)
+dpfs = sdepth.depth_potential_function(
+    mesh, alphas=alphas)
 
 amplitude_center = []
 amplitude_peak = []
@@ -104,41 +92,59 @@ for i in range(len(dpfs)):
     amplitude_center.append(dpfs[i][index_peak_neg])
     amplitude_peak.append(dpfs[i][index_peak_pos])
 
-plt.semilogx(alphas, amplitude_center)
-plt.semilogx(alphas, amplitude_peak)
-plt.semilogx(alphas, len(alphas) *
-             [params[0] * (1 + 2 * np.exp(-3 / 2))], "--")
-plt.xlabel("alpha")
-plt.ylabel("amplitude")
-plt.legend(["DPF at center", "DPF (secondary peaks)", "True amplitude"])
-plt.show()
-
-#####################################
-#  Display dpfs on the surfaces
-
-visb_sc = splt.visbrain_plot(
-    mesh=mesh, tex=dpfs[0], caption="Boucher mesh", bgcolor="white"
-)
-visb_sc = splt.visbrain_plot(
-    mesh=mesh, tex=dpfs[5], caption="Boucher mesh", visb_sc=visb_sc
-)
-visb_sc.preview()
-
 ####################################
 # Fix alpha and vary M = params[0]
-
 all_M = [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2]
 all_amplitudes = []
 
 for M in all_M:
     mesh = boucher_surface([M, 0.25], ax, ay, nstep)
-    res = sc.curvatures_and_derivatives(mesh)
-    mean_curvature = res[0].sum(axis=0)
-    dpfs = sdg.depth_potential_function(
-        mesh, curvature=mean_curvature, alphas=[0.0015])
+    dpfs = sdepth.depth_potential_function(
+        mesh, alphas=[0.0015])
     all_amplitudes.append(dpfs[0][len(mesh.vertices) // 2])
 
-plt.plot(all_M, all_amplitudes, "+-")
-plt.xlabel("M")
-plt.ylabel("Amplitude of DPF")
-plt.show()
+#############################################################################
+# VISUALIZATION USING EXTERNAL TOOLS
+#############################################################################
+# import visbrain # visu using visbrain
+# import slam.plot as splt
+# import matplotlib.pyplot as plt
+##########################################################################
+# # Visualization of the mesh
+# visb_sc = splt.visbrain_plot(
+#     mesh=mesh,
+#     caption="Boucher mesh",
+#     bgcolor=[
+#         0.3,
+#         0.5,
+#         0.7])
+# visb_sc
+# visb_sc.preview()
+###############################################################################
+# plt.figure()
+# plt.semilogx(alphas, amplitude_center)
+# plt.semilogx(alphas, amplitude_peak)
+# plt.semilogx(alphas, len(alphas) *
+#              [params[0] * (1 + 2 * np.exp(-3 / 2))], "--")
+# plt.xlabel("alpha")
+# plt.ylabel("amplitude")
+# plt.legend(["DPF at center", "DPF (secondary peaks)", "True amplitude"])
+# plt.show()
+#
+######################################
+# #  Display dpfs on the surfaces
+#
+# visb_sc = splt.visbrain_plot(
+#     mesh=mesh, tex=dpfs[0], caption="Boucher mesh", bgcolor="white"
+# )
+# visb_sc = splt.visbrain_plot(
+#     mesh=mesh, tex=dpfs[5], caption="Boucher mesh", visb_sc=visb_sc
+# )
+# visb_sc.preview()
+#
+##############################################################################
+# plt.figure()
+# plt.plot(all_M, all_amplitudes, "+-")
+# plt.xlabel("M")
+# plt.ylabel("Amplitude of DPF")
+# plt.show()
