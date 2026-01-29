@@ -117,14 +117,24 @@ def mes3d_projection(mesh_data, intensity_data=None, display_settings=None):
             "colorbar_tickvals": display_settings.get("tickvals", None),
             "colorbar_ticktext": display_settings.get("ticktext", None),
         })
-
+    camera = dict(
+        eye=dict(x=2, y=0, z=0),  # Camera position from lateral side
+        center=dict(x=0, y=0, z=0),  # Looking at center
+        up=dict(x=0, y=0, z=1)  # Up vector points in positive z direction
+    )
     fig = go.Figure(data=[go.Mesh3d(**mesh_kwargs)])
 
     fig.update_layout(
         title=title,
         title_x=0.2,
         template="seaborn",
-        scene={"camera": {"eye": {"x": -2.5, "y": 0, "z": 0.0}}},
+        scene=dict(
+                aspectmode="data",
+                xaxis=dict(visible=False),
+                yaxis=dict(visible=False),
+                zaxis=dict(visible=False),
+                camera=camera
+            ),
         legend={
             "x": 0,
             "y": 1,
