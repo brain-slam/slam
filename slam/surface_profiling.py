@@ -213,9 +213,14 @@ def second_round_profiling_vert(
         orient_face_id = intersect_fm_index[ori_lines_id]
 
         # Calculate the samples of profiles
-        points_interp_profile, cor_faces_index = compute_profiles_sampling_points(
-            orient_points_i, vertex, max_samples, r_step, orient_face_id
-        )
+        points_interp_profile, cor_faces_index \
+            = compute_profiles_sampling_points(
+                orient_points_i,
+                vertex,
+                max_samples,
+                r_step,
+                orient_face_id
+                )
 
         profile_points.append(points_interp_profile)
         profile_intersect_faces.append(cor_faces_index)
@@ -522,7 +527,8 @@ def compute_profile_barycentric_para(profile_sample_points, mesh, triangle_id):
 
     if len(profile_sample_points.shape) != 5:
         raise Exception(
-            "Wrong type of profile_sample_points, " "it must be (N, N_p, N_s, 3, 3)."
+            "Wrong type of profile_sample_points, "
+            "it must be (N, N_p, N_s, 3, 3)."
         )
 
     vert = mesh.vertices

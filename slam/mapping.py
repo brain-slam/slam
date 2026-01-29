@@ -44,7 +44,8 @@ def spherical_mapping(
      Input topologically spherical triangular mesh to be mapped onto a sphere
 
     mapping_type: string
-        mapping method, possible options are:'laplacian_eigenvectors', 'conformal','authalic' or 'combined'
+        mapping method, possible options are:
+        'laplacian_eigenvectors', 'conformal','authalic' or 'combined'
 
     dt: Float
         discretization step
@@ -66,18 +67,23 @@ def spherical_mapping(
 
     References:
     ----------
-    .. 1_ J. Lefèvre and G. Auzias, "Spherical Parameterization for Genus Zero Surfaces Using
-    Laplace-Beltrami Eigenfunctions," in 2nd Conference on Geometric Science of
-    Information, GSI, 2015, 121–29, https://doi.org/10.1007/978-3-319-25040-3_14.
+    .. 1_ J. Lefèvre and G. Auzias, "Spherical Parameterization for
+    Genus Zero Surfaces Using Laplace-Beltrami Eigenfunctions,"
+    in 2nd Conference on Geometric Science of Information, GSI, 2015,
+    121–29, https://doi.org/10.1007/978-3-319-25040-3_14.
 
-    .. 2_ Desbrun, M., Meyer, M., & Alliez, P., "Intrinsic parameterizations of surface meshes",
-    Computer Graphics Forum, 21(3), 2002, 209–218. https://doi.org/10.1111/1467-8659.00580
+    .. 2_ Desbrun, M., Meyer, M., & Alliez, P., "Intrinsic parameterizations
+    of surface meshes", Computer Graphics Forum, 21(3), 2002,
+    209–218. https://doi.org/10.1111/1467-8659.00580
 
-    .. 3_ Rachel a Yotter, Paul M. Thompson, and Christian Gaser, “Algorithms to Improve the
-    Reparameterization of Spherical Mappings of Brain Surface Meshes.,” Journal of
-    Neuroimaging 21, no. 2 (April 2011): e134-47, https://doi.org/10.1111/j.1552-6569.2010.00484.x.
+    .. 3_ Rachel a Yotter, Paul M. Thompson, and Christian Gaser,
+    “Algorithms to Improve the Reparameterization of Spherical Mappings
+    of Brain Surface Meshes.,” Journal of Neuroimaging 21,
+    no. 2 (April 2011): e134-47,
+    https://doi.org/10.1111/j.1552-6569.2010.00484.x.
 
-    .. 4_ Ilja Friedel, Peter Schröder, and Mathieu Desbrun, “Unconstrained Spherical Parameterization”,
+    .. 4_ Ilja Friedel, Peter Schröder, and Mathieu Desbrun,
+    “Unconstrained Spherical Parameterization”,
     Journal of Graphics, GPU, and Game Tools 12, no. 1 (2007): 17–26.
     """
 
@@ -142,12 +148,14 @@ def disk_conformal_mapping(
     mesh, lap_type="conformal", boundary=None, boundary_coords=None
 ):
     """
-    Computes comformal mapping of a mesh to a disk, see the following references:
-    Ulrich Pinkall and Konrad Polthier, “Computing Discrete Minimal Surfaces and
-    Their Conjugates,” Experimental Mathematics, 1993, 1–33.
+    Computes comformal mapping of a mesh to a disk, see the following
+    references:
+    Ulrich Pinkall and Konrad Polthier, “Computing Discrete Minimal
+    Surfaces and Their Conjugates,” Experimental Mathematics, 1993, 1–33.
     and
-    Mathieu Desbrun, Mark Meyer, and Pierre Alliez, “Intrinsic Parameterizations
-    of Surface Meshes,” Computer Graphics Forum 21, no. 3 (2002): 209–18,
+    Mathieu Desbrun, Mark Meyer, and Pierre Alliez, “Intrinsic
+    Parameterizations of Surface Meshes,” Computer Graphics Forum 21,
+    no. 3 (2002): 209–18,
     https://doi.org/10.1111/1467-8659.00580.
     :param mesh: a trimesh object
     :param lap_type: type of mesh Laplacian to be used,
@@ -165,7 +173,7 @@ def disk_conformal_mapping(
     boundary = np.array(boundary)
     if boundary_coords is None:
         p = boundary.size
-        t = np.arange(0, 2 * np.math.pi, (2 * np.math.pi / p))
+        t = np.arange(0, 2 * np.pi, (2 * np.pi / p))
         boundary_coords = np.array([np.cos(t), np.sin(t)])
     L, LB = sdg.compute_mesh_laplacian(mesh, lap_type=lap_type)
     Nv = len(mesh.vertices)  # np.array(mesh.vertex()).shape[0]
@@ -181,8 +189,8 @@ def disk_conformal_mapping(
     Rx[boundary] = boundary_coords[0, :]
     Ry[boundary] = boundary_coords[1, :]
 
-    x, info = lgmres(L, Rx, tol=SOLVER_TOL)
-    y, info = lgmres(L, Ry, tol=SOLVER_TOL)
+    x, info = lgmres(L, Rx, rtol=SOLVER_TOL)
+    y, info = lgmres(L, Ry, rtol=SOLVER_TOL)
     z = np.zeros(Nv)
 
     return trimesh.Trimesh(
@@ -217,7 +225,9 @@ def moebius_transformation(a, b, c, d, plane_mesh):
         ]
     ).T.copy()
     transformed_plane_mesh = trimesh.Trimesh(
-        vertices=transformed_vertices, faces=plane_mesh.faces.copy(), process=False
+        vertices=transformed_vertices,
+        faces=plane_mesh.faces.copy(),
+        process=False
     )
     return transformed_plane_mesh
 

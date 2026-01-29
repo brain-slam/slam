@@ -3,6 +3,7 @@ from scipy import sparse
 import scipy.stats.stats as sss
 from scipy.sparse.linalg import lgmres, eigsh
 import trimesh
+from slam import geodesics
 
 ########################
 # error tolerance for lgmres solver
@@ -19,36 +20,39 @@ def mesh_laplacian_eigenvectors(mesh, nb_vectors=1):
     :return:
     """
     lap, lap_b = compute_mesh_laplacian(mesh, lap_type="fem")
+
     w, v = eigsh(lap.tocsr(), nb_vectors +
                  1, M=lap_b.tocsr(), sigma=solver_tolerance)
     return v[:, 1:]
 
 
-# def mesh_fiedler_length(mesh, dist_type='geodesic', fiedler=None):
-#     """
-#     distance between the two vertices corresponding to the min and max of
-# the 2d laplacien eigen vector
-#     :param mesh:
-#     :param dist_type:
-#     :param fiedler:
-#     :return:
-#     """
-#     if fiedler is None:
-#         fiedler = mesh_laplacian_eigenVectors(mesh, 1)
-#     imin = fiedler.argmin()
-#     imax = fiedler.argmax()
-#     vert = np.array(mesh.vertex())
-#
-#     if dist_type == 'geodesic':
-#         print('Computing GEODESIC distance between the max and min')
-#         g = aims.GeodesicPath(mesh, 3, 0)
-#         dist = g.shortestPath_1_1_len(int(imin), int(imax))
-#
-#     else:
-#         print('Computing EUCLIDIAN distance between the max and min')
-#         min_max = vert[imin, :]-vert[imax, :]
-#         dist = np.sqrt(np.sum(min_max * min_max, 0))
-#     return(dist, fiedler)
+def mesh_fiedler_length(mesh, dist_type='geodesic', fiedler=None):
+    """
+    distance between the two vertices corresponding to the min and max of
+    the 2d laplacien eigen vector
+    :param mesh:
+    :param dist_type:
+    :param fiedler:
+    :return:
+    """
+    if fiedler is None:
+        fiedler = mesh_laplacian_eigenvectors(mesh, 1)
+    imin = fiedler.argmin()
+    imax = fiedler.argmax()
+    vert = np.array(mesh.vertices)
+
+    if dist_type == 'geodesic':
+        print('Computing GEODESIC distance between the max and min')
+        # g = aims.GeodesicPath(mesh, 3, 0)
+        # dist = g.shortestPath_1_1_len(int(imin), int(imax))
+        dist = geodesics.shortest_path(mesh, int(imin), int(imax))
+
+    else:
+        print('Computing EUCLIDIAN distance between the max and min')
+        min_max = vert[imin, :]-vert[imax, :]
+        dist = np.sqrt(np.sum(min_max * min_max, 0))
+
+    return dist, fiedler
 
 
 def laplacian_mesh_smoothing(mesh, nb_iter, dt, volume_preservation=False):

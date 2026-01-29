@@ -32,21 +32,28 @@ def shortest_path(mesh, start_idx, end_idx):
     return path
 
 
-def compute_gdist(mesh, vert_id):
+def compute_gdist(mesh, source_id, target_id=None):
     """
-    This func computes the geodesic distance from one point to all vertices on
-     mesh by using the gdist.compute_gdist().
-    Actually, you can get the geo-distances that you want by changing the
-    source and target vertices set.
-    :param mesh: trimesh object
-    :param vert_id: the point index
+    This func computes the geodesic distance between a set
+    of sources and targets on a mesh surface by using the
+    gdist.compute_gdist().
+    If no target_id are provided, all vertices of the mesh
+    are considered as targets.
+
+    :param mesh: (trimesh object) the mesh surface
+    :param source_id: (list) the sources index
+    :param target_id: (list) the targets index
     :return:
     """
     vert = mesh.vertices
     poly = mesh.faces.astype(np.int32)
 
-    source_index = np.array([vert_id], dtype=np.int32)
-    target_index = np.linspace(0, len(vert) - 1, len(vert)).astype(np.int32)
+    source_index = np.array([source_id], dtype=np.int32)
+    if target_id:
+        target_index = np.array([target_id], dtype=np.int32)
+    else:
+        target_index = np.linspace(0, len(vert) - 1,
+                                   len(vert)).astype(np.int32)
 
     return gdist.compute_gdist(vert, poly, source_index, target_index)
 

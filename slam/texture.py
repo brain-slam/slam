@@ -6,7 +6,7 @@ definition of the Texture class
 """
 
 import numpy as np
-from scipy import stats as sps
+import slam.utils as sutl
 
 
 class TextureND:
@@ -140,18 +140,41 @@ class TextureND:
         :param z_thresh: z_score threshold
         :return:
         """
-        print(self.darray.shape)
-        filtered_darray = self.darray.copy()
-        for ind, d in enumerate(self.darray):
-            z = sps.zscore(d)
-            outliers_pos = z > z_thresh
-            outliers_neg = z < -z_thresh
-            outliers = outliers_pos | outliers_neg
-            replace_value_pos = np.max(d[~outliers])
-            replace_value_neg = np.min(d[~outliers])
-            filtered_darray[ind, outliers_pos] = replace_value_pos
-            filtered_darray[ind, outliers_neg] = replace_value_neg
-        self.darray = filtered_darray
-        print(self.darray.shape)
+        self.darray = sutl.z_score_filtering(self.darray, z_thresh)
         self.metadata["z_score_filtered"] = True
         self.metadata["z_score_threshold"] = z_thresh
+
+    def extremum(self, mesh):
+        """
+        Function that returns the extrema texture
+
+        INPUT:
+
+        "mesh": Loaded mesh
+
+        OUTPUT:
+
+        "extremum": an array that indicates which areas are
+        local extrema, either local maxima or local minima
+
+        """
+
+        neigh = mesh.vertex_neighbors
+
+        # initiate extrema as the same shape as atex
+        extrema = np.zeros_like(self.darray)
+
+        # For every vertex in the mesh
+        for vertex, neight_vertex in enumerate(neigh):
+            # Compute the minimal and maximal value of the neighboring vertex
+            mi = np.min(self.darray[0, neight_vertex])
+            ma = np.max(self.darray[0, neight_vertex])
+
+            # If the vertex is smaller than the
+            # minimal or bigger than the maximal value
+            # The vertex is an extremum.
+            if self.darray[0, vertex] < mi:
+                extrema[0, vertex] = -1
+            elif self.darray[0, vertex] > ma:
+                extrema[0, vertex] = 1
+        return extrema

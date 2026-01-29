@@ -140,20 +140,16 @@ def project_curvature_tensor(uf, vf, nf, old_ku, old_kuv, old_kv, up, vp):
 
     r_new_u, r_new_v = rotate_coordinate_system(up, vp, nf)
     OldTensor = np.array([[old_ku, old_kuv], [old_kuv, old_kv]])
-    u1 = np.dot(r_new_u, uf)
-    v1 = np.dot(r_new_u, vf)
-    u2 = np.dot(r_new_v, uf)
-    v2 = np.dot(r_new_v, vf)
+    u1, v1 = np.dot(r_new_u, uf), np.dot(r_new_u, vf)
+    u2, v2 = np.dot(r_new_v, uf), np.dot(r_new_v, vf)
 
-    new_ku = np.dot(
-        np.array([u1, v1]), np.dot(OldTensor, np.transpose(np.array([u1, v1])))
-    )
-    new_kuv = np.dot(
-        np.array([u1, v1]), np.dot(OldTensor, np.transpose(np.array([u2, v2])))
-    )
-    new_kv = np.dot(
-        np.array([u2, v2]), np.dot(OldTensor, np.transpose(np.array([u2, v2])))
-    )
+    new_ku = (u1 * (OldTensor[0, 0] * u1 + OldTensor[0, 1] * v1)
+              + v1 * (OldTensor[1, 0] * u1 + OldTensor[1, 1] * v1))
+    new_kuv = (u1 * (OldTensor[0, 0] * u2 + OldTensor[0, 1] * v2)
+               + v1 * (OldTensor[1, 0] * u2 + OldTensor[1, 1] * v2))
+    new_kv = (u2 * (OldTensor[0, 0] * u2 + OldTensor[0, 1] * v2)
+              + v2 * (OldTensor[1, 0] * u2 + OldTensor[1, 1] * v2))
+
     return new_ku, new_kuv, new_kv
 
 
@@ -180,11 +176,8 @@ def compute_curvature(FV, VertexNormals, FaceNormals,
     """
     print("Calculating curvature tensors ... Please wait")
     "Matrix of each face at each cell"
-    FaceSFM, VertexSFM = list(), list()
-    for i in range(FV.faces.shape[0]):
-        FaceSFM.append([[0, 0], [0, 0]])
-    for i in range(FV.vertices.shape[0]):
-        VertexSFM.append([[0, 0], [0, 0]])
+    FaceSFM = np.zeros((FV.faces.shape[0], 2, 2))
+    VertexSFM = np.zeros((FV.vertices.shape[0], 2, 2))
     Kn = np.zeros((1, FV.faces.shape[0]))
 
     " Get all the edge vectors "
