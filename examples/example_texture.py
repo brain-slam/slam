@@ -25,8 +25,8 @@ from slam import plot as plt
 
 ###############################################################################
 #
-tex = sio.load_texture("examples/data/example_texture.gii")
-mesh = sio.load_mesh("examples/data/example_mesh.gii")
+tex = sio.load_texture("../examples/data/example_dpf.gii")
+mesh = sio.load_mesh("../examples/data/example_mesh.gii")
 print(tex)
 print(tex.metadata)
 print(tex.shape)
@@ -71,6 +71,7 @@ mesh_data = {
     "center": mesh.center_mass,
     "title": TITLE
 }
+
 intensity_data = {"values": tex.darray[0], "mode": "vertex"}
 display_settings = {"colorscale": "Turbo", "colorbar_label": NAME_TEX}
 

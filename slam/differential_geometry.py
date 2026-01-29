@@ -3,6 +3,7 @@ from scipy import sparse
 import scipy.stats.stats as sss
 from scipy.sparse.linalg import lgmres, eigsh
 import trimesh
+from slam import geodesics
 
 ########################
 # error tolerance for lgmres solver
@@ -19,36 +20,39 @@ def mesh_laplacian_eigenvectors(mesh, nb_vectors=1):
     :return:
     """
     lap, lap_b = compute_mesh_laplacian(mesh, lap_type="fem")
+
     w, v = eigsh(lap.tocsr(), nb_vectors +
                  1, M=lap_b.tocsr(), sigma=solver_tolerance)
     return v[:, 1:]
 
 
-# def mesh_fiedler_length(mesh, dist_type='geodesic', fiedler=None):
-#     """
-#     distance between the two vertices corresponding to the min and max of
-# the 2d laplacien eigen vector
-#     :param mesh:
-#     :param dist_type:
-#     :param fiedler:
-#     :return:
-#     """
-#     if fiedler is None:
-#         fiedler = mesh_laplacian_eigenVectors(mesh, 1)
-#     imin = fiedler.argmin()
-#     imax = fiedler.argmax()
-#     vert = np.array(mesh.vertex())
-#
-#     if dist_type == 'geodesic':
-#         print('Computing GEODESIC distance between the max and min')
-#         g = aims.GeodesicPath(mesh, 3, 0)
-#         dist = g.shortestPath_1_1_len(int(imin), int(imax))
-#
-#     else:
-#         print('Computing EUCLIDIAN distance between the max and min')
-#         min_max = vert[imin, :]-vert[imax, :]
-#         dist = np.sqrt(np.sum(min_max * min_max, 0))
-#     return(dist, fiedler)
+def mesh_fiedler_length(mesh, dist_type='geodesic', fiedler=None):
+    """
+    distance between the two vertices corresponding to the min and max of
+    the 2d laplacien eigen vector
+    :param mesh:
+    :param dist_type:
+    :param fiedler:
+    :return:
+    """
+    if fiedler is None:
+        fiedler = mesh_laplacian_eigenvectors(mesh, 1)
+    imin = fiedler.argmin()
+    imax = fiedler.argmax()
+    vert = np.array(mesh.vertices)
+
+    if dist_type == 'geodesic':
+        print('Computing GEODESIC distance between the max and min')
+        # g = aims.GeodesicPath(mesh, 3, 0)
+        # dist = g.shortestPath_1_1_len(int(imin), int(imax))
+        dist = geodesics.shortest_path(mesh, int(imin), int(imax))
+
+    else:
+        print('Computing EUCLIDIAN distance between the max and min')
+        min_max = vert[imin, :]-vert[imax, :]
+        dist = np.sqrt(np.sum(min_max * min_max, 0))
+
+    return dist, fiedler
 
 
 def laplacian_mesh_smoothing(mesh, nb_iter, dt, volume_preservation=False):
@@ -71,10 +75,7 @@ def laplacian_mesh_smoothing(mesh, nb_iter, dt, volume_preservation=False):
         # scale by volume ratio
         smoothed_vert *= (vol_ini / vol_new) ** (1.0 / 3.0)
     return trimesh.Trimesh(
-        faces=mesh.faces,
-        vertices=smoothed_vert,
-        metadata=mesh.metadata,
-        process=False
+        faces=mesh.faces, vertices=smoothed_vert, metadata=mesh.metadata, process=False
     )
 
 
@@ -123,11 +124,11 @@ def laplacian_smoothing(texture_data, lap, lap_b, nb_iter, dt):
         if texture_data.ndim > 1:
             for d in range(texture_data.shape[1]):
                 texture_data[:, d], infos = lgmres(
-                    M.tocsr(), texture_data[:, d], rtol=solver_tolerance
+                    M.tocsr(), texture_data[:, d], tol=solver_tolerance
                 )
         else:
             texture_data, infos = lgmres(
-                M.tocsr(), texture_data, rtol=solver_tolerance)
+                M.tocsr(), texture_data, tol=solver_tolerance)
         if i % mod == 0:
             print(i)
 
@@ -137,7 +138,7 @@ def laplacian_smoothing(texture_data, lap, lap_b, nb_iter, dt):
     # M = B-dt*L
     # for i in range(Niter):
     #     Mtex = M * Mtex
-    #     Mtex, infos = lgmres(B.tocsr(), Mtex, rtol=solver_tolerance)
+    #     Mtex, infos = lgmres(B.tocsr(), Mtex, tol=solver_tolerance)
     #     if (i % mod == 0):
     #         print(i)
     print("    OK")
@@ -290,12 +291,10 @@ def compute_mesh_weights(
             qq = -qq
             angi2 = np.arccos(np.sum(rr * qq, 1)) / 2
             W = W + sparse.coo_matrix(
-                (np.tan(angi1)
-                 / norr, (poly[:, i1], poly[:, i3])), shape=(Nbv, Nbv)
+                (np.tan(angi1) / norr, (poly[:, i1], poly[:, i3])), shape=(Nbv, Nbv)
             )
             W = W + sparse.coo_matrix(
-                (np.tan(angi2)
-                 / norr, (poly[:, i3], poly[:, i1])), shape=(Nbv, Nbv)
+                (np.tan(angi2) / norr, (poly[:, i3], poly[:, i1])), shape=(Nbv, Nbv)
             )
         nnz = W.nnz
     if weight_type == "authalic":
@@ -389,6 +388,50 @@ def compute_mesh_laplacian(
     print("    -nb Inf in Laplacian : ", len(np.where(np.isinf(li))[0]))
 
     return L, B
+
+
+def depth_potential_function(mesh, curvature, alphas):
+    """
+    compute the depth potential function of a mesh as desribed in
+    Boucher, M., Whitesides, S., & Evans, A. (2009).
+    Depth potential function for folding pattern representation,
+    registration and analysis.
+    Medical Image Analysis, 13(2), 203–14.
+    doi:10.1016/j.media.2008.09.001
+    :param mesh:
+    :param curvature:
+    :param alphas:
+    :return:
+    """
+    L, LB = compute_mesh_laplacian(mesh, lap_type="fem")
+    B = (
+        -2
+        * LB
+        * (curvature - (np.sum(curvature * LB.diagonal()) / np.sum(LB.diagonal())))
+    )
+    # be careful with factor 2 used in eq (13)
+
+    dpf = []
+    for ind, alpha in enumerate(alphas):
+        M = alpha * LB + L / 2
+        dpf_t, info = lgmres(M.tocsr(), B, tol=solver_tolerance)
+        dpf.append(dpf_t)
+
+    ############################
+    # old, slower and less accurate implementation using conformal laplacian
+    # instead of fem
+    ############################
+    # vert_voronoi = vertexVoronoi(mesh)
+    # L, LB = compute_mesh_laplacian(mesh, lap_type='conformal')
+    # B = -2 * vert_voronoi * (curvature-( np.sum(curvature*vert_voronoi)
+    # / vert_voronoi.sum() ))
+    # B=B.squeeze()
+    # for ind, alpha in enumerate(alphas):
+    #     A = sparse.dia_matrix((alpha*vert_voronoi, 0), shape=(Nbv, Nbv))
+    #     M = A+L
+    #     dpf_t, info = lgmres(M.tocsr(), B, tol=solver_tolerance)
+    #     dpf.append(dpf_t)
+    return dpf
 
 
 def triangle_gradient(mesh, texture_array):
