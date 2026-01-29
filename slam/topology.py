@@ -628,3 +628,28 @@ def adjacency_matrix(mesh):
     adja = adja + adja.transpose()
     adja[adja > 0] = 1
     return adja
+
+
+def broken_vertices(mesh):
+    """
+    Function that returns the Broken_Vertices texture
+    INPUT:
+    "mesh": Loaded mesh
+    OUTPUT:
+    "broken_vertices_texture": an array that
+    indicates which vertices are broken
+    """
+
+    broken_face_indices = trimesh.repair.broken_faces(mesh)
+    # Initialisation of border as the same format as mesh
+    broken_vertices_array = np.zeros(len(mesh.vertices))
+    # If a broken face is present on the mesh
+    if len(broken_face_indices) > 0:
+        # Broken_vertices correspond to all
+        # the vertices that compose the broken faces
+        broken_vertices = mesh.faces[broken_face_indices].flatten()
+        # if a vertex is involved to different
+        # broken faces then this vertex will have a higher value
+        for indice in broken_vertices:
+            broken_vertices_array[indice] = broken_vertices_array[indice] + 1
+    return broken_vertices_array
