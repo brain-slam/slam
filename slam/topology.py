@@ -422,7 +422,7 @@ def edges_to_boundary(edges_bound, mesh_edges):
 
 def ismember(ar1, ar2):
     (uni, u_inds) = np.unique(ar1, False, True)
-    inds = np.in1d(uni, ar2)
+    inds = np.isin(uni, ar2)
     return np.reshape(inds[u_inds], ar1.shape)
 
 
