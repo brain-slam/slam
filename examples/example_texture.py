@@ -16,7 +16,7 @@ Texture example in slam
 
 ###############################################################################
 # Importation of slam modules
-import os
+# import os
 from pathlib import Path
 import numpy as np
 from slam import texture
@@ -114,6 +114,7 @@ fig = proj.mesh_projection(
     mesh_data,
     intensity_data,
     display_settings,
+    caption=True,  # snapshot, default is None
 )
 
 # add an additional trace
@@ -126,8 +127,10 @@ trace_hover = proj.create_hover_trace(
     marker={"size": 4, "color": "blue"},
 )
 
-fig.add_trace(trace_hover)
+fig.add_trace(trace_hover, row=1, col=1)
+fig.add_trace(trace_hover, row=1, col=2)
 
 # save the figure as an HTML file
 # os.makedirs(PATH, exist_ok=True)
 # fig.write_html(SAVE_DIR)
+# fig.write_image(SAVE_DIR, width=1600, height=900)

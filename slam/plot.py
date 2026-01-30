@@ -8,6 +8,7 @@ Date: 2026
 """
 
 import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 
 
 def create_hover_trace(points, text, mode="markers", **kwargs):
@@ -47,7 +48,9 @@ def create_hover_trace(points, text, mode="markers", **kwargs):
     )
 
 
-def mesh_projection(mesh_data, intensity_data=None, display_settings=None):
+def mesh_projection(
+    mesh_data, intensity_data=None, display_settings=None, caption=None
+):
     """
     Creates a 3D projection of a mesh, with or without intensity data.
 
@@ -106,6 +109,8 @@ def mesh_projection(mesh_data, intensity_data=None, display_settings=None):
     aff_dict = {
         "title": title,
         "title_x": 0.2,
+        "height": 900,
+        "width": 1200,
         "template": template,
         "legend": {
             "x": 0,
@@ -143,7 +148,29 @@ def mesh_projection(mesh_data, intensity_data=None, display_settings=None):
             }
         )
 
-    fig = go.Figure(data=[go.Mesh3d(**mesh_kwargs)])
+    if caption:
+        fig = make_subplots(
+            rows=1,
+            cols=2,
+            specs=[[{"type": "scene"}, {"type": "scene"}]],
+            horizontal_spacing=0.03,
+        )
+        for col in [1, 2]:
+            fig.add_trace(go.Mesh3d(**mesh_kwargs), row=1, col=col)
+
+        aff_dict["scene2"] = {
+            "camera": {
+                # Camera position from lateral side
+                "eye": {"x": -2.5, "y": 0, "z": 0.0},
+                # Looking at center
+                "center": {"x": 0, "y": 0, "z": 0},
+                # Up vector points in positive z direction
+                "up": {"x": 0, "y": 0, "z": 1},
+            }
+        }
+
+    else:
+        fig = go.Figure(data=[go.Mesh3d(**mesh_kwargs)])
 
     if template is None:
         aff_dict["template"] = "simple_white"
