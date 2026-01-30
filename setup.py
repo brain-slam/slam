@@ -15,7 +15,8 @@ DOC_REQUIREMENTS = ['sphinx',
                     'python-dateutil',
                     'sphinxcontrib-fulltoc',
                     'matplotlib',
-                    'plotly']
+                    'plotly',
+                    'kaleido']
 
 DIST = ["tvb-gdist"]
 
