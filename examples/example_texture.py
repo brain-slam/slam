@@ -16,12 +16,12 @@ Texture example in slam
 
 ###############################################################################
 # Importation of slam modules
-import os
+# import os
 from pathlib import Path
 import numpy as np
 from slam import texture
 from slam import io as sio
-from slam import plot as plt
+from slam import plot as proj
 
 ###############################################################################
 #
@@ -48,38 +48,89 @@ print(tex2.max())
 sio.write_texture(tex2, "test.gii")
 
 #############
-print('extremum texture')
-mesh = sio.load_mesh("../examples/data/example_mesh.gii")
-print('maximum')
+print("extremum texture")
+print("maximum")
 print(np.count_nonzero(tex.extremum(mesh) == 1))
-print('minimum')
+print("minimum")
 print(np.count_nonzero(tex.extremum(mesh) == -1))
 
 ###############################################################################
 # plot
 
-# dict for proj
+# reorient the mesh
+mesh.apply_transform(mesh.principal_inertia_transform)
+theta = np.pi / 2
+rot_x = np.array(
+    [[1, 0, 0],
+     [0, np.cos(theta), -np.sin(theta)],
+     [0, np.sin(theta), np.cos(theta)]]
+)
+vertices_translate = np.dot(rot_x, mesh.vertices.T).T
+
+# parameters for the projection
+# Complete example with all modifiable parameters
 NAME_TEX = "sulc"
 TITLE = "test"
-EXT = "png"
+EXT = "html"
 PATH = Path("./test")
 SAVE_DIR = PATH / f"{TITLE}.{EXT}"
 
+data = tex.darray[0]
+
 mesh_data = {
-    "vertices": mesh.vertices,
+    "vertices": vertices_translate,
     "faces": mesh.faces,
-    "center": mesh.center_mass,
-    "title": TITLE
+    "title": TITLE,  # figure title, default is None
 }
 
-intensity_data = {"values": tex.darray[0], "mode": "vertex"}
-display_settings = {"colorscale": "Turbo", "colorbar_label": NAME_TEX}
+intensity_data = {
+    "values": data,
+    "mode": "vertex",  # default is "cell"
+    "cmin": 0,  # default is automatic value
+    "cmax": 1,
+}
 
-fig = plt.mes3d_projection(
+display_settings = {
+    "colorscale": "RdBu",  # color scale, default is Turbo
+    "colorbar_label": NAME_TEX,  # colorbar label, default is None
+    "template": "plotly_dark",  # default is blank theme without axes
+    "tickvals": [
+        0,
+        0.25,
+        0.5,
+        0.75,
+        1,
+    ],  # default is None, sets exact tick positions on the colorbar
+    "ticktext": [
+        "0%",
+        "25%",
+        "50%",
+        "75%",
+        "100%",
+    ],  # default is None, customizes tick labels on the colorbar
+}
+
+fig = proj.mesh_projection(
     mesh_data,
     intensity_data,
     display_settings,
+    caption=True,  # snapshot, default is None
 )
 
-#os.makedirs(PATH, exist_ok=True)
-#fig.write_image(SAVE_DIR, width=1600, height=900)
+# add an additional trace
+# example: display vertex index on hover and customize vertex color and size
+# over the mesh
+hover_text = [f"vertex {i}" for i in range(len(vertices_translate))]
+trace_hover = proj.create_hover_trace(
+    vertices_translate,
+    text=hover_text,
+    marker={"size": 4, "color": "blue"},
+)
+
+fig.add_trace(trace_hover, row=1, col=1)
+fig.add_trace(trace_hover, row=1, col=2)
+
+# save the figure as an HTML file
+# os.makedirs(PATH, exist_ok=True)
+# fig.write_html(SAVE_DIR)
+# fig.write_image(SAVE_DIR, width=1600, height=900)
