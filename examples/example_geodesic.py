@@ -59,25 +59,48 @@ path = sgeo.shortest_path(mesh, start, end)
 print(path)
 
 #############################################################################
-# VISUALIZATION USING EXTERNAL TOOLS
+# VISUALIZATION USING INTERNAL TOOLS
 #############################################################################
-# # Visualization with visbrain
-# # show the geodesic distance
-# visb_sc = splt.visbrain_plot(
-#     mesh=mesh,
-#     tex=geo_distance,
-#     caption="geodesic distance",
-#     cblabel="distance"
-# )
-# visb_sc.preview()
-# # show the geodesic distance locally
-# visb_sc2 = splt.visbrain_plot(
-#     mesh=mesh,
-#     tex=area_geodist[0].toarray().squeeze(),
-#     caption="local geodesic distance",
-#     cblabel="distance",
-# )
-# visb_sc2.preview()
+
+import slam.plot as splt
+
+mesh.apply_transform(mesh.principal_inertia_transform)
+theta = np.pi / 2
+rot_x = np.array([[1, 0, 0],
+                  [0, np.cos(theta), -np.sin(theta)],
+                  [0, np.sin(theta),  np.cos(theta)]])
+vertices_translate = np.dot(rot_x, mesh.vertices.T).T
+
+display_settings = {}
+display_settings['colorbar_label'] = 'Distance'
+mesh_data = {}
+mesh_data['vertices'] = vertices_translate
+mesh_data['faces'] = mesh.faces
+mesh_data['title'] = 'Geodesic Distance'
+intensity_data = {}
+intensity_data['values'] = geo_distance
+intensity_data["mode"] = "vertex"
+Fig = splt.mes3d_projection(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+Fig.show()
+
+display_settings = {}
+display_settings['colorbar_label'] = 'Distance'
+mesh_data = {}
+mesh_data['vertices'] = vertices_translate
+mesh_data['faces'] = mesh.faces
+mesh_data['title'] = 'Local Geodesic Distance'
+intensity_data = {}
+intensity_data['values'] = area_geodist[0].toarray().squeeze()
+intensity_data["mode"] = "vertex"
+Fig = splt.mes3d_projection(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+Fig.show()
+
 
 ###############################################################################
 # # Visualization using pyglet
@@ -89,11 +112,11 @@ print(path)
 #
 # path_visual = trimesh.load_path(mesh.vertices[path])
 # path_visual
-#
-# ###############################################################################
-# # Visualizable two points
+
+###############################################################################
+# Visualizable two points
 # points_visual = trimesh.points.PointCloud(mesh.vertices[[start, end]])
-#
+
 # ###############################################################################
 # # Create a scene with the mesh, path, and points
 #

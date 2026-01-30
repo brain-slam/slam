@@ -12,16 +12,10 @@ Show mesh registration features in slam
 # sphinx_gallery_thumbnail_number = 2
 
 ###############################################################################
-# NOTE: there is no visualization tool in slam, but we provide at the
-# end of this script exemplare code to do the visualization with
-# an external solution
-###############################################################################
-
-###############################################################################
 # importation of slam modules
 import slam.io as sio
 import trimesh
-
+import numpy as np
 ###############################################################################
 # loading an two unregistered meshes
 mesh_1 = sio.load_mesh("../examples/data/example_mesh.gii")
@@ -36,29 +30,59 @@ transf_mat, cost = trimesh.registration.mesh_other(
 print(transf_mat)
 print(cost)
 
+#############################################################################
+# VISUALIZATION USING INTERNAL TOOLS
+#############################################################################
+
+# # plot them to check the misalignment
+joint_mesh = mesh_1 + mesh_2
+joint_tex = np.ones((joint_mesh.vertices.shape[0],))
+joint_tex[: mesh_1.vertices.shape[0]] = 10
+
+
+import slam.plot as splt
+
+joint_mesh.apply_transform(joint_mesh.principal_inertia_transform)
+theta = np.pi / 2
+rot_x = np.array([[1, 0, 0],
+                  [0, np.cos(theta), -np.sin(theta)],
+                  [0, np.sin(theta),  np.cos(theta)]])
+vertices_translate = np.dot(rot_x, joint_mesh.vertices.T).T
+
+display_settings = {}
+mesh_data = {}
+mesh_data['vertices'] = vertices_translate
+mesh_data['faces'] = joint_mesh.faces
+mesh_data['title'] = 'Before Registration'
+intensity_data = {}
+intensity_data['values'] = joint_tex
+intensity_data["mode"] = "vertex"
+Fig = splt.mes3d_projection(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+Fig.show()
+
+
 ###############################################################################
 # apply the estimated rigid transformation to the mesh
 mesh_1.apply_transform(transf_mat)
+joint_mesh = mesh_1 + mesh_2
+joint_tex = np.ones((joint_mesh.vertices.shape[0],))
+joint_tex[: mesh_1.vertices.shape[0]] = 10
+joint_mesh.apply_transform(joint_mesh.principal_inertia_transform)
+vertices_translate = np.dot(rot_x, joint_mesh.vertices.T).T
 
-#############################################################################
-# VISUALIZATION USING EXTERNAL TOOLS
-#############################################################################
-# # Visualization with visbrain
-# import slam.plot as splt
-# import numpy as np
-# ###############################################################################
-# # plot them to check the misalignment
-# joint_mesh = mesh_1 + mesh_2
-# joint_tex = np.ones((joint_mesh.vertices.shape[0],))
-# joint_tex[: mesh_1.vertices.shape[0]] = 10
-# visb_sc = splt.visbrain_plot(
-#     mesh=joint_mesh, tex=joint_tex, caption="before registration"
-# )
-# visb_sc.preview()
-# ###############################################################################
-# # plot the two meshes to check they are now aligned
-# joint_mesh = mesh_1 + mesh_2
-# visb_sc = splt.visbrain_plot(
-#     mesh=joint_mesh, tex=joint_tex, caption="after registration"
-# )
-# visb_sc.preview()
+display_settings = {}
+mesh_data = {}
+mesh_data['vertices'] = vertices_translate
+mesh_data['faces'] = joint_mesh.faces
+mesh_data['title'] = 'After Registration'
+intensity_data = {}
+intensity_data['values'] = joint_tex
+intensity_data["mode"] = "vertex"
+Fig = splt.mes3d_projection(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+Fig.show()

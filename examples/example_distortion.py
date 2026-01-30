@@ -94,15 +94,9 @@ vertices = mesh_s.vertices
 vertices = vertices - np.mean(vertices, axis=0)
 vertices_translate = np.copy(vertices)
 # rotate the vertices
-theta = np.pi / 2
-rot_x = np.array([[1, 0, 0],
-                  [0, np.cos(theta), -np.sin(theta)],
-                  [0, np.sin(theta),  np.cos(theta)]])
 vertices_translate = np.dot(rot_x, vertices_translate.T).T
-rot_z = np.array([[np.cos(theta), -np.sin(theta), 0],
-                  [np.sin(theta),  np.cos(theta), 0],
-                  [0, 0, 1],])
 vertices_translate = np.dot(rot_z, vertices_translate.T).T
+
 display_settings = {}
 mesh_data = {}
 mesh_data['vertices'] = vertices_translate

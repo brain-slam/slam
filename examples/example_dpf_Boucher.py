@@ -80,17 +80,17 @@ mesh = boucher_surface(params, ax, ay, nstep)
 
 ##################################
 # Compute dpf for various alpha
+
 alphas = [0.001, 0.01, 0.1, 1, 10, 100]
-dpfs = sdepth.depth_potential_function(
-    mesh, alphas=alphas)
+various_dpfs=sdepth.depth_potential_function(mesh, alphas=alphas)
 
 amplitude_center = []
 amplitude_peak = []
 index_peak_pos = np.argmax(mesh.vertices[:, 2])
 index_peak_neg = np.argmin(mesh.vertices[:, 2])
-for i in range(len(dpfs)):
-    amplitude_center.append(dpfs[i][index_peak_neg])
-    amplitude_peak.append(dpfs[i][index_peak_pos])
+for i in range(len(various_dpfs)):
+    amplitude_center.append(various_dpfs[i][index_peak_neg])
+    amplitude_peak.append(various_dpfs[i][index_peak_pos])
 
 ####################################
 # Fix alpha and vary M = params[0]
@@ -104,47 +104,51 @@ for M in all_M:
     all_amplitudes.append(dpfs[0][len(mesh.vertices) // 2])
 
 #############################################################################
-# VISUALIZATION USING EXTERNAL TOOLS
+# VISUALIZATION USING INTERNAL TOOLS
 #############################################################################
-# import visbrain # visu using visbrain
-# import slam.plot as splt
-# import matplotlib.pyplot as plt
-##########################################################################
-# # Visualization of the mesh
-# visb_sc = splt.visbrain_plot(
-#     mesh=mesh,
-#     caption="Boucher mesh",
-#     bgcolor=[
-#         0.3,
-#         0.5,
-#         0.7])
-# visb_sc
-# visb_sc.preview()
-###############################################################################
-# plt.figure()
-# plt.semilogx(alphas, amplitude_center)
-# plt.semilogx(alphas, amplitude_peak)
-# plt.semilogx(alphas, len(alphas) *
-#              [params[0] * (1 + 2 * np.exp(-3 / 2))], "--")
-# plt.xlabel("alpha")
-# plt.ylabel("amplitude")
-# plt.legend(["DPF at center", "DPF (secondary peaks)", "True amplitude"])
-# plt.show()
-#
-######################################
-# #  Display dpfs on the surfaces
-#
-# visb_sc = splt.visbrain_plot(
-#     mesh=mesh, tex=dpfs[0], caption="Boucher mesh", bgcolor="white"
-# )
-# visb_sc = splt.visbrain_plot(
-#     mesh=mesh, tex=dpfs[5], caption="Boucher mesh", visb_sc=visb_sc
-# )
-# visb_sc.preview()
-#
-##############################################################################
-# plt.figure()
-# plt.plot(all_M, all_amplitudes, "+-")
-# plt.xlabel("M")
-# plt.ylabel("Amplitude of DPF")
-# plt.show()
+
+import slam.plot as splt
+
+vertices = mesh.vertices
+# center the vertices
+vertices = vertices - np.mean(vertices, axis=0)
+vertices_translate = np.copy(vertices)
+# rotate the vertices
+theta = np.pi / 2
+rot_x = np.array([[1, 0, 0],
+                  [0, np.cos(theta), -np.sin(theta)],
+                  [0, np.sin(theta),  np.cos(theta)]])
+vertices_translate = np.dot(rot_x, vertices_translate.T).T
+rot_z = np.array([[np.cos(theta), -np.sin(theta), 0],
+                  [np.sin(theta),  np.cos(theta), 0],
+                  [0, 0, 1],])
+vertices_translate = np.dot(rot_z, vertices_translate.T).T
+
+display_settings = {}
+mesh_data = {}
+mesh_data['vertices'] = vertices_translate
+mesh_data['faces'] = mesh.faces
+mesh_data['title'] = 'Boucher mesh alpha 0.001'
+intensity_data = {}
+intensity_data['values'] = various_dpfs[0]
+intensity_data["mode"] = "vertex"
+Fig = splt.mes3d_projection(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+Fig.show()
+
+display_settings = {}
+mesh_data = {}
+mesh_data['vertices'] = vertices_translate
+mesh_data['faces'] = mesh.faces
+mesh_data['title'] = 'Boucher mesh alpha 100'
+intensity_data = {}
+intensity_data['values'] = various_dpfs[5]
+intensity_data["mode"] = "vertex"
+Fig = splt.mes3d_projection(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+Fig.show()
+
