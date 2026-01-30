@@ -73,14 +73,18 @@ importation of slam modules
 
 loading an examplar mesh and corresponding texture
 
-.. GENERATED FROM PYTHON SOURCE LINES 30-37
+.. GENERATED FROM PYTHON SOURCE LINES 30-41
 
 .. code-block:: Python
 
     path_to_mesh = "../examples/data/example_mesh.gii"
     path_to_mask = None
     path_to_output = ""
+    #path_to_mesh = "/mnt/data/work/BV_database/BV_db_test/subjects/auzias/t1mri/default_acquisition/default_analysis/segmentation/mesh/auzias_Lwhite.gii"
+    #path_to_output = "/mnt/data/work/BV_database/BV_db_test/subjects/auzias/t1mri/default_acquisition/default_analysis/segmentation/mesh/"
 
+    #path_to_mesh = "/mnt/data/work/python_sandBox/brain_slam/debug_watershed/example_mesh.gii"
+    #path_to_output = "/mnt/data/work/python_sandBox/brain_slam/debug_watershed/"
     mesh = sio.load_mesh(path_to_mesh)
     side = "left"
 
@@ -91,15 +95,15 @@ loading an examplar mesh and corresponding texture
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 38-39
+.. GENERATED FROM PYTHON SOURCE LINES 42-43
 
 compute curvature, dpf and voronoi
 
-.. GENERATED FROM PYTHON SOURCE LINES 39-41
+.. GENERATED FROM PYTHON SOURCE LINES 43-45
 
 .. code-block:: Python
 
-    _, dpf, voronoi = swat.compute_mesh_features(mesh, save=False, outdir=path_to_output, check_if_exist=True)
+    _, dpf, voronoi = swat.compute_mesh_features(mesh, save=True, outdir=path_to_output, check_if_exist=True)
 
 
 
@@ -108,17 +112,17 @@ compute curvature, dpf and voronoi
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-43
+.. GENERATED FROM PYTHON SOURCE LINES 46-47
 
 normalize watershed thresholds
 
-.. GENERATED FROM PYTHON SOURCE LINES 43-46
+.. GENERATED FROM PYTHON SOURCE LINES 47-50
 
 .. code-block:: Python
 
     thresh_dist, thresh_ridge, thresh_area = swat.normalize_thresholds(voronoi, thresh_dist=20.0, thresh_ridge=1.5,
                                                                        thresh_area=50.0, side=side)
-
+    thresh_dist, thresh_ridge, thresh_area = 0,0,0
 
 
 
@@ -134,11 +138,11 @@ normalize watershed thresholds
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 47-48
+.. GENERATED FROM PYTHON SOURCE LINES 51-52
 
 define the exclusion mask (cingular pole)
 
-.. GENERATED FROM PYTHON SOURCE LINES 48-53
+.. GENERATED FROM PYTHON SOURCE LINES 52-57
 
 .. code-block:: Python
 
@@ -154,11 +158,11 @@ define the exclusion mask (cingular pole)
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 54-55
+.. GENERATED FROM PYTHON SOURCE LINES 58-59
 
 extract sulcal pits and associated basins
 
-.. GENERATED FROM PYTHON SOURCE LINES 55-57
+.. GENERATED FROM PYTHON SOURCE LINES 59-61
 
 .. code-block:: Python
 
@@ -173,18 +177,1143 @@ extract sulcal pits and associated basins
  .. code-block:: none
 
     Computing watershed by flooding...
-    Distance between 2 pits: 5.3 mm - Ridge height: 1.5 mm
+    Distance between 2 pits: 0 mm - Ridge height: 0 mm
+    ridge_height= 0.0001177503727376461
+    ridge_height_cus= 0.0004499596543610096
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.0005620638839900494
+    ridge_height_cus= 0.006077333819121122
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.005532860290259123
+    ridge_height_cus= 0.006134314928203821
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.0003867056220769882
+    ridge_height_cus= 0.006626210641115904
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.0009249020367860794
+    ridge_height_cus= 0.007229627575725317
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.003261139616370201
+    ridge_height_cus= 0.00844420026987791
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.005717947147786617
+    ridge_height_cus= 0.007327205501496792
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.0013013123534619808
+    ridge_height_cus= 0.006139162462204695
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.006427890853956342
+    ridge_height_cus= 0.008638603845611215
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.003934194101020694
+    ridge_height_cus= 0.008285499876365066
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 3.554043360054493e-05
+    ridge_height_cus= 0.0008055816870182753
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.0031155708711594343
+    ridge_height_cus= 0.010249957675114274
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 7.334630936384201e-06
+    ridge_height_cus= 0.0011181242298334837
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.0013035305310040712
+    ridge_height_cus= 0.004680238664150238
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 7.781828753650188e-05
+    ridge_height_cus= 0.0013225921429693699
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 9.623565711081028e-05
+    ridge_height_cus= 0.00031070993281900883
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.0014971750788390636
+    ridge_height_cus= 0.0016311593353748322
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.0005673449486494064
+    ridge_height_cus= 0.005188826937228441
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.00025614292826503515
+    ridge_height_cus= 0.005334607209078968
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.003396159503608942
+    ridge_height_cus= 0.00984326796606183
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.0003086279612034559
+    ridge_height_cus= 0.00034116744063794613
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.0025688603054732084
+    ridge_height_cus= 0.006079552695155144
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.004744053818285465
+    ridge_height_cus= 0.0066953799687325954
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.0016177112702280283
+    ridge_height_cus= 0.012045837938785553
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.001037607144098729
+    ridge_height_cus= 0.0031971081043593585
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.0024127623764798045
+    ridge_height_cus= 0.011044801794923842
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.0024127623764798045
+    ridge_height_cus= 0.00669349601957947
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 8.358980994671583e-05
+    ridge_height_cus= 0.001481756684370339
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.0008313611033372581
+    ridge_height_cus= 0.0015710563748143613
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.0007707764452788979
+    ridge_height_cus= 0.0023325126676354557
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.0004066163528477773
+    ridge_height_cus= 0.0017722437478369102
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 5.895680078538135e-05
+    ridge_height_cus= 0.0024986965363495983
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.0004983849357813597
+    ridge_height_cus= 0.0011243170592933893
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.00231223688024329
+    ridge_height_cus= 0.012954837824509013
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.0009680161529104225
+    ridge_height_cus= 0.004081588405824732
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 6.769526953576133e-05
+    ridge_height_cus= 0.005087113117042463
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.0010288994817528874
+    ridge_height_cus= 0.009950373583706096
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.0012230186985107139
+    ridge_height_cus= 0.012355205792118795
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.0003478702710708603
+    ridge_height_cus= 0.005337512309779413
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.0004038022889290005
+    ridge_height_cus= 0.0032382891804445535
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.004658406774979085
+    ridge_height_cus= 0.013534697412978858
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.0018407301395200193
+    ridge_height_cus= 0.008465695835184306
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.00016784091712906957
+    ridge_height_cus= 0.0019059284823015332
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.00286293076351285
+    ridge_height_cus= 0.00505497120320797
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.0021976332645863295
+    ridge_height_cus= 0.0037313549546524882
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.004237536224536598
+    ridge_height_cus= 0.006422467180527747
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.0023657033452764153
+    ridge_height_cus= 0.006477341870777309
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.0014876998320687562
+    ridge_height_cus= 0.0023657033452764153
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.002642331412062049
+    ridge_height_cus= 0.008935087826102972
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.003635413129813969
+    ridge_height_cus= 0.005337169277481735
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.00297840079292655
+    ridge_height_cus= 0.00429764820728451
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.003332389984279871
+    ridge_height_cus= 0.015140416333451867
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.003495242679491639
+    ridge_height_cus= 0.006426978390663862
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.006471991306170821
+    ridge_height_cus= 0.007470057578757405
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.003504107822664082
+    ridge_height_cus= 0.008396789897233248
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.005300950258970261
+    ridge_height_cus= 0.006852786289528012
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.0057462111581116915
+    ridge_height_cus= 0.006933075841516256
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.00893832859583199
+    ridge_height_cus= 0.010290293721482158
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.006818679161369801
+    ridge_height_cus= 0.007235502591356635
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.0026352553977631032
+    ridge_height_cus= 0.010998308658599854
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.003501432598568499
+    ridge_height_cus= 0.01496795890852809
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.0040299484971910715
+    ridge_height_cus= 0.00717079290188849
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.005687550408765674
+    ridge_height_cus= 0.007430227939039469
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.0034498045570217073
+    ridge_height_cus= 0.007836788659915328
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.005278214579448104
+    ridge_height_cus= 0.0077931268606334925
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.00535869668237865
+    ridge_height_cus= 0.008007593220099807
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.0052299412491265684
+    ridge_height_cus= 0.015057433396577835
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.004556110536213964
+    ridge_height_cus= 0.007241338491439819
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.006559583474881947
+    ridge_height_cus= 0.01138704502955079
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.00842099660076201
+    ridge_height_cus= 0.01580874901264906
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.008269963087514043
+    ridge_height_cus= 0.011778177227824926
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.01382167311385274
+    ridge_height_cus= 0.014421034138649702
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.008777711540460587
+    ridge_height_cus= 0.014455536846071482
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.012714868877083063
+    ridge_height_cus= 0.018418139778077602
+    ridge_height<ridge_height_cus ::  True
+    ridge_height= 0.014992627780884504
+    ridge_height_cus= 0.015057848300784826
+    ridge_height<ridge_height_cus ::  True
     Number of basins found: 27
     nb of basins to remove: 0
+    ridge_depth_diff_min= 0.0022356883
+    ridge_depth_diff_max= 0.007418749
+    ridge_depth_diff_min= 0.0003295308
+    ridge_depth_diff_max= 0.0058448007
+    ridge_depth_diff_min= 0.0022509352
+    ridge_depth_diff_max= 0.009385322
+    ridge_depth_diff_min= 0.0044910884
+    ridge_depth_diff_max= 0.013367379
+    ridge_depth_diff_min= 0.0014241813
+    ridge_depth_diff_max= 0.011852308
+    ridge_depth_diff_min= 0.0015770149
+    ridge_depth_diff_max= 0.012219616
+    ridge_depth_diff_min= 0.0026423314
+    ridge_depth_diff_max= 0.014450358
+    ridge_depth_diff_min= 0.005250968
+    ridge_depth_diff_max= 0.0058524227
+    ridge_depth_diff_min= 0.0060956934
+    ridge_depth_diff_max= 0.008306406
+    ridge_depth_diff_min= 0.0
+    ridge_depth_diff_max= 0.006239505
+    ridge_depth_diff_min= 0.0
+    ridge_depth_diff_max= 0.0063047255
+    ridge_depth_diff_min= 0.00050532416
+    ridge_depth_diff_max= 0.011637512
+    ridge_depth_diff_min= 0.0055328603
+    ridge_depth_diff_max= 0.006134315
+    ridge_depth_diff_min= 0.005717947
+    ridge_depth_diff_max= 0.0073272055
+    ridge_depth_diff_min= 0.0037591893
+    ridge_depth_diff_max= 0.008110495
+    ridge_depth_diff_min= 0.012462262
+    ridge_depth_diff_max= 0.018165532
+    ridge_depth_diff_min= 0.0033961595
+    ridge_depth_diff_max= 0.0098432675
+    ridge_depth_diff_min= 0.0024127625
+    ridge_depth_diff_max= 0.011044802
+    ridge_depth_diff_min= 0.0029970747
+    ridge_depth_diff_max= 0.014463601
+    ridge_depth_diff_min= 0.0064278906
+    ridge_depth_diff_max= 0.008638604
+    ridge_depth_diff_min= 0.0053840997
+    ridge_depth_diff_max= 0.006993358
+    ridge_depth_diff_min= 0.0013013124
+    ridge_depth_diff_max= 0.0061391625
+    ridge_depth_diff_min= 0.008270353
+    ridge_depth_diff_max= 0.015658107
+    ridge_depth_diff_min= 0.0010288995
+    ridge_depth_diff_max= 0.009950373
+    ridge_depth_diff_min= 0.0050749048
+    ridge_depth_diff_max= 0.014902397
+    ridge_depth_diff_min= 0.0032611396
+    ridge_depth_diff_max= 0.0084442
+    ridge_depth_diff_min= 0.0
+    ridge_depth_diff_max= 0.00033220928
+    ridge_depth_diff_min= 0.0129231615
+    ridge_depth_diff_max= 0.0135225225
+    ridge_depth_diff_min= 0.004744054
+    ridge_depth_diff_max= 0.00669538
+    ridge_depth_diff_min= 0.008777712
+    ridge_depth_diff_max= 0.014455536
+    ridge_depth_diff_min= 0.0014086977
+    ridge_depth_diff_max= 0.008033663
+    ridge_depth_diff_min= 0.0021443614
+    ridge_depth_diff_max= 0.010507414
+    ridge_depth_diff_min= 0.0005620639
+    ridge_depth_diff_max= 0.006077334
+    ridge_depth_diff_min= 0.00011775037
+    ridge_depth_diff_max= 0.00044995965
+    ridge_depth_diff_min= 0.0026423314
+    ridge_depth_diff_max= 0.008935088
+    ridge_depth_diff_min= 0.0039341943
+    ridge_depth_diff_max= 0.0082855
+    ridge_depth_diff_min= 0.013356876
+    ridge_depth_diff_max= 0.013956238
+    ridge_depth_diff_min= 0.008229523
+    ridge_depth_diff_max= 0.009581488
+    ridge_depth_diff_min= 0.0010037771
+    ridge_depth_diff_max= 0.004380485
+    ridge_depth_diff_min= 0.0019625009
+    ridge_depth_diff_max= 0.0054731932
+    ridge_depth_diff_min= 0.0024127625
+    ridge_depth_diff_max= 0.006693496
+    ridge_depth_diff_min= 0.00056734495
+    ridge_depth_diff_max= 0.005188827
+    ridge_depth_diff_min= 6.803498e-05
+    ridge_depth_diff_max= 0.0051464993
+    ridge_depth_diff_min= 6.111199e-05
+    ridge_depth_diff_max= 0.006300617
+    ridge_depth_diff_min= 0.014864229
+    ridge_depth_diff_max= 0.014929449
+    ridge_depth_diff_min= 0.0035041077
+    ridge_depth_diff_max= 0.008396789
+    ridge_depth_diff_min= 0.0027366558
+    ridge_depth_diff_max= 0.009871042
+    ridge_depth_diff_min= 0.00092490204
+    ridge_depth_diff_max= 0.0072296276
+    ridge_depth_diff_min= 0.012714868
+    ridge_depth_diff_max= 0.01841814
+    ridge_depth_diff_min= 0.004620526
+    ridge_depth_diff_max= 0.0065718526
+    ridge_depth_diff_min= 0.008641663
+    ridge_depth_diff_max= 0.009993629
+    ridge_depth_diff_min= 0.014992628
+    ridge_depth_diff_max= 0.015057849
+    ridge_depth_diff_min= 0.00825111
+    ridge_depth_diff_max= 0.011759324
+    ridge_depth_diff_min= 0.0064492966
+    ridge_depth_diff_max= 0.011276758
+    ridge_depth_diff_min= 0.0025492227
+    ridge_depth_diff_max= 0.008996331
+    ridge_depth_diff_min= 0.0010521766
+    ridge_depth_diff_max= 0.0058900267
+    ridge_depth_diff_min= 0.0064719915
+    ridge_depth_diff_max= 0.0074700573
+    ridge_depth_diff_min= 0.0042375363
+    ridge_depth_diff_max= 0.006422467
+    ridge_depth_diff_min= 0.0023657032
+    ridge_depth_diff_max= 0.006477342
+    ridge_depth_diff_min= 0.00030803858
+    ridge_depth_diff_max= 0.0052976804
+    ridge_depth_diff_min= 0.0
+    ridge_depth_diff_max= 0.005019418
+    ridge_depth_diff_min= 0.0046584066
+    ridge_depth_diff_max= 0.013534698
+    ridge_depth_diff_min= 0.0062306365
+    ridge_depth_diff_max= 0.007228703
+    ridge_depth_diff_min= 0.0067697614
+    ridge_depth_diff_max= 0.007186585
+    ridge_depth_diff_min= 0.005746211
+    ridge_depth_diff_max= 0.006933076
+    ridge_depth_diff_min= 0.0051496155
+    ridge_depth_diff_max= 0.0067014517
+    ridge_depth_diff_min= 0.0007923874
+    ridge_depth_diff_max= 0.0029518884
+    ridge_depth_diff_min= 0.0027715676
+    ridge_depth_diff_max= 0.004963608
+    ridge_depth_diff_min= 0.0034952427
+    ridge_depth_diff_max= 0.0064269784
+    ridge_depth_diff_min= 0.00096801616
+    ridge_depth_diff_max= 0.0040815882
+    ridge_depth_diff_min= 0.0013035305
+    ridge_depth_diff_max= 0.0046802387
+    ridge_depth_diff_min= 0.0013864085
+    ridge_depth_diff_max= 0.0015203927
+    ridge_depth_diff_min= 0.0
+    ridge_depth_diff_max= 0.0012447739
+    ridge_depth_diff_min= 0.003635413
+    ridge_depth_diff_max= 0.0053371694
+    ridge_depth_diff_min= 0.005358697
+    ridge_depth_diff_max= 0.008007593
+    ridge_depth_diff_min= 0.0034498046
+    ridge_depth_diff_max= 0.007836789
+    ridge_depth_diff_min= 0.0025254837
+    ridge_depth_diff_max= 0.006036176
+    ridge_depth_diff_min= 0.006818679
+    ridge_depth_diff_max= 0.007235503
+    ridge_depth_diff_min= 0.0014971751
+    ridge_depth_diff_max= 0.0016311593
+    ridge_depth_diff_min= 3.5540434e-05
+    ridge_depth_diff_max= 0.0008055817
+    ridge_depth_diff_min= 6.2962063e-06
+    ridge_depth_diff_max= 0.0011170858
+    ridge_depth_diff_min= 0.00537157
+    ridge_depth_diff_max= 0.0071142474
+    ridge_depth_diff_min= 0.005278215
+    ridge_depth_diff_max= 0.0077931266
+    ridge_depth_diff_min= 0.0040299483
+    ridge_depth_diff_max= 0.0071707927
+    ridge_depth_diff_min= 0.0020223176
+    ridge_depth_diff_max= 0.010654357
+    ridge_depth_diff_min= 0.0021018917
+    ridge_depth_diff_max= 0.0063826256
+    ridge_depth_diff_min= 0.003935046
+    ridge_depth_diff_max= 0.006119977
+    ridge_depth_diff_min= 0.005405351
+    ridge_depth_diff_max= 0.006592216
+    ridge_depth_diff_min= 1.07516535e-05
+    ridge_depth_diff_max= 0.0007807929
+    ridge_depth_diff_min= 0.0002895404
+    ridge_depth_diff_max= 0.0031240273
+    ridge_depth_diff_min= 0.0005022485
+    ridge_depth_diff_max= 0.0051237307
+    ridge_depth_diff_min= 7.781829e-05
+    ridge_depth_diff_max= 0.0013225921
+    ridge_depth_diff_min= 7.334631e-06
+    ridge_depth_diff_max= 0.0011181242
+    ridge_depth_diff_min= 0.0016177113
+    ridge_depth_diff_max= 0.012045838
+    ridge_depth_diff_min= 0.008216778
+    ridge_depth_diff_max= 0.01560453
+    ridge_depth_diff_min= 0.0053009503
+    ridge_depth_diff_max= 0.006852786
+    ridge_depth_diff_min= 0.0
+    ridge_depth_diff_max= 0.00021447428
+    ridge_depth_diff_min= 0.0021366756
+    ridge_depth_diff_max= 0.0036703972
+    ridge_depth_diff_min= 0.0006565016
+    ridge_depth_diff_max= 0.0022182378
+    ridge_depth_diff_min= 5.89568e-05
+    ridge_depth_diff_max= 0.0024986966
+    ridge_depth_diff_min= 0.002312237
+    ridge_depth_diff_max= 0.012954838
+    ridge_depth_diff_min= 0.008269963
+    ridge_depth_diff_max= 0.011778178
+    ridge_depth_diff_min= 9.623566e-05
+    ridge_depth_diff_max= 0.00031070993
+    ridge_depth_diff_min= 0.002639011
+    ridge_depth_diff_max= 0.003958259
+    ridge_depth_diff_min= 0.008256666
+    ridge_depth_diff_max= 0.013934491
+    ridge_depth_diff_min= 0.00025614293
+    ridge_depth_diff_max= 0.0053346073
+    ridge_depth_diff_min= 0.0030605325
+    ridge_depth_diff_max= 0.0047622886
+    ridge_depth_diff_min= 0.004009588
+    ridge_depth_diff_max= 0.006694816
+    ridge_depth_diff_min= 0.0007268328
+    ridge_depth_diff_max= 0.0028863337
+    ridge_depth_diff_min= 0.0056875506
+    ridge_depth_diff_max= 0.007430228
+    ridge_depth_diff_min= 4.5857858e-05
+    ridge_depth_diff_max= 7.839734e-05
+    ridge_depth_diff_min= 0.0
+    ridge_depth_diff_max= 0.0013981669
+    ridge_depth_diff_min= 0.002323134
+    ridge_depth_diff_max= 0.004515175
+    ridge_depth_diff_min= 0.00030862796
+    ridge_depth_diff_max= 0.00034116744
+    ridge_depth_diff_min= 0.00068068056
+    ridge_depth_diff_max= 0.0014203759
+    ridge_depth_diff_min= 0.00040661637
+    ridge_depth_diff_max= 0.0017722438
+    ridge_depth_diff_min= 0.00333239
+    ridge_depth_diff_max= 0.015140416
+    ridge_depth_diff_min= 0.0018407302
+    ridge_depth_diff_max= 0.008465696
+    ridge_depth_diff_min= 0.0024491712
+    ridge_depth_diff_max= 0.008741927
+    ridge_depth_diff_min= 0.0029108217
+    ridge_depth_diff_max= 0.0058425576
+    ridge_depth_diff_min= 0.004982805
+    ridge_depth_diff_max= 0.0076317014
+    ridge_depth_diff_min= 0.004931871
+    ridge_depth_diff_max= 0.0074467827
+    ridge_depth_diff_min= 0.0005760731
+    ridge_depth_diff_max= 0.0013157683
+    ridge_depth_diff_min= 0.00048357062
+    ridge_depth_diff_max= 0.0011095027
+    ridge_depth_diff_min= 0.0
+    ridge_depth_diff_max= 0.0017380875
+    ridge_depth_diff_min= 0.00063566974
+    ridge_depth_diff_max= 0.011767857
+    ridge_depth_diff_min= 0.0009205812
+    ridge_depth_diff_max= 0.009842055
+    ridge_depth_diff_min= 0.0021729537
+    ridge_depth_diff_max= 0.0070656356
+    ridge_depth_diff_min= 0.0062618945
+    ridge_depth_diff_max= 0.011089357
+    ridge_depth_diff_min= 0.0021749125
+    ridge_depth_diff_max= 0.0037086343
+    ridge_depth_diff_min= 0.0029784008
+    ridge_depth_diff_max= 0.004297648
+    ridge_depth_diff_min= 0.002285941
+    ridge_depth_diff_max= 0.0063975793
+    ridge_depth_diff_min= 0.00078921847
+    ridge_depth_diff_max= 0.0039027906
+    ridge_depth_diff_min= 0.0006695342
+    ridge_depth_diff_max= 0.0022312705
+    ridge_depth_diff_min= 0.0011856628
+    ridge_depth_diff_max= 0.0020636665
+    ridge_depth_diff_min= 0.0036234842
+    ridge_depth_diff_max= 0.0067643286
+    ridge_depth_diff_min= 8.358981e-05
+    ridge_depth_diff_max= 0.0014817567
+    ridge_depth_diff_min= 0.0003834964
+    ridge_depth_diff_max= 0.0017491238
+    ridge_depth_diff_min= 0.00034468423
+    ridge_depth_diff_max= 0.00097061635
+    ridge_depth_diff_min= 0.00521248
+    ridge_depth_diff_max= 0.015039973
+    ridge_depth_diff_min= 0.0003478703
+    ridge_depth_diff_max= 0.005337512
+    ridge_depth_diff_min= 7.026567e-06
+    ridge_depth_diff_max= 0.0024467662
+    ridge_depth_diff_min= 0.0014876998
+    ridge_depth_diff_max= 0.0023657032
+    ridge_depth_diff_min= 0.0035014325
+    ridge_depth_diff_max= 0.014967959
+    ridge_depth_diff_min= 6.769527e-05
+    ridge_depth_diff_max= 0.005087113
+    ridge_depth_diff_min= 0.0003375045
+    ridge_depth_diff_max= 0.0031719913
+    ridge_depth_diff_min= 0.002489125
+    ridge_depth_diff_max= 0.010852179
+    ridge_depth_diff_min= 0.0028845435
+    ridge_depth_diff_max= 0.0072715273
+    ridge_depth_diff_min= 0.0045561106
+    ridge_depth_diff_max= 0.0072413385
+    ridge_depth_diff_min= 0.00016784092
+    ridge_depth_diff_max= 0.0019059285
+    [np.int64(480), np.int64(2045), np.int64(480), np.int64(1997), np.int64(449), np.int64(1997), np.int64(444), np.int64(444)]
+    2045
+    [np.int64(831), np.int64(456), np.int64(831), np.int64(456), np.int64(781), np.int64(781), np.int64(1925), np.int64(781)]
+    831
+    [np.int64(517), np.int64(877), np.int64(2137), np.int64(877), np.int64(2160), np.int64(2137), np.int64(2176), np.int64(2160), np.int64(2162), np.int64(877), np.int64(2176), np.int64(2179), np.int64(2179), np.int64(2179), np.int64(2179), np.int64(2193), np.int64(2193)]
+    517
+    [np.int64(516), np.int64(516), np.int64(2138), np.int64(516), np.int64(503), np.int64(831), np.int64(2138), np.int64(2163), np.int64(2163), np.int64(2177), np.int64(2163), np.int64(2177), np.int64(2190), np.int64(2191), np.int64(562), np.int64(562), np.int64(2236)]
+    516
+    [np.int64(1856), np.int64(1856), np.int64(716), np.int64(717), np.int64(1856), np.int64(1924), np.int64(717), np.int64(402), np.int64(397), np.int64(402), np.int64(397), np.int64(1552), np.int64(369), np.int64(1509), np.int64(365), np.int64(1552)]
+    716
+    [np.int64(741), np.int64(741), np.int64(1925), np.int64(440), np.int64(1925), np.int64(741), np.int64(743), np.int64(743), np.int64(403), np.int64(370), np.int64(403), np.int64(370), np.int64(370), np.int64(1529), np.int64(1529), np.int64(1529)]
+    440
+    [np.int64(622), np.int64(606), np.int64(622), np.int64(633), np.int64(633), np.int64(597), np.int64(606), np.int64(646), np.int64(633), np.int64(646), np.int64(646), np.int64(648), np.int64(1169), np.int64(645), np.int64(648), np.int64(597), np.int64(631), np.int64(634)]
+    622
+    [np.int64(621), np.int64(2266), np.int64(579), np.int64(2266), np.int64(621), np.int64(596), np.int64(629), np.int64(640), np.int64(641), np.int64(629), np.int64(608), np.int64(608), np.int64(579), np.int64(641), np.int64(608), np.int64(641), np.int64(639), np.int64(639)]
+    2266
+    [np.int64(526), np.int64(532), np.int64(545), np.int64(526), np.int64(570), np.int64(570), np.int64(532), np.int64(1047), np.int64(570), np.int64(1088), np.int64(1047), np.int64(1088), np.int64(1120)]
+    526
+    [np.int64(552), np.int64(536), np.int64(552), np.int64(536), np.int64(515), np.int64(578), np.int64(552), np.int64(587), np.int64(587), np.int64(604), np.int64(639), np.int64(604), np.int64(639)]
+    536
+    [np.int64(499), np.int64(479), np.int64(499), np.int64(505), np.int64(810), np.int64(482), np.int64(810), np.int64(505), np.int64(744), np.int64(810), np.int64(428), np.int64(785), np.int64(428), np.int64(412), np.int64(375), np.int64(412), np.int64(1553), np.int64(375), np.int64(1553), np.int64(1553), np.int64(1523)]
+    479
+    [np.int64(515), np.int64(515), np.int64(886), np.int64(489), np.int64(886), np.int64(489), np.int64(458), np.int64(489), np.int64(809), np.int64(458), np.int64(458), np.int64(458), np.int64(427), np.int64(393), np.int64(427), np.int64(393), np.int64(382), np.int64(370), np.int64(1529), np.int64(382), np.int64(1529)]
+    515
+    [np.int64(582), np.int64(585), np.int64(588), np.int64(598), np.int64(585), np.int64(625), np.int64(609), np.int64(585), np.int64(609), np.int64(625)]
+    582
+    [np.int64(2236), np.int64(2236), np.int64(2236), np.int64(2223), np.int64(2268), np.int64(2236), np.int64(2280), np.int64(2268), np.int64(608), np.int64(2280)]
+    2236
+    [np.int64(13), np.int64(754), np.int64(1892), np.int64(754), np.int64(13), np.int64(15), np.int64(1892), np.int64(1892), np.int64(15), np.int64(1872), np.int64(1867), np.int64(1872), np.int64(1891), np.int64(325), np.int64(1867), np.int64(18), np.int64(146), np.int64(146)]
+    13
+    [np.int64(1898), np.int64(1899), np.int64(1897), np.int64(1898), np.int64(1895), np.int64(1897), np.int64(1868), np.int64(1829), np.int64(1899), np.int64(1825), np.int64(1829), np.int64(1825), np.int64(1822), np.int64(1822), np.int64(1822), np.int64(1822), np.int64(1865), np.int64(1822)]
+    1898
+    [np.int64(1893), np.int64(139), np.int64(726), np.int64(726), np.int64(706), np.int64(726), np.int64(1791), np.int64(706), np.int64(1740), np.int64(1740)]
+    1893
+    [np.int64(1868), np.int64(1868), np.int64(710), np.int64(1868), np.int64(727), np.int64(710), np.int64(1739), np.int64(710), np.int64(1739), np.int64(1741)]
+    1868
+    [np.int64(1648), np.int64(1616), np.int64(1649), np.int64(1651), np.int64(1648), np.int64(1649), np.int64(1542), np.int64(1575), np.int64(1544), np.int64(1616), np.int64(1648), np.int64(1620), np.int64(309), np.int64(1575), np.int64(1575), np.int64(1578), np.int64(309), np.int64(667), np.int64(667), np.int64(1513), np.int64(667)]
+    1651
+    [np.int64(98), np.int64(98), np.int64(310), np.int64(98), np.int64(1613), np.int64(678), np.int64(685), np.int64(310), np.int64(678), np.int64(1613), np.int64(1613), np.int64(1571), np.int64(1609), np.int64(1613), np.int64(97), np.int64(678), np.int64(97), np.int64(97), np.int64(1618), np.int64(664), np.int64(664)]
+    685
+    [np.int64(714), np.int64(693), np.int64(714), np.int64(1842), np.int64(1846), np.int64(1830), np.int64(1842), np.int64(693), np.int64(694), np.int64(672), np.int64(109), np.int64(694), np.int64(695), np.int64(1830), np.int64(1871), np.int64(672), np.int64(1549), np.int64(1518), np.int64(1871), np.int64(753), np.int64(753), np.int64(746), np.int64(753), np.int64(746), np.int64(1516), np.int64(1518), np.int64(1512), np.int64(1516), np.int64(1512)]
+    1846
+    [np.int64(1807), np.int64(1807), np.int64(126), np.int64(1833), np.int64(1807), np.int64(1689), np.int64(126), np.int64(683), np.int64(1689), np.int64(683), np.int64(683), np.int64(1828), np.int64(1833), np.int64(683), np.int64(95), np.int64(1828), np.int64(1869), np.int64(95), np.int64(1894), np.int64(1866), np.int64(1869), np.int64(366), np.int64(95), np.int64(1865), np.int64(1866), np.int64(1514), np.int64(366), np.int64(1514), np.int64(664)]
+    126
+    [np.int64(1570), np.int64(1681), np.int64(1681), np.int64(1570), np.int64(1607), np.int64(1645), np.int64(1681), np.int64(1570), np.int64(1570), np.int64(1572), np.int64(671)]
+    1607
+    [np.int64(96), np.int64(96), np.int64(96), np.int64(1741), np.int64(1680), np.int64(96), np.int64(673), np.int64(1571), np.int64(1609), np.int64(1571), np.int64(1571)]
+    673
+    [np.int64(1898), np.int64(1899), np.int64(1897), np.int64(1898), np.int64(1895), np.int64(1897), np.int64(1868), np.int64(1829), np.int64(1899), np.int64(1825), np.int64(1829), np.int64(1825), np.int64(1822), np.int64(1822), np.int64(1822), np.int64(1822), np.int64(1865), np.int64(1822)]
+    1898
+    [np.int64(13), np.int64(754), np.int64(1892), np.int64(754), np.int64(13), np.int64(15), np.int64(1892), np.int64(1892), np.int64(15), np.int64(1872), np.int64(1867), np.int64(1872), np.int64(1891), np.int64(325), np.int64(1867), np.int64(18), np.int64(146), np.int64(146)]
+    13
+    [np.int64(1945), np.int64(1919), np.int64(1945), np.int64(1893), np.int64(1919), np.int64(2007), np.int64(1990), np.int64(2007), np.int64(1945), np.int64(2007)]
+    1919
+    [np.int64(1892), np.int64(1933), np.int64(1989), np.int64(1989), np.int64(1991), np.int64(1933), np.int64(1892), np.int64(1989), np.int64(177), np.int64(184)]
+    1933
+    [np.int64(2062), np.int64(48), np.int64(214), np.int64(2116), np.int64(214), np.int64(2062), np.int64(856), np.int64(2043), np.int64(2043), np.int64(2116), np.int64(2116), np.int64(53), np.int64(2171), np.int64(2030), np.int64(2010), np.int64(2043), np.int64(160), np.int64(2010), np.int64(1947), np.int64(1947), np.int64(1948), np.int64(762), np.int64(1948), np.int64(762)]
+    48
+    [np.int64(195), np.int64(195), np.int64(2063), np.int64(2063), np.int64(195), np.int64(45), np.int64(838), np.int64(2063), np.int64(2008), np.int64(2114), np.int64(45), np.int64(2098), np.int64(2008), np.int64(2114), np.int64(2114), np.int64(790), np.int64(2008), np.int64(790), np.int64(775), np.int64(790), np.int64(775), np.int64(17), np.int64(17), np.int64(146)]
+    195
+    [np.int64(746)]
+    746
+    [np.int64(146)]
+    146
+    [np.int64(2042), np.int64(2042), np.int64(2078), np.int64(2109), np.int64(2078), np.int64(2109), np.int64(2180), np.int64(978), np.int64(2109)]
+    2042
+    [np.int64(2080), np.int64(184), np.int64(2080), np.int64(2077), np.int64(2168), np.int64(2108), np.int64(2077), np.int64(2168), np.int64(2168)]
+    184
+    [np.int64(2185), np.int64(2184), np.int64(2185), np.int64(230), np.int64(2184), np.int64(236), np.int64(986), np.int64(230), np.int64(230), np.int64(984)]
+    2185
+    [np.int64(224), np.int64(2114), np.int64(224), np.int64(2153), np.int64(2153), np.int64(2153), np.int64(2153), np.int64(2168), np.int64(220), np.int64(2168)]
+    2114
+    [np.int64(982)]
+    982
+    [np.int64(2168)]
+    2168
+    [np.int64(1868), np.int64(1868), np.int64(710), np.int64(1868), np.int64(727), np.int64(710), np.int64(1739), np.int64(710), np.int64(1739), np.int64(1741)]
+    1868
+    [np.int64(1893), np.int64(139), np.int64(726), np.int64(726), np.int64(706), np.int64(726), np.int64(1791), np.int64(706), np.int64(1740), np.int64(1740)]
+    1893
+    [np.int64(1892), np.int64(1933), np.int64(1989), np.int64(1989), np.int64(1991), np.int64(1933), np.int64(1892), np.int64(1989), np.int64(177), np.int64(184)]
+    1933
+    [np.int64(1945), np.int64(1919), np.int64(1945), np.int64(1893), np.int64(1919), np.int64(2007), np.int64(1990), np.int64(2007), np.int64(1945), np.int64(2007)]
+    1919
+    [np.int64(35), np.int64(35), np.int64(867), np.int64(35), np.int64(2071), np.int64(35), np.int64(2070), np.int64(2042), np.int64(2042), np.int64(192), np.int64(867), np.int64(200), np.int64(192), np.int64(191), np.int64(2029), np.int64(191), np.int64(2029), np.int64(2029), np.int64(832), np.int64(2029), np.int64(832), np.int64(864)]
+    35
+    [np.int64(175), np.int64(176), np.int64(182), np.int64(183), np.int64(182), np.int64(176), np.int64(193), np.int64(182), np.int64(193), np.int64(176), np.int64(2007), np.int64(193), np.int64(173), np.int64(171), np.int64(173), np.int64(2019), np.int64(171), np.int64(2028), np.int64(2001), np.int64(2028), np.int64(823), np.int64(823)]
+    175
+    [np.int64(329), np.int64(320), np.int64(329), np.int64(800), np.int64(329), np.int64(338), np.int64(800), np.int64(825), np.int64(320), np.int64(312)]
+    338
+    [np.int64(337), np.int64(333), np.int64(337), np.int64(319), np.int64(1737), np.int64(319), np.int64(799), np.int64(337), np.int64(799), np.int64(1737)]
+    333
+    [np.int64(1681), np.int64(1720), np.int64(1678), np.int64(1720), np.int64(1678), np.int64(1661), np.int64(1660), np.int64(1661), np.int64(1660), np.int64(1583), np.int64(1584), np.int64(1583), np.int64(1634), np.int64(1660), np.int64(1633), np.int64(1584), np.int64(1633), np.int64(1634), np.int64(1583), np.int64(1630), np.int64(1656), np.int64(1630), np.int64(1656), np.int64(1657)]
+    1720
+    [np.int64(1740), np.int64(1719), np.int64(1740), np.int64(1676), np.int64(1719), np.int64(1674), np.int64(1676), np.int64(1673), np.int64(106), np.int64(1674), np.int64(1673), np.int64(1658), np.int64(1654), np.int64(1631), np.int64(1710), np.int64(1654), np.int64(1655), np.int64(1658), np.int64(1631), np.int64(1711), np.int64(1655), np.int64(1737), np.int64(1737), np.int64(1711)]
+    1740
+    [np.int64(824), np.int64(881), np.int64(824), np.int64(824), np.int64(824)]
+    881
+    [np.int64(823), np.int64(1984), np.int64(823), np.int64(1983), np.int64(799)]
+    1983
+    [np.int64(831), np.int64(456), np.int64(831), np.int64(456), np.int64(781), np.int64(781), np.int64(1925), np.int64(781)]
+    831
+    [np.int64(480), np.int64(2045), np.int64(480), np.int64(1997), np.int64(449), np.int64(1997), np.int64(444), np.int64(444)]
+    2045
+    [np.int64(518), np.int64(2092), np.int64(504), np.int64(2149), np.int64(518), np.int64(877), np.int64(504), np.int64(2176), np.int64(2149), np.int64(2176), np.int64(2178), np.int64(2178), np.int64(2179), np.int64(2193), np.int64(2193)]
+    2092
+    [np.int64(2067), np.int64(2067), np.int64(2140), np.int64(2067), np.int64(2045), np.int64(2164), np.int64(2140), np.int64(2045), np.int64(2164), np.int64(2165), np.int64(2192), np.int64(2165), np.int64(2192), np.int64(2192), np.int64(563)]
+    2067
+    [np.int64(1691), np.int64(103), np.int64(1691), np.int64(103), np.int64(107), np.int64(700), np.int64(108), np.int64(1691)]
+    107
+    [np.int64(1687), np.int64(1687), np.int64(1687), np.int64(1690), np.int64(1696), np.int64(1690), np.int64(1694), np.int64(1696)]
+    1694
+    [np.int64(1924), np.int64(1910), np.int64(1924), np.int64(1910), np.int64(1814), np.int64(1814), np.int64(1910), np.int64(1854), np.int64(1855), np.int64(1814), np.int64(1749), np.int64(1749), np.int64(1814), np.int64(1785), np.int64(1749), np.int64(1749), np.int64(1732), np.int64(1747), np.int64(1749), np.int64(1729), np.int64(1730), np.int64(1732), np.int64(1729), np.int64(1725), np.int64(102), np.int64(691), np.int64(1725), np.int64(102), np.int64(691), np.int64(102)]
+    1924
+    [np.int64(1923), np.int64(444), np.int64(1909), np.int64(1909), np.int64(1923), np.int64(1909), np.int64(1912), np.int64(742), np.int64(1909), np.int64(1816), np.int64(1786), np.int64(1786), np.int64(1698), np.int64(1770), np.int64(1748), np.int64(1817), np.int64(1786), np.int64(1698), np.int64(1698), np.int64(1731), np.int64(1731), np.int64(1731), np.int64(1693), np.int64(1693), np.int64(1684), np.int64(1683), np.int64(1684), np.int64(1683), np.int64(1687), np.int64(1688)]
+    444
+    [np.int64(1815), np.int64(105), np.int64(1769), np.int64(1815), np.int64(104), np.int64(105)]
+    1815
+    [np.int64(384), np.int64(1704), np.int64(1704), np.int64(1696), np.int64(1704), np.int64(1696)]
+    384
+    [np.int64(564), np.int64(567), np.int64(571), np.int64(581), np.int64(582), np.int64(571), np.int64(573), np.int64(564), np.int64(541), np.int64(522), np.int64(492), np.int64(534), np.int64(541), np.int64(492), np.int64(492), np.int64(492)]
+    567
+    [np.int64(555), np.int64(555), np.int64(563), np.int64(540), np.int64(563), np.int64(555), np.int64(540), np.int64(523), np.int64(540), np.int64(523), np.int64(563), np.int64(523), np.int64(523), np.int64(2027), np.int64(2061), np.int64(2000)]
+    555
+    [np.int64(1883), np.int64(414), np.int64(460), np.int64(442), np.int64(1915), np.int64(1883), np.int64(442), np.int64(1774), np.int64(414), np.int64(442), np.int64(1774), np.int64(1928), np.int64(442), np.int64(1915), np.int64(1771), np.int64(1774), np.int64(1820), np.int64(1771), np.int64(1787)]
+    460
+    [np.int64(2000), np.int64(1884), np.int64(415), np.int64(1788), np.int64(415), np.int64(2000), np.int64(1940), np.int64(1916), np.int64(1885), np.int64(1916), np.int64(1884), np.int64(1916), np.int64(1734), np.int64(1788), np.int64(1734), np.int64(1775), np.int64(384), np.int64(1734), np.int64(384)]
+    415
+    [np.int64(516), np.int64(516), np.int64(2138), np.int64(516), np.int64(503), np.int64(831), np.int64(2138), np.int64(2163), np.int64(2163), np.int64(2177), np.int64(2163), np.int64(2177), np.int64(2190), np.int64(2191), np.int64(562), np.int64(562), np.int64(2236)]
+    516
+    [np.int64(517), np.int64(877), np.int64(2137), np.int64(877), np.int64(2160), np.int64(2137), np.int64(2176), np.int64(2160), np.int64(2162), np.int64(877), np.int64(2176), np.int64(2179), np.int64(2179), np.int64(2179), np.int64(2179), np.int64(2193), np.int64(2193)]
+    517
+    [np.int64(2067), np.int64(2067), np.int64(2140), np.int64(2067), np.int64(2045), np.int64(2164), np.int64(2140), np.int64(2045), np.int64(2164), np.int64(2165), np.int64(2192), np.int64(2165), np.int64(2192), np.int64(2192), np.int64(563)]
+    2067
+    [np.int64(518), np.int64(2092), np.int64(504), np.int64(2149), np.int64(518), np.int64(877), np.int64(504), np.int64(2176), np.int64(2149), np.int64(2176), np.int64(2178), np.int64(2178), np.int64(2179), np.int64(2193), np.int64(2193)]
+    2092
+    [np.int64(582)]
+    582
+    [np.int64(2193)]
+    2193
+    [np.int64(195), np.int64(195), np.int64(2063), np.int64(2063), np.int64(195), np.int64(45), np.int64(838), np.int64(2063), np.int64(2008), np.int64(2114), np.int64(45), np.int64(2098), np.int64(2008), np.int64(2114), np.int64(2114), np.int64(790), np.int64(2008), np.int64(790), np.int64(775), np.int64(790), np.int64(775), np.int64(17), np.int64(17), np.int64(146)]
+    195
+    [np.int64(2062), np.int64(48), np.int64(214), np.int64(2116), np.int64(214), np.int64(2062), np.int64(856), np.int64(2043), np.int64(2043), np.int64(2116), np.int64(2116), np.int64(53), np.int64(2171), np.int64(2030), np.int64(2010), np.int64(2043), np.int64(160), np.int64(2010), np.int64(1947), np.int64(1947), np.int64(1948), np.int64(762), np.int64(1948), np.int64(762)]
+    48
+    [np.int64(1687), np.int64(1687), np.int64(1687), np.int64(1690), np.int64(1696), np.int64(1690), np.int64(1694), np.int64(1696)]
+    1694
+    [np.int64(1691), np.int64(103), np.int64(1691), np.int64(103), np.int64(107), np.int64(700), np.int64(108), np.int64(1691)]
+    107
+    [np.int64(1799), np.int64(1838), np.int64(1896), np.int64(1896), np.int64(1834), np.int64(1799), np.int64(1802), np.int64(1756), np.int64(1757), np.int64(1834), np.int64(1896), np.int64(1871), np.int64(753), np.int64(1834), np.int64(1836), np.int64(1838), np.int64(753), np.int64(1756), np.int64(746), np.int64(753), np.int64(1756), np.int64(102), np.int64(746)]
+    1836
+    [np.int64(1876), np.int64(1801), np.int64(1801), np.int64(1902), np.int64(1907), np.int64(1876), np.int64(1801), np.int64(1877), np.int64(1876), np.int64(1877), np.int64(1934), np.int64(1934), np.int64(1902), np.int64(1936), np.int64(133), np.int64(1801), np.int64(107), np.int64(1934), np.int64(19), np.int64(20), np.int64(107), np.int64(20), np.int64(762)]
+    1877
+    [np.int64(226), np.int64(240), np.int64(242), np.int64(226), np.int64(221), np.int64(240), np.int64(206), np.int64(924), np.int64(221), np.int64(206), np.int64(817), np.int64(186), np.int64(2026), np.int64(817), np.int64(820), np.int64(206), np.int64(186), np.int64(859), np.int64(820), np.int64(821)]
+    226
+    [np.int64(2157), np.int64(2130), np.int64(2157), np.int64(963), np.int64(2157), np.int64(2130), np.int64(2103), np.int64(2103), np.int64(167), np.int64(43), np.int64(844), np.int64(2103), np.int64(167), np.int64(2014), np.int64(844), np.int64(844), np.int64(2014), np.int64(804), np.int64(167), np.int64(804)]
+    2157
+    [np.int64(960), np.int64(234), np.int64(2186), np.int64(56), np.int64(231), np.int64(234), np.int64(237), np.int64(231), np.int64(231), np.int64(960), np.int64(970), np.int64(2186), np.int64(231), np.int64(970)]
+    56
+    [np.int64(53), np.int64(939), np.int64(939), np.int64(53), np.int64(961), np.int64(2154), np.int64(53), np.int64(2171), np.int64(225), np.int64(2154), np.int64(225), np.int64(939), np.int64(54), np.int64(2143)]
+    961
+    [np.int64(2185)]
+    2185
+    [np.int64(2171)]
+    2171
+    [np.int64(988), np.int64(235), np.int64(988)]
+    988
+    [np.int64(961), np.int64(963), np.int64(961)]
+    963
+    [np.int64(1937), np.int64(1977), np.int64(1937), np.int64(149), np.int64(1878), np.int64(1993), np.int64(1977), np.int64(1993), np.int64(1996), np.int64(1878), np.int64(731), np.int64(732), np.int64(136), np.int64(731), np.int64(136), np.int64(122), np.int64(104), np.int64(122)]
+    1937
+    [np.int64(1922), np.int64(23), np.int64(1922), np.int64(167), np.int64(23), np.int64(1922), np.int64(730), np.int64(804), np.int64(167), np.int64(730), np.int64(804), np.int64(135), np.int64(730), np.int64(135), np.int64(121), np.int64(108), np.int64(121), np.int64(108)]
+    23
+    [np.int64(98), np.int64(98), np.int64(310), np.int64(98), np.int64(1613), np.int64(678), np.int64(685), np.int64(310), np.int64(678), np.int64(1613), np.int64(1613), np.int64(1571), np.int64(1609), np.int64(1613), np.int64(97), np.int64(678), np.int64(97), np.int64(97), np.int64(1618), np.int64(664), np.int64(664)]
+    685
+    [np.int64(1648), np.int64(1616), np.int64(1649), np.int64(1651), np.int64(1648), np.int64(1649), np.int64(1542), np.int64(1575), np.int64(1544), np.int64(1616), np.int64(1648), np.int64(1620), np.int64(309), np.int64(1575), np.int64(1575), np.int64(1578), np.int64(309), np.int64(667), np.int64(667), np.int64(1513), np.int64(667)]
+    1651
+    [np.int64(1512)]
+    1512
+    [np.int64(1513)]
+    1513
+    [np.int64(671), np.int64(671), np.int64(1506), np.int64(1531), np.int64(671), np.int64(1506), np.int64(1506), np.int64(1488), np.int64(1488), np.int64(1488), np.int64(91), np.int64(1472), np.int64(1474), np.int64(1488), np.int64(91), np.int64(91)]
+    671
+    [np.int64(1575), np.int64(1530), np.int64(670), np.int64(1530), np.int64(0), np.int64(656), np.int64(1530), np.int64(0), np.int64(1), np.int64(657), np.int64(1490), np.int64(1490), np.int64(1490), np.int64(1513), np.int64(1490), np.int64(667)]
+    1575
+    [np.int64(741), np.int64(741), np.int64(1925), np.int64(440), np.int64(1925), np.int64(741), np.int64(743), np.int64(743), np.int64(403), np.int64(370), np.int64(403), np.int64(370), np.int64(370), np.int64(1529), np.int64(1529), np.int64(1529)]
+    440
+    [np.int64(1856), np.int64(1856), np.int64(716), np.int64(717), np.int64(1856), np.int64(1924), np.int64(717), np.int64(402), np.int64(397), np.int64(402), np.int64(397), np.int64(1552), np.int64(369), np.int64(1509), np.int64(365), np.int64(1552)]
+    716
+    [np.int64(1807), np.int64(1807), np.int64(126), np.int64(1833), np.int64(1807), np.int64(1689), np.int64(126), np.int64(683), np.int64(1689), np.int64(683), np.int64(683), np.int64(1828), np.int64(1833), np.int64(683), np.int64(95), np.int64(1828), np.int64(1869), np.int64(95), np.int64(1894), np.int64(1866), np.int64(1869), np.int64(366), np.int64(95), np.int64(1865), np.int64(1866), np.int64(1514), np.int64(366), np.int64(1514), np.int64(664)]
+    126
+    [np.int64(714), np.int64(693), np.int64(714), np.int64(1842), np.int64(1846), np.int64(1830), np.int64(1842), np.int64(693), np.int64(694), np.int64(672), np.int64(109), np.int64(694), np.int64(695), np.int64(1830), np.int64(1871), np.int64(672), np.int64(1549), np.int64(1518), np.int64(1871), np.int64(753), np.int64(753), np.int64(746), np.int64(753), np.int64(746), np.int64(1516), np.int64(1518), np.int64(1512), np.int64(1516), np.int64(1512)]
+    1846
+    [np.int64(146)]
+    146
+    [np.int64(746)]
+    746
+    [np.int64(1923), np.int64(444), np.int64(1909), np.int64(1909), np.int64(1923), np.int64(1909), np.int64(1912), np.int64(742), np.int64(1909), np.int64(1816), np.int64(1786), np.int64(1786), np.int64(1698), np.int64(1770), np.int64(1748), np.int64(1817), np.int64(1786), np.int64(1698), np.int64(1698), np.int64(1731), np.int64(1731), np.int64(1731), np.int64(1693), np.int64(1693), np.int64(1684), np.int64(1683), np.int64(1684), np.int64(1683), np.int64(1687), np.int64(1688)]
+    444
+    [np.int64(1924), np.int64(1910), np.int64(1924), np.int64(1910), np.int64(1814), np.int64(1814), np.int64(1910), np.int64(1854), np.int64(1855), np.int64(1814), np.int64(1749), np.int64(1749), np.int64(1814), np.int64(1785), np.int64(1749), np.int64(1749), np.int64(1732), np.int64(1747), np.int64(1749), np.int64(1729), np.int64(1730), np.int64(1732), np.int64(1729), np.int64(1725), np.int64(102), np.int64(691), np.int64(1725), np.int64(102), np.int64(691), np.int64(102)]
+    1924
+    [np.int64(1876), np.int64(1801), np.int64(1801), np.int64(1902), np.int64(1907), np.int64(1876), np.int64(1801), np.int64(1877), np.int64(1876), np.int64(1877), np.int64(1934), np.int64(1934), np.int64(1902), np.int64(1936), np.int64(133), np.int64(1801), np.int64(107), np.int64(1934), np.int64(19), np.int64(20), np.int64(107), np.int64(20), np.int64(762)]
+    1877
+    [np.int64(1799), np.int64(1838), np.int64(1896), np.int64(1896), np.int64(1834), np.int64(1799), np.int64(1802), np.int64(1756), np.int64(1757), np.int64(1834), np.int64(1896), np.int64(1871), np.int64(753), np.int64(1834), np.int64(1836), np.int64(1838), np.int64(753), np.int64(1756), np.int64(746), np.int64(753), np.int64(1756), np.int64(102), np.int64(746)]
+    1836
+    [np.int64(1513)]
+    1513
+    [np.int64(1512)]
+    1512
+    [np.int64(1523)]
+    1523
+    [np.int64(1509)]
+    1509
+    [np.int64(1494), np.int64(1494), np.int64(1497), np.int64(1504), np.int64(1497), np.int64(1500), np.int64(1494), np.int64(90), np.int64(1474), np.int64(90), np.int64(91), np.int64(91)]
+    1497
+    [np.int64(1509), np.int64(1499), np.int64(1509), np.int64(1518), np.int64(1499), np.int64(93), np.int64(1509), np.int64(92), np.int64(93), np.int64(92), np.int64(1512), np.int64(92)]
+    1518
+    [np.int64(2080), np.int64(184), np.int64(2080), np.int64(2077), np.int64(2168), np.int64(2108), np.int64(2077), np.int64(2168), np.int64(2168)]
+    184
+    [np.int64(2042), np.int64(2042), np.int64(2078), np.int64(2109), np.int64(2078), np.int64(2109), np.int64(2180), np.int64(978), np.int64(2109)]
+    2042
+    [np.int64(175), np.int64(176), np.int64(182), np.int64(183), np.int64(182), np.int64(176), np.int64(193), np.int64(182), np.int64(193), np.int64(176), np.int64(2007), np.int64(193), np.int64(173), np.int64(171), np.int64(173), np.int64(2019), np.int64(171), np.int64(2028), np.int64(2001), np.int64(2028), np.int64(823), np.int64(823)]
+    175
+    [np.int64(35), np.int64(35), np.int64(867), np.int64(35), np.int64(2071), np.int64(35), np.int64(2070), np.int64(2042), np.int64(2042), np.int64(192), np.int64(867), np.int64(200), np.int64(192), np.int64(191), np.int64(2029), np.int64(191), np.int64(2029), np.int64(2029), np.int64(832), np.int64(2029), np.int64(832), np.int64(864)]
+    35
+    [np.int64(1262), np.int64(1262), np.int64(1262), np.int64(1301)]
+    1262
+    [np.int64(1283), np.int64(1176), np.int64(1177), np.int64(1283)]
+    1176
+    [np.int64(76), np.int64(1224), np.int64(76), np.int64(78), np.int64(1175), np.int64(1224), np.int64(1224), np.int64(1323)]
+    76
+    [np.int64(81), np.int64(1112), np.int64(81), np.int64(81), np.int64(1283), np.int64(81), np.int64(1176), np.int64(1283)]
+    1112
+    [np.int64(1150), np.int64(359), np.int64(1150), np.int64(359), np.int64(1243), np.int64(1208)]
+    1150
+    [np.int64(1096), np.int64(1128), np.int64(1128), np.int64(1177), np.int64(1177), np.int64(1177)]
+    1096
+    [np.int64(1064), np.int64(1004), np.int64(1038), np.int64(1013), np.int64(1064), np.int64(1004), np.int64(1064), np.int64(1065), np.int64(1097), np.int64(1065), np.int64(1004), np.int64(945), np.int64(980), np.int64(932), np.int64(945), np.int64(932), np.int64(881), np.int64(918), np.int64(881)]
+    1013
+    [np.int64(1019), np.int64(1019), np.int64(69), np.int64(1037), np.int64(1019), np.int64(993), np.int64(979), np.int64(1019), np.int64(69), np.int64(1096), np.int64(1096), np.int64(979), np.int64(934), np.int64(979), np.int64(897), np.int64(934), np.int64(897), np.int64(864), np.int64(897)]
+    1019
+    [np.int64(1001), np.int64(1011), np.int64(65), np.int64(1011), np.int64(65), np.int64(72), np.int64(74), np.int64(1001), np.int64(2207), np.int64(2209), np.int64(982), np.int64(2207), np.int64(982)]
+    1011
+    [np.int64(1030), np.int64(1002), np.int64(1030), np.int64(1112), np.int64(1112), np.int64(1002), np.int64(55), np.int64(1112), np.int64(55), np.int64(983), np.int64(983), np.int64(978), np.int64(983)]
+    1002
+    [np.int64(621), np.int64(2266), np.int64(579), np.int64(2266), np.int64(621), np.int64(596), np.int64(629), np.int64(640), np.int64(641), np.int64(629), np.int64(608), np.int64(608), np.int64(579), np.int64(641), np.int64(608), np.int64(641), np.int64(639), np.int64(639)]
+    2266
+    [np.int64(622), np.int64(606), np.int64(622), np.int64(633), np.int64(633), np.int64(597), np.int64(606), np.int64(646), np.int64(633), np.int64(646), np.int64(646), np.int64(648), np.int64(1169), np.int64(645), np.int64(648), np.int64(597), np.int64(631), np.int64(634)]
+    622
+    [np.int64(1283), np.int64(1176), np.int64(1177), np.int64(1283)]
+    1176
+    [np.int64(1262), np.int64(1262), np.int64(1262), np.int64(1301)]
+    1262
+    [np.int64(1363), np.int64(89), np.int64(1441), np.int64(305), np.int64(1363)]
+    89
+    [np.int64(1384), np.int64(1425), np.int64(1384), np.int64(1425), np.int64(1425)]
+    1384
+    [np.int64(1323), np.int64(1323)]
+    1323
+    [np.int64(1384), np.int64(1301)]
+    1301
+    [np.int64(1120)]
+    1120
+    [np.int64(645)]
+    645
+    [np.int64(1371), np.int64(1434), np.int64(1371), np.int64(1346), np.int64(1353), np.int64(1371), np.int64(1353), np.int64(1463), np.int64(1434), np.int64(1463), np.int64(1353), np.int64(1332), np.int64(1332), np.int64(1460), np.int64(1463), np.int64(1317), np.int64(1332), np.int64(1456), np.int64(1460), np.int64(1456), np.int64(1456)]
+    1346
+    [np.int64(1347), np.int64(1347), np.int64(1397), np.int64(1372), np.int64(1397), np.int64(1433), np.int64(1347), np.int64(1354), np.int64(1331), np.int64(655), np.int64(1429), np.int64(1430), np.int64(1433), np.int64(363), np.int64(655), np.int64(1331), np.int64(1427), np.int64(1429), np.int64(1425), np.int64(1426), np.int64(1427)]
+    1372
+    [np.int64(1221), np.int64(1221), np.int64(1277), np.int64(1221), np.int64(1200), np.int64(1277), np.int64(1200)]
+    1277
+    [np.int64(652), np.int64(655), np.int64(1159), np.int64(1192), np.int64(652), np.int64(642), np.int64(1159)]
+    1192
+    [np.int64(1162), np.int64(1162), np.int64(625)]
+    1162
+    [np.int64(642), np.int64(634), np.int64(634)]
+    642
+    [np.int64(1265), np.int64(1212), np.int64(1265), np.int64(1212), np.int64(1265), np.int64(1212), np.int64(1184), np.int64(1212), np.int64(1156), np.int64(1184), np.int64(1156), np.int64(1138), np.int64(1287), np.int64(1264), np.int64(1265), np.int64(1326), np.int64(1287), np.int64(1326), np.int64(1156), np.int64(1286), np.int64(1326), np.int64(1243), np.int64(1243), np.int64(1156), np.int64(1157), np.int64(1157)]
+    1212
+    [np.int64(1288), np.int64(1266), np.int64(1213), np.int64(1246), np.int64(1213), np.int64(1183), np.int64(1327), np.int64(1288), np.int64(1327), np.int64(1266), np.int64(1304), np.int64(1183), np.int64(1327), np.int64(1337), np.int64(1325), np.int64(1365), np.int64(1337), np.int64(1325), np.int64(1185), np.int64(1167), np.int64(1182), np.int64(1183), np.int64(1325), np.int64(1262), np.int64(645), np.int64(1167)]
+    1304
+    [np.int64(2157), np.int64(2130), np.int64(2157), np.int64(963), np.int64(2157), np.int64(2130), np.int64(2103), np.int64(2103), np.int64(167), np.int64(43), np.int64(844), np.int64(2103), np.int64(167), np.int64(2014), np.int64(844), np.int64(844), np.int64(2014), np.int64(804), np.int64(167), np.int64(804)]
+    2157
+    [np.int64(226), np.int64(240), np.int64(242), np.int64(226), np.int64(221), np.int64(240), np.int64(206), np.int64(924), np.int64(221), np.int64(206), np.int64(817), np.int64(186), np.int64(2026), np.int64(817), np.int64(820), np.int64(206), np.int64(186), np.int64(859), np.int64(820), np.int64(821)]
+    226
+    [np.int64(1073), np.int64(1055), np.int64(1055), np.int64(1066), np.int64(1045), np.int64(1055), np.int64(1045), np.int64(1056), np.int64(1057), np.int64(1045), np.int64(256), np.int64(1057), np.int64(1046), np.int64(256), np.int64(264), np.int64(264), np.int64(1106)]
+    1073
+    [np.int64(2274), np.int64(2274), np.int64(67), np.int64(2255), np.int64(2255), np.int64(2255), np.int64(2257), np.int64(2258), np.int64(2258), np.int64(2258), np.int64(2260), np.int64(2260), np.int64(2260), np.int64(2262), np.int64(257), np.int64(2262), np.int64(257)]
+    2274
+    [np.int64(2272), np.int64(2273), np.int64(2254), np.int64(241), np.int64(241), np.int64(988), np.int64(2272)]
+    2254
+    [np.int64(2256), np.int64(240), np.int64(2256), np.int64(2256), np.int64(2274), np.int64(2256), np.int64(240)]
+    2256
+    [np.int64(1996), np.int64(168), np.int64(1996), np.int64(168), np.int64(168), np.int64(169)]
+    1996
+    [np.int64(821), np.int64(2040), np.int64(2054), np.int64(181), np.int64(2040), np.int64(181)]
+    821
+    [np.int64(1089), np.int64(1089)]
+    1089
+    [np.int64(257), np.int64(1048)]
+    257
+    [np.int64(238), np.int64(1049), np.int64(238), np.int64(238), np.int64(218), np.int64(1049), np.int64(211), np.int64(218), np.int64(211), np.int64(211)]
+    1049
+    [np.int64(1048), np.int64(249), np.int64(229), np.int64(249), np.int64(991), np.int64(229), np.int64(916), np.int64(210), np.int64(181), np.int64(916)]
+    249
+    [np.int64(53), np.int64(939), np.int64(939), np.int64(53), np.int64(961), np.int64(2154), np.int64(53), np.int64(2171), np.int64(225), np.int64(2154), np.int64(225), np.int64(939), np.int64(54), np.int64(2143)]
+    961
+    [np.int64(960), np.int64(234), np.int64(2186), np.int64(56), np.int64(231), np.int64(234), np.int64(237), np.int64(231), np.int64(231), np.int64(960), np.int64(970), np.int64(2186), np.int64(231), np.int64(970)]
+    56
+    [np.int64(1384), np.int64(1425), np.int64(1384), np.int64(1425), np.int64(1425)]
+    1384
+    [np.int64(1363), np.int64(89), np.int64(1441), np.int64(305), np.int64(1363)]
+    89
+    [np.int64(2274), np.int64(2274), np.int64(67), np.int64(2255), np.int64(2255), np.int64(2255), np.int64(2257), np.int64(2258), np.int64(2258), np.int64(2258), np.int64(2260), np.int64(2260), np.int64(2260), np.int64(2262), np.int64(257), np.int64(2262), np.int64(257)]
+    2274
+    [np.int64(1073), np.int64(1055), np.int64(1055), np.int64(1066), np.int64(1045), np.int64(1055), np.int64(1045), np.int64(1056), np.int64(1057), np.int64(1045), np.int64(256), np.int64(1057), np.int64(1046), np.int64(256), np.int64(264), np.int64(264), np.int64(1106)]
+    1073
+    [np.int64(270), np.int64(255), np.int64(270), np.int64(270), np.int64(273), np.int64(66), np.int64(1015), np.int64(255), np.int64(269), np.int64(273), np.int64(1009), np.int64(1015), np.int64(2197), np.int64(269), np.int64(1178), np.int64(2185), np.int64(2197), np.int64(2305), np.int64(295), np.int64(1178), np.int64(293), np.int64(295), np.int64(1323), np.int64(1323)]
+    255
+    [np.int64(274), np.int64(246), np.int64(1131), np.int64(80), np.int64(274), np.int64(246), np.int64(1131), np.int64(279), np.int64(246), np.int64(56), np.int64(279), np.int64(287), np.int64(56), np.int64(2186), np.int64(56), np.int64(1285), np.int64(287), np.int64(2186), np.int64(1285), np.int64(1284), np.int64(1285), np.int64(1284), np.int64(1284), np.int64(89)]
+    274
+    [np.int64(2273), np.int64(239), np.int64(248), np.int64(2272), np.int64(2273), np.int64(2272), np.int64(235), np.int64(239), np.int64(235)]
+    248
+    [np.int64(253), np.int64(253), np.int64(2271), np.int64(57), np.int64(253), np.int64(1073), np.int64(2271), np.int64(960), np.int64(57)]
+    253
+    [np.int64(1435), np.int64(1435), np.int64(1455), np.int64(1456), np.int64(1444), np.int64(1431), np.int64(1435), np.int64(1444), np.int64(1444), np.int64(1443), np.int64(1443), np.int64(1444), np.int64(1443), np.int64(1455), np.int64(1457), np.int64(1461)]
+    1456
+    [np.int64(1441), np.int64(2327), np.int64(1392), np.int64(1393), np.int64(2327), np.int64(1441), np.int64(1442), np.int64(1412), np.int64(306), np.int64(2326), np.int64(2327), np.int64(1442), np.int64(1442), np.int64(1442), np.int64(306), np.int64(1428)]
+    1392
+    [np.int64(1142), np.int64(1089), np.int64(1142), np.int64(1158), np.int64(1142), np.int64(1158), np.int64(1215)]
+    1142
+    [np.int64(1106), np.int64(1141), np.int64(1119), np.int64(1106), np.int64(1187), np.int64(1187), np.int64(1141)]
+    1119
+    [np.int64(1369), np.int64(1370), np.int64(1395), np.int64(1369), np.int64(1254), np.int64(1254), np.int64(1395), np.int64(1396), np.int64(1396), np.int64(1254), np.int64(1292), np.int64(1345), np.int64(1330), np.int64(1370), np.int64(1254), np.int64(1292), np.int64(1330)]
+    1369
+    [np.int64(2322), np.int64(1342), np.int64(303), np.int64(1342), np.int64(303), np.int64(1392), np.int64(1329), np.int64(2322), np.int64(1329), np.int64(2314), np.int64(1271), np.int64(1187), np.int64(1228), np.int64(84), np.int64(1271), np.int64(2314), np.int64(1329)]
+    2322
+    [np.int64(224), np.int64(2114), np.int64(224), np.int64(2153), np.int64(2153), np.int64(2153), np.int64(2153), np.int64(2168), np.int64(220), np.int64(2168)]
+    2114
+    [np.int64(2185), np.int64(2184), np.int64(2185), np.int64(230), np.int64(2184), np.int64(236), np.int64(986), np.int64(230), np.int64(230), np.int64(984)]
+    2185
+    [np.int64(2171)]
+    2171
+    [np.int64(2185)]
+    2185
+    [np.int64(81), np.int64(1112), np.int64(81), np.int64(81), np.int64(1283), np.int64(81), np.int64(1176), np.int64(1283)]
+    1112
+    [np.int64(76), np.int64(1224), np.int64(76), np.int64(78), np.int64(1175), np.int64(1224), np.int64(1224), np.int64(1323)]
+    76
+    [np.int64(1384), np.int64(1301)]
+    1301
+    [np.int64(1323), np.int64(1323)]
+    1323
+    [np.int64(274), np.int64(246), np.int64(1131), np.int64(80), np.int64(274), np.int64(246), np.int64(1131), np.int64(279), np.int64(246), np.int64(56), np.int64(279), np.int64(287), np.int64(56), np.int64(2186), np.int64(56), np.int64(1285), np.int64(287), np.int64(2186), np.int64(1285), np.int64(1284), np.int64(1285), np.int64(1284), np.int64(1284), np.int64(89)]
+    274
+    [np.int64(270), np.int64(255), np.int64(270), np.int64(270), np.int64(273), np.int64(66), np.int64(1015), np.int64(255), np.int64(269), np.int64(273), np.int64(1009), np.int64(1015), np.int64(2197), np.int64(269), np.int64(1178), np.int64(2185), np.int64(2197), np.int64(2305), np.int64(295), np.int64(1178), np.int64(293), np.int64(295), np.int64(1323), np.int64(1323)]
+    255
+    [np.int64(71), np.int64(68), np.int64(1029), np.int64(71), np.int64(2245), np.int64(2245), np.int64(2237), np.int64(2245), np.int64(1005), np.int64(2237), np.int64(71), np.int64(74), np.int64(1005), np.int64(2206), np.int64(74), np.int64(2209), np.int64(2206), np.int64(2209), np.int64(982)]
+    68
+    [np.int64(1035), np.int64(1035), np.int64(70), np.int64(1035), np.int64(268), np.int64(1028), np.int64(2246), np.int64(1035), np.int64(2246), np.int64(2238), np.int64(1007), np.int64(2238), np.int64(76), np.int64(268), np.int64(2208), np.int64(1007), np.int64(2208), np.int64(984), np.int64(984)]
+    70
+    [np.int64(961), np.int64(963), np.int64(961)]
+    963
+    [np.int64(988), np.int64(235), np.int64(988)]
+    988
+    [np.int64(2256), np.int64(240), np.int64(2256), np.int64(2256), np.int64(2274), np.int64(2256), np.int64(240)]
+    2256
+    [np.int64(2272), np.int64(2273), np.int64(2254), np.int64(241), np.int64(241), np.int64(988), np.int64(2272)]
+    2254
+    [np.int64(253), np.int64(253), np.int64(2271), np.int64(57), np.int64(253), np.int64(1073), np.int64(2271), np.int64(960), np.int64(57)]
+    253
+    [np.int64(2273), np.int64(239), np.int64(248), np.int64(2272), np.int64(2273), np.int64(2272), np.int64(235), np.int64(239), np.int64(235)]
+    248
+    [np.int64(552), np.int64(536), np.int64(552), np.int64(536), np.int64(515), np.int64(578), np.int64(552), np.int64(587), np.int64(587), np.int64(604), np.int64(639), np.int64(604), np.int64(639)]
+    536
+    [np.int64(526), np.int64(532), np.int64(545), np.int64(526), np.int64(570), np.int64(570), np.int64(532), np.int64(1047), np.int64(570), np.int64(1088), np.int64(1047), np.int64(1088), np.int64(1120)]
+    526
+    [np.int64(337), np.int64(333), np.int64(337), np.int64(319), np.int64(1737), np.int64(319), np.int64(799), np.int64(337), np.int64(799), np.int64(1737)]
+    333
+    [np.int64(329), np.int64(320), np.int64(329), np.int64(800), np.int64(329), np.int64(338), np.int64(800), np.int64(825), np.int64(320), np.int64(312)]
+    338
+    [np.int64(645)]
+    645
+    [np.int64(1120)]
+    1120
+    [np.int64(908), np.int64(511), np.int64(512), np.int64(908), np.int64(872), np.int64(818), np.int64(511), np.int64(512), np.int64(479), np.int64(818), np.int64(439), np.int64(793), np.int64(479), np.int64(439), np.int64(408), np.int64(1733), np.int64(1784), np.int64(408), np.int64(1733), np.int64(1626), np.int64(1626)]
+    908
+    [np.int64(883), np.int64(525), np.int64(883), np.int64(830), np.int64(525), np.int64(526), np.int64(830), np.int64(780), np.int64(830), np.int64(780), np.int64(526), np.int64(532), np.int64(780), np.int64(431), np.int64(396), np.int64(431), np.int64(396), np.int64(1669), np.int64(396), np.int64(1669), np.int64(373)]
+    883
+    [np.int64(372), np.int64(1647), np.int64(1650), np.int64(1646), np.int64(1603), np.int64(1646), np.int64(1603), np.int64(372), np.int64(1597), np.int64(1667), np.int64(1647), np.int64(1650), np.int64(1624), np.int64(1667), np.int64(1646), np.int64(1667), np.int64(1641), np.int64(372), np.int64(1582), np.int64(1624), np.int64(1625), np.int64(1625), np.int64(1641), np.int64(1675), np.int64(1582), np.int64(1625), np.int64(1675), np.int64(1638), np.int64(1675), np.int64(1635), np.int64(1638), np.int64(1635), np.int64(1672), np.int64(1672), np.int64(1659), np.int64(1657), np.int64(1657), np.int64(1659)]
+    1597
+    [np.int64(1643), np.int64(1666), np.int64(1643), np.int64(1728), np.int64(1686), np.int64(1686), np.int64(1726), np.int64(1643), np.int64(1677), np.int64(1679), np.int64(1666), np.int64(1723), np.int64(1724), np.int64(1728), np.int64(1668), np.int64(1682), np.int64(1724), np.int64(1726), np.int64(1668), np.int64(373), np.int64(1677), np.int64(1717), np.int64(1668), np.int64(373), np.int64(311), np.int64(1715), np.int64(1717), np.int64(1718), np.int64(1738), np.int64(1715), np.int64(1738), np.int64(1714), np.int64(1714), np.int64(1713), np.int64(1712), np.int64(1713), np.int64(1712), np.int64(312)]
+    1679
+    [np.int64(1081), np.int64(1115), np.int64(1081), np.int64(1114), np.int64(1083), np.int64(1099), np.int64(1081), np.int64(1083), np.int64(1099), np.int64(1163), np.int64(1118), np.int64(1163), np.int64(1118), np.int64(1083), np.int64(1116), np.int64(1118), np.int64(1163), np.int64(1150), np.int64(1118), np.int64(638), np.int64(1118), np.int64(1140), np.int64(638), np.int64(1157), np.int64(1140), np.int64(1157)]
+    1114
+    [np.int64(1082), np.int64(1082), np.int64(1032), np.int64(1082), np.int64(1054), np.int64(1032), np.int64(1080), np.int64(358), np.int64(1074), np.int64(1082), np.int64(358), np.int64(1130), np.int64(1079), np.int64(1080), np.int64(613), np.int64(614), np.int64(358), np.int64(628), np.int64(632), np.int64(1130), np.int64(632), np.int64(1085), np.int64(1085), np.int64(1087), np.int64(1120), np.int64(1087)]
+    1054
+    [np.int64(1040), np.int64(1021), np.int64(1021), np.int64(355), np.int64(996), np.int64(1021), np.int64(355), np.int64(956), np.int64(352), np.int64(956), np.int64(1071), np.int64(1040), np.int64(1039), np.int64(352), np.int64(937), np.int64(1071), np.int64(1097), np.int64(1071), np.int64(937), np.int64(890), np.int64(890), np.int64(889), np.int64(900), np.int64(889), np.int64(865), np.int64(898), np.int64(900), np.int64(881), np.int64(865), np.int64(865), np.int64(824)]
+    1021
+    [np.int64(997), np.int64(1032), np.int64(1022), np.int64(1032), np.int64(1079), np.int64(997), np.int64(997), np.int64(957), np.int64(353), np.int64(957), np.int64(1079), np.int64(353), np.int64(902), np.int64(1098), np.int64(1130), np.int64(1079), np.int64(902), np.int64(891), np.int64(1130), np.int64(866), np.int64(891), np.int64(866), np.int64(855), np.int64(855), np.int64(888), np.int64(888), np.int64(888), np.int64(888), np.int64(854), np.int64(825), np.int64(825)]
+    1032
+    [np.int64(515), np.int64(515), np.int64(886), np.int64(489), np.int64(886), np.int64(489), np.int64(458), np.int64(489), np.int64(809), np.int64(458), np.int64(458), np.int64(458), np.int64(427), np.int64(393), np.int64(427), np.int64(393), np.int64(382), np.int64(370), np.int64(1529), np.int64(382), np.int64(1529)]
+    515
+    [np.int64(499), np.int64(479), np.int64(499), np.int64(505), np.int64(810), np.int64(482), np.int64(810), np.int64(505), np.int64(744), np.int64(810), np.int64(428), np.int64(785), np.int64(428), np.int64(412), np.int64(375), np.int64(412), np.int64(1553), np.int64(375), np.int64(1553), np.int64(1553), np.int64(1523)]
+    479
+    [np.int64(1509)]
+    1509
+    [np.int64(1523)]
+    1523
+    [np.int64(883), np.int64(525), np.int64(883), np.int64(830), np.int64(525), np.int64(526), np.int64(830), np.int64(780), np.int64(830), np.int64(780), np.int64(526), np.int64(532), np.int64(780), np.int64(431), np.int64(396), np.int64(431), np.int64(396), np.int64(1669), np.int64(396), np.int64(1669), np.int64(373)]
+    883
+    [np.int64(908), np.int64(511), np.int64(512), np.int64(908), np.int64(872), np.int64(818), np.int64(511), np.int64(512), np.int64(479), np.int64(818), np.int64(439), np.int64(793), np.int64(479), np.int64(439), np.int64(408), np.int64(1733), np.int64(1784), np.int64(408), np.int64(1733), np.int64(1626), np.int64(1626)]
+    908
+    [np.int64(1547), np.int64(1548), np.int64(1582), np.int64(1548), np.int64(1548), np.int64(1527), np.int64(1520), np.int64(1527), np.int64(1498), np.int64(1498), np.int64(1502), np.int64(1503), np.int64(1501), np.int64(1503), np.int64(1504), np.int64(1501), np.int64(1504)]
+    1582
+    [np.int64(1626), np.int64(1626), np.int64(1528), np.int64(1538), np.int64(1626), np.int64(1627), np.int64(1538), np.int64(1528), np.int64(1528), np.int64(1521), np.int64(1521), np.int64(1510), np.int64(1521), np.int64(1505), np.int64(1510), np.int64(1505), np.int64(1523)]
+    1626
+    [np.int64(384), np.int64(1704), np.int64(1704), np.int64(1696), np.int64(1704), np.int64(1696)]
+    384
+    [np.int64(1815), np.int64(105), np.int64(1769), np.int64(1815), np.int64(104), np.int64(105)]
+    1815
+    [np.int64(1922), np.int64(23), np.int64(1922), np.int64(167), np.int64(23), np.int64(1922), np.int64(730), np.int64(804), np.int64(167), np.int64(730), np.int64(804), np.int64(135), np.int64(730), np.int64(135), np.int64(121), np.int64(108), np.int64(121), np.int64(108)]
+    23
+    [np.int64(1937), np.int64(1977), np.int64(1937), np.int64(149), np.int64(1878), np.int64(1993), np.int64(1977), np.int64(1993), np.int64(1996), np.int64(1878), np.int64(731), np.int64(732), np.int64(136), np.int64(731), np.int64(136), np.int64(122), np.int64(104), np.int64(122)]
+    1937
+    [np.int64(821), np.int64(2040), np.int64(2054), np.int64(181), np.int64(2040), np.int64(181)]
+    821
+    [np.int64(1996), np.int64(168), np.int64(1996), np.int64(168), np.int64(168), np.int64(169)]
+    1996
+    [np.int64(466), np.int64(211), np.int64(500), np.int64(1926), np.int64(466), np.int64(1913), np.int64(1926), np.int64(1926), np.int64(1787)]
+    466
+    [np.int64(169), np.int64(158), np.int64(158), np.int64(169), np.int64(169), np.int64(1815), np.int64(144), np.int64(1815), np.int64(158)]
+    169
+    [np.int64(1347), np.int64(1347), np.int64(1397), np.int64(1372), np.int64(1397), np.int64(1433), np.int64(1347), np.int64(1354), np.int64(1331), np.int64(655), np.int64(1429), np.int64(1430), np.int64(1433), np.int64(363), np.int64(655), np.int64(1331), np.int64(1427), np.int64(1429), np.int64(1425), np.int64(1426), np.int64(1427)]
+    1372
+    [np.int64(1371), np.int64(1434), np.int64(1371), np.int64(1346), np.int64(1353), np.int64(1371), np.int64(1353), np.int64(1463), np.int64(1434), np.int64(1463), np.int64(1353), np.int64(1332), np.int64(1332), np.int64(1460), np.int64(1463), np.int64(1317), np.int64(1332), np.int64(1456), np.int64(1460), np.int64(1456), np.int64(1456)]
+    1346
+    [np.int64(1441), np.int64(2327), np.int64(1392), np.int64(1393), np.int64(2327), np.int64(1441), np.int64(1442), np.int64(1412), np.int64(306), np.int64(2326), np.int64(2327), np.int64(1442), np.int64(1442), np.int64(1442), np.int64(306), np.int64(1428)]
+    1392
+    [np.int64(1435), np.int64(1435), np.int64(1455), np.int64(1456), np.int64(1444), np.int64(1431), np.int64(1435), np.int64(1444), np.int64(1444), np.int64(1443), np.int64(1443), np.int64(1444), np.int64(1443), np.int64(1455), np.int64(1457), np.int64(1461)]
+    1456
+    [np.int64(1313), np.int64(1315), np.int64(1333), np.int64(1383), np.int64(1333), np.int64(1313), np.int64(1275), np.int64(1383), np.int64(1275), np.int64(1277)]
+    1315
+    [np.int64(1350), np.int64(1314), np.int64(1350), np.int64(1350), np.int64(1355), np.int64(1314), np.int64(1317), np.int64(1379), np.int64(1355), np.int64(1317)]
+    1350
+    [np.int64(1423), np.int64(1415), np.int64(1420), np.int64(1423), np.int64(1378), np.int64(1378), np.int64(1423), np.int64(1415), np.int64(1439), np.int64(1414), np.int64(1396), np.int64(1439)]
+    1420
+    [np.int64(1416), np.int64(1416), np.int64(1421), np.int64(1424), np.int64(1379), np.int64(1424), np.int64(1416), np.int64(1452), np.int64(1452), np.int64(1435), np.int64(1435), np.int64(1435)]
+    1421
+    [np.int64(652), np.int64(655), np.int64(1159), np.int64(1192), np.int64(652), np.int64(642), np.int64(1159)]
+    1192
+    [np.int64(1221), np.int64(1221), np.int64(1277), np.int64(1221), np.int64(1200), np.int64(1277), np.int64(1200)]
+    1277
+    [np.int64(1350), np.int64(1314), np.int64(1350), np.int64(1350), np.int64(1355), np.int64(1314), np.int64(1317), np.int64(1379), np.int64(1355), np.int64(1317)]
+    1350
+    [np.int64(1313), np.int64(1315), np.int64(1333), np.int64(1383), np.int64(1333), np.int64(1313), np.int64(1275), np.int64(1383), np.int64(1275), np.int64(1277)]
+    1315
+    [np.int64(1280), np.int64(1280), np.int64(1321), np.int64(1335), np.int64(1280), np.int64(653), np.int64(1198), np.int64(1204), np.int64(1335), np.int64(1204), np.int64(1162), np.int64(647), np.int64(1162), np.int64(1204)]
+    653
+    [np.int64(1222), np.int64(1281), np.int64(1222), np.int64(1322), np.int64(1222), np.int64(1322), np.int64(1322), np.int64(1358), np.int64(1222), np.int64(1199), np.int64(1174), np.int64(1174), np.int64(1200), np.int64(1174)]
+    1281
+    [np.int64(1378), np.int64(1382), np.int64(1382), np.int64(1382), np.int64(1362)]
+    1378
+    [np.int64(1383), np.int64(1383), np.int64(1358), np.int64(1359), np.int64(1358)]
+    1383
+    [np.int64(2236), np.int64(2236), np.int64(2236), np.int64(2223), np.int64(2268), np.int64(2236), np.int64(2280), np.int64(2268), np.int64(608), np.int64(2280)]
+    2236
+    [np.int64(582), np.int64(585), np.int64(588), np.int64(598), np.int64(585), np.int64(625), np.int64(609), np.int64(585), np.int64(609), np.int64(625)]
+    582
+    [np.int64(555), np.int64(555), np.int64(563), np.int64(540), np.int64(563), np.int64(555), np.int64(540), np.int64(523), np.int64(540), np.int64(523), np.int64(563), np.int64(523), np.int64(523), np.int64(2027), np.int64(2061), np.int64(2000)]
+    555
+    [np.int64(564), np.int64(567), np.int64(571), np.int64(581), np.int64(582), np.int64(571), np.int64(573), np.int64(564), np.int64(541), np.int64(522), np.int64(492), np.int64(534), np.int64(541), np.int64(492), np.int64(492), np.int64(492)]
+    567
+    [np.int64(2193)]
+    2193
+    [np.int64(582)]
+    582
+    [np.int64(642), np.int64(634), np.int64(634)]
+    642
+    [np.int64(1162), np.int64(1162), np.int64(625)]
+    1162
+    [np.int64(257), np.int64(1048)]
+    257
+    [np.int64(1089), np.int64(1089)]
+    1089
+    [np.int64(1106), np.int64(1141), np.int64(1119), np.int64(1106), np.int64(1187), np.int64(1187), np.int64(1141)]
+    1119
+    [np.int64(1142), np.int64(1089), np.int64(1142), np.int64(1158), np.int64(1142), np.int64(1158), np.int64(1215)]
+    1142
+    [np.int64(1222), np.int64(1281), np.int64(1222), np.int64(1322), np.int64(1222), np.int64(1322), np.int64(1322), np.int64(1358), np.int64(1222), np.int64(1199), np.int64(1174), np.int64(1174), np.int64(1200), np.int64(1174)]
+    1281
+    [np.int64(1280), np.int64(1280), np.int64(1321), np.int64(1335), np.int64(1280), np.int64(653), np.int64(1198), np.int64(1204), np.int64(1335), np.int64(1204), np.int64(1162), np.int64(647), np.int64(1162), np.int64(1204)]
+    653
+    [np.int64(1282), np.int64(1282), np.int64(1282), np.int64(1260), np.int64(1282), np.int64(1319), np.int64(1361), np.int64(1282), np.int64(1260), np.int64(1298), np.int64(1361), np.int64(1362), np.int64(1362), np.int64(1258), np.int64(1260), np.int64(1256), np.int64(1258), np.int64(1256), np.int64(1273), np.int64(1254), np.int64(1273), np.int64(1254)]
+    1298
+    [np.int64(1261), np.int64(1299), np.int64(1223), np.int64(1261), np.int64(1299), np.int64(1205), np.int64(1241), np.int64(1299), np.int64(1334), np.int64(1334), np.int64(1335), np.int64(1194), np.int64(1195), np.int64(1261), np.int64(1220), np.int64(1194), np.int64(1219), np.int64(1220), np.int64(1219), np.int64(1233), np.int64(1233), np.int64(1215)]
+    1241
+    [np.int64(556), np.int64(568), np.int64(542), np.int64(568), np.int64(1061), np.int64(1026), np.int64(1061), np.int64(1033), np.int64(593), np.int64(568), np.int64(616), np.int64(1033), np.int64(1050), np.int64(483), np.int64(460), np.int64(542), np.int64(1061), np.int64(590), np.int64(592), np.int64(592), np.int64(593), np.int64(616), np.int64(460), np.int64(1058), np.int64(616), np.int64(1058), np.int64(1068), np.int64(1068), np.int64(1049)]
+    556
+    [np.int64(550), np.int64(550), np.int64(583), np.int64(594), np.int64(550), np.int64(522), np.int64(1060), np.int64(1059), np.int64(1060), np.int64(1060), np.int64(262), np.int64(1077), np.int64(262), np.int64(1059), np.int64(522), np.int64(1062), np.int64(594), np.int64(262), np.int64(1062), np.int64(1059), np.int64(267), np.int64(630), np.int64(522), np.int64(492), np.int64(1107), np.int64(630), np.int64(1089), np.int64(1107), np.int64(1089)]
+    550
+    [np.int64(96), np.int64(96), np.int64(96), np.int64(1741), np.int64(1680), np.int64(96), np.int64(673), np.int64(1571), np.int64(1609), np.int64(1571), np.int64(1571)]
+    673
+    [np.int64(1570), np.int64(1681), np.int64(1681), np.int64(1570), np.int64(1607), np.int64(1645), np.int64(1681), np.int64(1570), np.int64(1570), np.int64(1572), np.int64(671)]
+    1607
+    [np.int64(1740), np.int64(1719), np.int64(1740), np.int64(1676), np.int64(1719), np.int64(1674), np.int64(1676), np.int64(1673), np.int64(106), np.int64(1674), np.int64(1673), np.int64(1658), np.int64(1654), np.int64(1631), np.int64(1710), np.int64(1654), np.int64(1655), np.int64(1658), np.int64(1631), np.int64(1711), np.int64(1655), np.int64(1737), np.int64(1737), np.int64(1711)]
+    1740
+    [np.int64(1681), np.int64(1720), np.int64(1678), np.int64(1720), np.int64(1678), np.int64(1661), np.int64(1660), np.int64(1661), np.int64(1660), np.int64(1583), np.int64(1584), np.int64(1583), np.int64(1634), np.int64(1660), np.int64(1633), np.int64(1584), np.int64(1633), np.int64(1634), np.int64(1583), np.int64(1630), np.int64(1656), np.int64(1630), np.int64(1656), np.int64(1657)]
+    1720
+    [np.int64(1575), np.int64(1530), np.int64(670), np.int64(1530), np.int64(0), np.int64(656), np.int64(1530), np.int64(0), np.int64(1), np.int64(657), np.int64(1490), np.int64(1490), np.int64(1490), np.int64(1513), np.int64(1490), np.int64(667)]
+    1575
+    [np.int64(671), np.int64(671), np.int64(1506), np.int64(1531), np.int64(671), np.int64(1506), np.int64(1506), np.int64(1488), np.int64(1488), np.int64(1488), np.int64(91), np.int64(1472), np.int64(1474), np.int64(1488), np.int64(91), np.int64(91)]
+    671
+    [np.int64(1509), np.int64(1499), np.int64(1509), np.int64(1518), np.int64(1499), np.int64(93), np.int64(1509), np.int64(92), np.int64(93), np.int64(92), np.int64(1512), np.int64(92)]
+    1518
+    [np.int64(1494), np.int64(1494), np.int64(1497), np.int64(1504), np.int64(1497), np.int64(1500), np.int64(1494), np.int64(90), np.int64(1474), np.int64(90), np.int64(91), np.int64(91)]
+    1497
+    [np.int64(1643), np.int64(1666), np.int64(1643), np.int64(1728), np.int64(1686), np.int64(1686), np.int64(1726), np.int64(1643), np.int64(1677), np.int64(1679), np.int64(1666), np.int64(1723), np.int64(1724), np.int64(1728), np.int64(1668), np.int64(1682), np.int64(1724), np.int64(1726), np.int64(1668), np.int64(373), np.int64(1677), np.int64(1717), np.int64(1668), np.int64(373), np.int64(311), np.int64(1715), np.int64(1717), np.int64(1718), np.int64(1738), np.int64(1715), np.int64(1738), np.int64(1714), np.int64(1714), np.int64(1713), np.int64(1712), np.int64(1713), np.int64(1712), np.int64(312)]
+    1679
+    [np.int64(372), np.int64(1647), np.int64(1650), np.int64(1646), np.int64(1603), np.int64(1646), np.int64(1603), np.int64(372), np.int64(1597), np.int64(1667), np.int64(1647), np.int64(1650), np.int64(1624), np.int64(1667), np.int64(1646), np.int64(1667), np.int64(1641), np.int64(372), np.int64(1582), np.int64(1624), np.int64(1625), np.int64(1625), np.int64(1641), np.int64(1675), np.int64(1582), np.int64(1625), np.int64(1675), np.int64(1638), np.int64(1675), np.int64(1635), np.int64(1638), np.int64(1635), np.int64(1672), np.int64(1672), np.int64(1659), np.int64(1657), np.int64(1657), np.int64(1659)]
+    1597
+    [np.int64(1626), np.int64(1626), np.int64(1528), np.int64(1538), np.int64(1626), np.int64(1627), np.int64(1538), np.int64(1528), np.int64(1528), np.int64(1521), np.int64(1521), np.int64(1510), np.int64(1521), np.int64(1505), np.int64(1510), np.int64(1505), np.int64(1523)]
+    1626
+    [np.int64(1547), np.int64(1548), np.int64(1582), np.int64(1548), np.int64(1548), np.int64(1527), np.int64(1520), np.int64(1527), np.int64(1498), np.int64(1498), np.int64(1502), np.int64(1503), np.int64(1501), np.int64(1503), np.int64(1504), np.int64(1501), np.int64(1504)]
+    1582
+    [np.int64(1096), np.int64(1128), np.int64(1128), np.int64(1177), np.int64(1177), np.int64(1177)]
+    1096
+    [np.int64(1150), np.int64(359), np.int64(1150), np.int64(359), np.int64(1243), np.int64(1208)]
+    1150
+    [np.int64(1288), np.int64(1266), np.int64(1213), np.int64(1246), np.int64(1213), np.int64(1183), np.int64(1327), np.int64(1288), np.int64(1327), np.int64(1266), np.int64(1304), np.int64(1183), np.int64(1327), np.int64(1337), np.int64(1325), np.int64(1365), np.int64(1337), np.int64(1325), np.int64(1185), np.int64(1167), np.int64(1182), np.int64(1183), np.int64(1325), np.int64(1262), np.int64(645), np.int64(1167)]
+    1304
+    [np.int64(1265), np.int64(1212), np.int64(1265), np.int64(1212), np.int64(1265), np.int64(1212), np.int64(1184), np.int64(1212), np.int64(1156), np.int64(1184), np.int64(1156), np.int64(1138), np.int64(1287), np.int64(1264), np.int64(1265), np.int64(1326), np.int64(1287), np.int64(1326), np.int64(1156), np.int64(1286), np.int64(1326), np.int64(1243), np.int64(1243), np.int64(1156), np.int64(1157), np.int64(1157)]
+    1212
+    [np.int64(1082), np.int64(1082), np.int64(1032), np.int64(1082), np.int64(1054), np.int64(1032), np.int64(1080), np.int64(358), np.int64(1074), np.int64(1082), np.int64(358), np.int64(1130), np.int64(1079), np.int64(1080), np.int64(613), np.int64(614), np.int64(358), np.int64(628), np.int64(632), np.int64(1130), np.int64(632), np.int64(1085), np.int64(1085), np.int64(1087), np.int64(1120), np.int64(1087)]
+    1054
+    [np.int64(1081), np.int64(1115), np.int64(1081), np.int64(1114), np.int64(1083), np.int64(1099), np.int64(1081), np.int64(1083), np.int64(1099), np.int64(1163), np.int64(1118), np.int64(1163), np.int64(1118), np.int64(1083), np.int64(1116), np.int64(1118), np.int64(1163), np.int64(1150), np.int64(1118), np.int64(638), np.int64(1118), np.int64(1140), np.int64(638), np.int64(1157), np.int64(1140), np.int64(1157)]
+    1114
+    [np.int64(1097)]
+    1097
+    [np.int64(1150)]
+    1150
+    [np.int64(2322), np.int64(1342), np.int64(303), np.int64(1342), np.int64(303), np.int64(1392), np.int64(1329), np.int64(2322), np.int64(1329), np.int64(2314), np.int64(1271), np.int64(1187), np.int64(1228), np.int64(84), np.int64(1271), np.int64(2314), np.int64(1329)]
+    2322
+    [np.int64(1369), np.int64(1370), np.int64(1395), np.int64(1369), np.int64(1254), np.int64(1254), np.int64(1395), np.int64(1396), np.int64(1396), np.int64(1254), np.int64(1292), np.int64(1345), np.int64(1330), np.int64(1370), np.int64(1254), np.int64(1292), np.int64(1330)]
+    1369
+    [np.int64(1416), np.int64(1416), np.int64(1421), np.int64(1424), np.int64(1379), np.int64(1424), np.int64(1416), np.int64(1452), np.int64(1452), np.int64(1435), np.int64(1435), np.int64(1435)]
+    1421
+    [np.int64(1423), np.int64(1415), np.int64(1420), np.int64(1423), np.int64(1378), np.int64(1378), np.int64(1423), np.int64(1415), np.int64(1439), np.int64(1414), np.int64(1396), np.int64(1439)]
+    1420
+    [np.int64(1383), np.int64(1383), np.int64(1358), np.int64(1359), np.int64(1358)]
+    1383
+    [np.int64(1378), np.int64(1382), np.int64(1382), np.int64(1382), np.int64(1362)]
+    1378
+    [np.int64(1261), np.int64(1299), np.int64(1223), np.int64(1261), np.int64(1299), np.int64(1205), np.int64(1241), np.int64(1299), np.int64(1334), np.int64(1334), np.int64(1335), np.int64(1194), np.int64(1195), np.int64(1261), np.int64(1220), np.int64(1194), np.int64(1219), np.int64(1220), np.int64(1219), np.int64(1233), np.int64(1233), np.int64(1215)]
+    1241
+    [np.int64(1282), np.int64(1282), np.int64(1282), np.int64(1260), np.int64(1282), np.int64(1319), np.int64(1361), np.int64(1282), np.int64(1260), np.int64(1298), np.int64(1361), np.int64(1362), np.int64(1362), np.int64(1258), np.int64(1260), np.int64(1256), np.int64(1258), np.int64(1256), np.int64(1273), np.int64(1254), np.int64(1273), np.int64(1254)]
+    1298
+    [np.int64(823), np.int64(1984), np.int64(823), np.int64(1983), np.int64(799)]
+    1983
+    [np.int64(824), np.int64(881), np.int64(824), np.int64(824), np.int64(824)]
+    881
+    [np.int64(1019), np.int64(1019), np.int64(69), np.int64(1037), np.int64(1019), np.int64(993), np.int64(979), np.int64(1019), np.int64(69), np.int64(1096), np.int64(1096), np.int64(979), np.int64(934), np.int64(979), np.int64(897), np.int64(934), np.int64(897), np.int64(864), np.int64(897)]
+    1019
+    [np.int64(1064), np.int64(1004), np.int64(1038), np.int64(1013), np.int64(1064), np.int64(1004), np.int64(1064), np.int64(1065), np.int64(1097), np.int64(1065), np.int64(1004), np.int64(945), np.int64(980), np.int64(932), np.int64(945), np.int64(932), np.int64(881), np.int64(918), np.int64(881)]
+    1013
+    [np.int64(997), np.int64(1032), np.int64(1022), np.int64(1032), np.int64(1079), np.int64(997), np.int64(997), np.int64(957), np.int64(353), np.int64(957), np.int64(1079), np.int64(353), np.int64(902), np.int64(1098), np.int64(1130), np.int64(1079), np.int64(902), np.int64(891), np.int64(1130), np.int64(866), np.int64(891), np.int64(866), np.int64(855), np.int64(855), np.int64(888), np.int64(888), np.int64(888), np.int64(888), np.int64(854), np.int64(825), np.int64(825)]
+    1032
+    [np.int64(1040), np.int64(1021), np.int64(1021), np.int64(355), np.int64(996), np.int64(1021), np.int64(355), np.int64(956), np.int64(352), np.int64(956), np.int64(1071), np.int64(1040), np.int64(1039), np.int64(352), np.int64(937), np.int64(1071), np.int64(1097), np.int64(1071), np.int64(937), np.int64(890), np.int64(890), np.int64(889), np.int64(900), np.int64(889), np.int64(865), np.int64(898), np.int64(900), np.int64(881), np.int64(865), np.int64(865), np.int64(824)]
+    1021
+    [np.int64(1150)]
+    1150
+    [np.int64(1097)]
+    1097
+    [np.int64(2168)]
+    2168
+    [np.int64(982)]
+    982
+    [np.int64(1030), np.int64(1002), np.int64(1030), np.int64(1112), np.int64(1112), np.int64(1002), np.int64(55), np.int64(1112), np.int64(55), np.int64(983), np.int64(983), np.int64(978), np.int64(983)]
+    1002
+    [np.int64(1001), np.int64(1011), np.int64(65), np.int64(1011), np.int64(65), np.int64(72), np.int64(74), np.int64(1001), np.int64(2207), np.int64(2209), np.int64(982), np.int64(2207), np.int64(982)]
+    1011
+    [np.int64(1035), np.int64(1035), np.int64(70), np.int64(1035), np.int64(268), np.int64(1028), np.int64(2246), np.int64(1035), np.int64(2246), np.int64(2238), np.int64(1007), np.int64(2238), np.int64(76), np.int64(268), np.int64(2208), np.int64(1007), np.int64(2208), np.int64(984), np.int64(984)]
+    70
+    [np.int64(71), np.int64(68), np.int64(1029), np.int64(71), np.int64(2245), np.int64(2245), np.int64(2237), np.int64(2245), np.int64(1005), np.int64(2237), np.int64(71), np.int64(74), np.int64(1005), np.int64(2206), np.int64(74), np.int64(2209), np.int64(2206), np.int64(2209), np.int64(982)]
+    68
+    [np.int64(2000), np.int64(1884), np.int64(415), np.int64(1788), np.int64(415), np.int64(2000), np.int64(1940), np.int64(1916), np.int64(1885), np.int64(1916), np.int64(1884), np.int64(1916), np.int64(1734), np.int64(1788), np.int64(1734), np.int64(1775), np.int64(384), np.int64(1734), np.int64(384)]
+    415
+    [np.int64(1883), np.int64(414), np.int64(460), np.int64(442), np.int64(1915), np.int64(1883), np.int64(442), np.int64(1774), np.int64(414), np.int64(442), np.int64(1774), np.int64(1928), np.int64(442), np.int64(1915), np.int64(1771), np.int64(1774), np.int64(1820), np.int64(1771), np.int64(1787)]
+    460
+    [np.int64(1048), np.int64(249), np.int64(229), np.int64(249), np.int64(991), np.int64(229), np.int64(916), np.int64(210), np.int64(181), np.int64(916)]
+    249
+    [np.int64(238), np.int64(1049), np.int64(238), np.int64(238), np.int64(218), np.int64(1049), np.int64(211), np.int64(218), np.int64(211), np.int64(211)]
+    1049
+    [np.int64(169), np.int64(158), np.int64(158), np.int64(169), np.int64(169), np.int64(1815), np.int64(144), np.int64(1815), np.int64(158)]
+    169
+    [np.int64(466), np.int64(211), np.int64(500), np.int64(1926), np.int64(466), np.int64(1913), np.int64(1926), np.int64(1926), np.int64(1787)]
+    466
+    [np.int64(550), np.int64(550), np.int64(583), np.int64(594), np.int64(550), np.int64(522), np.int64(1060), np.int64(1059), np.int64(1060), np.int64(1060), np.int64(262), np.int64(1077), np.int64(262), np.int64(1059), np.int64(522), np.int64(1062), np.int64(594), np.int64(262), np.int64(1062), np.int64(1059), np.int64(267), np.int64(630), np.int64(522), np.int64(492), np.int64(1107), np.int64(630), np.int64(1089), np.int64(1107), np.int64(1089)]
+    550
+    [np.int64(556), np.int64(568), np.int64(542), np.int64(568), np.int64(1061), np.int64(1026), np.int64(1061), np.int64(1033), np.int64(593), np.int64(568), np.int64(616), np.int64(1033), np.int64(1050), np.int64(483), np.int64(460), np.int64(542), np.int64(1061), np.int64(590), np.int64(592), np.int64(592), np.int64(593), np.int64(616), np.int64(460), np.int64(1058), np.int64(616), np.int64(1058), np.int64(1068), np.int64(1068), np.int64(1049)]
+    556
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 58-59
+.. GENERATED FROM PYTHON SOURCE LINES 62-63
 
 generate the textures from watershed outputs
 
-.. GENERATED FROM PYTHON SOURCE LINES 59-61
+.. GENERATED FROM PYTHON SOURCE LINES 63-65
 
 .. code-block:: Python
 
@@ -197,11 +1326,11 @@ generate the textures from watershed outputs
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 62-63
+.. GENERATED FROM PYTHON SOURCE LINES 66-67
 
 generate the sulcal graph
 
-.. GENERATED FROM PYTHON SOURCE LINES 63-65
+.. GENERATED FROM PYTHON SOURCE LINES 67-69
 
 .. code-block:: Python
 
@@ -220,11 +1349,11 @@ generate the sulcal graph
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 66-67
+.. GENERATED FROM PYTHON SOURCE LINES 70-71
 
 generate the textures from graph
 
-.. GENERATED FROM PYTHON SOURCE LINES 67-67
+.. GENERATED FROM PYTHON SOURCE LINES 71-71
 
 .. code-block:: Python
 
@@ -238,7 +1367,7 @@ generate the textures from graph
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 2.761 seconds)
+   **Total running time of the script:** (0 minutes 0.149 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_watershed.py:

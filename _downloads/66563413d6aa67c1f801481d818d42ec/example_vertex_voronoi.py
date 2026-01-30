@@ -39,12 +39,31 @@ print(np.sum(vert_vor) - mesh.area)
 #############################################################################
 # VISUALIZATION USING EXTERNAL TOOLS
 #############################################################################
-# import slam.plot as splt
-# ###############################################################################
-# # Visualization
-# visb_sc = splt.visbrain_plot(
-#     mesh=mesh, tex=vert_vor,
-#     caption="vertex voronoi",
-#     cblabel="vertex voronoi"
-# )
-# visb_sc.preview()
+import slam.plot as splt
+###############################################################################
+# Visualization
+
+vertices = mesh.vertices
+vertices = vertices - np.mean(vertices, axis=0)
+
+vertices_translate = np.copy(vertices)
+theta = np.pi / 2
+rot_x = np.array([[1, 0, 0],
+                  [0, np.cos(theta), -np.sin(theta)],
+                  [0, np.sin(theta),  np.cos(theta)]])
+vertices_translate = np.dot(rot_x, vertices_translate.T).T
+
+display_settings = {}
+mesh_data = {}
+mesh_data['vertices'] = vertices_translate
+mesh_data['faces'] = mesh.faces
+mesh_data['title'] = 'example_mesh.gii'
+
+intensity_data = {}
+intensity_data['values'] = vert_vor
+intensity_data["mode"] = "vertex"
+visb_sc = splt.mes3d_projection(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+visb_sc.show()

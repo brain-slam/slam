@@ -110,7 +110,7 @@ Here the mesh has a single boundary
 
  .. code-block:: none
 
-    [[np.int64(1), np.int64(2), np.int64(7), np.int64(12), np.int64(17), np.int64(21), np.int64(20), np.int64(19), np.int64(18), np.int64(13), np.int64(8), np.int64(3), np.int64(0)]]
+    [[np.int64(1), np.int64(2), np.int64(3), np.int64(8), np.int64(13), np.int64(18), np.int64(21), np.int64(20), np.int64(19), np.int64(14), np.int64(9), np.int64(4), np.int64(0)]]
 
 
 
@@ -384,10 +384,37 @@ VISUALIZATION USING EXTERNAL TOOLS
  visb_sc5 = splt.visbrain_plot(mesh=mesh_closed, caption="closed mesh")
  visb_sc5.preview()
 
+.. GENERATED FROM PYTHON SOURCE LINES 224-231
+
+.. code-block:: Python
+
+
+    print('close mesh')
+    broken_vertices = stop.broken_vertices(mesh_closed)
+    print(np.count_nonzero(broken_vertices))
+    print('open mesh')
+    broken_vertices = stop.broken_vertices(open_mesh)
+    print(np.count_nonzero(broken_vertices))
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    close mesh
+    0
+    open mesh
+    20
+
+
+
+
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.028 seconds)
+   **Total running time of the script:** (0 minutes 0.794 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_topology.py:

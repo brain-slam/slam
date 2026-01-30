@@ -11,6 +11,7 @@
       adjacency_matrix
       boundaries_intersection
       boundary_angles
+      broken_vertices
       close_mesh
       compute_face_normal
       create_vertex

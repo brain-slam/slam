@@ -115,24 +115,67 @@ Importation of slam modules
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 40-51
+.. GENERATED FROM PYTHON SOURCE LINES 40-42
 
 VISUALIZATION USING EXTERNAL TOOLS
 ############################################################################
- import slam.plot as splt
- ###############################################################################
- # Visualization
- visb_sc = splt.visbrain_plot(
-     mesh=mesh, tex=vert_vor,
-     caption="vertex voronoi",
-     cblabel="vertex voronoi"
- )
- visb_sc.preview()
+
+.. GENERATED FROM PYTHON SOURCE LINES 42-43
+
+.. code-block:: Python
+
+    import slam.plot as splt
+
+
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 44-45
+
+Visualization
+
+.. GENERATED FROM PYTHON SOURCE LINES 45-70
+
+.. code-block:: Python
+
+
+    vertices = mesh.vertices
+    vertices = vertices - np.mean(vertices, axis=0)
+
+    vertices_translate = np.copy(vertices)
+    theta = np.pi / 2
+    rot_x = np.array([[1, 0, 0],
+                      [0, np.cos(theta), -np.sin(theta)],
+                      [0, np.sin(theta),  np.cos(theta)]])
+    vertices_translate = np.dot(rot_x, vertices_translate.T).T
+
+    display_settings = {}
+    mesh_data = {}
+    mesh_data['vertices'] = vertices_translate
+    mesh_data['faces'] = mesh.faces
+    mesh_data['title'] = 'example_mesh.gii'
+
+    intensity_data = {}
+    intensity_data['values'] = vert_vor
+    intensity_data["mode"] = "vertex"
+    visb_sc = splt.mes3d_projection(
+        mesh_data=mesh_data,
+        intensity_data=intensity_data,
+        display_settings=display_settings)
+    visb_sc.show()
+
+
+
+
+
+
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.056 seconds)
+   **Total running time of the script:** (0 minutes 0.176 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_vertex_voronoi.py:

@@ -13,8 +13,8 @@
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
     <script src="../_static/documentation_options.js?v=0c446633"></script>
-    <script src="../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
 <meta charset='utf-8'>
@@ -141,12 +141,16 @@ to download the full example code.</p>
 </pre></div>
 </div>
 <p>Importation of slam modules</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <a href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="pathlib.Path" class="sphx-glr-backref-module-pathlib sphx-glr-backref-type-py-class"><span class="n">Path</span></a>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">slam</span><span class="w"> </span><span class="kn">import</span> <span class="n">texture</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">slam</span><span class="w"> </span><span class="kn">import</span> <span class="n">io</span> <span class="k">as</span> <span class="n">sio</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">slam</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot</span> <span class="k">as</span> <span class="n">plt</span>
 </pre></div>
 </div>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">tex</span> <span class="o">=</span> <span class="n">sio</span><span class="o">.</span><span class="n">load_texture</span><span class="p">(</span><span class="s2">&quot;../examples/data/example_texture.gii&quot;</span><span class="p">)</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">tex</span> <span class="o">=</span> <span class="n">sio</span><span class="o">.</span><span class="n">load_texture</span><span class="p">(</span><span class="s2">&quot;../examples/data/example_dpf.gii&quot;</span><span class="p">)</span>
+<span class="n">mesh</span> <span class="o">=</span> <span class="n">sio</span><span class="o">.</span><span class="n">load_mesh</span><span class="p">(</span><span class="s2">&quot;../examples/data/example_mesh.gii&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">tex</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tex</span><span class="o">.</span><span class="n">metadata</span></a><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#tuple" title="builtins.tuple" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tex</span><span class="o">.</span><span class="n">shape</span></a><span class="p">)</span>
@@ -155,12 +159,12 @@ to download the full example code.</p>
 <span class="nb">print</span><span class="p">(</span><span class="n">tex</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;slam.texture.TextureND object at 0x7fad7e1b7620&gt;
-{&#39;gifticlib-version&#39;: &#39;gifti library version 1.08, 8 March, 2010&#39;, &#39;processed&#39;: True}
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;slam.texture.TextureND object at 0x7f8098fa6d20&gt;
+{&#39;processed&#39;: True}
 (1, 2328)
 float32
--0.051712357
-0.071442835
+-1.6247417
+1.2711275
 </pre></div>
 </div>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">darray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
@@ -172,17 +176,58 @@ float32
 <span class="nb">print</span><span class="p">(</span><span class="n">tex2</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">tex2</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
 <span class="n">sio</span><span class="o">.</span><span class="n">write_texture</span><span class="p">(</span><span class="n">tex2</span><span class="p">,</span> <span class="s2">&quot;test.gii&quot;</span><span class="p">)</span>
+
+<span class="c1">#############</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;extremum texture&#39;</span><span class="p">)</span>
+<span class="n">mesh</span> <span class="o">=</span> <span class="n">sio</span><span class="o">.</span><span class="n">load_mesh</span><span class="p">(</span><span class="s2">&quot;../examples/data/example_mesh.gii&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;maximum&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">tex</span><span class="o">.</span><span class="n">extremum</span><span class="p">(</span><span class="n">mesh</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;minimum&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">tex</span><span class="o">.</span><span class="n">extremum</span><span class="p">(</span><span class="n">mesh</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
 </pre></div>
 </div>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>{&#39;processed&#39;: True}
-&lt;slam.texture.TextureND object at 0x7fad7e1b4b30&gt;
+&lt;slam.texture.TextureND object at 0x7f8098fa4290&gt;
 (2, 3)
 float64
 0.0
 0.0
+extremum texture
+maximum
+38
+minimum
+34
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.003 seconds)</p>
+<p>plot</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># dict for proj</span>
+<a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">NAME_TEX</span></a> <span class="o">=</span> <span class="s2">&quot;sulc&quot;</span>
+<a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">TITLE</span></a> <span class="o">=</span> <span class="s2">&quot;test&quot;</span>
+<a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">EXT</span></a> <span class="o">=</span> <span class="s2">&quot;png&quot;</span>
+<a href="https://docs.python.org/3/library/pathlib.html#pathlib.PosixPath" title="pathlib.PosixPath" class="sphx-glr-backref-module-pathlib sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">PATH</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="pathlib.Path" class="sphx-glr-backref-module-pathlib sphx-glr-backref-type-py-class"><span class="n">Path</span></a><span class="p">(</span><span class="s2">&quot;./test&quot;</span><span class="p">)</span>
+<a href="https://docs.python.org/3/library/pathlib.html#pathlib.PosixPath" title="pathlib.PosixPath" class="sphx-glr-backref-module-pathlib sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">SAVE_DIR</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/pathlib.html#pathlib.PosixPath" title="pathlib.PosixPath" class="sphx-glr-backref-module-pathlib sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">PATH</span></a> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">TITLE</span></a><span class="si">}</span><span class="s2">.</span><span class="si">{</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">EXT</span></a><span class="si">}</span><span class="s2">&quot;</span>
+
+<a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">mesh_data</span></a> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;vertices&quot;</span><span class="p">:</span> <span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">,</span>
+    <span class="s2">&quot;faces&quot;</span><span class="p">:</span> <span class="n">mesh</span><span class="o">.</span><span class="n">faces</span><span class="p">,</span>
+    <span class="s2">&quot;center&quot;</span><span class="p">:</span> <span class="n">mesh</span><span class="o">.</span><span class="n">center_mass</span><span class="p">,</span>
+    <span class="s2">&quot;title&quot;</span><span class="p">:</span> <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">TITLE</span></a>
+<span class="p">}</span>
+
+<a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">intensity_data</span></a> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="n">tex</span><span class="o">.</span><span class="n">darray</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;mode&quot;</span><span class="p">:</span> <span class="s2">&quot;vertex&quot;</span><span class="p">}</span>
+<a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">display_settings</span></a> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;colorscale&quot;</span><span class="p">:</span> <span class="s2">&quot;Turbo&quot;</span><span class="p">,</span> <span class="s2">&quot;colorbar_label&quot;</span><span class="p">:</span> <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">NAME_TEX</span></a><span class="p">}</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">mes3d_projection</span><span class="p">(</span>
+    <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">mesh_data</span></a><span class="p">,</span>
+    <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">intensity_data</span></a><span class="p">,</span>
+    <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">display_settings</span></a><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1">#os.makedirs(PATH, exist_ok=True)</span>
+<span class="c1">#fig.write_image(SAVE_DIR, width=1600, height=900)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.094 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-example-texture-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/86cfc2efe9100cd822bc5845b30f6bf6/example_texture.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">example_texture.ipynb</span></code></a></p>
@@ -209,8 +254,8 @@ float64
       
     </p>
     <p>
-        &copy; Copyright 2025, slam Developers. Last updated on 2025-11-07.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 8.2.3.<br/>
+        &copy; Copyright 2026, slam Developers. Last updated on 2026-01-30.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 9.1.0.<br/>
     </p>
   </div>
 </footer>
