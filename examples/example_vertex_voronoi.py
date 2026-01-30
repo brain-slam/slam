@@ -36,9 +36,11 @@ print(mesh.vertices.shape)
 print(vert_vor.shape)
 print(np.sum(vert_vor) - mesh.area)
 
+
 #############################################################################
-# VISUALIZATION USING EXTERNAL TOOLS
+# VISUALIZATION USING INTERNAL TOOLS
 #############################################################################
+
 import slam.plot as splt
 ###############################################################################
 # Visualization

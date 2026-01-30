@@ -92,6 +92,14 @@ mesh_closed, nb_verts_added = stop.close_mesh(cuted_mesh)
 print(mesh.is_watertight)
 print(mesh_closed.is_watertight)
 
+
+print('close mesh')
+broken_vertices_mesh_closed = stop.broken_vertices(mesh_closed)
+print(np.count_nonzero(broken_vertices_mesh_closed))
+print('open mesh')
+broken_vertices_open_mesh = stop.broken_vertices(open_mesh)
+print(np.count_nonzero(broken_vertices_open_mesh))
+
 #############################################################################
 # VISUALIZATION USING EXTERNAL TOOLS
 #############################################################################
@@ -222,9 +230,3 @@ print(mesh_closed.is_watertight)
 # visb_sc5 = splt.visbrain_plot(mesh=mesh_closed, caption="closed mesh")
 # visb_sc5.preview()
 
-print('close mesh')
-broken_vertices = stop.broken_vertices(mesh_closed)
-print(np.count_nonzero(broken_vertices))
-print('open mesh')
-broken_vertices = stop.broken_vertices(open_mesh)
-print(np.count_nonzero(broken_vertices))
