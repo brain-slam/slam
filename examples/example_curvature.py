@@ -178,7 +178,8 @@ Fig = splt.mes3d_projection(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+#Fig.show()
+Fig.write_image("example_curvature_1.png")
 
 mesh_data['title'] = 'example_mesh.gii Gaussian Curvature'
 intensity_data['values'] = gaussian_curv
@@ -187,7 +188,8 @@ Fig = splt.mes3d_projection(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+#Fig.show()
+Fig.write_image("example_curvature_2.png")
 
 mesh_data['title'] = 'example_mesh.gii Shape Index'
 intensity_data['values'] = shapeIndex
@@ -196,7 +198,8 @@ Fig = splt.mes3d_projection(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+#Fig.show()
+Fig.write_image("example_curvature_3.png")
 
 mesh_data['title'] = 'example_mesh.gii Curvedness'
 intensity_data['values'] = curvedness
@@ -205,7 +208,8 @@ Fig = splt.mes3d_projection(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+#Fig.show()
+Fig.write_image("example_curvature_4.png")
 
 mesh_data['vertices'] = quadric.vertices
 mesh_data['faces'] = quadric.faces
@@ -216,7 +220,8 @@ Fig = splt.mes3d_projection(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+#Fig.show()
+Fig.write_image("example_curvature_5.png")
 
 mesh_data['title'] = 'Quadric Angular Error 0'
 intensity_data['values'] = angular_error_0
@@ -225,7 +230,7 @@ Fig = splt.mes3d_projection(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+Fig.write_image("example_curvature_6.png")
 
 mesh_data['title'] = ('Quadric Angular Error 1')
 intensity_data['values'] = angular_error_1
@@ -234,4 +239,5 @@ Fig = splt.mes3d_projection(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+#Fig.show()
+Fig.write_image("example_curvature_7.png")
