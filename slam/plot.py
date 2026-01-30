@@ -73,15 +73,14 @@ def mes3d_projection(mesh_data, intensity_data=None, display_settings=None):
     faces = mesh_data["faces"]
     title = mesh_data.get("title", "")
 
-    lighting_effects = (
-        dict(ambient=0.4,
-             diffuse=0.5,
-             roughness=0.9,
-             specular=0.6,
-             fresnel=0.2))
-    lightposition = dict(
-        x=-10, y=10, z=10
-    )
+    lighting = {
+        "ambient": 0.7,
+        "diffuse": 0.8,
+        "specular": 0.5,
+        "roughness": 0.2,
+        "fresnel": 0.1,
+    }
+
     mesh_kwargs = {
         "x": vertices[:, 0],
         "y": vertices[:, 1],
@@ -91,8 +90,7 @@ def mes3d_projection(mesh_data, intensity_data=None, display_settings=None):
         "k": faces[:, 2],
         "color": "ghostwhite",
         "flatshading": False,
-        "lighting": lighting_effects,
-        "lightposition": lightposition,
+        "lighting": lighting,
     }
 
     if intensity_data is not None:
@@ -109,8 +107,13 @@ def mes3d_projection(mesh_data, intensity_data=None, display_settings=None):
                 "tickfont": {"size": 16},
             },
             "flatshading": True,
-            "lighting": lighting_effects,
-            "lightposition": lightposition,
+            "lighting": {
+                "ambient": 1,
+                "diffuse": 0,
+                "specular": 0,
+                "roughness": 1,
+                "fresnel": 0,
+            },
             "colorbar_tickvals": display_settings.get("tickvals", None),
             "colorbar_ticktext": display_settings.get("ticktext", None),
         })

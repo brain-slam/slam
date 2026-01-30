@@ -80,6 +80,6 @@ fig = plt.mes3d_projection(
     intensity_data,
     display_settings,
 )
-
+fig.show()
 #os.makedirs(PATH, exist_ok=True)
 #fig.write_image(SAVE_DIR, width=1600, height=900)

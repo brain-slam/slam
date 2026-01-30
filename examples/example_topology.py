@@ -101,12 +101,72 @@ broken_vertices_open_mesh = stop.broken_vertices(open_mesh)
 print(np.count_nonzero(broken_vertices_open_mesh))
 
 #############################################################################
-# VISUALIZATION USING EXTERNAL TOOLS
+# VISUALIZATION USING INTERNAL TOOLS
 #############################################################################
-# import slam.plot as splt
-# from vispy.scene import Line
-# from visbrain.objects import VispyObj, SourceObj
-#
+
+import slam.plot as splt
+
+vertices = mesh_closed.vertices
+# center the vertices
+vertices = vertices - np.mean(vertices, axis=0)
+vertices_translate = np.copy(vertices)
+# rotate the vertices
+theta = np.pi / 2
+rot_x = np.array([[1, 0, 0],
+                  [0, np.cos(theta), -np.sin(theta)],
+                  [0, np.sin(theta),  np.cos(theta)]])
+vertices_translate = np.dot(rot_x, vertices_translate.T).T
+rot_z = np.array([[np.cos(theta), -np.sin(theta), 0],
+                  [np.sin(theta),  np.cos(theta), 0],
+                  [0, 0, 1], ])
+vertices_translate = np.dot(rot_z, vertices_translate.T).T
+
+# Plot Mean Curvature
+display_settings = {}
+display_settings['colorbar_label'] = 'Broken Vertices'
+mesh_data = {}
+mesh_data['vertices'] = vertices_translate
+mesh_data['faces'] = mesh_closed.faces
+mesh_data['title'] = 'Mesh Close'
+intensity_data = {}
+intensity_data['values'] = broken_vertices_mesh_closed
+intensity_data["mode"] = "vertex"
+Fig = splt.mes3d_projection(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+Fig.show()
+
+
+
+vertices = open_mesh.vertices
+# center the vertices
+vertices = vertices - np.mean(vertices, axis=0)
+vertices_translate = np.copy(vertices)
+# rotate the vertices
+theta = np.pi / 2
+rot_x = np.array([[1, 0, 0],
+                  [0, np.cos(theta), -np.sin(theta)],
+                  [0, np.sin(theta),  np.cos(theta)]])
+vertices_translate = np.dot(rot_x, vertices_translate.T).T
+rot_z = np.array([[np.cos(theta), -np.sin(theta), 0],
+                  [np.sin(theta),  np.cos(theta), 0],
+                  [0, 0, 1], ])
+vertices_translate = np.dot(rot_z, vertices_translate.T).T
+display_settings = {}
+display_settings['colorbar_label'] = 'Broken Vertices'
+mesh_data = {}
+mesh_data['vertices'] = vertices_translate
+mesh_data['faces'] = open_mesh.faces
+mesh_data['title'] = 'Mesh Close'
+intensity_data = {}
+intensity_data['values'] = broken_vertices_open_mesh
+intensity_data["mode"] = "vertex"
+Fig = splt.mes3d_projection(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+Fig.show()
 # ###############################################################################
 # # show the result
 # # WARNING : BrainObj should be added first before
