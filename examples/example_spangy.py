@@ -83,7 +83,7 @@ loc_dom_band, frecomposed = spgy.local_dominance_map(coefficients, mean_curv,
                                                      eigVects)
 
 
-# WHOLE BRAIN MEAN-CURVATURE<=0 & MEAN-CURVATURE>0 SPECTRI
+# WHOLE BRAIN MEAN-CURVATURE<=0 & MEAN-CURVATURE>0 SPECTRE
 # --------------------------------------------------------
 # Define negative mean curvature subsignal
 mean_curv_sulci = np.zeros((mean_curv.shape))
@@ -98,22 +98,36 @@ grouped_spectrum_gyri, group_indices_gyri, coefficients_gyri, _ \
     = spgy.spectrum(mean_curv_gyri, lap_b, eigVects, eigVal)
 
 #############################################################################
-# VISUALIZATION USING EXTERNAL TOOLS
+# VISUALIZATION USING INTERNAL TOOLS
 #############################################################################
-# import slam.plot as splt
-# import matplotlib.pyplot as plt
-# from matplotlib.colors import ListedColormap
-# import pyvista as pv
-#
-# ###############################################################################
-# # Plot of mean curvature on the mesh
-# visb_sc = splt.visbrain_plot(
-#     mesh=mesh,
-#     tex=mean_curv,
-#     caption='Mean Curvature',
-#     cmap='jet')
-# visb_sc.preview()
-#
+
+
+import slam.plot as splt
+
+mesh.apply_transform(mesh.principal_inertia_transform)
+theta = np.pi / 2
+rot_x = np.array([[1, 0, 0],
+                  [0, np.cos(theta), -np.sin(theta)],
+                  [0, np.sin(theta),  np.cos(theta)]])
+vertices_translate = np.dot(rot_x, mesh.vertices.T).T
+
+display_settings = {}
+mesh_data = {}
+mesh_data['vertices'] = vertices_translate
+mesh_data['faces'] = mesh.faces
+mesh_data['title'] = 'Mean Curvature'
+intensity_data = {}
+intensity_data['values'] = mean_curv
+intensity_data["mode"] = "vertex"
+Fig = splt.mesh_projection(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+# Fig.show()
+Fig.write_image("example_spangy_1.png")
+
+
+
 # # Plot coefficients and bands for all mean curvature signal
 # fig, (ax1, ax2) = plt.subplots(1, 2)
 # ax1.scatter(np.sqrt(eigVal/2*np.pi),
@@ -132,11 +146,22 @@ grouped_spectrum_gyri, group_indices_gyri, coefficients_gyri, _ \
 # ax2.set_ylabel('Power Spectrum')
 # plt.show()
 #
-# # Plot of spectral dominant bands on the mesh
-# visb_sc = splt.visbrain_plot(mesh=mesh, tex=loc_dom_band,
-#                              caption='Local Dominant Band', cmap='jet')
-# visb_sc.preview()
-#
+
+display_settings = {}
+mesh_data = {}
+mesh_data['vertices'] = vertices_translate
+mesh_data['faces'] = mesh.faces
+mesh_data['title'] = ('Local Dominant Band')
+intensity_data = {}
+intensity_data['values'] = loc_dom_band
+intensity_data["mode"] = "vertex"
+Fig = splt.mesh_projection(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+# Fig.show()
+Fig.write_image("example_spangy_2.png")
+
 # # Plot mean curvature coefficients & compacted power spectrum characterizing
 # # either Sulci either Gyri folding pattern
 # # ---------------------------------------------------------------------------

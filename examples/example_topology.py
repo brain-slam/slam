@@ -92,17 +92,52 @@ mesh_closed, nb_verts_added = stop.close_mesh(cuted_mesh)
 print(mesh.is_watertight)
 print(mesh_closed.is_watertight)
 
+
+print('close mesh')
+broken_vertices_mesh_closed = stop.broken_vertices(mesh_closed)
+print(np.count_nonzero(broken_vertices_mesh_closed))
+print('open mesh')
+broken_vertices_open_mesh = stop.broken_vertices(open_mesh)
+print(np.count_nonzero(broken_vertices_open_mesh))
+
 #############################################################################
-# VISUALIZATION USING EXTERNAL TOOLS
+# VISUALIZATION USING INTERNAL TOOLS
 #############################################################################
-# import slam.plot as splt
-# from vispy.scene import Line
-# from visbrain.objects import VispyObj, SourceObj
-#
+
+import slam.plot as splt
+
+vertices = open_mesh.vertices
+# center the vertices
+vertices = vertices - np.mean(vertices, axis=0)
+vertices_translate = np.copy(vertices)
+# rotate the vertices
+theta = np.pi / 2
+rot_x = np.array([[1, 0, 0],
+                  [0, np.cos(theta), -np.sin(theta)],
+                  [0, np.sin(theta),  np.cos(theta)]])
+vertices_translate = np.dot(rot_x, vertices_translate.T).T
+rot_z = np.array([[np.cos(theta), -np.sin(theta), 0],
+                  [np.sin(theta),  np.cos(theta), 0],
+                  [0, 0, 1], ])
+vertices_translate = np.dot(rot_z, vertices_translate.T).T
+
+# Plot Mean Curvature
+display_settings = {}
+mesh_data = {}
+mesh_data['vertices'] = vertices_translate
+mesh_data['faces'] = open_mesh.faces
+mesh_data['title'] = 'Open Mesh'
+intensity_data = None
+Fig = splt.mesh_projection(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+# Fig.show()
+Fig.write_image("example_topology_1.png")
+
+
 # ###############################################################################
 # # show the result
-# # WARNING : BrainObj should be added first before
-# visb_sc = splt.visbrain_plot(mesh=open_mesh, caption="open mesh")
 # # create points with vispy
 # for bound in open_mesh_boundary:
 #     points = open_mesh.vertices[bound]
@@ -121,6 +156,35 @@ print(mesh_closed.is_watertight)
 #
 # ###############################################################################
 # # show the result
+vertices = eroded_mesh.vertices
+# center the vertices
+vertices = vertices - np.mean(vertices, axis=0)
+vertices_translate = np.copy(vertices)
+# rotate the vertices
+theta = np.pi / 2
+rot_x = np.array([[1, 0, 0],
+                  [0, np.cos(theta), -np.sin(theta)],
+                  [0, np.sin(theta),  np.cos(theta)]])
+vertices_translate = np.dot(rot_x, vertices_translate.T).T
+rot_z = np.array([[np.cos(theta), -np.sin(theta), 0],
+                  [np.sin(theta),  np.cos(theta), 0],
+                  [0, 0, 1], ])
+vertices_translate = np.dot(rot_z, vertices_translate.T).T
+
+# Plot Mean Curvature
+display_settings = {}
+mesh_data = {}
+mesh_data['vertices'] = vertices_translate
+mesh_data['faces'] = eroded_mesh.faces
+mesh_data['title'] = 'Eroded Mesh'
+intensity_data = None
+Fig = splt.mesh_projection(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+# Fig.show()
+Fig.write_image("example_topology_2.png")
+
 # visb_sc2 = splt.visbrain_plot(mesh=eroded_mesh, caption="eroded mesh")
 # # show again the boundary of original mesh which have been removed with
 # # corresponding faces by the erosion
@@ -140,9 +204,37 @@ print(mesh_closed.is_watertight)
 # visb_sc2.preview()
 #
 # ###############################################################################
-# # show the results
-# visb_sc3 = splt.visbrain_plot(
-#     mesh=mesh, tex=tex_parcel.darray[0], caption="texture boundary"
+# show the result
+vertices = mesh.vertices
+# center the vertices
+vertices = vertices - np.mean(vertices, axis=0)
+vertices_translate = np.copy(vertices)
+# rotate the vertices
+theta = np.pi / 2
+rot_x = np.array([[1, 0, 0],
+                  [0, np.cos(theta), -np.sin(theta)],
+                  [0, np.sin(theta),  np.cos(theta)]])
+vertices_translate = np.dot(rot_x, vertices_translate.T).T
+rot_z = np.array([[np.cos(theta), -np.sin(theta), 0],
+                  [np.sin(theta),  np.cos(theta), 0],
+                  [0, 0, 1], ])
+vertices_translate = np.dot(rot_z, vertices_translate.T).T
+
+# Plot Mean Curvature
+display_settings = {}
+mesh_data = {}
+mesh_data['vertices'] = vertices_translate
+mesh_data['faces'] = mesh.faces
+mesh_data['title'] = 'Texture Boundary'
+intensity_data = {}
+intensity_data['values'] = tex_parcel.darray[0]
+intensity_data["mode"] = "vertex"
+Fig = splt.mesh_projection(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+# Fig.show()
+Fig.write_image("example_topology_3.png")
 # )
 # cols = ["red", "green", "yellow", "blue"]
 # ind = 0
@@ -166,20 +258,46 @@ print(mesh_closed.is_watertight)
 #
 # ###############################################################################
 # # show the mesh with the cuted subparts in different colors
-# scene_list = list()
-# cuted_mesh = sub_meshes[-1]
-# joint_mesh = sub_meshes[0]
-# joint_tex = np.zeros((sub_meshes[0].vertices.shape[0],))
-# last_ind = sub_meshes[0].vertices.shape[0]
-# for ind, sub_mesh in enumerate(sub_meshes[1:]):
-#     sub_tex = np.ones((sub_mesh.vertices.shape[0],)) * (ind + 1)
-#     joint_mesh += sub_mesh
-#     joint_tex = np.hstack((joint_tex, sub_tex))
-# visb_sc3 = splt.visbrain_plot(
-#     mesh=joint_mesh,
-#     tex=joint_tex,
-#     caption="mesh parts shown in different colors"
-# )
+scene_list = list()
+cuted_mesh = sub_meshes[-1]
+joint_mesh = sub_meshes[0]
+joint_tex = np.zeros((sub_meshes[0].vertices.shape[0],))
+last_ind = sub_meshes[0].vertices.shape[0]
+for ind, sub_mesh in enumerate(sub_meshes[1:]):
+    sub_tex = np.ones((sub_mesh.vertices.shape[0],)) * (ind + 1)
+    joint_mesh += sub_mesh
+    joint_tex = np.hstack((joint_tex, sub_tex))
+
+vertices = joint_mesh.vertices
+# center the vertices
+vertices = vertices - np.mean(vertices, axis=0)
+vertices_translate = np.copy(vertices)
+# rotate the vertices
+theta = np.pi / 2
+rot_x = np.array([[1, 0, 0],
+                  [0, np.cos(theta), -np.sin(theta)],
+                  [0, np.sin(theta),  np.cos(theta)]])
+vertices_translate = np.dot(rot_x, vertices_translate.T).T
+rot_z = np.array([[np.cos(theta), -np.sin(theta), 0],
+                  [np.sin(theta),  np.cos(theta), 0],
+                  [0, 0, 1], ])
+vertices_translate = np.dot(rot_z, vertices_translate.T).T
+
+display_settings = {}
+mesh_data = {}
+mesh_data['vertices'] = vertices_translate
+mesh_data['faces'] = joint_mesh.faces
+mesh_data['title'] = 'mesh parts shown in different colors'
+intensity_data = {}
+intensity_data['values'] = joint_tex
+intensity_data["mode"] = "vertex"
+Fig = splt.mesh_projection(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+# Fig.show()
+Fig.write_image("example_topology_4.png")
+
 # ind = 0
 # boundaries = stop.mesh_boundary(cuted_mesh)
 # for bound in boundaries:
@@ -200,8 +318,36 @@ print(mesh_closed.is_watertight)
 #         ind = 0
 # visb_sc3.preview()
 # ###############################################################################
-# # show the largest submesh with the boundaries of cutted parts
-# visb_sc4 = splt.visbrain_plot(mesh=cuted_mesh, caption="open mesh")
+# show the largest submesh with the boundaries of cutted parts
+vertices = cuted_mesh.vertices
+# center the vertices
+vertices = vertices - np.mean(vertices, axis=0)
+vertices_translate = np.copy(vertices)
+# rotate the vertices
+theta = np.pi / 2
+rot_x = np.array([[1, 0, 0],
+                  [0, np.cos(theta), -np.sin(theta)],
+                  [0, np.sin(theta),  np.cos(theta)]])
+vertices_translate = np.dot(rot_x, vertices_translate.T).T
+rot_z = np.array([[np.cos(theta), -np.sin(theta), 0],
+                  [np.sin(theta),  np.cos(theta), 0],
+                  [0, 0, 1], ])
+vertices_translate = np.dot(rot_z, vertices_translate.T).T
+
+display_settings = {}
+mesh_data = {}
+mesh_data['vertices'] = vertices_translate
+mesh_data['faces'] = cuted_mesh.faces
+mesh_data['title'] = 'Open Mesh'
+intensity_data = None
+Fig = splt.mesh_projection(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+# Fig.show()
+Fig.write_image("example_topology_5.png")
+
+
 # # create points with vispy
 # for bound in boundaries:
 #     points = cuted_mesh.vertices[bound]
@@ -219,12 +365,82 @@ print(mesh_closed.is_watertight)
 # visb_sc4.preview()
 # ###############################################################################
 # # show the closed mesh
-# visb_sc5 = splt.visbrain_plot(mesh=mesh_closed, caption="closed mesh")
-# visb_sc5.preview()
 
-print('close mesh')
-broken_vertices = stop.broken_vertices(mesh_closed)
-print(np.count_nonzero(broken_vertices))
-print('open mesh')
-broken_vertices = stop.broken_vertices(open_mesh)
-print(np.count_nonzero(broken_vertices))
+# show the largest submesh with the boundaries of cutted parts
+vertices = mesh_closed.vertices
+# center the vertices
+vertices = vertices - np.mean(vertices, axis=0)
+vertices_translate = np.copy(vertices)
+# rotate the vertices
+theta = np.pi / 2
+rot_x = np.array([[1, 0, 0],
+                  [0, np.cos(theta), -np.sin(theta)],
+                  [0, np.sin(theta),  np.cos(theta)]])
+vertices_translate = np.dot(rot_x, vertices_translate.T).T
+rot_z = np.array([[np.cos(theta), -np.sin(theta), 0],
+                  [np.sin(theta),  np.cos(theta), 0],
+                  [0, 0, 1], ])
+vertices_translate = np.dot(rot_z, vertices_translate.T).T
+
+display_settings = {}
+mesh_data = {}
+mesh_data['vertices'] = vertices_translate
+mesh_data['faces'] = mesh_closed.faces
+mesh_data['title'] = 'Closed Mesh'
+intensity_data = None
+Fig = splt.mesh_projection(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+# Fig.show()
+Fig.write_image("example_topology_6.png")
+
+# Plot the broken vertices
+
+vertices = mesh_closed.vertices
+# center the vertices
+vertices = vertices - np.mean(vertices, axis=0)
+vertices_translate = np.copy(vertices)
+# rotate the vertices
+vertices_translate = np.dot(rot_x, vertices_translate.T).T
+vertices_translate = np.dot(rot_z, vertices_translate.T).T
+
+# Plot Mean Curvature
+display_settings = {}
+display_settings['colorbar_label'] = 'Broken Vertices'
+mesh_data = {}
+mesh_data['vertices'] = vertices_translate
+mesh_data['faces'] = mesh_closed.faces
+mesh_data['title'] = 'Mesh Close'
+intensity_data = {}
+intensity_data['values'] = broken_vertices_mesh_closed
+intensity_data["mode"] = "vertex"
+Fig = splt.mesh_projection(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+# Fig.show()
+Fig.write_image("example_topology_7.png")
+
+vertices = open_mesh.vertices
+# center the vertices
+vertices = vertices - np.mean(vertices, axis=0)
+vertices_translate = np.copy(vertices)
+# rotate the vertices
+vertices_translate = np.dot(rot_x, vertices_translate.T).T
+vertices_translate = np.dot(rot_z, vertices_translate.T).T
+display_settings = {}
+display_settings['colorbar_label'] = 'Broken Vertices'
+mesh_data = {}
+mesh_data['vertices'] = vertices_translate
+mesh_data['faces'] = open_mesh.faces
+mesh_data['title'] = 'Mesh Close'
+intensity_data = {}
+intensity_data['values'] = broken_vertices_open_mesh
+intensity_data["mode"] = "vertex"
+Fig = splt.mesh_projection(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+# Fig.show()
+Fig.write_image("example_topology_8.png")

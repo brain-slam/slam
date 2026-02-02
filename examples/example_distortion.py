@@ -52,13 +52,61 @@ area_diff
 edge_diff = sdst.edge_length_difference(mesh, mesh_s)
 edge_diff
 
+
 #############################################################################
-# VISUALIZATION USING EXTERNAL TOOLS
+# VISUALIZATION USING INTERNAL TOOLS
 #############################################################################
+
+import slam.plot as splt
+
 # # Visualization of the original mesh
-# visb_sc = splt.visbrain_plot(mesh=mesh, caption="original mesh")
-# visb_sc.preview()
+vertices = mesh.vertices
+# center the vertices
+vertices = vertices - np.mean(vertices, axis=0)
+vertices_translate = np.copy(vertices)
+# rotate the vertices
+theta = np.pi / 2
+rot_x = np.array([[1, 0, 0],
+                  [0, np.cos(theta), -np.sin(theta)],
+                  [0, np.sin(theta),  np.cos(theta)]])
+vertices_translate = np.dot(rot_x, vertices_translate.T).T
+rot_z = np.array([[np.cos(theta), -np.sin(theta), 0],
+                  [np.sin(theta),  np.cos(theta), 0],
+                  [0, 0, 1],])
+vertices_translate = np.dot(rot_z, vertices_translate.T).T
+display_settings = {}
+mesh_data = {}
+mesh_data['vertices'] = vertices_translate
+mesh_data['faces'] = mesh.faces
+mesh_data['title'] = 'example_mesh.gii Original Mesh'
+intensity_data = None
+Fig = splt.mesh_projection(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+# Fig.show()
+Fig.write_image("example_distortion_1.png")
+
 # ############################################################################
 # # Visualization of the smoothed mesh
-# visb_sc = splt.visbrain_plot(mesh=mesh_s, caption="smoothed mesh")
-# visb_sc.preview()
+
+vertices = mesh_s.vertices
+# center the vertices
+vertices = vertices - np.mean(vertices, axis=0)
+vertices_translate = np.copy(vertices)
+# rotate the vertices
+vertices_translate = np.dot(rot_x, vertices_translate.T).T
+vertices_translate = np.dot(rot_z, vertices_translate.T).T
+
+display_settings = {}
+mesh_data = {}
+mesh_data['vertices'] = vertices_translate
+mesh_data['faces'] = mesh_s.faces
+mesh_data['title'] = 'example_mesh.gii Smoothed Mesh'
+intensity_data = None
+Fig = splt.mesh_projection(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+# Fig.show()
+Fig.write_image("example_distortion_2.png")
