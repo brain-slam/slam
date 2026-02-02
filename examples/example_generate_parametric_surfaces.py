@@ -77,7 +77,6 @@ print(
 # VISUALIZATION USING INTERNAL TOOLS
 #############################################################################
 
-
 import slam.plot as splt
 
 vertices = quadric.vertices
@@ -105,51 +104,51 @@ mesh_data['title'] = 'Mean Curvature'
 intensity_data = {}
 intensity_data['values'] = quadric_mean_curv
 intensity_data["mode"] = "vertex"
-Fig = splt.mes3d_projection(
+Fig = splt.mesh_projection(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
-
-
-# # show the ellipsoid
-
+# Fig.show()
+Fig.write_image("example_generate_parametric_surfaces_1.png")
+# show the ellipsoid
 vertices = ellips.vertices
 vertices = vertices - np.mean(vertices, axis=0)
 vertices_translate = np.copy(vertices)
 vertices_translate = np.dot(rot_x, vertices_translate.T).T
 vertices_translate = np.dot(rot_z, vertices_translate.T).T
 display_settings = {}
-intensity_data=None
+intensity_data = None
 mesh_data = {}
 mesh_data['vertices'] = vertices_translate
 mesh_data['faces'] = ellips.faces
 mesh_data['title'] = 'Ellips Mesh'
-Fig = splt.mes3d_projection(
+Fig = splt.mesh_projection(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+# Fig.show()
+Fig.write_image("example_generate_parametric_surfaces_2.png")
 
-
-# # show the sphere with regular sampling
+# show the sphere with regular sampling
 vertices = sphere_regular.vertices
 vertices = vertices - np.mean(vertices, axis=0)
 vertices_translate = np.copy(vertices)
 vertices_translate = np.dot(rot_x, vertices_translate.T).T
 vertices_translate = np.dot(rot_z, vertices_translate.T).T
 display_settings = {}
-intensity_data=None
+intensity_data = None
 display_settings['colorbar_label'] = 'Curvature'
 mesh_data = {}
 mesh_data['vertices'] = vertices_translate
 mesh_data['faces'] = sphere_regular.faces
 mesh_data['title'] = 'Sphere Regular Mesh'
-Fig = splt.mes3d_projection(
+Fig = splt.mesh_projection(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+# Fig.show()
+Fig.write_image("example_generate_parametric_surfaces_3.png")
+
 
 # # show the sphere with regular sampling
 vertices = sphere_random.vertices
@@ -158,16 +157,18 @@ vertices_translate = np.copy(vertices)
 vertices_translate = np.dot(rot_x, vertices_translate.T).T
 vertices_translate = np.dot(rot_z, vertices_translate.T).T
 display_settings = {}
-intensity_data=None
+intensity_data = None
 mesh_data = {}
 mesh_data['vertices'] = vertices_translate
 mesh_data['faces'] = sphere_random.faces
 mesh_data['title'] = 'Sphere Random Mesh'
-Fig = splt.mes3d_projection(
+Fig = splt.mesh_projection(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+# Fig.show()
+Fig.write_image("example_generate_parametric_surfaces_4.png")
+
 
 # visb_sc = splt.visbrain_plot(
 #     mesh=sphere_random, caption="sphere_random", visb_sc=visb_sc

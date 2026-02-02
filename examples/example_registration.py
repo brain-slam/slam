@@ -39,7 +39,6 @@ joint_mesh = mesh_1 + mesh_2
 joint_tex = np.ones((joint_mesh.vertices.shape[0],))
 joint_tex[: mesh_1.vertices.shape[0]] = 10
 
-
 import slam.plot as splt
 
 joint_mesh.apply_transform(joint_mesh.principal_inertia_transform)
@@ -57,12 +56,12 @@ mesh_data['title'] = 'Before Registration'
 intensity_data = {}
 intensity_data['values'] = joint_tex
 intensity_data["mode"] = "vertex"
-Fig = splt.mes3d_projection(
+Fig = splt.mesh_projection(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
-
+# Fig.show()
+Fig.write_image("example_registration_1.png")
 
 ###############################################################################
 # apply the estimated rigid transformation to the mesh
@@ -81,8 +80,9 @@ mesh_data['title'] = 'After Registration'
 intensity_data = {}
 intensity_data['values'] = joint_tex
 intensity_data["mode"] = "vertex"
-Fig = splt.mes3d_projection(
+Fig = splt.mesh_projection(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+# Fig.show()
+Fig.write_image("example_registration_2.png")

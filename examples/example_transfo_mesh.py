@@ -1,7 +1,6 @@
 import slam.io as sio
-import slam.differential_geometry as sdg
 import numpy as np
-from trimesh import transformations
+
 mesh_file = "../examples/data/example_mesh.gii"
 
 mesh = sio.load_mesh(mesh_file)
@@ -28,11 +27,12 @@ mesh_data['faces'] = mesh.faces
 mesh_data['title'] = 'example_mesh.gii Without Transformation'
 
 intensity_data = None
-Fig = splt.mes3d_projection(
+Fig = splt.mesh_projection(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+# Fig.show()
+Fig.write_image("example_transfo_mesh_1.png")
 
 mesh.apply_transform(mesh.principal_inertia_transform)
 
@@ -42,11 +42,12 @@ mesh_data['vertices'] = mesh.vertices
 mesh_data['faces'] = mesh.faces
 mesh_data['title'] = 'example_mesh.gii PCA Transformation'
 intensity_data = None
-Fig = splt.mes3d_projection(
+Fig = splt.mesh_projection(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+# Fig.show()
+Fig.write_image("example_transfo_mesh_2.png")
 
 vertices_translate = np.dot(rot_x, mesh.vertices.T).T
 
@@ -56,8 +57,9 @@ mesh_data['vertices'] = vertices_translate
 mesh_data['faces'] = mesh.faces
 mesh_data['title'] = 'example_mesh.gii With PCA and rotation Transformation'
 intensity_data = None
-Fig = splt.mes3d_projection(
+Fig = splt.mesh_projection(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+# Fig.show()
+Fig.write_image("example_transfo_mesh_3.png")

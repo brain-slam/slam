@@ -20,7 +20,6 @@ Example of depth potential function in slam
 
 ###############################################################################
 # Import of modules
-import slam.curvature as sc
 import slam.sulcal_depth as sdepth
 import trimesh
 import numpy as np
@@ -82,7 +81,7 @@ mesh = boucher_surface(params, ax, ay, nstep)
 # Compute dpf for various alpha
 
 alphas = [0.001, 0.01, 0.1, 1, 10, 100]
-various_dpfs=sdepth.depth_potential_function(mesh, alphas=alphas)
+various_dpfs = sdepth.depth_potential_function(mesh, alphas=alphas)
 
 amplitude_center = []
 amplitude_peak = []
@@ -132,11 +131,13 @@ mesh_data['title'] = 'Boucher mesh alpha 0.001'
 intensity_data = {}
 intensity_data['values'] = various_dpfs[0]
 intensity_data["mode"] = "vertex"
-Fig = splt.mes3d_projection(
+Fig = splt.mesh_projection(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+# Fig.show()
+Fig.write_image("example_dpf_Boucher_1.png")
+
 
 display_settings = {}
 mesh_data = {}
@@ -146,9 +147,9 @@ mesh_data['title'] = 'Boucher mesh alpha 100'
 intensity_data = {}
 intensity_data['values'] = various_dpfs[5]
 intensity_data["mode"] = "vertex"
-Fig = splt.mes3d_projection(
+Fig = splt.mesh_projection(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
-
+# Fig.show()
+Fig.write_image("example_dpf_Boucher_2.png")

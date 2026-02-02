@@ -51,8 +51,9 @@ mesh_data['title'] = 'Hinge'
 intensity_data = {}
 intensity_data['values'] = mean_curvature
 intensity_data["mode"] = "vertex"
-Fig = splt.mes3d_projection(
+Fig = splt.mesh_projection(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+# Fig.show()
+Fig.write_image("example_hinge_gyri_1.png")

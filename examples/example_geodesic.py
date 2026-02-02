@@ -80,11 +80,13 @@ mesh_data['title'] = 'Geodesic Distance'
 intensity_data = {}
 intensity_data['values'] = geo_distance
 intensity_data["mode"] = "vertex"
-Fig = splt.mes3d_projection(
+Fig = splt.mesh_projection(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+# Fig.show()
+Fig.write_image("example_geodesic_1.png")
+
 
 display_settings = {}
 display_settings['colorbar_label'] = 'Distance'
@@ -95,12 +97,12 @@ mesh_data['title'] = 'Local Geodesic Distance'
 intensity_data = {}
 intensity_data['values'] = area_geodist[0].toarray().squeeze()
 intensity_data["mode"] = "vertex"
-Fig = splt.mes3d_projection(
+Fig = splt.mesh_projection(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
 Fig.show()
-
+# Fig.write_image("example_geodesic_2.png")
 
 ###############################################################################
 # # Visualization using pyglet

@@ -68,17 +68,20 @@ mesh_data['title'] = 'Source'
 intensity_data = {}
 intensity_data['values'] = source_tex.darray[0],
 intensity_data["mode"] = "vertex"
-Fig = splt.mes3d_projection(
+Fig = splt.mesh_projection(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+# Fig.show()
+Fig.write_image("example_distorsion_1.png")
+
 
 # # Visualization with visbrain
 # import slam.plot as splt
 # ###############################################################################
 
-source_spherical_mesh.apply_transform(source_spherical_mesh.principal_inertia_transform)
+source_spherical_mesh.apply_transform(
+    source_spherical_mesh.principal_inertia_transform)
 theta = np.pi / 2
 rot_x = np.array([[1, 0, 0],
                   [0, np.cos(theta), -np.sin(theta)],
@@ -94,12 +97,12 @@ mesh_data['title'] = 'Spherical Source'
 intensity_data = {}
 intensity_data['values'] = source_tex.darray[0],
 intensity_data["mode"] = "vertex"
-Fig = splt.mes3d_projection(
+Fig = splt.mesh_projection(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
-
+# Fig.show()
+Fig.write_image("example_remeshing_1.png")
 
 target_mesh.apply_transform(target_mesh.principal_inertia_transform)
 theta = np.pi / 2
@@ -117,9 +120,9 @@ mesh_data['title'] = 'target mesh from source mesh'
 intensity_data = {}
 intensity_data['values'] = interpolated_tex_values,
 intensity_data["mode"] = "vertex"
-Fig = splt.mes3d_projection(
+Fig = splt.mesh_projection(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
-
+# Fig.show()
+Fig.write_image("example_remeshing_2.png")

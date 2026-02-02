@@ -119,11 +119,13 @@ mesh_data['title'] = 'Mean Curvature'
 intensity_data = {}
 intensity_data['values'] = mean_curv
 intensity_data["mode"] = "vertex"
-Fig = splt.mes3d_projection(
+Fig = splt.mesh_projection(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+# Fig.show()
+Fig.write_image("example_spangy_1.png")
+
 
 
 # # Plot coefficients and bands for all mean curvature signal
@@ -153,11 +155,13 @@ mesh_data['title'] = ('Local Dominant Band')
 intensity_data = {}
 intensity_data['values'] = loc_dom_band
 intensity_data["mode"] = "vertex"
-Fig = splt.mes3d_projection(
+Fig = splt.mesh_projection(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+# Fig.show()
+Fig.write_image("example_spangy_2.png")
+
 # # Plot mean curvature coefficients & compacted power spectrum characterizing
 # # either Sulci either Gyri folding pattern
 # # ---------------------------------------------------------------------------

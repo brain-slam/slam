@@ -178,41 +178,45 @@ mesh_data['title'] = 'example_mesh.gii Mean Curvature'
 intensity_data = {}
 intensity_data['values'] = mean_curv
 intensity_data["mode"] = "vertex"
-Fig = splt.mes3d_projection(
+Fig = splt.mesh_projection(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+# Fig.show()
+Fig.write_image("example_curvature_1.png")
 
 # Plot Gaussian Curvature
 mesh_data['title'] = 'example_mesh.gii Gaussian Curvature'
 intensity_data['values'] = gaussian_curv
 display_settings['colorbar_label'] = 'Gaussian Curvature'
-Fig = splt.mes3d_projection(
+Fig = splt.mesh_projection(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+# Fig.show()
+Fig.write_image("example_curvature_2.png")
 
 # Plot Shape Index
 mesh_data['title'] = 'example_mesh.gii Shape Index'
 intensity_data['values'] = shapeIndex
 display_settings['colorbar_label'] = 'Shape Index'
-Fig = splt.mes3d_projection(
+Fig = splt.mesh_projection(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+# Fig.show()
+Fig.write_image("example_curvature_3.png")
 
 # Plot Curvedness
 mesh_data['title'] = 'example_mesh.gii Curvedness'
 intensity_data['values'] = curvedness
 display_settings['colorbar_label'] = 'Curvedness'
-Fig = splt.mes3d_projection(
+Fig = splt.mesh_projection(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+# Fig.show()
+Fig.write_image("example_curvature_4.png")
 
 # Plot Quadric K Mean Absolute Change
 mesh_data['vertices'] = quadric.vertices
@@ -220,28 +224,30 @@ mesh_data['faces'] = quadric.faces
 mesh_data['title'] = 'Quadric K Mean Absolute Change'
 intensity_data['values'] = k_mean_absolute_change
 display_settings['colorbar_label'] = 'K Mean Absolute Change'
-Fig = splt.mes3d_projection(
+Fig = splt.mesh_projection(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+# Fig.show()
+Fig.write_image("example_curvature_5.png")
 
 # Plot Quadric Angular Error 0
 mesh_data['title'] = 'Quadric Angular Error 0'
 intensity_data['values'] = angular_error_0
 display_settings['colorbar_label'] = 'Angular Error 0'
-Fig = splt.mes3d_projection(
+Fig = splt.mesh_projection(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+Fig.write_image("example_curvature_6.png")
 
 # Plot Quadric Angular Error 1
 mesh_data['title'] = 'Quadric Angular Error 1'
 intensity_data['values'] = angular_error_1
 display_settings['colorbar_label'] = 'Angular Error 1'
-Fig = splt.mes3d_projection(
+Fig = splt.mesh_projection(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+# Fig.show()
+Fig.write_image("example_curvature_7.png")

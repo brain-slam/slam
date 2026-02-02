@@ -82,12 +82,12 @@ mesh_data['title'] = 'example_mesh.gii Mean Curvature'
 intensity_data = {}
 intensity_data['values'] = tex.darray[0]
 intensity_data["mode"] = "vertex"
-Fig = splt.mes3d_projection(
+Fig = splt.mesh_projection(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
-
+# Fig.show()
+Fig.write_image("example_differential_geometry_1.png")
 
 # Show the Norm of the Gradient of the Curvature
 display_settings = {}
@@ -99,9 +99,9 @@ mesh_data['title'] = 'example_mesh.gii Norm of the Gradient of Curvature'
 intensity_data = {}
 intensity_data['values'] = norm_grad
 intensity_data["mode"] = "vertex"
-Fig = splt.mes3d_projection(
+Fig = splt.mesh_projection(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
-
+# Fig.show()
+Fig.write_image("example_differential_geometry_2.png")

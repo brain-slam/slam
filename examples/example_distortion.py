@@ -80,11 +80,12 @@ mesh_data['vertices'] = vertices_translate
 mesh_data['faces'] = mesh.faces
 mesh_data['title'] = 'example_mesh.gii Original Mesh'
 intensity_data = None
-Fig = splt.mes3d_projection(
+Fig = splt.mesh_projection(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+# Fig.show()
+Fig.write_image("example_distortion_1.png")
 
 # ############################################################################
 # # Visualization of the smoothed mesh
@@ -103,8 +104,9 @@ mesh_data['vertices'] = vertices_translate
 mesh_data['faces'] = mesh_s.faces
 mesh_data['title'] = 'example_mesh.gii Smoothed Mesh'
 intensity_data = None
-Fig = splt.mes3d_projection(
+Fig = splt.mesh_projection(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+# Fig.show()
+Fig.write_image("example_distortion_2.png")
