@@ -1,45 +1,32 @@
 import os
 import pickle
 import numpy as np
-from slam import io, geodesics, texture
+from slam import geodesics
 import networkx as nx
 import slam.watershed as swat
 
 
-def extract_sulcal_graph(side, path_to_mesh, path_to_features,
-                         path_to_output, path_to_mask=None):
+def extract_sulcal_graph(side, mesh, mask=None):
     """
     Main Function that extracts the sulcal graph from a mesh and saves
     it in the given directory.
     Parameters
     ----------
     side
-    path_to_mesh
-    path_to_features
-    path_to_output
-    path_to_mask
+    mesh
+    mask
 
     Returns
     -------
 
     """
-
-    mesh = io.load_mesh(path_to_mesh)
-
-    _, dpf, voronoi = swat.compute_mesh_features(mesh,
-                                                 save=True,
-                                                 outdir=path_to_features,
-                                                 check_if_exist=True)
+    _, dpf, voronoi = swat.compute_mesh_features(mesh)
     thresh_dist, thresh_ridge, thresh_area = (
         swat.normalize_thresholds(voronoi,
                                   thresh_dist=20.0,
                                   thresh_ridge=1.5,
                                   thresh_area=50.0,
                                   side=side))
-    if path_to_mask:
-        mask = io.load_texture(path_to_mask).darray[0]
-    else:
-        mask = None
 
     basins, ridges, adjacency = (
         swat.watershed(mesh,
@@ -50,14 +37,12 @@ def extract_sulcal_graph(side, path_to_mesh, path_to_features,
                        thresh_area, mask))
     g = get_sulcal_graph(adjacency,
                          basins,
-                         ridges,
-                         save=True,
-                         outdir=path_to_output)
-    get_textures_from_graph(g, mesh, save=True, outdir=path_to_output)
+                         ridges)
+    get_textures_from_graph(g, mesh)
     return g
 
 
-def get_sulcal_graph(adjacency, basins, ridges, save=True, outdir=None):
+def get_sulcal_graph(adjacency, basins, ridges):
     """
     Function that creates a graph from the outputs of the watershed.
 
@@ -129,11 +114,6 @@ def get_sulcal_graph(adjacency, basins, ridges, save=True, outdir=None):
     #     print("Edge "+str(ed)+" attributes:",
     #           graph.edges[list(graph.edges)[ed]].keys())
 
-    if save:
-        if not outdir:
-            outdir = ''
-        save_graph(graph, outdir)
-
     return graph
 
 
@@ -158,7 +138,7 @@ def save_graph(graph, outdir):
     return 0
 
 
-def add_node_attribute_to_graph(graph, texture, name, save=True, outdir=None):
+def add_node_attribute_to_graph(graph, texture, attribute_name):
     """
     Add a node attribute to the graph using the value of the texture
     at pit positions
@@ -166,18 +146,11 @@ def add_node_attribute_to_graph(graph, texture, name, save=True, outdir=None):
     ----------
     graph
     texture
-    name
-    save
-    outdir
 
     Returns
     -------
 
     """
-
-    if save and not outdir:
-        outdir = ''
-
     node_values = {}
     for basin in graph.nodes:
         # Get pits indices
@@ -186,15 +159,12 @@ def add_node_attribute_to_graph(graph, texture, name, save=True, outdir=None):
         node_values[basin] = texture[pit]
 
     # Add the attribute to the graph
-    nx.set_node_attributes(graph, values=node_values, name=name)
-
-    if save:
-        save_graph(graph, outdir)
+    nx.set_node_attributes(graph, values=node_values, name=attribute_name)
 
     return graph
 
 
-def add_edge_attribute_to_graph(graph, texture, name, save=True, outdir=None):
+def add_edge_attribute_to_graph(graph, texture, attribute_name):
     """
         Add an edge attribute to the graph using the value of the texture at
     ridge positions
@@ -210,10 +180,6 @@ def add_edge_attribute_to_graph(graph, texture, name, save=True, outdir=None):
     -------
 
     """
-
-    if save and not outdir:
-        outdir = ''
-
     # Get the adjacency matrix with ridge positions
     adjacency = nx.to_numpy_array(graph, weight='ridge_index', dtype=np.int32)
     # Create and fill a new edge dictionary with the texture
@@ -222,15 +188,12 @@ def add_edge_attribute_to_graph(graph, texture, name, save=True, outdir=None):
     for i, j in graph.edges:
         ridge_dict[(i, j)] = float(texture[adjacency[i][j]])
     # Add the attribute to the graph
-    nx.set_edge_attributes(graph, ridge_dict, name=name)
-
-    if save:
-        save_graph(graph, outdir)
+    nx.set_edge_attributes(graph, ridge_dict, name=attribute_name)
 
     return graph
 
 
-def add_geodesic_distances_to_graph(graph, mesh, save=True, outdir=None):
+def add_geodesic_distances_to_graph(graph, mesh):
     """
         Add the geodesic distances between ridge and pits to the corresponding
      ridge attributes in the graph:
@@ -252,9 +215,6 @@ def add_geodesic_distances_to_graph(graph, mesh, save=True, outdir=None):
     -------
 
     """
-    if save and not outdir:
-        outdir = ''
-
     # Create and fill a new edge dictionary with the geodesic distances
     geodistances = {}
     for i, j in graph.edges:
@@ -274,13 +234,10 @@ def add_geodesic_distances_to_graph(graph, mesh, save=True, outdir=None):
     # Add the attribute to the graph
     nx.set_edge_attributes(graph, geodistances)
 
-    if save:
-        save_graph(graph, outdir)
-
     return graph
 
 
-def add_mean_value_to_graph(graph, texture, name, save=True, outdir=None):
+def add_mean_value_to_graph(graph, texture, attribute_name):
     """
         Add the mean value of the texture over the vertices of each basin
     to the graph node attributes
@@ -296,9 +253,6 @@ def add_mean_value_to_graph(graph, texture, name, save=True, outdir=None):
     -------
 
     """
-    if save and not outdir:
-        outdir = ''
-
     average_values = {}
     for basin in graph.nodes:
         # Get the list of vertices
@@ -308,59 +262,40 @@ def add_mean_value_to_graph(graph, texture, name, save=True, outdir=None):
         average_values[basin] = mean_value
 
     # Add the attribute to the graph
-    nx.set_node_attributes(graph, average_values, name=name)
-
-    if save:
-        save_graph(graph, outdir)
+    nx.set_node_attributes(graph, average_values, name=attribute_name)
 
     return graph
 
 
-def get_textures_from_graph(graph, mesh, save=True, outdir=None):
+def get_textures_from_graph(graph, mesh):
     """
     Function that returns the textures from a graph of sulcal pits
     Parameters
     ----------
     graph
     mesh
-    save
-    outdir
 
     Returns
     -------
 
     """
-    if save and not outdir:
-        outdir = ''
-
     vert = np.array(mesh.vertices)
 
     # texture of labels
-    labels = np.full(len(vert), -1, dtype=np.int64)
+    atex_labels = np.full(len(vert), -1, dtype=np.int64)
     for b in graph.nodes:
-        labels[graph.nodes[b]['basin_vertices']] = (
+        atex_labels[graph.nodes[b]['basin_vertices']] = (
             graph.nodes)[b]['basin_label']
-    tex_labels = texture.TextureND(darray=labels.flatten())
-    if save:
-        io.write_texture(tex_labels, os.path.join(outdir, "labels.gii"))
 
     # texture of pits
     atex_pits = np.zeros((len(vert), 1))
     pits_indices = list(nx.get_node_attributes(graph, 'pit_index').values())
     atex_pits[pits_indices] = 1
-    tex_pits = texture.TextureND(darray=atex_pits.flatten())
-    if save:
-        io.write_texture(tex_pits, os.path.join(outdir,
-                                                "pits_tex_from_graph.gii"))
 
     # texture of ridges
     atex_ridges = np.zeros((len(vert), 1))
     ridges_indices = (
         list(nx.get_edge_attributes(graph, 'ridge_index').values()))
     atex_ridges[ridges_indices] = 1
-    tex_ridges = texture.TextureND(darray=atex_ridges.flatten())
-    if save:
-        io.write_texture(tex_ridges,
-                         os.path.join(outdir, "rigdes_tex_from_graph.gii"))
 
-    return tex_labels, tex_pits, tex_ridges
+    return atex_labels, atex_pits, atex_ridges

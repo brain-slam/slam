@@ -148,7 +148,7 @@ angular_error_1 = 180 * angular_error_1 / np.pi
 
 
 #############################################################################
-# VISUALIZATION USING INTERNAL TOOLS
+# VISUALIZATION USING plotly
 #############################################################################
 
 import slam.plot as splt
