@@ -27,7 +27,7 @@ class TestSulcalGraph(unittest.TestCase):
     def test_add_node_attribute(self):
         a = np.array([0.0, 1.0, 2.0, 3.0, 4.0])
 
-        g = sulcal_graph.add_node_attribute_to_graph(self.graph, a, name='test', save=False)
+        g = sulcal_graph.add_node_attribute_to_graph(self.graph, a, attribute_name='test')
 
         self.assertIn("test", g.nodes[0].keys())
         self.assertEqual(a[0], g.nodes[0]['test'])
@@ -37,7 +37,7 @@ class TestSulcalGraph(unittest.TestCase):
     def test_add_edge_attribute(self):
         a = np.array([0.0, 1.0, 2.0, 3.0, 4.0])
 
-        g = sulcal_graph.add_edge_attribute_to_graph(self.graph, a, name='test', save=False)
+        g = sulcal_graph.add_edge_attribute_to_graph(self.graph, a, attribute_name='test')
 
         self.assertIn("test", g.edges[list(g.edges)[0]].keys())
         self.assertEqual(a[4], g.edges[list(g.edges)[0]]['test'])
@@ -45,7 +45,7 @@ class TestSulcalGraph(unittest.TestCase):
             (a[list(nx.get_edge_attributes(g, 'ridge_index'))] == list(nx.get_edge_attributes(g, 'test'))).all())
 
     def test_add_mean_value_to_graph(self):
-        g = sulcal_graph.add_mean_value_to_graph(self.graph, self.texture, name="mean_texture", save=False)
+        g = sulcal_graph.add_mean_value_to_graph(self.graph, self.texture, attribute_name="mean_texture")
 
         self.assertIn("mean_texture", g.nodes[0].keys())
         self.assertAlmostEqual(g.nodes[0]["mean_texture"], 0.15)
@@ -53,14 +53,14 @@ class TestSulcalGraph(unittest.TestCase):
 
     def test_get_textures_from_graph(self):
         # Test de la fonction get_textures_from_graph
-        tex_labels, tex_pits, tex_ridges = sulcal_graph.get_textures_from_graph(self.graph, self.mesh, save=False)
+        atex_labels, atex_pits, atex_ridges = sulcal_graph.get_textures_from_graph(self.graph, self.mesh)
 
-        self.assertIsInstance(tex_labels, texture.TextureND)
-        self.assertIsInstance(tex_pits, texture.TextureND)
-        self.assertIsInstance(tex_ridges, texture.TextureND)
-        self.assertEqual(tex_labels.darray.shape[1], len(self.mesh.vertices))
-        self.assertEqual(tex_pits.darray.shape[1], len(self.mesh.vertices))
-        self.assertEqual(tex_ridges.darray.shape[1], len(self.mesh.vertices))
+        self.assertIsInstance(atex_labels, np.ndarray)
+        self.assertIsInstance(atex_pits, np.ndarray)
+        self.assertIsInstance(atex_ridges, np.ndarray)
+        self.assertEqual(atex_labels.shape[0], len(self.mesh.vertices))
+        self.assertEqual(atex_pits.shape[0], len(self.mesh.vertices))
+        self.assertEqual(atex_ridges.shape[0], len(self.mesh.vertices))
 
     def test_add_geodesic_distances(self):
         def mock_compute_gdist(mesh, ridge):
@@ -69,7 +69,7 @@ class TestSulcalGraph(unittest.TestCase):
         # Use unittest.mock.patch as a context manager (with) to ensures that the original function compute_gdist
         # is automatically restored after the block ends.
         with patch('slam.geodesics.compute_gdist', side_effect=mock_compute_gdist):
-            g = sulcal_graph.add_geodesic_distances_to_graph(self.graph, self.mesh, save=False)
+            g = sulcal_graph.add_geodesic_distances_to_graph(self.graph, self.mesh)
             print(g.edges[list(g.edges)[0]])
 
             self.assertIn("geodesic_distance_btw_ridge_pit_i", g.edges[list(g.edges)[0]].keys())

@@ -25,9 +25,28 @@ def load_mesh(gifti_file):
     )
 
 
-def write_mesh(mesh, gifti_file):
-    """Create a mesh object from two arrays
+def load_fs_mesh(mgh_file):
+    """
+    load mgh_file and create a trimesh object
+    Parameters
+    ----------
+    mgh_file: str, path to the mgh file on the disk
 
+    Returns
+    -------
+    mesh as a trimesh object
+    """
+    coords, faces, metadata = (
+        nb.freesurfer.io.read_geometry(mgh_file, read_metadata=True))
+    metadata = dict(metadata)
+    metadata["filename"] = mgh_file
+    return trimesh.Trimesh(
+        faces=faces, vertices=coords, metadata=metadata, process=False
+    )
+
+
+def write_mesh(mesh, gifti_file):
+    """write a trimesh mesh object to disk
     fixme:  intent should be set !
     """
     coord = mesh.vertices
@@ -59,6 +78,24 @@ def load_texture(gifti_file):
         len(nb_texture.darrays))]
     return texture.TextureND(
         darray=np.array(cat_darrays), metadata=dict(nb_texture.meta)
+    )
+
+
+def load_fs_texture(mgh_file):
+    """
+
+    Parameters
+    ----------
+    mgh_file: str, path to the mgh file on the disk
+
+    Returns
+    -------
+    texture.TextureND object
+    """
+    data_array = nb.freesurfer.io.read_morph_data(mgh_file)
+    metadata = {"filename": mgh_file}
+    return texture.TextureND(
+            darray=np.array([data_array]), metadata=metadata
     )
 
 

@@ -33,7 +33,7 @@ class TestWatershed(unittest.TestCase):
         return MockMesh()
 
     def test_watershed(self):
-        _, dpf, voronoi = swat.compute_mesh_features(self.sphere, save=False, outdir=None, check_if_exist=False)
+        _, dpf, voronoi = swat.compute_mesh_features(self.sphere)
 
         basins, ridges, adjacency = swat.watershed(
             self.sphere, voronoi, dpf, self.thresh_dist, self.thresh_ridge, self.thresh_area
@@ -60,16 +60,16 @@ class TestWatershed(unittest.TestCase):
             (0, 1): {"ridge_index": 4, "ridge_depth": 0.5, "ridge_length": 1}
         }
 
-        tex_labels, tex_pits, tex_ridges = swat.get_textures_from_dict(
-            self.mesh, basins, ridges, save=False
+        atex_labels, atex_pits, atex_ridges = swat.get_textures_from_dict(
+            self.mesh, basins, ridges
         )
 
-        self.assertIsNotNone(tex_labels)
-        self.assertIsNotNone(tex_pits)
-        self.assertIsNotNone(tex_ridges)
-        self.assertEqual(tex_labels.darray.shape[1], len(self.mesh.vertices))
-        self.assertEqual(tex_pits.darray.shape[1], len(self.mesh.vertices))
-        self.assertEqual(tex_ridges.darray.shape[1], len(self.mesh.vertices))
+        self.assertIsInstance(atex_labels, np.ndarray)
+        self.assertIsInstance(atex_pits, np.ndarray)
+        self.assertIsInstance(atex_ridges, np.ndarray)
+        self.assertEqual(atex_labels.shape[0], len(self.mesh.vertices))
+        self.assertEqual(atex_pits.shape[0], len(self.mesh.vertices))
+        self.assertEqual(atex_ridges.shape[0], len(self.mesh.vertices))
 
 
 if __name__ == '__main__':

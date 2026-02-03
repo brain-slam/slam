@@ -35,3 +35,26 @@ dpf = sdepth.depth_potential_function(mesh)
 ###############################################################################
 # compute the dpf_star
 dpf_star = sdepth.dpf_star(mesh)
+
+
+#############################################################################
+# VISUALIZATION USING plotly
+#############################################################################
+
+import slam.plot as splt
+
+display_settings = {}
+display_settings['colorbar_label'] = 'dpf_star'
+mesh_data = {}
+mesh_data['vertices'] = mesh.vertices
+mesh_data['faces'] = mesh.faces
+mesh_data['title'] = 'dpf_star'
+intensity_data = {}
+intensity_data['values'] = dpf_star[0]
+intensity_data["mode"] = "vertex"
+Fig = splt.mesh_projection(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+Fig.show()
+

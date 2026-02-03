@@ -630,26 +630,73 @@ def adjacency_matrix(mesh):
     return adja
 
 
-def broken_vertices(mesh):
+def find_broken_vertices(mesh):
     """
-    Function that returns the Broken_Vertices texture
-    INPUT:
-    "mesh": Loaded mesh
-    OUTPUT:
-    "broken_vertices_texture": an array that
-    indicates which vertices are broken
-    """
+    Function that finds the vertices with corresponding to topololgical defects
+    Parameters
+    ----------
+    mesh: basestring
 
+    Returns
+    -------
+
+    """
     broken_face_indices = trimesh.repair.broken_faces(mesh)
-    # Initialisation of border as the same format as mesh
-    broken_vertices_array = np.zeros(len(mesh.vertices))
+    # Initialisation of an array with the same size as mesh.vertices
+    atex_broken_vertices = np.zeros(len(mesh.vertices))
     # If a broken face is present on the mesh
     if len(broken_face_indices) > 0:
         # Broken_vertices correspond to all
         # the vertices that compose the broken faces
         broken_vertices = mesh.faces[broken_face_indices].flatten()
-        # if a vertex is involved to different
+        # if a vertex is involved in different
         # broken faces then this vertex will have a higher value
         for indice in broken_vertices:
-            broken_vertices_array[indice] = broken_vertices_array[indice] + 1
-    return broken_vertices_array
+            atex_broken_vertices[indice] = atex_broken_vertices[indice] + 1
+    return atex_broken_vertices
+
+
+def texture_morphological_closing(mesh, atex):
+    """
+
+    Parameters
+    ----------
+    mesh
+    atex
+
+    Returns
+    -------
+
+    """
+    n_vertices = mesh.vertices.shape[0]  # vertices coordinates (n, 3) float
+    vert_idx = np.arange(n_vertices)  # vertex index
+    vert_neigh = mesh.vertex_neighbors  # list of lists of neighbors
+
+    # ## Correction N°1 : get and solve isolated vertices in the texture
+
+    for v in vert_idx:
+        if atex[v] == 0:
+            neigh_idx = np.array(vert_neigh[v]).astype(int)
+            neigh_labels = atex[neigh_idx]
+            neigh_labels_u = np.unique(neigh_labels)
+            if len(neigh_labels_u == 1) & (1 in neigh_labels_u):
+                print(f"Filling hole at vertex {v}.")
+                atex[v] = 1
+
+    # ## Correction N°2 : morphological closing
+
+    atex_dilated = atex.copy()
+    for v in vert_idx:
+        if atex[v] == 1:
+            neigh_idx = np.array(vert_neigh[v]).astype(int)
+            # Set all neighbors to 1 in the dilated mask
+            atex_dilated[neigh_idx] = 1
+    atex_eroded = atex_dilated.copy()
+    for v in vert_idx:
+        if atex_dilated[v] == 1:
+            neigh_idx = np.array(vert_neigh[v]).astype(int)
+            neigh_labels = atex_dilated[neigh_idx]
+            if 0 in neigh_labels:
+                # Set this vertex to 0 in the eroded mask
+                atex_eroded[v] = 0
+    return atex_eroded
