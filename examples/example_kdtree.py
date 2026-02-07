@@ -24,5 +24,5 @@ mesh = sio.load_mesh("../examples/data/example_mesh.gii")
 # kdtree serves to compute distances to mesh vertices efficiently
 # here we compute the distance between a vector of two points and the mesh
 distance, index = mesh.kdtree.query([[0.0, 0.0, 0.0], [0.0, 0.0, 1.0]])
-distance
-index
+print(distance)
+print(index)

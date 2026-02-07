@@ -12,11 +12,6 @@ example of curvature estimation in slam
 # License: MIT
 # sphinx_gallery_thumbnail_number = 2
 
-###############################################################################
-# NOTE: there is no visualization tool in slam, but we provide at the
-# end of this script exemplare code to do the visualization with
-# an external solution
-###############################################################################
 
 # importation of slam modules
 import slam.utils as ut
@@ -26,7 +21,7 @@ import slam.io as sio
 import slam.curvature as scurv
 
 ###############################################################################
-# loading an examplar mesh
+# load an examplar mesh
 mesh_file = "../examples/data/example_mesh.gii"
 mesh = sio.load_mesh(mesh_file)
 
@@ -152,71 +147,57 @@ angular_error_1 = 180 * angular_error_1 / np.pi
 #############################################################################
 
 import slam.plot as splt
-
-vertices = mesh.vertices
-# center the vertices
-vertices = vertices - np.mean(vertices, axis=0)
-vertices_translate = np.copy(vertices)
-# rotate the vertices
-theta = np.pi / 2
-rot_x = np.array([[1, 0, 0],
-                  [0, np.cos(theta), -np.sin(theta)],
-                  [0, np.sin(theta),  np.cos(theta)]])
-vertices_translate = np.dot(rot_x, vertices_translate.T).T
-rot_z = np.array([[np.cos(theta), -np.sin(theta), 0],
-                  [np.sin(theta),  np.cos(theta), 0],
-                  [0, 0, 1], ])
-vertices_translate = np.dot(rot_z, vertices_translate.T).T
+import trimesh.transformations as ttrans
 
 # Plot Mean Curvature
 display_settings = {}
 display_settings['colorbar_label'] = 'Mean Curvature'
 mesh_data = {}
-mesh_data['vertices'] = vertices_translate
+mesh_data['vertices'] = mesh.vertices
 mesh_data['faces'] = mesh.faces
-mesh_data['title'] = 'example_mesh.gii Mean Curvature'
+mesh_data['title'] = 'Mean Curvature'
 intensity_data = {}
 intensity_data['values'] = mean_curv
 intensity_data["mode"] = "vertex"
-Fig = splt.mesh_projection(
+Fig = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-# Fig.show()
-Fig.write_image("example_curvature_1.png")
+Fig.show()
 
 # Plot Gaussian Curvature
 mesh_data['title'] = 'example_mesh.gii Gaussian Curvature'
 intensity_data['values'] = gaussian_curv
 display_settings['colorbar_label'] = 'Gaussian Curvature'
-Fig = splt.mesh_projection(
+Fig = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-# Fig.show()
-Fig.write_image("example_curvature_2.png")
+Fig.show()
 
 # Plot Shape Index
 mesh_data['title'] = 'example_mesh.gii Shape Index'
 intensity_data['values'] = shapeIndex
 display_settings['colorbar_label'] = 'Shape Index'
-Fig = splt.mesh_projection(
+Fig = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-# Fig.show()
-Fig.write_image("example_curvature_3.png")
+Fig.show()
 
 # Plot Curvedness
 mesh_data['title'] = 'example_mesh.gii Curvedness'
 intensity_data['values'] = curvedness
 display_settings['colorbar_label'] = 'Curvedness'
-Fig = splt.mesh_projection(
+Fig = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-# Fig.show()
-Fig.write_image("example_curvature_4.png")
+Fig.show()
+
+
+# apply a random transfo to the quadric for better visualization
+quadric.apply_transform(ttrans.random_rotation_matrix())
 
 # Plot Quadric K Mean Absolute Change
 mesh_data['vertices'] = quadric.vertices
@@ -224,30 +205,28 @@ mesh_data['faces'] = quadric.faces
 mesh_data['title'] = 'Quadric K Mean Absolute Change'
 intensity_data['values'] = k_mean_absolute_change
 display_settings['colorbar_label'] = 'K Mean Absolute Change'
-Fig = splt.mesh_projection(
+Fig = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-# Fig.show()
-Fig.write_image("example_curvature_5.png")
+Fig.show()
 
 # Plot Quadric Angular Error 0
 mesh_data['title'] = 'Quadric Angular Error 0'
 intensity_data['values'] = angular_error_0
 display_settings['colorbar_label'] = 'Angular Error 0'
-Fig = splt.mesh_projection(
+Fig = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.write_image("example_curvature_6.png")
+Fig.show()
 
 # Plot Quadric Angular Error 1
 mesh_data['title'] = 'Quadric Angular Error 1'
 intensity_data['values'] = angular_error_1
 display_settings['colorbar_label'] = 'Angular Error 1'
-Fig = splt.mesh_projection(
+Fig = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-# Fig.show()
-Fig.write_image("example_curvature_7.png")
+Fig.show()

@@ -14,12 +14,6 @@ Mapping example in slam
 # sphinx_gallery_thumbnail_number = 2
 
 ###############################################################################
-# NOTE: there is no visualization tool in slam, but we provide at the
-# end of this script exemplare code to do the visualization with
-# an external solution
-###############################################################################
-
-###############################################################################
 # Importation of slam modules
 import slam.generate_parametric_surfaces as sps
 import numpy as np

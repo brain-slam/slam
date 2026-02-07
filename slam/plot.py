@@ -3,7 +3,7 @@ plots.py
 
 Centralized functions for plotting and figures.
 
-Author: Zoë LAFFITTE
+Authors: Zoë LAFFITTE, Guillaume Auzias
 Date: 2026
 """
 
@@ -48,7 +48,7 @@ def create_hover_trace(points, text, mode="markers", **kwargs):
     )
 
 
-def mesh_projection(
+def plot_mesh(
     mesh_data, intensity_data=None, display_settings=None, caption=None
 ):
     """
@@ -75,6 +75,9 @@ def mesh_projection(
     vertices = mesh_data["vertices"]
     faces = mesh_data["faces"]
     title = mesh_data.get("title", "")
+
+    if display_settings is None:
+        display_settings = {}
     template = display_settings.get("template", None)
 
     lighting = {

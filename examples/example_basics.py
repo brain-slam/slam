@@ -15,31 +15,13 @@ Show basic use of slam
 ###############################################################################
 # This script shows examples of basic functionalities offered by SLAM.
 # Some (most) of these are actually inherited from Trimesh
-# This script does not plot anything, see example_plot.py for that purpose
-#
 import numpy as np
 import trimesh
 import slam.io as sio
 
-# loading a mesh stored on the disc as a gifti file,
-# this is a feature of SLAM
+###############################################################################
+# Load a mesh stored on the disc as a gifti file
 mesh = sio.load_mesh("../examples/data/example_mesh.gii")
-
-###############################################################################
-# affine transformations can be applied to mesh objects
-mesh.apply_transform(mesh.principal_inertia_transform)
-# laplacian smoothing is available in Trimesh
-# mesh_s = sm.filter_laplacian(mesh, iterations=20)
-
-###############################################################################
-# mesh.fill_holes() is able to fill missing face but do not handle
-# larger holes, see example_topology for that purpose
-
-###############################################################################
-# interesting properties / functions of a mesh
-# see base.py for more details
-# what's the euler number for the mesh?
-print("mesh.euler_number=", mesh.euler_number)
 
 ###############################################################################
 # access mesh edges
@@ -84,6 +66,20 @@ mesh.vertex_normals
 ###############################################################################
 # access mesh vertex connectivity
 mesh.vertex_neighbors
+
+###############################################################################
+# laplacian smoothing is available in Trimesh
+# mesh_s = sm.filter_laplacian(mesh, iterations=20)
+
+###############################################################################
+# mesh.fill_holes() is able to fill missing face but do not handle
+# larger holes, see example_topology for that purpose
+
+###############################################################################
+# interesting properties / functions of a mesh
+# see base.py for more details
+# what's the euler number for the mesh?
+print("mesh.euler_number=", mesh.euler_number)
 
 ###############################################################################
 # compute mesh convex hull

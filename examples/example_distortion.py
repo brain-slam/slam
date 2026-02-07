@@ -14,12 +14,6 @@ Example of morphological distortion in slam
 # sphinx_gallery_thumbnail_number = 2
 
 ###############################################################################
-# NOTE: there is no visualization tool in slam, but we provide at the
-# end of this script exemplare code to do the visualization with
-# an external solution
-###############################################################################
-
-###############################################################################
 # Importation of slam modules
 import slam.distortion as sdst
 import slam.differential_geometry as sdg
@@ -59,54 +53,29 @@ edge_diff
 
 import slam.plot as splt
 
-# # Visualization of the original mesh
-vertices = mesh.vertices
-# center the vertices
-vertices = vertices - np.mean(vertices, axis=0)
-vertices_translate = np.copy(vertices)
-# rotate the vertices
-theta = np.pi / 2
-rot_x = np.array([[1, 0, 0],
-                  [0, np.cos(theta), -np.sin(theta)],
-                  [0, np.sin(theta),  np.cos(theta)]])
-vertices_translate = np.dot(rot_x, vertices_translate.T).T
-rot_z = np.array([[np.cos(theta), -np.sin(theta), 0],
-                  [np.sin(theta),  np.cos(theta), 0],
-                  [0, 0, 1],])
-vertices_translate = np.dot(rot_z, vertices_translate.T).T
 display_settings = {}
 mesh_data = {}
-mesh_data['vertices'] = vertices_translate
+mesh_data['vertices'] = mesh.vertices
 mesh_data['faces'] = mesh.faces
-mesh_data['title'] = 'example_mesh.gii Original Mesh'
+mesh_data['title'] = 'Original Mesh'
 intensity_data = None
-Fig = splt.mesh_projection(
+Fig = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-# Fig.show()
-Fig.write_image("example_distortion_1.png")
+Fig.show()
 
 # ############################################################################
 # # Visualization of the smoothed mesh
 
-vertices = mesh_s.vertices
-# center the vertices
-vertices = vertices - np.mean(vertices, axis=0)
-vertices_translate = np.copy(vertices)
-# rotate the vertices
-vertices_translate = np.dot(rot_x, vertices_translate.T).T
-vertices_translate = np.dot(rot_z, vertices_translate.T).T
-
 display_settings = {}
 mesh_data = {}
-mesh_data['vertices'] = vertices_translate
+mesh_data['vertices'] = mesh_s.vertices
 mesh_data['faces'] = mesh_s.faces
-mesh_data['title'] = 'example_mesh.gii Smoothed Mesh'
+mesh_data['title'] = 'Smoothed Mesh'
 intensity_data = None
-Fig = splt.mesh_projection(
+Fig = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-# Fig.show()
-Fig.write_image("example_distortion_2.png")
+Fig.show()

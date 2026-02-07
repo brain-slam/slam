@@ -14,12 +14,6 @@ Generating parametric surfaces in slam
 # sphinx_gallery_thumbnail_number = 2
 
 ###############################################################################
-# NOTE: there is no visualization tool in slam, but we provide at the
-# end of this script exemplare code to do the visualization with
-# an external solution
-###############################################################################
-
-###############################################################################
 # Importation of slam modules
 import slam.generate_parametric_surfaces as sgps
 import numpy as np
@@ -79,98 +73,58 @@ print(
 
 import slam.plot as splt
 
-vertices = quadric.vertices
-# center the vertices
-vertices = vertices - np.mean(vertices, axis=0)
-vertices_translate = np.copy(vertices)
-# rotate the vertices
-theta = np.pi / 2
-rot_x = np.array([[1, 0, 0],
-                  [0, np.cos(theta), -np.sin(theta)],
-                  [0, np.sin(theta),  np.cos(theta)]])
-vertices_translate = np.dot(rot_x, vertices_translate.T).T
-rot_z = np.array([[np.cos(theta), -np.sin(theta), 0],
-                  [np.sin(theta),  np.cos(theta), 0],
-                  [0, 0, 1], ])
-vertices_translate = np.dot(rot_z, vertices_translate.T).T
-
 # Plot Mean Curvature
 display_settings = {}
 display_settings['colorbar_label'] = 'Curvature'
 mesh_data = {}
-mesh_data['vertices'] = vertices_translate
+mesh_data['vertices'] = quadric.vertices
 mesh_data['faces'] = quadric.faces
 mesh_data['title'] = 'Mean Curvature'
 intensity_data = {}
 intensity_data['values'] = quadric_mean_curv
 intensity_data["mode"] = "vertex"
-Fig = splt.mesh_projection(
+Fig = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-# Fig.show()
-Fig.write_image("example_generate_parametric_surfaces_1.png")
+Fig.show()
+
 # show the ellipsoid
-vertices = ellips.vertices
-vertices = vertices - np.mean(vertices, axis=0)
-vertices_translate = np.copy(vertices)
-vertices_translate = np.dot(rot_x, vertices_translate.T).T
-vertices_translate = np.dot(rot_z, vertices_translate.T).T
 display_settings = {}
 intensity_data = None
 mesh_data = {}
-mesh_data['vertices'] = vertices_translate
+mesh_data['vertices'] = ellips.vertices
 mesh_data['faces'] = ellips.faces
-mesh_data['title'] = 'Ellips Mesh'
-Fig = splt.mesh_projection(
+mesh_data['title'] = 'Ellipsoid Mesh'
+Fig = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-# Fig.show()
-Fig.write_image("example_generate_parametric_surfaces_2.png")
+Fig.show()
 
 # show the sphere with regular sampling
-vertices = sphere_regular.vertices
-vertices = vertices - np.mean(vertices, axis=0)
-vertices_translate = np.copy(vertices)
-vertices_translate = np.dot(rot_x, vertices_translate.T).T
-vertices_translate = np.dot(rot_z, vertices_translate.T).T
 display_settings = {}
 intensity_data = None
 display_settings['colorbar_label'] = 'Curvature'
 mesh_data = {}
-mesh_data['vertices'] = vertices_translate
+mesh_data['vertices'] = sphere_regular.vertices
 mesh_data['faces'] = sphere_regular.faces
 mesh_data['title'] = 'Sphere Regular Mesh'
-Fig = splt.mesh_projection(
+Fig = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-# Fig.show()
-Fig.write_image("example_generate_parametric_surfaces_3.png")
-
+Fig.show()
 
 # # show the sphere with regular sampling
-vertices = sphere_random.vertices
-vertices = vertices - np.mean(vertices, axis=0)
-vertices_translate = np.copy(vertices)
-vertices_translate = np.dot(rot_x, vertices_translate.T).T
-vertices_translate = np.dot(rot_z, vertices_translate.T).T
 display_settings = {}
 intensity_data = None
 mesh_data = {}
-mesh_data['vertices'] = vertices_translate
+mesh_data['vertices'] = sphere_random.vertices
 mesh_data['faces'] = sphere_random.faces
 mesh_data['title'] = 'Sphere Random Mesh'
-Fig = splt.mesh_projection(
+Fig = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-# Fig.show()
-Fig.write_image("example_generate_parametric_surfaces_4.png")
-
-
-# visb_sc = splt.visbrain_plot(
-#     mesh=sphere_random, caption="sphere_random", visb_sc=visb_sc
-# )
-# visb_sc.preview()
+Fig.show()

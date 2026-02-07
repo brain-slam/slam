@@ -1,12 +1,14 @@
 """
-.. _example_differential_geometry:
+.. _example_transfo_mesh:
 
 ===================================
-example of differential geometry tools in slam
+Transformation of mesh example in slam
 ===================================
 """
 
-# Authors: Guillaume Auzias <guillaume.auzias@univ-amu.fr>
+# Authors:
+# Guillaume Auzias <guillaume.auzias@univ-amu.fr>
+# Maxime Van Der Valk <maxime.vandervalk@univ-amu.fr>
 
 # License: MIT
 # sphinx_gallery_thumbnail_number = 2
@@ -14,41 +16,39 @@ example of differential geometry tools in slam
 ###############################################################################
 # importation of slam modules
 import slam.io as sio
-import slam.sulcal_depth as sdepth
+import numpy as np
+import trimesh.transformations as ttrans
 
 ###############################################################################
-# loading an examplar mesh and corresponding texture
+# Load a mesh
 mesh_file = "../examples/data/example_mesh.gii"
-texture_file = "../examples/data/example_texture.gii"
 mesh = sio.load_mesh(mesh_file)
 
 ###############################################################################
-# compute the depth potential function
-dpf = sdepth.depth_potential_function(mesh)
+# Apply a random transformation to the mesh
+mesh.apply_transform(ttrans.random_rotation_matrix())
 
 ###############################################################################
-# compute the dpf_star
-dpf_star = sdepth.dpf_star(mesh)
+# reortient the mesh according to its principal inertia axes
+mesh.apply_transform(mesh.principal_inertia_transform)
+
+###############################################################################
+# Define and apply a rotation around the x axis
+theta = np.pi / 6
+rotation_x = np.array([[1, 0, 0, 0],[0, np.cos(theta), -np.sin(theta), 0],[0, np.sin(theta), np.cos(theta), 0], [0, 0, 0, 1]])
+mesh.apply_transform(rotation_x)
 
 
 #############################################################################
-# VISUALIZATION USING plotly
+# VISUALIZATION USING INTERNAL TOOLS
 #############################################################################
-
 import slam.plot as splt
 
-display_settings = {}
-display_settings['colorbar_label'] = 'dpf_star'
 mesh_data = {}
 mesh_data['vertices'] = mesh.vertices
 mesh_data['faces'] = mesh.faces
-mesh_data['title'] = 'dpf_star'
-intensity_data = {}
-intensity_data['values'] = dpf_star[0]
-intensity_data["mode"] = "vertex"
+mesh_data['title'] = 'Example Transformations'
 Fig = splt.plot_mesh(
-    mesh_data=mesh_data,
-    intensity_data=intensity_data,
-    display_settings=display_settings)
+    mesh_data=mesh_data)
 Fig.show()
 
