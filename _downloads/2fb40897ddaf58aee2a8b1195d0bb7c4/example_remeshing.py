@@ -14,16 +14,10 @@ Remeshing example in slam
 # sphinx_gallery_thumbnail_number = 2
 
 ###############################################################################
-# NOTE: there is no visualization tool in slam, but we provide at the
-# end of this script exemplare code to do the visualization with
-# an external solution
-###############################################################################
-
-###############################################################################
 # Importation of slam modules
 import slam.io as sio
 import slam.remeshing as srem
-
+import numpy as np
 ###############################################################################
 # Source object files
 source_mesh_file = "../examples/data/example_mesh.gii"
@@ -47,29 +41,55 @@ interpolated_tex_values = srem.spherical_interpolation_nearest_neigbhor(
 )
 
 #############################################################################
-# VISUALIZATION USING EXTERNAL TOOLS
+# VISUALIZATION USING plotly
 #############################################################################
-# # Visualization with visbrain
-# import slam.plot as splt
-# ###############################################################################
-# visb_sc = splt.visbrain_plot(
-#     mesh=source_mesh,
-#     tex=source_tex.darray[0],
-#     caption="source with curvature",
-#     cblabel="curvature",
-# )
-# visb_sc = splt.visbrain_plot(
-#     mesh=source_spherical_mesh,
-#     tex=source_tex.darray[0],
-#     caption="spherical source mesh",
-#     cblabel="curvature",
-#     visb_sc=visb_sc,
-# )
-# visb_sc = splt.visbrain_plot(
-#     mesh=target_mesh,
-#     tex=interpolated_tex_values,
-#     caption="target mesh with curvature " "from source mesh",
-#     cblabel="curvature",
-#     visb_sc=visb_sc,
-# )
-# visb_sc.preview()
+
+import slam.plot as splt
+
+# Plot Mean Curvature on the source mesh
+display_settings = {}
+mesh_data = {}
+mesh_data['vertices'] = source_mesh.vertices
+mesh_data['faces'] = source_mesh.faces
+mesh_data['title'] = 'Source'
+intensity_data = {}
+intensity_data['values'] = source_tex.darray[0],
+intensity_data["mode"] = "vertex"
+fig1 = splt.plot_mesh(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+fig1.show()
+fig1
+
+# Plot Mean Curvature on the spherical mesh
+display_settings = {}
+mesh_data = {}
+mesh_data['vertices'] = source_spherical_mesh.vertices
+mesh_data['faces'] = source_spherical_mesh.faces
+mesh_data['title'] = 'Spherical Source'
+intensity_data = {}
+intensity_data['values'] = source_tex.darray[0],
+intensity_data["mode"] = "vertex"
+fig2 = splt.plot_mesh(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+fig2.show()
+fig2
+
+# Plot Mean Curvature
+display_settings = {}
+mesh_data = {}
+mesh_data['vertices'] = target_mesh.vertices
+mesh_data['faces'] = target_mesh.faces
+mesh_data['title'] = 'target mesh with curvature from source mesh'
+intensity_data = {}
+intensity_data['values'] = interpolated_tex_values,
+intensity_data["mode"] = "vertex"
+fig3 = splt.plot_mesh(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+fig3.show()
+fig3

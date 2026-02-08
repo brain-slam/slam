@@ -146,12 +146,6 @@ to download the full example code.</p>
 <span class="c1"># sphinx_gallery_thumbnail_number = 2</span>
 </pre></div>
 </div>
-<dl class="simple">
-<dt>NOTE: there is no visualization tool in slam, but we provide at the</dt><dd><p>end of this script exemplare code to do the visualization with
-an external solution</p>
-</dd>
-</dl>
-<hr class="docutils" />
 <p>Importation of slam modules</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">slam.generate_parametric_surfaces</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sps</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -174,11 +168,11 @@ an external solution</p>
     Computing mesh weights of type conformal
     -edge length threshold needed for  0  values =  0.0  %
     -number of Nan in weights:  0  =  0.0  %
-    -number of Negative values in weights:  14  =  14.0  %
+    -number of Negative values in weights:  14  =  12.5  %
     -nb Nan in Laplacian :  0
     -nb Inf in Laplacian :  0
-Boundary Size: (13,)
-Laplacian Size: (22, 22)
+Boundary Size: (16,)
+Laplacian Size: (25, 25)
 </pre></div>
 </div>
 <p>Compute distortion measures between original and planar representations</p>
@@ -190,9 +184,9 @@ Laplacian Size: (22, 22)
 <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">edge_diff</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>-2.0417894705750005e-17
--0.016053719287943278
--0.05402534452668708
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>-6.938893903907228e-18
+-0.029490277024959755
+-0.09312161521991517
 </pre></div>
 </div>
 <section id="visualization-using-external-tools">
@@ -243,7 +237,7 @@ visb_sc2.add_to_subplot(l_obj)</p>
 </div></blockquote>
 <p>visb_sc2.preview()</p>
 </div></blockquote>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.010 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.012 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-example-mapping-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/8545bf415fdd090c121a68225e9f1409/example_mapping.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">example_mapping.ipynb</span></code></a></p>
@@ -271,7 +265,7 @@ visb_sc2.add_to_subplot(l_obj)</p>
       
     </p>
     <p>
-        &copy; Copyright 2026, slam Developers. Last updated on 2026-01-30.<br/>
+        &copy; Copyright 2026, slam Developers. Last updated on 2026-02-08.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 9.1.0.<br/>
     </p>
   </div>

@@ -11,12 +11,12 @@
       adjacency_matrix
       boundaries_intersection
       boundary_angles
-      broken_vertices
       close_mesh
       compute_face_normal
       create_vertex
       cut_mesh
       edges_to_boundary
+      find_broken_vertices
       ismember
       k_ring_neighborhood
       list_count
@@ -26,4 +26,5 @@
       sub_cut_mesh
       texture_boundary
       texture_boundary_vertices
+      texture_morphological_closing
    

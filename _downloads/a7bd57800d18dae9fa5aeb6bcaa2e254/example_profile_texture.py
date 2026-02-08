@@ -11,11 +11,6 @@ example of profile texture in slam
 # License: MIT
 # sphinx_gallery_thumbnail_number = 2
 
-#############################################################################
-# VISUALIZATION USING EXTERNAL TOOLS
-#############################################################################
-# # Visualization with visbrain
-
 ###############################################################################
 # importation of slam modules
 import numpy as np
@@ -70,7 +65,7 @@ profile_texture = surfpf.get_texture_value_on_profile(
 )
 
 #############################################################################
-# VISUALIZATION USING EXTERNAL TOOLS
+# VISUALIZATION USING VISBRAIN
 #############################################################################
 # # Visualization with visbrain
 # import trimesh.visual.color

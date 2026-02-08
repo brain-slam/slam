@@ -1,15 +1,9 @@
 :orphan:
 
-.. _general_examples:
+Gallery of SLAM
+==================
 
-Examples Gallery
-================
-
-.. contents:: Contents
-   :local:
-   :depth: 3
-
-
+Below is a gallery of examples
 
 
 .. raw:: html
@@ -207,6 +201,23 @@ Examples Gallery
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbcontainer" tooltip="Examples of the use of plot in slam">
+
+.. only:: html
+
+  .. image:: /auto_examples/images/thumb/sphx_glr_example_plot_thumb.png
+    :alt:
+
+  :doc:`/auto_examples/example_plot`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Examples of the use of plot in slam</div>
+    </div>
+
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="example of profile texture in slam">
 
 .. only:: html
@@ -360,6 +371,23 @@ Examples Gallery
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbcontainer" tooltip="Transformation of mesh example in slam">
+
+.. only:: html
+
+  .. image:: /auto_examples/images/thumb/sphx_glr_example_transformations_thumb.png
+    :alt:
+
+  :doc:`/auto_examples/example_transformations`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Transformation of mesh example in slam</div>
+    </div>
+
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="Vertex voronoi example in slam">
 
 .. only:: html
@@ -413,6 +441,7 @@ Examples Gallery
    /auto_examples/example_hinge_gyri
    /auto_examples/example_kdtree
    /auto_examples/example_mapping
+   /auto_examples/example_plot
    /auto_examples/example_profile_texture
    /auto_examples/example_registration
    /auto_examples/example_remeshing
@@ -422,6 +451,7 @@ Examples Gallery
    /auto_examples/example_surface_profiling
    /auto_examples/example_texture
    /auto_examples/example_topology
+   /auto_examples/example_transformations
    /auto_examples/example_vertex_voronoi
    /auto_examples/example_watershed
 

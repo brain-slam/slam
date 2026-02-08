@@ -43,18 +43,11 @@ Mapping example in slam
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 17-21
-
-NOTE: there is no visualization tool in slam, but we provide at the
- end of this script exemplare code to do the visualization with
- an external solution
-##############################################################################
-
-.. GENERATED FROM PYTHON SOURCE LINES 23-24
+.. GENERATED FROM PYTHON SOURCE LINES 17-18
 
 Importation of slam modules
 
-.. GENERATED FROM PYTHON SOURCE LINES 24-30
+.. GENERATED FROM PYTHON SOURCE LINES 18-24
 
 .. code-block:: Python
 
@@ -71,11 +64,11 @@ Importation of slam modules
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 31-32
+.. GENERATED FROM PYTHON SOURCE LINES 25-26
 
 Generation of an open mesh
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-36
+.. GENERATED FROM PYTHON SOURCE LINES 26-30
 
 .. code-block:: Python
 
@@ -90,11 +83,11 @@ Generation of an open mesh
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 37-38
+.. GENERATED FROM PYTHON SOURCE LINES 31-32
 
 Mapping onto a planar disk
 
-.. GENERATED FROM PYTHON SOURCE LINES 38-40
+.. GENERATED FROM PYTHON SOURCE LINES 32-34
 
 .. code-block:: Python
 
@@ -112,20 +105,20 @@ Mapping onto a planar disk
         Computing mesh weights of type conformal
         -edge length threshold needed for  0  values =  0.0  %
         -number of Nan in weights:  0  =  0.0  %
-        -number of Negative values in weights:  14  =  14.0  %
+        -number of Negative values in weights:  14  =  12.5  %
         -nb Nan in Laplacian :  0
         -nb Inf in Laplacian :  0
-    Boundary Size: (13,)
-    Laplacian Size: (22, 22)
+    Boundary Size: (16,)
+    Laplacian Size: (25, 25)
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-42
+.. GENERATED FROM PYTHON SOURCE LINES 35-36
 
 Compute distortion measures between original and planar representations
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-49
+.. GENERATED FROM PYTHON SOURCE LINES 36-43
 
 .. code-block:: Python
 
@@ -144,14 +137,14 @@ Compute distortion measures between original and planar representations
 
  .. code-block:: none
 
-    -2.0417894705750005e-17
-    -0.016053719287943278
-    -0.05402534452668708
+    -6.938893903907228e-18
+    -0.029490277024959755
+    -0.09312161521991517
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 50-89
+.. GENERATED FROM PYTHON SOURCE LINES 44-83
 
 VISUALIZATION USING EXTERNAL TOOLS
 ############################################################################
@@ -196,7 +189,7 @@ VISUALIZATION USING EXTERNAL TOOLS
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.010 seconds)
+   **Total running time of the script:** (0 minutes 0.012 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_mapping.py:

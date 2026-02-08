@@ -11,16 +11,12 @@ example of hinge shaped surface
 # License: MIT
 # sphinx_gallery_thumbnail_number = 2
 
-###############################################################################
-# NOTE: there is no visualization tool in slam, but we provide at the
-# end of this script exemplare code to do the visualization with
-# an external solution
-###############################################################################
 
 ###############################################################################
 # importation of slam modules
 import slam.curvature as scurv
 import slam.generate_parametric_surfaces as sgps
+import numpy as np
 
 ###############################################################################
 # Creating an examplar 3-4-...n hinge mesh
@@ -29,13 +25,24 @@ mesh_curvatures = scurv.curvatures_and_derivatives(hinge_mesh)
 mean_curvature = 1 / 2 * mesh_curvatures[0].sum(axis=0)
 
 #############################################################################
-# VISUALIZATION USING EXTERNAL TOOLS
+# VISUALIZATION USING plotly
 # #############################################################################
-# # Visualization with visbrain
-# visb_sc = splt.visbrain_plot(
-#     mesh=hinge_mesh,
-#     tex=mean_curvature,
-#     caption="hinge",
-#     cblabel="mean curvature"
-# )
-# visb_sc.preview()
+
+import slam.plot as splt
+
+display_settings = {}
+display_settings['colorbar_label'] = 'Mean Curvature'
+mesh_data = {}
+mesh_data['vertices'] = hinge_mesh.vertices
+mesh_data['faces'] = hinge_mesh.faces
+mesh_data['title'] = 'Hinge'
+intensity_data = {}
+intensity_data['values'] = mean_curvature
+intensity_data["mode"] = "vertex"
+fig = splt.plot_mesh(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+fig.show()
+fig
+

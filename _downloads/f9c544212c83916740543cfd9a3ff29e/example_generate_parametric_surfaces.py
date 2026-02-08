@@ -14,12 +14,6 @@ Generating parametric surfaces in slam
 # sphinx_gallery_thumbnail_number = 2
 
 ###############################################################################
-# NOTE: there is no visualization tool in slam, but we provide at the
-# end of this script exemplare code to do the visualization with
-# an external solution
-###############################################################################
-
-###############################################################################
 # Importation of slam modules
 import slam.generate_parametric_surfaces as sgps
 import numpy as np
@@ -74,22 +68,67 @@ print(
 )
 
 #############################################################################
-# VISUALIZATION USING EXTERNAL TOOLS
+# VISUALIZATION USING plotly
 #############################################################################
-# # import visbrain # visu using visbrain
-# # show the quadric with its mean curvature
-# visb_sc = splt.visbrain_plot(
-#     mesh=quadric,
-#     tex=quadric_mean_curv,
-#     caption="quadric",
-#     cblabel="mean curvature"
-# )
-# # show the ellipsoid
-# visb_sc = splt.visbrain_plot(mesh=ellips, caption="ellipsoid")
+
+import slam.plot as splt
+
+# Plot Mean Curvature
+display_settings = {}
+display_settings['colorbar_label'] = 'Curvature'
+mesh_data = {}
+mesh_data['vertices'] = quadric.vertices
+mesh_data['faces'] = quadric.faces
+mesh_data['title'] = 'Mean Curvature'
+intensity_data = {}
+intensity_data['values'] = quadric_mean_curv
+intensity_data["mode"] = "vertex"
+fig1 = splt.plot_mesh(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+fig1.show()
+fig1
+
+# show the ellipsoid
+display_settings = {}
+intensity_data = None
+mesh_data = {}
+mesh_data['vertices'] = ellips.vertices
+mesh_data['faces'] = ellips.faces
+mesh_data['title'] = 'Ellipsoid Mesh'
+fig2 = splt.plot_mesh(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+fig2.show()
+fig2
+
+# show the sphere with regular sampling
+display_settings = {}
+intensity_data = None
+display_settings['colorbar_label'] = 'Curvature'
+mesh_data = {}
+mesh_data['vertices'] = sphere_regular.vertices
+mesh_data['faces'] = sphere_regular.faces
+mesh_data['title'] = 'Sphere Regular Mesh'
+fig3 = splt.plot_mesh(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+fig3.show()
+fig3
+
 # # show the sphere with regular sampling
-# visb_sc = splt.visbrain_plot(mesh=sphere_regular, caption="sphere_regular")
-# # show the sphere with random sampling
-# visb_sc = splt.visbrain_plot(
-#     mesh=sphere_random, caption="sphere_random", visb_sc=visb_sc
-# )
-# visb_sc.preview()
+display_settings = {}
+intensity_data = None
+mesh_data = {}
+mesh_data['vertices'] = sphere_random.vertices
+mesh_data['faces'] = sphere_random.faces
+mesh_data['title'] = 'Sphere Random Mesh'
+fig4 = splt.plot_mesh(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+fig4.show()
+fig4

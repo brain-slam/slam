@@ -14,12 +14,6 @@ Example of morphological distortion in slam
 # sphinx_gallery_thumbnail_number = 2
 
 ###############################################################################
-# NOTE: there is no visualization tool in slam, but we provide at the
-# end of this script exemplare code to do the visualization with
-# an external solution
-###############################################################################
-
-###############################################################################
 # Importation of slam modules
 import slam.distortion as sdst
 import slam.differential_geometry as sdg
@@ -52,13 +46,37 @@ area_diff
 edge_diff = sdst.edge_length_difference(mesh, mesh_s)
 edge_diff
 
+
 #############################################################################
-# VISUALIZATION USING EXTERNAL TOOLS
+# VISUALIZATION USING INTERNAL TOOLS
 #############################################################################
-# # Visualization of the original mesh
-# visb_sc = splt.visbrain_plot(mesh=mesh, caption="original mesh")
-# visb_sc.preview()
+
+import slam.plot as splt
+
+display_settings = {}
+mesh_data = {}
+mesh_data['vertices'] = mesh.vertices
+mesh_data['faces'] = mesh.faces
+mesh_data['title'] = 'Original Mesh'
+intensity_data = None
+fig1 = splt.plot_mesh(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+fig1.show()
+fig1
+
 # ############################################################################
 # # Visualization of the smoothed mesh
-# visb_sc = splt.visbrain_plot(mesh=mesh_s, caption="smoothed mesh")
-# visb_sc.preview()
+
+display_settings = {}
+mesh_data = {}
+mesh_data['vertices'] = mesh_s.vertices
+mesh_data['faces'] = mesh_s.faces
+mesh_data['title'] = 'Smoothed Mesh'
+intensity_data = None
+fig2 = splt.plot_mesh(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+fig2.show()

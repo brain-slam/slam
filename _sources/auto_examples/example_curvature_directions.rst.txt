@@ -24,7 +24,7 @@
 example of curvature directions in slam
 ===================================
 
-.. GENERATED FROM PYTHON SOURCE LINES 8-14
+.. GENERATED FROM PYTHON SOURCE LINES 8-18
 
 .. code-block:: Python
 
@@ -33,25 +33,6 @@ example of curvature directions in slam
 
     # License: MIT
     # sphinx_gallery_thumbnail_number = 2
-
-
-
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 15-19
-
-NOTE: there is no visualization tool in slam, but we provide at the
- end of this script exemplare code to do the visualization with
- an external solution
-##############################################################################
-
-.. GENERATED FROM PYTHON SOURCE LINES 19-24
-
-.. code-block:: Python
-
 
     # importation of slam modules
     import slam.generate_parametric_surfaces as sgps
@@ -64,11 +45,11 @@ NOTE: there is no visualization tool in slam, but we provide at the
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 25-26
+.. GENERATED FROM PYTHON SOURCE LINES 19-20
 
 Create quadric mesh
 
-.. GENERATED FROM PYTHON SOURCE LINES 26-41
+.. GENERATED FROM PYTHON SOURCE LINES 20-35
 
 .. code-block:: Python
 
@@ -94,11 +75,11 @@ Create quadric mesh
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-43
+.. GENERATED FROM PYTHON SOURCE LINES 36-37
 
 Compute principal directions of curvature
 
-.. GENERATED FROM PYTHON SOURCE LINES 43-46
+.. GENERATED FROM PYTHON SOURCE LINES 37-40
 
 .. code-block:: Python
 
@@ -123,62 +104,89 @@ Compute principal directions of curvature
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 47-96
+.. GENERATED FROM PYTHON SOURCE LINES 41-43
 
-VISUALIZATION USING EXTERNAL TOOLS
+VISUALIZATION USING matplotlib
 ##############################################################################
- import numpy as np
- import matplotlib.pyplot as plt
- from mpl_toolkits.mplot3d import Axes3D
 
- #############################################################################
- # Visualization of vector fields with matplotlib
- def visualize(mesh, vector_field, colors=None, params=None):
-     """
-     Visualize a mesh and a vector field over it
-     :param mesh: a mesh with n points
-     :param vector_field: (n,3) array
-     :param colors: (n,3) array
-     :param params: params[0] is the length of the quivers
-     :return:
-     """
-     n = mesh.vertices.shape[0]
-     if colors is None:
-         colors = np.zeros((n, 3))
-         colors[:, 0] = 1
-     if params is None:
-         params = []
-         params.append(0.1)
+.. GENERATED FROM PYTHON SOURCE LINES 43-46
 
-     fig = plt.figure()
-     ax = Axes3D(fig)
-     ax.plot_trisurf(
-         mesh.vertices[:, 0],
-         mesh.vertices[:, 1],
-         mesh.vertices[:, 2],
-         triangles=mesh.faces,
-         shade=True,
-     )
-     plt.quiver(
-         mesh.vertices[:, 0],
-         mesh.vertices[:, 1],
-         mesh.vertices[:, 2],
-         vector_field[:, 0],
-         vector_field[:, 1],
-         vector_field[:, 2],
-         length=params[0],
-         colors=colors,
-     )
+.. code-block:: Python
 
-     return fig
+    import numpy as np
+    import matplotlib.pyplot as plt
 
- visualize(quadric_mesh, PrincipalDir1)
- plt.show()
+
+
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 47-48
+
+Visualization of vector fields with matplotlib
+
+.. GENERATED FROM PYTHON SOURCE LINES 48-88
+
+.. code-block:: Python
+
+    def visualize(mesh, vector_field, colors=None, params=None):
+        """
+        Visualize a mesh and a vector field over it
+        :param mesh: a mesh with n points
+        :param vector_field: (n,3) array
+        :param colors: (n,3) array
+        :param params: params[0] is the length of the quivers
+        :return:
+        """
+        n = mesh.vertices.shape[0]
+        if colors is None:
+            colors = np.zeros((n, 3))
+            colors[:, 0] = 1
+        if params is None:
+            params = []
+            params.append(0.1)
+
+        ax = plt.figure().add_subplot(projection='3d')
+        ax.plot_trisurf(
+            mesh.vertices[:, 0],
+            mesh.vertices[:, 1],
+            mesh.vertices[:, 2],
+            triangles=mesh.faces,
+            shade=True,
+        )
+        plt.quiver(
+            np.array(mesh.vertices[:, 0]),
+            np.array(mesh.vertices[:, 1]),
+            np.array(mesh.vertices[:, 2]),
+            vector_field[:, 0],
+            vector_field[:, 1],
+            vector_field[:, 2],
+            length=params[0],
+            colors=colors,
+        )
+
+        return ax
+
+    visualize(quadric_mesh, PrincipalDir1)
+    plt.show()
+
+
+
+.. image-sg:: /auto_examples/images/sphx_glr_example_curvature_directions_001.png
+   :alt: example curvature directions
+   :srcset: /auto_examples/images/sphx_glr_example_curvature_directions_001.png
+   :class: sphx-glr-single-img
+
+
+
+
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.424 seconds)
+   **Total running time of the script:** (0 minutes 0.671 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_curvature_directions.py:

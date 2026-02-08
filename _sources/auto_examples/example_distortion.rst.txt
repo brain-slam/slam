@@ -43,18 +43,11 @@ Example of morphological distortion in slam
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 17-21
-
-NOTE: there is no visualization tool in slam, but we provide at the
- end of this script exemplare code to do the visualization with
- an external solution
-##############################################################################
-
-.. GENERATED FROM PYTHON SOURCE LINES 23-24
+.. GENERATED FROM PYTHON SOURCE LINES 17-18
 
 Importation of slam modules
 
-.. GENERATED FROM PYTHON SOURCE LINES 24-29
+.. GENERATED FROM PYTHON SOURCE LINES 18-23
 
 .. code-block:: Python
 
@@ -70,11 +63,11 @@ Importation of slam modules
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 30-31
+.. GENERATED FROM PYTHON SOURCE LINES 24-25
 
 Loading an example mesh and a smoothed copy of it
 
-.. GENERATED FROM PYTHON SOURCE LINES 31-35
+.. GENERATED FROM PYTHON SOURCE LINES 25-29
 
 .. code-block:: Python
 
@@ -108,11 +101,11 @@ Loading an example mesh and a smoothed copy of it
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 36-37
+.. GENERATED FROM PYTHON SOURCE LINES 30-31
 
 Computation of the angle difference between each faces of mesh and mesh_s
 
-.. GENERATED FROM PYTHON SOURCE LINES 37-40
+.. GENERATED FROM PYTHON SOURCE LINES 31-34
 
 .. code-block:: Python
 
@@ -138,7 +131,7 @@ Computation of the angle difference between each faces of mesh and mesh_s
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-45
+.. GENERATED FROM PYTHON SOURCE LINES 36-39
 
 .. code-block:: Python
 
@@ -159,11 +152,11 @@ Computation of the angle difference between each faces of mesh and mesh_s
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 46-47
+.. GENERATED FROM PYTHON SOURCE LINES 40-41
 
 Computation of the area difference between each faces of mesh and mesh_s
 
-.. GENERATED FROM PYTHON SOURCE LINES 47-50
+.. GENERATED FROM PYTHON SOURCE LINES 41-44
 
 .. code-block:: Python
 
@@ -184,16 +177,17 @@ Computation of the area difference between each faces of mesh and mesh_s
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 51-52
+.. GENERATED FROM PYTHON SOURCE LINES 45-46
 
 Computation of the length difference between each edges of mesh and mesh_s
 
-.. GENERATED FROM PYTHON SOURCE LINES 52-55
+.. GENERATED FROM PYTHON SOURCE LINES 46-50
 
 .. code-block:: Python
 
     edge_diff = sdst.edge_length_difference(mesh, mesh_s)
     edge_diff
+
 
 
 
@@ -209,22 +203,56 @@ Computation of the length difference between each edges of mesh and mesh_s
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 56-65
+.. GENERATED FROM PYTHON SOURCE LINES 51-53
 
-VISUALIZATION USING EXTERNAL TOOLS
+VISUALIZATION USING INTERNAL TOOLS
 ############################################################################
- # Visualization of the original mesh
- visb_sc = splt.visbrain_plot(mesh=mesh, caption="original mesh")
- visb_sc.preview()
- ############################################################################
- # Visualization of the smoothed mesh
- visb_sc = splt.visbrain_plot(mesh=mesh_s, caption="smoothed mesh")
- visb_sc.preview()
+
+.. GENERATED FROM PYTHON SOURCE LINES 53-83
+
+.. code-block:: Python
+
+
+    import slam.plot as splt
+
+    display_settings = {}
+    mesh_data = {}
+    mesh_data['vertices'] = mesh.vertices
+    mesh_data['faces'] = mesh.faces
+    mesh_data['title'] = 'Original Mesh'
+    intensity_data = None
+    fig1 = splt.plot_mesh(
+        mesh_data=mesh_data,
+        intensity_data=intensity_data,
+        display_settings=display_settings)
+    fig1.show()
+    fig1
+
+    # ############################################################################
+    # # Visualization of the smoothed mesh
+
+    display_settings = {}
+    mesh_data = {}
+    mesh_data['vertices'] = mesh_s.vertices
+    mesh_data['faces'] = mesh_s.faces
+    mesh_data['title'] = 'Smoothed Mesh'
+    intensity_data = None
+    fig2 = splt.plot_mesh(
+        mesh_data=mesh_data,
+        intensity_data=intensity_data,
+        display_settings=display_settings)
+    fig2.show()
+
+
+
+
+
+
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.454 seconds)
+   **Total running time of the script:** (0 minutes 5.472 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_distortion.py:

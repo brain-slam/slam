@@ -42,14 +42,12 @@ Show basic use of slam
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 16-20
+.. GENERATED FROM PYTHON SOURCE LINES 16-18
 
 This script shows examples of basic functionalities offered by SLAM.
 Some (most) of these are actually inherited from Trimesh
-This script does not plot anything, see example_plot.py for that purpose
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 20-28
+.. GENERATED FROM PYTHON SOURCE LINES 18-22
 
 .. code-block:: Python
 
@@ -57,8 +55,21 @@ This script does not plot anything, see example_plot.py for that purpose
     import trimesh
     import slam.io as sio
 
-    # loading a mesh stored on the disc as a gifti file,
-    # this is a feature of SLAM
+
+
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 23-24
+
+Load a mesh stored on the disc as a gifti file
+
+.. GENERATED FROM PYTHON SOURCE LINES 24-26
+
+.. code-block:: Python
+
     mesh = sio.load_mesh("../examples/data/example_mesh.gii")
 
 
@@ -68,66 +79,11 @@ This script does not plot anything, see example_plot.py for that purpose
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 29-30
-
-affine transformations can be applied to mesh objects
-
-.. GENERATED FROM PYTHON SOURCE LINES 30-34
-
-.. code-block:: Python
-
-    mesh.apply_transform(mesh.principal_inertia_transform)
-    # laplacian smoothing is available in Trimesh
-    # mesh_s = sm.filter_laplacian(mesh, iterations=20)
-
-
-
-
-
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-
-    <trimesh.Trimesh(vertices.shape=(2328, 3), faces.shape=(4652, 3))>
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 35-37
-
-mesh.fill_holes() is able to fill missing face but do not handle
-larger holes, see example_topology for that purpose
-
-.. GENERATED FROM PYTHON SOURCE LINES 39-42
-
-interesting properties / functions of a mesh
-see base.py for more details
-what's the euler number for the mesh?
-
-.. GENERATED FROM PYTHON SOURCE LINES 42-44
-
-.. code-block:: Python
-
-    print("mesh.euler_number=", mesh.euler_number)
-
-
-
-
-
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    mesh.euler_number= 2
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 45-46
+.. GENERATED FROM PYTHON SOURCE LINES 27-28
 
 access mesh edges
 
-.. GENERATED FROM PYTHON SOURCE LINES 46-48
+.. GENERATED FROM PYTHON SOURCE LINES 28-30
 
 .. code-block:: Python
 
@@ -152,11 +108,11 @@ access mesh edges
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 49-50
+.. GENERATED FROM PYTHON SOURCE LINES 31-32
 
 access mesh faces
 
-.. GENERATED FROM PYTHON SOURCE LINES 50-52
+.. GENERATED FROM PYTHON SOURCE LINES 32-34
 
 .. code-block:: Python
 
@@ -181,11 +137,11 @@ access mesh faces
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 53-54
+.. GENERATED FROM PYTHON SOURCE LINES 35-36
 
 access mesh vertices
 
-.. GENERATED FROM PYTHON SOURCE LINES 54-56
+.. GENERATED FROM PYTHON SOURCE LINES 36-38
 
 .. code-block:: Python
 
@@ -200,21 +156,21 @@ access mesh vertices
  .. code-block:: none
 
 
-    TrackedArray([[ -3.57061983, -17.94052699,   4.15675116],
-                  [ -4.21303892, -18.23071292,   2.84670091],
-                  [  1.28853808, -15.82085613,  11.84370996],
+    TrackedArray([[ -3.57061982,  -4.15675116, -17.94052696],
+                  [ -4.21303892,  -2.84670091, -18.23071289],
+                  [  1.2885381 , -11.84370995, -15.82085609],
                   ...,
-                  [ -5.71436597,  19.29592131,  -9.90463253],
-                  [ -5.29037668,  20.25637816,  -9.60190864],
-                  [ -4.34501887,  19.65690802, -12.83836933]], shape=(2328, 3))
+                  [ -5.71436596,   9.90463257,  19.29592133],
+                  [ -5.29037666,   9.60190868,  20.25637817],
+                  [ -4.34501886,  12.83836937,  19.65690804]], shape=(2328, 3))
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 57-58
+.. GENERATED FROM PYTHON SOURCE LINES 39-40
 
 access mesh edges
 
-.. GENERATED FROM PYTHON SOURCE LINES 58-60
+.. GENERATED FROM PYTHON SOURCE LINES 40-42
 
 .. code-block:: Python
 
@@ -239,11 +195,11 @@ access mesh edges
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 61-62
+.. GENERATED FROM PYTHON SOURCE LINES 43-44
 
 what's the area of the mesh
 
-.. GENERATED FROM PYTHON SOURCE LINES 62-64
+.. GENERATED FROM PYTHON SOURCE LINES 44-46
 
 .. code-block:: Python
 
@@ -257,16 +213,16 @@ what's the area of the mesh
 
  .. code-block:: none
 
-    mesh.area= 6436.883746592516
+    mesh.area= 6436.883745975947
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 65-66
+.. GENERATED FROM PYTHON SOURCE LINES 47-48
 
 compute the area of each face
 
-.. GENERATED FROM PYTHON SOURCE LINES 66-68
+.. GENERATED FROM PYTHON SOURCE LINES 48-50
 
 .. code-block:: Python
 
@@ -286,11 +242,11 @@ compute the area of each face
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 69-70
+.. GENERATED FROM PYTHON SOURCE LINES 51-52
 
 access mesh faces angles
 
-.. GENERATED FROM PYTHON SOURCE LINES 70-72
+.. GENERATED FROM PYTHON SOURCE LINES 52-54
 
 .. code-block:: Python
 
@@ -315,11 +271,11 @@ access mesh faces angles
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 73-74
+.. GENERATED FROM PYTHON SOURCE LINES 55-56
 
 access mesh volume
 
-.. GENERATED FROM PYTHON SOURCE LINES 74-76
+.. GENERATED FROM PYTHON SOURCE LINES 56-58
 
 .. code-block:: Python
 
@@ -334,15 +290,15 @@ access mesh volume
  .. code-block:: none
 
 
-    np.float64(30652.09062408212)
+    np.float64(30652.090622684835)
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 77-78
+.. GENERATED FROM PYTHON SOURCE LINES 59-60
 
 get the face_normal of the mesh
 
-.. GENERATED FROM PYTHON SOURCE LINES 78-80
+.. GENERATED FROM PYTHON SOURCE LINES 60-62
 
 .. code-block:: Python
 
@@ -357,21 +313,21 @@ get the face_normal of the mesh
  .. code-block:: none
 
 
-    array([[-0.82908057, -0.27021556,  0.48949868],
-           [-0.82814367, -0.27374774,  0.4891219 ],
-           [-0.55380453,  0.82911912, -0.07656392],
+    array([[-0.82908057, -0.48949868, -0.27021556],
+           [-0.82814367, -0.4891219 , -0.27374773],
+           [-0.55380453,  0.07656392,  0.82911912],
            ...,
-           [-0.98404594,  0.17680358, -0.01985127],
-           [-0.99132364,  0.12302581, -0.04628271],
-           [-0.99042597,  0.11478389, -0.07668803]], shape=(4652, 3))
+           [-0.98404594,  0.01985127,  0.17680358],
+           [-0.99132364,  0.04628271,  0.12302581],
+           [-0.99042597,  0.07668803,  0.11478389]], shape=(4652, 3))
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 81-82
+.. GENERATED FROM PYTHON SOURCE LINES 63-64
 
 get the vertex_normals of the mesh
 
-.. GENERATED FROM PYTHON SOURCE LINES 82-84
+.. GENERATED FROM PYTHON SOURCE LINES 64-66
 
 .. code-block:: Python
 
@@ -386,21 +342,21 @@ get the vertex_normals of the mesh
  .. code-block:: none
 
 
-    array([[-0.88029842,  0.33822583,  0.33268299],
-           [-0.94299175,  0.24092184,  0.2296154 ],
-           [-0.51322472, -0.72001172,  0.46710118],
+    array([[-0.88029842, -0.332683  ,  0.33822583],
+           [-0.94299175, -0.2296154 ,  0.24092184],
+           [-0.51322471, -0.46710118, -0.72001172],
            ...,
-           [-0.92601497,  0.33075405, -0.18192862],
-           [-0.72862022,  0.633568  , -0.26020025],
-           [-0.47962995,  0.8029129 , -0.35395761]], shape=(2328, 3))
+           [-0.92601497,  0.18192862,  0.33075406],
+           [-0.72862022,  0.26020025,  0.633568  ],
+           [-0.47962995,  0.35395761,  0.8029129 ]], shape=(2328, 3))
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 85-86
+.. GENERATED FROM PYTHON SOURCE LINES 67-68
 
 access mesh vertex connectivity
 
-.. GENERATED FROM PYTHON SOURCE LINES 86-88
+.. GENERATED FROM PYTHON SOURCE LINES 68-70
 
 .. code-block:: Python
 
@@ -419,11 +375,46 @@ access mesh vertex connectivity
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 89-90
+.. GENERATED FROM PYTHON SOURCE LINES 71-73
+
+laplacian smoothing is available in Trimesh
+mesh_s = sm.filter_laplacian(mesh, iterations=20)
+
+.. GENERATED FROM PYTHON SOURCE LINES 75-77
+
+mesh.fill_holes() is able to fill missing face but do not handle
+larger holes, see example_topology for that purpose
+
+.. GENERATED FROM PYTHON SOURCE LINES 79-82
+
+interesting properties / functions of a mesh
+see base.py for more details
+what's the euler number for the mesh?
+
+.. GENERATED FROM PYTHON SOURCE LINES 82-84
+
+.. code-block:: Python
+
+    print("mesh.euler_number=", mesh.euler_number)
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    mesh.euler_number= 2
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 85-86
 
 compute mesh convex hull
 
-.. GENERATED FROM PYTHON SOURCE LINES 90-92
+.. GENERATED FROM PYTHON SOURCE LINES 86-88
 
 .. code-block:: Python
 
@@ -436,16 +427,16 @@ compute mesh convex hull
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 93-95
+.. GENERATED FROM PYTHON SOURCE LINES 89-91
 
 kdtree of the vertices
 see example_kdtree.py
 
-.. GENERATED FROM PYTHON SOURCE LINES 97-98
+.. GENERATED FROM PYTHON SOURCE LINES 93-94
 
 mesh refinement by subdivision of face
 
-.. GENERATED FROM PYTHON SOURCE LINES 98-100
+.. GENERATED FROM PYTHON SOURCE LINES 94-96
 
 .. code-block:: Python
 
@@ -464,11 +455,11 @@ mesh refinement by subdivision of face
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 101-102
+.. GENERATED FROM PYTHON SOURCE LINES 97-98
 
 extract 100 mesh vertices picked at random
 
-.. GENERATED FROM PYTHON SOURCE LINES 102-104
+.. GENERATED FROM PYTHON SOURCE LINES 98-100
 
 .. code-block:: Python
 
@@ -483,114 +474,114 @@ extract 100 mesh vertices picked at random
  .. code-block:: none
 
 
-    TrackedArray([[ 9.92918128e+00, -6.58143729e+00,  1.82787350e+01],
-                  [ 1.08835084e+01,  2.78944398e+00,  5.95835274e+00],
-                  [-9.05304429e+00,  6.19484510e+00,  2.49758659e+01],
-                  [ 9.55849324e+00, -1.24098098e+00, -1.56526205e+01],
-                  [-7.32824177e+00,  5.85579342e+00,  1.93868795e+01],
-                  [-7.12251297e+00, -8.81947659e+00,  1.89485993e+01],
-                  [ 1.42326508e+00, -2.10810482e+01, -2.15184083e+00],
-                  [ 5.97617604e+00, -1.40745903e+01, -5.36743950e+00],
-                  [-1.16156946e+01, -5.15284423e+00,  2.78788553e+01],
-                  [-8.22147250e+00,  3.02158063e+00, -1.64866368e+01],
-                  [ 1.23706494e+01,  1.08895117e+01, -6.55301096e-01],
-                  [-1.07952127e+00, -1.16448066e+01,  2.15311592e+00],
-                  [-3.57775469e+00, -4.28208011e+00,  8.79060951e+00],
-                  [-2.41596612e+00, -1.22803290e+01, -1.06490850e+01],
-                  [ 7.57553699e+00,  1.10907263e+01, -1.90224822e+01],
-                  [ 1.08403260e+01, -8.14694437e+00,  1.54177494e+01],
-                  [-5.50041656e+00, -3.45765606e+00,  7.01482150e+00],
-                  [-5.99920894e+00,  1.30003721e+01, -1.93062621e+01],
-                  [ 4.57235057e+00, -4.80515477e+00, -1.52466696e+01],
-                  [ 1.11590480e+01, -1.56541892e+01,  3.26911528e+00],
-                  [ 5.10317592e+00, -3.35023916e+00, -7.08986853e+00],
-                  [-5.20811908e+00,  1.79637979e+01, -1.40546583e+01],
-                  [-6.64642204e+00, -4.64545021e+00,  2.05723788e+01],
-                  [-8.61660949e+00, -8.43392494e+00,  2.08603818e+01],
-                  [-1.80914884e+00,  2.22292852e+01, -4.80471568e+00],
-                  [-5.03243289e+00,  7.05039601e+00, -2.93249442e+01],
-                  [ 3.45034677e+00, -1.45018040e+01,  1.67025648e+01],
-                  [ 1.31712501e+01,  6.03934271e+00, -1.20006724e+00],
-                  [ 5.15525493e+00, -1.01210581e+01, -2.70883946e+01],
-                  [ 5.89377116e+00, -1.24553494e+00, -1.14248381e+00],
-                  [-1.14571651e+01, -4.64632367e+00,  2.78432091e+01],
-                  [ 7.65094496e+00,  3.81238905e+00,  2.04824638e+01],
-                  [ 9.37811623e+00,  7.09536823e+00,  1.64291670e+01],
-                  [-4.55829373e+00,  2.05966806e+01,  6.96329292e+00],
-                  [ 1.13021040e+01, -6.71325809e+00,  9.26974213e-01],
-                  [-8.44789288e+00, -2.69317976e-01, -1.97440276e+01],
-                  [ 7.94905934e+00,  4.02199213e+00, -2.39497585e+01],
-                  [ 9.64176991e+00, -8.36785167e-01,  4.46419260e+00],
-                  [ 4.16400458e+00, -2.15723775e+01, -1.68012645e+00],
-                  [-8.96631217e+00, -4.67133635e+00, -2.32438299e+01],
-                  [-8.03642898e+00, -3.94620459e+00, -2.56937606e+01],
-                  [-4.99700905e+00,  1.24586703e+01,  1.94277833e+01],
-                  [-8.86159154e+00,  1.45369879e+00, -3.96658902e+00],
-                  [ 8.41166737e+00, -1.69336355e+00, -1.39853498e+01],
-                  [-1.06277990e+01, -1.42919903e+01, -2.27954413e+01],
-                  [ 1.98093390e+00, -1.40219859e+01, -2.05662270e+01],
-                  [-3.31126640e+00, -8.87414005e+00,  4.83107028e+00],
-                  [ 9.14002711e+00, -4.51899553e+00,  1.55086083e-01],
-                  [-1.05074680e+01,  4.13327543e+00,  3.12956667e+01],
-                  [ 8.83704137e-01,  3.53515883e+00,  2.96494761e+01],
-                  [-7.94639647e+00, -6.19617342e+00,  2.05349080e+01],
-                  [-2.34787886e+00,  6.42467345e+00, -3.05122845e+01],
-                  [-5.25751462e+00, -3.51898484e+00,  1.61880096e+01],
-                  [ 7.56354253e+00,  2.93641959e+00, -2.53028921e+01],
-                  [-8.68858923e+00,  1.01547773e+00,  3.53893868e+01],
-                  [-6.27482868e+00, -1.71497664e+00,  1.97871214e+01],
-                  [ 1.27091886e+01,  1.03124183e+01, -7.67092840e+00],
-                  [-7.71483765e+00,  9.74052106e+00, -1.11898406e+01],
-                  [ 8.33080911e-01,  1.88601024e+01,  1.24985212e+01],
-                  [-9.24201108e+00,  4.55179483e+00, -3.86728235e+00],
-                  [-2.45656000e+00, -1.50726059e+01,  3.37156329e-02],
-                  [-7.72518981e+00, -1.04230458e+01, -8.46904028e+00],
-                  [ 1.04916985e+01,  2.77563903e+00, -1.75673810e+01],
-                  [-6.36649902e+00,  1.68034691e+01, -7.87969262e+00],
-                  [-1.92060291e+00, -1.62129655e+01,  7.84795947e+00],
-                  [ 3.25172813e+00, -6.66744580e+00, -1.48415461e+01],
-                  [ 6.34394316e+00, -1.03191780e+01,  2.19237326e+01],
-                  [ 9.75738454e-01, -2.82273121e-01, -3.19721048e+01],
-                  [ 6.54538483e+00, -1.30157939e+01,  1.81654280e+01],
-                  [ 1.11444322e+01, -9.01211134e+00, -3.55361745e-01],
-                  [-9.79738679e+00, -9.98637744e+00, -1.79969772e+01],
-                  [-1.79527817e+00, -1.33686362e+01, -3.62009042e+00],
-                  [-9.09101291e+00,  3.18270911e+00,  1.16283594e+01],
-                  [-5.14215315e+00,  1.05804879e+01, -2.62104943e+01],
-                  [-7.72877655e+00,  1.02621136e+01, -1.01152721e+01],
-                  [ 7.11916649e+00,  3.36941220e-01,  3.19532128e+00],
-                  [ 7.76879076e+00,  1.56415346e+01,  2.83993308e+00],
-                  [-9.55729228e+00, -1.45709866e+01, -1.63564622e+01],
-                  [ 7.81362500e+00, -1.68470208e+00, -1.28952322e+01],
-                  [ 5.14674326e+00, -9.27339355e-01,  2.64656135e+01],
-                  [ 1.26364756e+01,  9.56887152e+00, -9.67848294e+00],
-                  [ 1.08518089e+01,  4.02437010e-01, -1.33957090e+01],
-                  [ 6.51723397e+00,  1.06537839e-02, -4.55153111e+00],
-                  [-6.76213060e+00,  1.58548908e+01, -4.70890447e+00],
-                  [ 1.03749930e+01,  8.29883095e+00,  1.47223065e+01],
-                  [ 4.89157619e+00, -1.81695642e+01,  1.02025815e+01],
-                  [-4.02844745e+00,  2.03034773e+01,  8.61188642e+00],
-                  [ 1.02663416e+01, -9.62024499e+00,  1.63737752e+01],
-                  [ 3.85214217e+00, -2.09776065e+01, -2.82206246e+00],
-                  [-7.74538056e+00, -2.55701033e+00, -1.02866409e+01],
-                  [ 1.08185070e+01,  2.53541852e+00, -1.65983894e+01],
-                  [ 8.91012993e+00,  1.38701876e+01, -1.27281871e+01],
-                  [-2.49821108e+00, -1.15059028e+01,  2.43259634e+01],
-                  [ 8.55645477e+00, -2.09732761e+00, -1.55367359e+01],
-                  [-3.89841299e+00,  1.65715731e+01, -1.91578808e+01],
-                  [-7.20810123e+00, -7.97566742e+00,  3.43950831e+01],
-                  [-3.65849988e+00,  1.72793960e+01,  1.53031036e+01],
-                  [ 6.45634337e+00,  1.69458942e+01, -1.08311612e+01],
-                  [ 1.00545395e+01, -1.43982344e+01, -2.80262742e+00],
-                  [ 1.06627131e+01,  1.26899239e+01, -8.14261417e+00]])
+    TrackedArray([[ -2.17654484,  -6.26370315, -14.62794287],
+                  [ -9.29630577,   2.76211656,  -8.17508452],
+                  [ 10.01065131,  -8.77844325,  13.90726147],
+                  [  3.05237462,  15.96904632,  -6.94579816],
+                  [  3.28247509,  19.34083052, -10.60037675],
+                  [ 10.43094896,   2.53865053, -12.36540194],
+                  [ -4.09549083,   0.27160837, -18.06982584],
+                  [ 10.24995592,   0.29321874,  -5.58985281],
+                  [ -6.25347553,   6.50104635,  18.02975985],
+                  [  6.5686522 ,  -9.06747818, -18.63029148],
+                  [  5.50368053, -23.68543489,  -9.07130534],
+                  [ -4.79520911, -12.54131137,  -4.73292869],
+                  [ -1.56495345,  -2.34000025, -15.13390933],
+                  [  5.22523532,  28.57975169,  -6.0308287 ],
+                  [ -0.97829848,  19.43730698,  16.48748929],
+                  [ -1.49323639,   1.830317  ,  22.3676546 ],
+                  [ -7.91937003,  12.43123625,   8.07591163],
+                  [ -7.11638701,   4.35765775,  14.3539578 ],
+                  [ -9.33712048,  15.65574571, -14.23370039],
+                  [ -9.10735984, -21.81104366,   3.31205208],
+                  [  2.33950996,  -0.6294228 ,  21.01579299],
+                  [-11.39670545, -26.36705929,  -7.67756313],
+                  [ -0.65907527,   7.47980871, -11.72782732],
+                  [ 12.2036266 ,  -8.34744275,   2.34036886],
+                  [  4.463899  , -24.73241241,   5.73312034],
+                  [ -0.05445137, -31.28250936,  -7.90889053],
+                  [ 12.47494272, -10.64010758,   5.41081007],
+                  [ -3.9207609 ,  27.53458315, -16.6477623 ],
+                  [ -2.4459968 , -13.067226  , -12.25445844],
+                  [ -3.71048253, -19.03594356, -11.40432728],
+                  [ -6.70778533,  -6.16115043,  -2.88279852],
+                  [ 12.3953914 ,  12.21397339,   6.17406789],
+                  [ -8.28498849,  14.7227114 ,   3.74658891],
+                  [ -4.63231785,  -7.52291183,  -3.04367325],
+                  [ -4.11385108,   2.76009065,  22.07134381],
+                  [ -7.9733235 ,  19.24654634,   3.1342498 ],
+                  [ -2.81815824,  -9.63798781,  -8.64714123],
+                  [  8.14178378, -17.91113721, -11.79971273],
+                  [ -9.22096217,  -1.44985271,  -3.14863844],
+                  [ 11.29486341, -10.1826259 , -12.79047117],
+                  [ -6.69385095,   3.63368257,  -9.74918687],
+                  [ -9.42752897,  13.61159972,  -8.12946455],
+                  [ -0.40295864,  24.69104716, -16.00662024],
+                  [ -7.25145822, -14.6280145 ,   0.49432595],
+                  [  6.98084872,  22.36034594,   8.74698414],
+                  [ -5.16107978, -10.48591106,  -0.97514223],
+                  [ -8.18445621,   4.98391427,   8.06899853],
+                  [ -0.46581429,  32.23774156,  -7.86290523],
+                  [ 10.93833094, -13.95184203,   5.39886497],
+                  [ -7.14011018, -17.34788832,  11.53291271],
+                  [  3.84572777, -16.20123764,  14.8993631 ],
+                  [ -8.75469601, -21.43688594,   4.21757945],
+                  [ -7.07066722,  29.65207662, -14.97590691],
+                  [ -6.21597059,  19.06080011,  12.26093856],
+                  [  2.82029359,  29.71251468,   4.31657627],
+                  [  2.96409842,  10.95148073,  18.79091014],
+                  [ 11.74964835, -10.98828018,  -9.78566051],
+                  [ 10.77242065,  -4.37546011, -16.36530856],
+                  [ -2.75160111,  13.38009393, -13.7081476 ],
+                  [ -8.50595955,   3.70158071,   0.67587518],
+                  [ -9.70491795,   8.48268826,  -7.90969753],
+                  [  6.43714634,   5.41408333,  17.4933509 ],
+                  [  4.71049259, -27.1921033 ,  -3.48401526],
+                  [ -9.68963275,  20.85063833, -10.46917115],
+                  [ -2.01684711, -28.38925833, -10.42800719],
+                  [ -2.97736874, -28.60537274, -10.55297304],
+                  [ -7.90065735,  10.78499987,  -0.05375096],
+                  [  1.85532075,  28.13483385,   7.76428696],
+                  [ -9.79791937, -24.50915232,  -9.26002893],
+                  [ -1.04895597,  32.34442103,   1.60986337],
+                  [  8.0254264 ,  10.88248657,  15.61148449],
+                  [ 10.30663215, -12.3238014 , -13.79513989],
+                  [  6.83853237, -13.60374296, -15.67917041],
+                  [ -3.9799876 ,  -0.68204236,  22.0031151 ],
+                  [  6.44127585,   0.0420167 ,   0.96456399],
+                  [  8.8015194 ,  12.79232808,  13.97251995],
+                  [ -9.48341498,  21.47684508,  -9.40975987],
+                  [ -0.40202724,  21.7917232 ,  14.89647897],
+                  [ -8.52315203, -23.78482925,  -3.89627239],
+                  [ -0.28501391,  32.23076677,  -7.43791523],
+                  [  3.56683323, -11.62982826,  18.04747427],
+                  [ -5.83974538,  32.79867811,  -7.42390472],
+                  [ -8.93407813,  19.09737922,  -4.13691836],
+                  [ -9.39740843,   0.45330892,   4.92745309],
+                  [  2.74152667, -29.02314435,  -6.82919511],
+                  [ -0.9505965 , -23.34982681, -11.91453444],
+                  [ -9.16108396,   6.63256498,   2.15276404],
+                  [  8.88038745,  22.32283953,   2.8694036 ],
+                  [ -2.20913869, -21.84499698,  11.90161185],
+                  [  2.96253868,   4.26924063, -19.36918592],
+                  [ 10.46963164, -14.74262249,   6.97434611],
+                  [  6.20590138,   2.92964061,  -7.12920933],
+                  [ -9.7992554 , -10.15993758,  10.85161437],
+                  [  2.87402056,  25.06835615,  10.61578261],
+                  [-11.71523436, -28.75249591,  -7.32543886],
+                  [  6.48216419, -16.88266557, -13.88316813],
+                  [ -7.13809281,  -4.6457776 ,  -7.58472235],
+                  [-10.71910392,  22.01130448, -14.30208788],
+                  [-10.17386041,  17.63794424, -11.29481167],
+                  [ 12.13261377, -11.10494866,   3.69936388]])
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 105-106
+.. GENERATED FROM PYTHON SOURCE LINES 101-102
 
 voxelize the mesh
 
-.. GENERATED FROM PYTHON SOURCE LINES 106-108
+.. GENERATED FROM PYTHON SOURCE LINES 102-104
 
 .. code-block:: Python
 
@@ -605,22 +596,22 @@ voxelize the mesh
  .. code-block:: none
 
 
-    <trimesh.VoxelGrid(np.int64(14), np.int64(23), np.int64(36))>
+    <trimesh.VoxelGrid(np.int64(14), np.int64(36), np.int64(23))>
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 109-112
+.. GENERATED FROM PYTHON SOURCE LINES 105-108
 
 boundary of the mesh or list of faces
 this functionnality requires to install the optional package shapely
 mesh.outline()
 
-.. GENERATED FROM PYTHON SOURCE LINES 114-116
+.. GENERATED FROM PYTHON SOURCE LINES 110-112
 
 the convex hull is another Trimesh object that is available as a property
 lets compare the volume of our mesh with the volume of its convex hull
 
-.. GENERATED FROM PYTHON SOURCE LINES 116-118
+.. GENERATED FROM PYTHON SOURCE LINES 112-114
 
 .. code-block:: Python
 
@@ -635,16 +626,16 @@ lets compare the volume of our mesh with the volume of its convex hull
  .. code-block:: none
 
 
-    np.float64(0.7994007397533585)
+    np.float64(0.7994007398058253)
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 119-121
+.. GENERATED FROM PYTHON SOURCE LINES 115-117
 
 since the mesh is watertight, it means there is a
 volumetric center of mass which we can set as the origin for our mesh
 
-.. GENERATED FROM PYTHON SOURCE LINES 121-123
+.. GENERATED FROM PYTHON SOURCE LINES 117-119
 
 .. code-block:: Python
 
@@ -657,11 +648,11 @@ volumetric center of mass which we can set as the origin for our mesh
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 124-125
+.. GENERATED FROM PYTHON SOURCE LINES 120-121
 
 what's the moment of inertia for the mesh?
 
-.. GENERATED FROM PYTHON SOURCE LINES 125-127
+.. GENERATED FROM PYTHON SOURCE LINES 121-123
 
 .. code-block:: Python
 
@@ -676,13 +667,13 @@ what's the moment of inertia for the mesh?
  .. code-block:: none
 
 
-    array([[1.04733006e+07, 4.96705373e-10, 9.31322575e-11],
-           [4.96705373e-10, 8.74194416e+06, 1.24176343e-10],
-           [9.31322575e-11, 1.24176343e-10, 3.48350686e+06]])
+    array([[ 1.04733006e+07,  9.68041144e-03, -1.37575356e-03],
+           [ 9.68041144e-03,  3.48350686e+06,  5.83631992e-03],
+           [-1.37575356e-03,  5.83631992e-03,  8.74194415e+06]])
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 128-133
+.. GENERATED FROM PYTHON SOURCE LINES 124-129
 
 if there are multiple bodies in the mesh we can split the mesh by
 connected components of face adjacency
@@ -690,11 +681,11 @@ since this example mesh is a single watertight body we get a list of one
 mesh
 mesh.split()
 
-.. GENERATED FROM PYTHON SOURCE LINES 135-136
+.. GENERATED FROM PYTHON SOURCE LINES 131-132
 
 find groups of coplanar adjacent faces
 
-.. GENERATED FROM PYTHON SOURCE LINES 136-138
+.. GENERATED FROM PYTHON SOURCE LINES 132-134
 
 .. code-block:: Python
 
@@ -707,12 +698,12 @@ find groups of coplanar adjacent faces
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 139-141
+.. GENERATED FROM PYTHON SOURCE LINES 135-137
 
 transform method can be passed a (4,4) matrix and will cleanly apply the
 transform
 
-.. GENERATED FROM PYTHON SOURCE LINES 141-143
+.. GENERATED FROM PYTHON SOURCE LINES 137-139
 
 .. code-block:: Python
 
@@ -731,11 +722,11 @@ transform
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 144-145
+.. GENERATED FROM PYTHON SOURCE LINES 140-141
 
 axis aligned bounding box is available
 
-.. GENERATED FROM PYTHON SOURCE LINES 145-147
+.. GENERATED FROM PYTHON SOURCE LINES 141-143
 
 .. code-block:: Python
 
@@ -750,17 +741,17 @@ axis aligned bounding box is available
  .. code-block:: none
 
 
-    array([52.41021096, 47.53228566, 50.76088681])
+    array([42.04257021, 63.3353416 , 44.34398895])
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 148-151
+.. GENERATED FROM PYTHON SOURCE LINES 144-147
 
 a minimum volume oriented bounding box also available
 primitives are subclasses of Trimesh objects which automatically generate
 faces and vertices from data stored in the 'primitive' attribute
 
-.. GENERATED FROM PYTHON SOURCE LINES 151-154
+.. GENERATED FROM PYTHON SOURCE LINES 147-150
 
 .. code-block:: Python
 
@@ -776,21 +767,21 @@ faces and vertices from data stored in the 'primitive' attribute
  .. code-block:: none
 
 
-    TrackedArray([[ 0.03424529, -0.59749322,  0.80114238, -0.21333953],
-                  [-0.7347938 ,  0.52829899,  0.42541539,  0.64739923],
-                  [-0.67742552, -0.60324293, -0.42094256,  0.92885066],
+    TrackedArray([[ 0.79405311,  0.55145387, -0.25569176,  1.08769792],
+                  [-0.48269984,  0.31640573, -0.81663228, -0.42174885],
+                  [-0.3694327 ,  0.77187178,  0.51742965, -0.52454408],
                   [ 0.        ,  0.        ,  0.        ,  1.        ]])
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 155-159
+.. GENERATED FROM PYTHON SOURCE LINES 151-155
 
 bounding spheres and bounding cylinders of meshes are also
 available, and will be the minimum volume version of each
 except in certain degenerate cases, where they will be no worse
 than a least squares fit version of the primitive.
 
-.. GENERATED FROM PYTHON SOURCE LINES 159-166
+.. GENERATED FROM PYTHON SOURCE LINES 155-160
 
 .. code-block:: Python
 
@@ -803,13 +794,11 @@ than a least squares fit version of the primitive.
 
 
 
-
-
 .. rst-class:: sphx-glr-script-out
 
  .. code-block:: none
 
-    71901.85234125712 94182.32692491419 182279.8540542746
+    72212.98759549361 94113.47841666854 182279.85400364257
 
 
 
@@ -817,7 +806,7 @@ than a least squares fit version of the primitive.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.309 seconds)
+   **Total running time of the script:** (0 minutes 0.292 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_basics.py:

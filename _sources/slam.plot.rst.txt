@@ -9,5 +9,5 @@
    .. autosummary::
    
       create_hover_trace
-      mes3d_projection
+      plot_mesh
    

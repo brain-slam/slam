@@ -12,17 +12,12 @@ example of SPANGY (spectral decomposition) tools in slam
 # sphinx_gallery_thumbnail_number = 2
 
 ###############################################################################
-# NOTE: there is no visualization tool in slam, but we provide at the
-# end of this script exemplare code to do the visualization with
-# an external solution
-###############################################################################
-
-###############################################################################
 # importation of slam modules
 import numpy as np
 import slam.io as sio
 import slam.curvature as scurv
 import slam.spangy as spgy
+import slam.utils as sutl
 
 ###############################################################################
 # LOAD MESH
@@ -43,11 +38,14 @@ eigVal, eigVects, lap_b = spgy.eigenpairs(mesh, N)
 PrincipalCurvatures, PrincipalDir1, PrincipalDir2 = \
     scurv.curvatures_and_derivatives(mesh)
 mean_curv = 0.5 * (PrincipalCurvatures[0, :] + PrincipalCurvatures[1, :])
+filt_mean_curv_ = (
+    sutl.z_score_filtering(np.array([mean_curv]), z_thresh=3))
+filt_mean_curv = filt_mean_curv_[0]
 
 ###############################################################################
 # WHOLE BRAIN MEAN-CURVATURE SPECTRUM
 grouped_spectrum, group_indices, coefficients, nlevels \
-    = spgy.spectrum(mean_curv, lap_b, eigVects, eigVal)
+    = spgy.spectrum(filt_mean_curv, lap_b, eigVects, eigVal)
 levels = len(group_indices)
 
 # a. Whole brain parameters
@@ -78,42 +76,46 @@ print('B4 = %0.5f, B5 = %0.5f , B6 = %0.5f' %
 
 ###############################################################################
 # LOCAL SPECTRAL BANDS
-loc_dom_band, frecomposed = spgy.local_dominance_map(coefficients, mean_curv,
+loc_dom_band, frecomposed = spgy.local_dominance_map(coefficients, filt_mean_curv,
                                                      levels, group_indices,
                                                      eigVects)
 
 
-# WHOLE BRAIN MEAN-CURVATURE<=0 & MEAN-CURVATURE>0 SPECTRI
+# WHOLE BRAIN MEAN-CURVATURE<=0 & MEAN-CURVATURE>0 SPECTRE
 # --------------------------------------------------------
 # Define negative mean curvature subsignal
-mean_curv_sulci = np.zeros((mean_curv.shape))
-mean_curv_sulci[mean_curv <= 0] = mean_curv[mean_curv <= 0]
+mean_curv_sulci = np.zeros((filt_mean_curv.shape))
+mean_curv_sulci[filt_mean_curv <= 0] = filt_mean_curv[filt_mean_curv <= 0]
 grouped_spectrum_sulci, group_indices_sulci, coefficients_sulci, _ \
     = spgy.spectrum(mean_curv_sulci, lap_b, eigVects, eigVal)
 
 # Define positive mean curvature subsignal
-mean_curv_gyri = np.zeros((mean_curv.shape))
-mean_curv_gyri[mean_curv > 0] = mean_curv[mean_curv > 0]
+mean_curv_gyri = np.zeros((filt_mean_curv.shape))
+mean_curv_gyri[filt_mean_curv > 0] = mean_curv[filt_mean_curv > 0]
 grouped_spectrum_gyri, group_indices_gyri, coefficients_gyri, _ \
     = spgy.spectrum(mean_curv_gyri, lap_b, eigVects, eigVal)
 
 #############################################################################
-# VISUALIZATION USING EXTERNAL TOOLS
+# VISUALIZATION USING plotly
 #############################################################################
-# import slam.plot as splt
-# import matplotlib.pyplot as plt
-# from matplotlib.colors import ListedColormap
-# import pyvista as pv
-#
-# ###############################################################################
-# # Plot of mean curvature on the mesh
-# visb_sc = splt.visbrain_plot(
-#     mesh=mesh,
-#     tex=mean_curv,
-#     caption='Mean Curvature',
-#     cmap='jet')
-# visb_sc.preview()
-#
+
+import slam.plot as splt
+
+display_settings = {}
+mesh_data = {}
+mesh_data['vertices'] = mesh.vertices
+mesh_data['faces'] = mesh.faces
+mesh_data['title'] = 'Filtered Mean Curvature'
+intensity_data = {}
+intensity_data['values'] = filt_mean_curv
+intensity_data["mode"] = "vertex"
+fig1 = splt.plot_mesh(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+fig1.show()
+fig1
+
 # # Plot coefficients and bands for all mean curvature signal
 # fig, (ax1, ax2) = plt.subplots(1, 2)
 # ax1.scatter(np.sqrt(eigVal/2*np.pi),
@@ -132,11 +134,20 @@ grouped_spectrum_gyri, group_indices_gyri, coefficients_gyri, _ \
 # ax2.set_ylabel('Power Spectrum')
 # plt.show()
 #
-# # Plot of spectral dominant bands on the mesh
-# visb_sc = splt.visbrain_plot(mesh=mesh, tex=loc_dom_band,
-#                              caption='Local Dominant Band', cmap='jet')
-# visb_sc.preview()
-#
+
+display_settings = {}
+mesh_data['title'] = ('Local Dominant Band')
+intensity_data = {}
+intensity_data['values'] = loc_dom_band
+intensity_data["mode"] = "vertex"
+fig2 = splt.plot_mesh(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+fig2.show()
+fig2
+
+
 # # Plot mean curvature coefficients & compacted power spectrum characterizing
 # # either Sulci either Gyri folding pattern
 # # ---------------------------------------------------------------------------

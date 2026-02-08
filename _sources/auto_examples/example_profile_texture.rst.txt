@@ -41,17 +41,11 @@ example of profile texture in slam
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 15-18
-
-VISUALIZATION USING EXTERNAL TOOLS
-############################################################################
- # Visualization with visbrain
-
-.. GENERATED FROM PYTHON SOURCE LINES 20-21
+.. GENERATED FROM PYTHON SOURCE LINES 15-16
 
 importation of slam modules
 
-.. GENERATED FROM PYTHON SOURCE LINES 21-25
+.. GENERATED FROM PYTHON SOURCE LINES 16-20
 
 .. code-block:: Python
 
@@ -66,11 +60,11 @@ importation of slam modules
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 26-27
+.. GENERATED FROM PYTHON SOURCE LINES 21-22
 
 loading an example mesh and its texture
 
-.. GENERATED FROM PYTHON SOURCE LINES 27-32
+.. GENERATED FROM PYTHON SOURCE LINES 22-27
 
 .. code-block:: Python
 
@@ -86,11 +80,11 @@ loading an example mesh and its texture
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 33-34
+.. GENERATED FROM PYTHON SOURCE LINES 28-29
 
 Select a vertex and get the coordinate and normal.
 
-.. GENERATED FROM PYTHON SOURCE LINES 34-38
+.. GENERATED FROM PYTHON SOURCE LINES 29-33
 
 .. code-block:: Python
 
@@ -105,13 +99,13 @@ Select a vertex and get the coordinate and normal.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 39-42
+.. GENERATED FROM PYTHON SOURCE LINES 34-37
 
 Set the parameters for surface profiling
 initial direction of rotation, rotation angle, length and number of
 sampling steps
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-47
+.. GENERATED FROM PYTHON SOURCE LINES 37-42
 
 .. code-block:: Python
 
@@ -127,11 +121,11 @@ sampling steps
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 48-49
+.. GENERATED FROM PYTHON SOURCE LINES 43-44
 
 Surface profiling, here we do the second round profiling
 
-.. GENERATED FROM PYTHON SOURCE LINES 49-64
+.. GENERATED FROM PYTHON SOURCE LINES 44-59
 
 .. code-block:: Python
 
@@ -157,11 +151,11 @@ Surface profiling, here we do the second round profiling
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 65-66
+.. GENERATED FROM PYTHON SOURCE LINES 60-61
 
 Compute texture values of profile points
 
-.. GENERATED FROM PYTHON SOURCE LINES 66-72
+.. GENERATED FROM PYTHON SOURCE LINES 61-67
 
 .. code-block:: Python
 
@@ -178,9 +172,9 @@ Compute texture values of profile points
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 73-103
+.. GENERATED FROM PYTHON SOURCE LINES 68-98
 
-VISUALIZATION USING EXTERNAL TOOLS
+VISUALIZATION USING VISBRAIN
 ############################################################################
  # Visualization with visbrain
  import trimesh.visual.color
@@ -214,7 +208,7 @@ VISUALIZATION USING EXTERNAL TOOLS
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.051 seconds)
+   **Total running time of the script:** (0 minutes 0.054 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_profile_texture.py:

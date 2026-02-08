@@ -8,6 +8,8 @@
 
    .. autosummary::
    
+      load_fs_mesh
+      load_fs_texture
       load_mesh
       load_texture
       write_mesh

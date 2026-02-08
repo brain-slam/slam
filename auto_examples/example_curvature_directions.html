@@ -72,7 +72,7 @@
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
 <li><a class="reference internal" href="#">example of curvature directions in slam</a><ul>
-<li><a class="reference internal" href="#visualization-using-external-tools">VISUALIZATION USING EXTERNAL TOOLS</a></li>
+<li><a class="reference internal" href="#visualization-using-matplotlib">VISUALIZATION USING matplotlib</a></li>
 </ul>
 </li>
 </ul>
@@ -111,7 +111,7 @@
       <div class="col-md-3">
         <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
 <li><a class="reference internal" href="#">example of curvature directions in slam</a><ul>
-<li><a class="reference internal" href="#visualization-using-external-tools">VISUALIZATION USING EXTERNAL TOOLS</a></li>
+<li><a class="reference internal" href="#visualization-using-matplotlib">VISUALIZATION USING matplotlib</a></li>
 </ul>
 </li>
 </ul>
@@ -142,15 +142,8 @@ to download the full example code.</p>
 
 <span class="c1"># License: MIT</span>
 <span class="c1"># sphinx_gallery_thumbnail_number = 2</span>
-</pre></div>
-</div>
-<dl class="simple">
-<dt>NOTE: there is no visualization tool in slam, but we provide at the</dt><dd><p>end of this script exemplare code to do the visualization with
-an external solution</p>
-</dd>
-</dl>
-<hr class="docutils" />
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># importation of slam modules</span>
+
+<span class="c1"># importation of slam modules</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">slam.generate_parametric_surfaces</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sgps</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">slam.curvature</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">scurv</span>
 </pre></div>
@@ -185,63 +178,56 @@ Calculating Principal Components ... Please wait
 Finished Calculating principal components
 </pre></div>
 </div>
-<section id="visualization-using-external-tools">
-<h2>VISUALIZATION USING EXTERNAL TOOLS<a class="headerlink" href="#visualization-using-external-tools" title="Link to this heading">¶</a></h2>
-<blockquote>
-<div><p>import numpy as np
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D</p>
-<p># Visualization of vector fields with matplotlib
-def visualize(mesh, vector_field, colors=None, params=None):</p>
-<blockquote>
-<div><p>“””
-Visualize a mesh and a vector field over it
-:param mesh: a mesh with n points
-:param vector_field: (n,3) array
-:param colors: (n,3) array
-:param params: params[0] is the length of the quivers
-:return:
-“””
-n = mesh.vertices.shape[0]
-if colors is None:</p>
-<blockquote>
-<div><p>colors = np.zeros((n, 3))
-colors[:, 0] = 1</p>
-</div></blockquote>
-<dl class="simple">
-<dt>if params is None:</dt><dd><p>params = []
-params.append(0.1)</p>
-</dd>
-</dl>
-<p>fig = plt.figure()
-ax = Axes3D(fig)
-ax.plot_trisurf(</p>
-<blockquote>
-<div><p>mesh.vertices[:, 0],
-mesh.vertices[:, 1],
-mesh.vertices[:, 2],
-triangles=mesh.faces,
-shade=True,</p>
-</div></blockquote>
-<p>)
-plt.quiver(</p>
-<blockquote>
-<div><p>mesh.vertices[:, 0],
-mesh.vertices[:, 1],
-mesh.vertices[:, 2],
-vector_field[:, 0],
-vector_field[:, 1],
-vector_field[:, 2],
-length=params[0],
-colors=colors,</p>
-</div></blockquote>
-<p>)</p>
-<p>return fig</p>
-</div></blockquote>
-<p>visualize(quadric_mesh, PrincipalDir1)
-plt.show()</p>
-</div></blockquote>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.424 seconds)</p>
+<section id="visualization-using-matplotlib">
+<h2>VISUALIZATION USING matplotlib<a class="headerlink" href="#visualization-using-matplotlib" title="Link to this heading">¶</a></h2>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+</pre></div>
+</div>
+<p>Visualization of vector fields with matplotlib</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">visualize</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">vector_field</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Visualize a mesh and a vector field over it</span>
+<span class="sd">    :param mesh: a mesh with n points</span>
+<span class="sd">    :param vector_field: (n,3) array</span>
+<span class="sd">    :param colors: (n,3) array</span>
+<span class="sd">    :param params: params[0] is the length of the quivers</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">colors</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">colors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="n">colors</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">params</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot_trisurf</span><span class="p">(</span>
+        <span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
+        <span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span>
+        <span class="n">triangles</span><span class="o">=</span><span class="n">mesh</span><span class="o">.</span><span class="n">faces</span><span class="p">,</span>
+        <span class="n">shade</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]),</span>
+        <span class="n">vector_field</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="n">vector_field</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
+        <span class="n">vector_field</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span>
+        <span class="n">length</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ax</span>
+
+<span class="n">visualize</span><span class="p">(</span><span class="n">quadric_mesh</span><span class="p">,</span> <span class="n">PrincipalDir1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_example_curvature_directions_001.png" srcset="../_images/sphx_glr_example_curvature_directions_001.png" alt="example curvature directions" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.671 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-example-curvature-directions-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/47df33371a4b89c63be7ddf037147f46/example_curvature_directions.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">example_curvature_directions.ipynb</span></code></a></p>
@@ -269,7 +255,7 @@ plt.show()</p>
       
     </p>
     <p>
-        &copy; Copyright 2026, slam Developers. Last updated on 2026-01-30.<br/>
+        &copy; Copyright 2026, slam Developers. Last updated on 2026-02-08.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 9.1.0.<br/>
     </p>
   </div>

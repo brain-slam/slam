@@ -12,12 +12,6 @@ example of differential geometry tools in slam
 # sphinx_gallery_thumbnail_number = 2
 
 ###############################################################################
-# NOTE: there is no visualization tool in slam, but we provide at the
-# end of this script exemplar code to do the visualization with
-# an external solution
-###############################################################################
-
-###############################################################################
 # importation of slam modules
 import slam.io as sio
 import slam.sulcal_depth as sdepth
@@ -35,3 +29,26 @@ dpf = sdepth.depth_potential_function(mesh)
 ###############################################################################
 # compute the dpf_star
 dpf_star = sdepth.dpf_star(mesh)
+
+
+#############################################################################
+# VISUALIZATION USING plotly
+#############################################################################
+
+import slam.plot as splt
+
+display_settings = {}
+display_settings['colorbar_label'] = 'dpf_star'
+mesh_data = {}
+mesh_data['vertices'] = mesh.vertices
+mesh_data['faces'] = mesh.faces
+mesh_data['title'] = 'dpf_star'
+intensity_data = {}
+intensity_data['values'] = dpf_star[0]
+intensity_data["mode"] = "vertex"
+fig = splt.plot_mesh(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+fig.show()
+fig

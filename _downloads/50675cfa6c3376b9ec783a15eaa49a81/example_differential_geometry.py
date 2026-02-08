@@ -12,16 +12,10 @@ example of differential geometry tools in slam
 # sphinx_gallery_thumbnail_number = 2
 
 ###############################################################################
-# NOTE: there is no visualization tool in slam, but we provide at the
-# end of this script exemplare code to do the visualization with
-# an external solution
-###############################################################################
-
-###############################################################################
 # importation of slam modules
 import slam.io as sio
 import slam.differential_geometry as sdg
-
+import numpy as np
 ###############################################################################
 # loading an examplar mesh and corresponding texture
 mesh_file = "../examples/data/example_mesh.gii"
@@ -52,37 +46,36 @@ norm_grad = sdg.norm_gradient(mesh, tex.darray[0])
 print(norm_grad)
 
 #############################################################################
-# VISUALIZATION USING EXTERNAL TOOLS
+# VISUALIZATION USING INTERNAL TOOLS
 #############################################################################
-# # import visbrain # visu using visbrain
-# visb_sc = splt.visbrain_plot(
-#     mesh=mesh,
-#     tex=tex.darray[0],
-#     caption="mesh with curvature", cblabel="curvature"
-# )
-# visb_sc.preview()
-# ###############################################################################
-# # show the smoothed mesh
-# visb_sc = splt.visbrain_plot(
-# mesh=s_mesh,
-# caption="smoothed mesh"
-# )
-# visb_sc.preview()
-# ###############################################################################
-# # show the norm of the gradient of the curvature
-# visb_sc = splt.visbrain_plot(
-#     mesh=mesh,
-#     tex=norm_grad,
-#     caption="norm of the gradient of curvature",
-#     cblabel="gradient magnitude",
-# )
-# visb_sc.preview()
-# ###############################################################################
-# # show the depth potential function
-# visb_sc = splt.visbrain_plot(
-#     mesh=mesh,
-#     tex=dpf[0],
-#     caption="depth potential function",
-#     cblabel="dpf"
-# )
-# visb_sc.preview()
+
+import slam.plot as splt
+
+# Plot Original Mesh
+display_settings = {}
+display_settings['colorbar_label'] = 'Curvature'
+mesh_data = {}
+mesh_data['vertices'] = mesh.vertices
+mesh_data['faces'] = mesh.faces
+mesh_data['title'] = 'Mean Curvature'
+intensity_data = {}
+intensity_data['values'] = tex.darray[0]
+intensity_data["mode"] = "vertex"
+fig1 = splt.plot_mesh(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+fig1.show()
+
+# Show the Norm of the Gradient of the Curvature
+
+display_settings['colorbar_label'] = 'Gradient Magnitude'
+mesh_data['title'] = 'Norm of the Gradient of Curvature'
+intensity_data['values'] = norm_grad
+intensity_data["mode"] = "vertex"
+fig2 = splt.plot_mesh(
+    mesh_data=mesh_data,
+    intensity_data=intensity_data,
+    display_settings=display_settings)
+fig2.show()
+fig2

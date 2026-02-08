@@ -44,20 +44,20 @@ Texture example in slam
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 18-19
+.. GENERATED FROM PYTHON SOURCE LINES 18-20
 
 Importation of slam modules
+import os
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-26
+.. GENERATED FROM PYTHON SOURCE LINES 20-26
 
 .. code-block:: Python
 
-    import os
     from pathlib import Path
     import numpy as np
     from slam import texture
     from slam import io as sio
-    from slam import plot as plt
+    from slam import plot as proj
 
 
 
@@ -88,7 +88,7 @@ Importation of slam modules
 
  .. code-block:: none
 
-    <slam.texture.TextureND object at 0x7f8098fa6d20>
+    <slam.texture.TextureND object at 0x7f0dcefa5910>
     {'processed': True}
     (1, 2328)
     float32
@@ -98,7 +98,7 @@ Importation of slam modules
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 40-58
+.. GENERATED FROM PYTHON SOURCE LINES 40-57
 
 .. code-block:: Python
 
@@ -113,11 +113,10 @@ Importation of slam modules
     sio.write_texture(tex2, "test.gii")
 
     #############
-    print('extremum texture')
-    mesh = sio.load_mesh("../examples/data/example_mesh.gii")
-    print('maximum')
+    print("extremum texture")
+    print("maximum")
     print(np.count_nonzero(tex.extremum(mesh) == 1))
-    print('minimum')
+    print("minimum")
     print(np.count_nonzero(tex.extremum(mesh) == -1))
 
 
@@ -129,7 +128,7 @@ Importation of slam modules
  .. code-block:: none
 
     {'processed': True}
-    <slam.texture.TextureND object at 0x7f8098fa4290>
+    <slam.texture.TextureND object at 0x7f0dcefa6f90>
     (2, 3)
     float64
     0.0
@@ -143,51 +142,10 @@ Importation of slam modules
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 59-60
-
-plot
-
-.. GENERATED FROM PYTHON SOURCE LINES 60-86
-
-.. code-block:: Python
-
-
-    # dict for proj
-    NAME_TEX = "sulc"
-    TITLE = "test"
-    EXT = "png"
-    PATH = Path("./test")
-    SAVE_DIR = PATH / f"{TITLE}.{EXT}"
-
-    mesh_data = {
-        "vertices": mesh.vertices,
-        "faces": mesh.faces,
-        "center": mesh.center_mass,
-        "title": TITLE
-    }
-
-    intensity_data = {"values": tex.darray[0], "mode": "vertex"}
-    display_settings = {"colorscale": "Turbo", "colorbar_label": NAME_TEX}
-
-    fig = plt.mes3d_projection(
-        mesh_data,
-        intensity_data,
-        display_settings,
-    )
-
-    #os.makedirs(PATH, exist_ok=True)
-    #fig.write_image(SAVE_DIR, width=1600, height=900)
-
-
-
-
-
-
-
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.094 seconds)
+   **Total running time of the script:** (0 minutes 0.067 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_texture.py:
