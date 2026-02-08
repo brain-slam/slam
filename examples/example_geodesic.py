@@ -66,19 +66,21 @@ mesh_data['title'] = 'Geodesic Distance'
 intensity_data = {}
 intensity_data['values'] = geo_distance
 intensity_data["mode"] = "vertex"
-Fig = splt.plot_mesh(
+fig1 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+fig1.show()
+fig1
 
 mesh_data['title'] = 'Local Geodesic Distance'
 intensity_data['values'] = area_geodist[local_dist_vert_id].toarray().squeeze()
-Fig = splt.plot_mesh(
+fig2 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+fig2.show()
+fig2
 
 ###############################################################################
 # # Visualization using pyglet

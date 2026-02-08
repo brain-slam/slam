@@ -11,7 +11,7 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
 
-def create_hover_trace(points, text, mode="markers", **kwargs):
+def create_hover_trace(points, text=None, mode="markers", **kwargs):
     """
     Creates a 3D trace for a Plotly figure with customizable options.
 

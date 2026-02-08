@@ -48,7 +48,7 @@ mesh_data = {}
 mesh_data['vertices'] = mesh.vertices
 mesh_data['faces'] = mesh.faces
 mesh_data['title'] = 'Example Transformations'
-Fig = splt.plot_mesh(
+fig = splt.plot_mesh(
     mesh_data=mesh_data)
-Fig.show()
-
+fig.show()
+fig

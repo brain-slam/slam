@@ -49,11 +49,12 @@ mesh_data['title'] = 'Before Registration'
 intensity_data = {}
 intensity_data['values'] = joint_tex
 intensity_data["mode"] = "vertex"
-Fig = splt.plot_mesh(
+fig1 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+fig1.show()
+fig1
 
 ###############################################################################
 # apply the estimated rigid transformation to the mesh
@@ -68,8 +69,9 @@ mesh_data['title'] = 'After Registration'
 intensity_data = {}
 intensity_data['values'] = joint_tex
 intensity_data["mode"] = "vertex"
-Fig = splt.plot_mesh(
+fig2 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+fig2.show()
+fig2

@@ -55,11 +55,12 @@ mesh_data['title'] = 'Source'
 intensity_data = {}
 intensity_data['values'] = source_tex.darray[0],
 intensity_data["mode"] = "vertex"
-Fig = splt.plot_mesh(
+fig1 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+fig1.show()
+fig1
 
 # Plot Mean Curvature on the spherical mesh
 display_settings = {}
@@ -70,11 +71,12 @@ mesh_data['title'] = 'Spherical Source'
 intensity_data = {}
 intensity_data['values'] = source_tex.darray[0],
 intensity_data["mode"] = "vertex"
-Fig = splt.plot_mesh(
+fig2 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+fig2.show()
+fig2
 
 # Plot Mean Curvature
 display_settings = {}
@@ -85,8 +87,9 @@ mesh_data['title'] = 'target mesh with curvature from source mesh'
 intensity_data = {}
 intensity_data['values'] = interpolated_tex_values,
 intensity_data["mode"] = "vertex"
-Fig = splt.plot_mesh(
+fig3 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+fig3.show()
+fig3

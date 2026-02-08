@@ -46,9 +46,9 @@ mesh_data['title'] = 'dpf_star'
 intensity_data = {}
 intensity_data['values'] = dpf_star[0]
 intensity_data["mode"] = "vertex"
-Fig = splt.plot_mesh(
+fig = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
-
+fig.show()
+fig

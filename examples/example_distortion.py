@@ -59,11 +59,12 @@ mesh_data['vertices'] = mesh.vertices
 mesh_data['faces'] = mesh.faces
 mesh_data['title'] = 'Original Mesh'
 intensity_data = None
-Fig = splt.plot_mesh(
+fig1 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+fig1.show()
+fig1
 
 # ############################################################################
 # # Visualization of the smoothed mesh
@@ -74,8 +75,8 @@ mesh_data['vertices'] = mesh_s.vertices
 mesh_data['faces'] = mesh_s.faces
 mesh_data['title'] = 'Smoothed Mesh'
 intensity_data = None
-Fig = splt.plot_mesh(
+fig2 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+fig2.show()

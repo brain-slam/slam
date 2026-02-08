@@ -108,32 +108,13 @@ mesh_data['vertices'] = open_mesh.vertices
 mesh_data['faces'] = open_mesh.faces
 mesh_data['title'] = 'Open Mesh'
 intensity_data = None
-Fig = splt.plot_mesh(
+fig1 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+fig1.show()
+fig1
 
-
-# ###############################################################################
-# # show the result
-# # create points with vispy
-# for bound in open_mesh_boundary:
-#     points = open_mesh.vertices[bound]
-#     s_rad = SourceObj(
-#         "rad",
-#         points,
-#         color="red",
-#         symbol="square",
-#         radius_min=10)
-#     visb_sc.add_to_subplot(s_rad)
-#     lines = Line(pos=open_mesh.vertices[bound], width=10, color="b")
-#     # wrap the vispy object using visbrain
-#     l_obj = VispyObj("line", lines)
-#     visb_sc.add_to_subplot(l_obj)
-# visb_sc.preview()
-#
-# ###############################################################################
 
 display_settings = {}
 mesh_data = {}
@@ -141,32 +122,12 @@ mesh_data['vertices'] = eroded_mesh.vertices
 mesh_data['faces'] = eroded_mesh.faces
 mesh_data['title'] = 'Eroded Mesh'
 intensity_data = None
-Fig = splt.plot_mesh(
+fig2 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
-
-# visb_sc2 = splt.visbrain_plot(mesh=eroded_mesh, caption="eroded mesh")
-# # show again the boundary of original mesh which have been removed with
-# # corresponding faces by the erosion
-# for bound in open_mesh_boundary:
-#     points = open_mesh.vertices[bound]
-#     s_rad = SourceObj(
-#         "rad",
-#         points,
-#         color="red",
-#         symbol="square",
-#         radius_min=10)
-#     visb_sc2.add_to_subplot(s_rad)
-#     lines = Line(pos=open_mesh.vertices[bound], width=10, color="b")
-#     # wrap the vispy object using visbrain
-#     l_obj = VispyObj("line", lines)
-#     visb_sc2.add_to_subplot(l_obj)
-# visb_sc2.preview()
-#
-# ###############################################################################
-# show the result
+fig2.show()
+fig2
 
 display_settings = {}
 mesh_data = {}
@@ -176,35 +137,15 @@ mesh_data['title'] = 'Texture Boundary'
 intensity_data = {}
 intensity_data['values'] = tex_parcel.darray[0]
 intensity_data["mode"] = "vertex"
-Fig = splt.plot_mesh(
+fig3 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
-#Fig.write_image("example_topology_3.png")
-# )
-# cols = ["red", "green", "yellow", "blue"]
-# ind = 0
-# for bound in texture_bound:
-#     points = mesh.vertices[bound]
-#     s_rad = SourceObj(
-#         "rad",
-#         points,
-#         color="red",
-#         symbol="square",
-#         radius_min=10)
-#     visb_sc3.add_to_subplot(s_rad)
-#     lines = Line(pos=mesh.vertices[bound], width=10, color=cols[ind])
-#     # wrap the vispy object using visbrain
-#     l_obj = VispyObj("line", lines)
-#     visb_sc3.add_to_subplot(l_obj)
-#     ind += 1
-#     if ind == len(cols):
-#         ind = 0
-# visb_sc3.preview()
-#
-# ###############################################################################
-# # show the mesh with the cuted subparts in different colors
+fig3.show()
+fig3
+
+###############################################################################
+# show the mesh with the cuted subparts in different colors
 scene_list = list()
 cuted_mesh = sub_meshes[-1]
 joint_mesh = sub_meshes[0]
@@ -224,11 +165,12 @@ mesh_data['title'] = 'mesh parts shown in different colors'
 intensity_data = {}
 intensity_data['values'] = joint_tex
 intensity_data["mode"] = "vertex"
-Fig = splt.plot_mesh(
+fig4 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+fig4.show()
+fig4
 
 # ind = 0
 # boundaries = stop.mesh_boundary(cuted_mesh)
@@ -249,7 +191,8 @@ Fig.show()
 #     if ind == len(cols):
 #         ind = 0
 # visb_sc3.preview()
-# ###############################################################################
+
+###############################################################################
 # show the largest submesh with the boundaries of cutted parts
 
 display_settings = {}
@@ -258,11 +201,12 @@ mesh_data['vertices'] = cuted_mesh.vertices
 mesh_data['faces'] = cuted_mesh.faces
 mesh_data['title'] = 'Open Mesh'
 intensity_data = None
-Fig = splt.plot_mesh(
+fig5 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+fig5.show()
+fig5
 
 
 # # create points with vispy
@@ -288,11 +232,12 @@ mesh_data['vertices'] = mesh_closed.vertices
 mesh_data['faces'] = mesh_closed.faces
 mesh_data['title'] = 'Closed Mesh'
 intensity_data = None
-Fig = splt.plot_mesh(
+fig6 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+fig6.show()
+fig6
 
 # Plot the broken vertices
 
@@ -306,11 +251,12 @@ mesh_data['title'] = 'Mesh Close'
 intensity_data = {}
 intensity_data['values'] = broken_vertices_mesh_closed
 intensity_data["mode"] = "vertex"
-Fig = splt.plot_mesh(
+fig7 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+fig7.show()
+fig7
 
 display_settings = {}
 display_settings['colorbar_label'] = 'Broken Vertices'
@@ -321,8 +267,9 @@ mesh_data['title'] = 'Mesh Close'
 intensity_data = {}
 intensity_data['values'] = broken_vertices_open_mesh
 intensity_data["mode"] = "vertex"
-Fig = splt.plot_mesh(
+fig8 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+fig8.show()
+fig8

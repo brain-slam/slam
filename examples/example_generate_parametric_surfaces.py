@@ -68,7 +68,7 @@ print(
 )
 
 #############################################################################
-# VISUALIZATION USING INTERNAL TOOLS
+# VISUALIZATION USING plotly
 #############################################################################
 
 import slam.plot as splt
@@ -83,11 +83,12 @@ mesh_data['title'] = 'Mean Curvature'
 intensity_data = {}
 intensity_data['values'] = quadric_mean_curv
 intensity_data["mode"] = "vertex"
-Fig = splt.plot_mesh(
+fig1 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+fig1.show()
+fig1
 
 # show the ellipsoid
 display_settings = {}
@@ -96,11 +97,12 @@ mesh_data = {}
 mesh_data['vertices'] = ellips.vertices
 mesh_data['faces'] = ellips.faces
 mesh_data['title'] = 'Ellipsoid Mesh'
-Fig = splt.plot_mesh(
+fig2 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+fig2.show()
+fig2
 
 # show the sphere with regular sampling
 display_settings = {}
@@ -110,11 +112,12 @@ mesh_data = {}
 mesh_data['vertices'] = sphere_regular.vertices
 mesh_data['faces'] = sphere_regular.faces
 mesh_data['title'] = 'Sphere Regular Mesh'
-Fig = splt.plot_mesh(
+fig3 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+fig3.show()
+fig3
 
 # # show the sphere with regular sampling
 display_settings = {}
@@ -123,8 +126,9 @@ mesh_data = {}
 mesh_data['vertices'] = sphere_random.vertices
 mesh_data['faces'] = sphere_random.faces
 mesh_data['title'] = 'Sphere Random Mesh'
-Fig = splt.plot_mesh(
+fig4 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+fig4.show()
+fig4

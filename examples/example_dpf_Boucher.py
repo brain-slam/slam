@@ -110,17 +110,18 @@ mesh_data['title'] = 'Boucher mesh alpha 0.001'
 intensity_data = {}
 intensity_data['values'] = various_dpfs[0]
 intensity_data["mode"] = "vertex"
-Fig = splt.plot_mesh(
+fig1 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+fig1.show()
+fig1
 
 mesh_data['title'] = 'Boucher mesh alpha 100'
 intensity_data['values'] = various_dpfs[5]
-Fig = splt.plot_mesh(
+fig2 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
-
+fig2.show()
+fig2

@@ -109,13 +109,12 @@ mesh_data['title'] = 'Filtered Mean Curvature'
 intensity_data = {}
 intensity_data['values'] = filt_mean_curv
 intensity_data["mode"] = "vertex"
-Fig = splt.plot_mesh(
+fig1 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
-
-
+fig1.show()
+fig1
 
 # # Plot coefficients and bands for all mean curvature signal
 # fig, (ax1, ax2) = plt.subplots(1, 2)
@@ -141,11 +140,12 @@ mesh_data['title'] = ('Local Dominant Band')
 intensity_data = {}
 intensity_data['values'] = loc_dom_band
 intensity_data["mode"] = "vertex"
-Fig = splt.plot_mesh(
+fig2 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+fig2.show()
+fig2
 
 
 # # Plot mean curvature coefficients & compacted power spectrum characterizing

@@ -24,6 +24,8 @@ import sphinx_gallery  # noqa
 from sphinx_gallery.sorting import FileNameSortKey
 import sphinx_bootstrap_theme
 
+import plotly.io as pio
+pio.renderers.default = 'sphinx_gallery'
 
 curdir = os.path.dirname(__file__)
 sys.path.append(os.path.abspath(os.path.join(curdir, "..")))
@@ -202,4 +204,5 @@ sphinx_gallery_conf = {
     "backreferences_dir": "generated",
     "within_subsection_order": FileNameSortKey,
     "reference_url": {},
+    'image_scrapers': ('matplotlib','plotly.io._sg_scraper.plotly_sg_scraper'),
 }

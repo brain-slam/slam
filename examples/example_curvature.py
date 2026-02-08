@@ -40,8 +40,7 @@ mean_curv = 0.5 * (PrincipalCurvatures[0, :] + PrincipalCurvatures[1, :])
 
 ###############################################################################
 # Decomposition of the curvatures into ShapeIndex and Curvedness
-# Based on 'Surface shape and curvature scales
-#           Jan JKoenderink & Andrea Jvan Doorn'
+# Based on 'Surface shape and curvature scales Jan JKoenderink & Andrea Jvan Doorn'
 shapeIndex, curvedness = scurv.decompose_curvature(PrincipalCurvatures)
 
 ###############################################################################
@@ -159,41 +158,45 @@ mesh_data['title'] = 'Mean Curvature'
 intensity_data = {}
 intensity_data['values'] = mean_curv
 intensity_data["mode"] = "vertex"
-Fig = splt.plot_mesh(
+fig1 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+fig1.show()
+fig1
 
 # Plot Gaussian Curvature
 mesh_data['title'] = 'example_mesh.gii Gaussian Curvature'
 intensity_data['values'] = gaussian_curv
 display_settings['colorbar_label'] = 'Gaussian Curvature'
-Fig = splt.plot_mesh(
+fig2 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+fig2.show()
+fig2
 
 # Plot Shape Index
 mesh_data['title'] = 'example_mesh.gii Shape Index'
 intensity_data['values'] = shapeIndex
 display_settings['colorbar_label'] = 'Shape Index'
-Fig = splt.plot_mesh(
+fig3 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+fig3.show()
+fig3
 
 # Plot Curvedness
 mesh_data['title'] = 'example_mesh.gii Curvedness'
 intensity_data['values'] = curvedness
 display_settings['colorbar_label'] = 'Curvedness'
-Fig = splt.plot_mesh(
+fig4 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+fig4.show()
+fig4
 
 
 # apply a random transfo to the quadric for better visualization
@@ -205,28 +208,31 @@ mesh_data['faces'] = quadric.faces
 mesh_data['title'] = 'Quadric K Mean Absolute Change'
 intensity_data['values'] = k_mean_absolute_change
 display_settings['colorbar_label'] = 'K Mean Absolute Change'
-Fig = splt.plot_mesh(
+fig5 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+fig5.show()
+fig5
 
 # Plot Quadric Angular Error 0
 mesh_data['title'] = 'Quadric Angular Error 0'
 intensity_data['values'] = angular_error_0
 display_settings['colorbar_label'] = 'Angular Error 0'
-Fig = splt.plot_mesh(
+fig6 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+fig6.show()
+fig6
 
 # Plot Quadric Angular Error 1
 mesh_data['title'] = 'Quadric Angular Error 1'
 intensity_data['values'] = angular_error_1
 display_settings['colorbar_label'] = 'Angular Error 1'
-Fig = splt.plot_mesh(
+fig7 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+fig7.show()
+fig7

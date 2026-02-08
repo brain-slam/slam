@@ -88,9 +88,9 @@ if path_to_output is not None:
 import slam.plot as splt
 
 # create a texture combining the outputs from the watershed
-tex_plot = atex_labels
-tex_plot[atex_boundaries==1] = 1
-tex_plot[atex_pits==1] = 1
+tex_plot = dpf
+min_dpf = min(dpf)
+tex_plot[atex_boundaries==1] = min_dpf
 
 display_settings = {}
 display_settings['colorbar_label'] = 'Basins labels'
@@ -101,8 +101,15 @@ mesh_data['title'] = 'Basins Labels'
 intensity_data = {}
 intensity_data['values'] = tex_plot
 intensity_data["mode"] = "vertex"
-Fig = splt.plot_mesh(
+fig = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+# add the pits to the plot
+trace_hover = splt.create_hover_trace(
+    mesh.vertices[atex_pits==1],
+    marker={"size": 6, "color": "white"},
+)
+fig.add_trace(trace_hover)
+fig.show()
+fig

@@ -61,11 +61,11 @@ mesh_data['title'] = 'Mean Curvature'
 intensity_data = {}
 intensity_data['values'] = tex.darray[0]
 intensity_data["mode"] = "vertex"
-Fig = splt.plot_mesh(
+fig1 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+fig1.show()
 
 # Show the Norm of the Gradient of the Curvature
 
@@ -73,8 +73,9 @@ display_settings['colorbar_label'] = 'Gradient Magnitude'
 mesh_data['title'] = 'Norm of the Gradient of Curvature'
 intensity_data['values'] = norm_grad
 intensity_data["mode"] = "vertex"
-Fig = splt.plot_mesh(
+fig2 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-Fig.show()
+fig2.show()
+fig2
