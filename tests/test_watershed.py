@@ -19,7 +19,7 @@ class TestWatershed(unittest.TestCase):
 
         # Create a simpler synthetic mesh
         self.mesh = self._create_mock_mesh()
-        self.dpf = np.array([0.1, 0.2, 0.3, 0.4, 0.5])
+        self.dpf = np.array([0.2, 0.1, 0.2, 0.3, 0.4])
         self.voronoi = np.array([1, 1, 1, 1, 1])
         self.vert_neigh = {0: [1, 2], 1: [0, 3], 2: [0, 4], 3: [1], 4: [2]}
         self.thresh_dist = 0.3
