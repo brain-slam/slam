@@ -3,7 +3,9 @@ import pickle
 import numpy as np
 from slam import geodesics
 import networkx as nx
+import trimesh
 import slam.watershed as swat
+import slam.remeshing as sre
 
 
 def extract_sulcal_graph(side, mesh, mask=None):
@@ -138,7 +140,7 @@ def save_graph(graph, outdir):
     return 0
 
 
-def add_node_attribute_to_graph(graph, texture, attribute_name):
+def add_node_attribute_from_texture(graph, texture, attribute_name):
     """
     Add a node attribute to the graph using the value of the texture
     at pit positions
@@ -164,7 +166,7 @@ def add_node_attribute_to_graph(graph, texture, attribute_name):
     return graph
 
 
-def add_edge_attribute_to_graph(graph, texture, attribute_name):
+def add_edge_attribute_from_texture(graph, texture, attribute_name):
     """
         Add an edge attribute to the graph using the value of the texture at
     ridge positions
@@ -193,7 +195,7 @@ def add_edge_attribute_to_graph(graph, texture, attribute_name):
     return graph
 
 
-def add_geodesic_distances_to_graph(graph, mesh):
+def add_geodesic_distances_to_edges(graph, mesh):
     """
         Add the geodesic distances between ridge and pits to the corresponding
      ridge attributes in the graph:
@@ -237,7 +239,7 @@ def add_geodesic_distances_to_graph(graph, mesh):
     return graph
 
 
-def add_mean_value_to_graph(graph, texture, attribute_name):
+def add_mean_value_to_nodes(graph, texture, attribute_name):
     """
         Add the mean value of the texture over the vertices of each basin
     to the graph node attributes
@@ -299,3 +301,59 @@ def get_textures_from_graph(graph, mesh):
     atex_ridges[ridges_indices] = 1
 
     return atex_labels, atex_pits, atex_ridges
+
+
+def vertex_index_interpolation(graph, target_spherical_mesh,
+                               graph_spherical_coords_attribute,
+                               interpolated_attribute='interp_vertex_index'
+                               ):
+    """
+    Nearest neighbor interpolation of the nodes spherical coordinates onto the
+     template spherical coordinates
+    :param target_spherical_mesh: target Trimesh mesh object
+    :param interpolated_attribute: name of the new attribute
+    :return: graph with the new node attribute
+    """
+    nodes_spherical_3D_coords = (
+        np.array(list(nx.get_node_attributes(
+            graph, graph_spherical_coords_attribute).values())))
+
+    source_mesh = trimesh.Trimesh(
+        faces=None,
+        vertices=nodes_spherical_3D_coords,
+        metadata=None,
+        process=False)
+
+    target_vertex_index = sre.spherical_interpolation_nearest_neighbor(
+        target_spherical_mesh, source_mesh, normalize_spheres=False)
+    node_att = {}
+    for node, interp_ind in zip(graph.nodes, target_vertex_index):
+        node_att[node] = int(interp_ind)
+    nx.set_node_attributes(graph, values=node_att, name=interpolated_attribute)
+    return graph
+
+
+def add_coords_attribute(graph, mesh, attribute_vert_index, new_attribute_key):
+    """
+
+    Parameters
+    ----------
+    graph
+    sphere_mesh
+    attribute_vert_index
+    new_attribute_key
+
+    Returns
+    -------
+
+    """
+    nodes_vert_index =\
+        np.array(list(nx.get_node_attributes(
+            graph, attribute_vert_index).values()))
+    attribute_array = np.array(mesh.vertices[nodes_vert_index, :])
+    node_att = {}
+    for node, coords in zip(graph.nodes, attribute_array):
+        node_att[node] = coords
+    nx.set_node_attributes(graph, values=node_att, name=new_attribute_key)
+    print(graph.nodes[0])
+    return graph

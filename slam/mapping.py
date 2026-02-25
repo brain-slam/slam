@@ -1,8 +1,3 @@
-"""
-
-"""
-
-
 import numpy as np
 import trimesh
 from scipy.sparse.linalg import lgmres

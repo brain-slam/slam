@@ -36,8 +36,8 @@ source_spherical_mesh = sio.load_mesh(source_spherical_mesh_file)
 target_mesh = sio.load_mesh(target_mesh_file)
 target_spherical_mesh = sio.load_mesh(target_spherical_mesh_file)
 
-interpolated_tex_values = srem.spherical_interpolation_nearest_neigbhor(
-    source_spherical_mesh, target_spherical_mesh, source_tex.darray[0]
+interpolated_tex_values = srem.texture_spherical_interpolation_nearest_neighbor(
+    source_spherical_mesh, target_spherical_mesh, source_tex.darray[0], normalize_spheres=True
 )
 
 #############################################################################
@@ -47,49 +47,56 @@ interpolated_tex_values = srem.spherical_interpolation_nearest_neigbhor(
 import slam.plot as splt
 
 # Plot Mean Curvature on the source mesh
-display_settings = {}
-mesh_data = {}
-mesh_data['vertices'] = source_mesh.vertices
-mesh_data['faces'] = source_mesh.faces
-mesh_data['title'] = 'Source'
-intensity_data = {}
-intensity_data['values'] = source_tex.darray[0],
-intensity_data["mode"] = "vertex"
+mesh_data = {
+    "vertices": source_mesh.vertices,
+    "faces": source_mesh.faces,
+    "title": 'Source'
+}
+intensity_data = {
+    "values": source_tex.darray[0],
+    "mode": "vertex",
+}
 fig1 = splt.plot_mesh(
     mesh_data=mesh_data,
-    intensity_data=intensity_data,
-    display_settings=display_settings)
+    intensity_data=intensity_data)
 fig1.show()
 fig1
 
 # Plot Mean Curvature on the spherical mesh
-display_settings = {}
-mesh_data = {}
-mesh_data['vertices'] = source_spherical_mesh.vertices
-mesh_data['faces'] = source_spherical_mesh.faces
-mesh_data['title'] = 'Spherical Source'
-intensity_data = {}
-intensity_data['values'] = source_tex.darray[0],
-intensity_data["mode"] = "vertex"
+mesh_data = {
+    "vertices": source_spherical_mesh.vertices,
+    "faces": source_spherical_mesh.faces,
+    "title": 'Spherical Source'
+}
+
 fig2 = splt.plot_mesh(
     mesh_data=mesh_data,
-    intensity_data=intensity_data,
-    display_settings=display_settings)
+    intensity_data=intensity_data)
+source_vert = splt.create_hover_trace(
+    source_spherical_mesh.vertices,
+    marker={"size": 4, "color": "black"},
+)
+target_vert = splt.create_hover_trace(
+    target_spherical_mesh.vertices,
+    marker={"size": 4, "color": "white"},
+)
+fig2.add_trace(source_vert)
+fig2.add_trace(target_vert)
 fig2.show()
 fig2
 
 # Plot Mean Curvature
-display_settings = {}
-mesh_data = {}
-mesh_data['vertices'] = target_mesh.vertices
-mesh_data['faces'] = target_mesh.faces
-mesh_data['title'] = 'target mesh with curvature from source mesh'
-intensity_data = {}
-intensity_data['values'] = interpolated_tex_values,
-intensity_data["mode"] = "vertex"
+mesh_data = {
+    "vertices": target_mesh.vertices,
+    "faces": target_mesh.faces,
+    "title": 'target mesh with curvature from source mesh'
+}
+intensity_data = {
+    "values": interpolated_tex_values,
+    "mode": "vertex",
+}
 fig3 = splt.plot_mesh(
     mesh_data=mesh_data,
-    intensity_data=intensity_data,
-    display_settings=display_settings)
+    intensity_data=intensity_data)
 fig3.show()
 fig3

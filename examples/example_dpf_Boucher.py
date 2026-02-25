@@ -68,13 +68,13 @@ def boucher_surface(params, ax, ay, nstep):
 params = [4, 0.25]
 ax = 2
 ay = 1
-nstep = 50
+nstep = 20
 mesh = boucher_surface(params, ax, ay, nstep)
 
 ##################################
 # Compute dpf for various alpha
 
-alphas = [0.001, 0.01, 0.1, 1, 10, 100]
+alphas = [0.001, 1, 100] #[0.001, 0.01, 0.1, 1, 10, 100]
 various_dpfs = sdepth.depth_potential_function(mesh, alphas=alphas)
 
 amplitude_center = []
@@ -118,7 +118,7 @@ fig1.show()
 fig1
 
 mesh_data['title'] = 'Boucher mesh alpha 100'
-intensity_data['values'] = various_dpfs[5]
+intensity_data['values'] = various_dpfs[2]
 fig2 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
