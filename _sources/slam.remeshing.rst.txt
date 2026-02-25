@@ -8,5 +8,7 @@
 
    .. autosummary::
    
-      spherical_interpolation_nearest_neigbhor
+      normalize_sphere_coords
+      spherical_interpolation_nearest_neighbor
+      texture_spherical_interpolation_nearest_neighbor
    

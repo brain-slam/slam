@@ -34,8 +34,8 @@ mean_curvature, dpf, voronoi = swat.compute_mesh_features(mesh)
 
 ###############################################################################
 # normalize watershed thresholds
-thresh_dist, thresh_ridge, thresh_area = swat.normalize_thresholds(voronoi, thresh_dist=20.0, thresh_ridge=1.5,
-                                                                   thresh_area=50.0, side=side)
+thresh_dist, thresh_ridge, thresh_area = swat.normalize_thresholds(voronoi, thresh_dist=20.0, thresh_ridge=0,
+                                                                   thresh_area=15.0, side=side)
 #thresh_dist, thresh_ridge, thresh_area = 0, 0, 0
 
 ###############################################################################

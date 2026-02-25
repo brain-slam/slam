@@ -105,7 +105,7 @@ Mapping onto a planar disk
         Computing mesh weights of type conformal
         -edge length threshold needed for  0  values =  0.0  %
         -number of Nan in weights:  0  =  0.0  %
-        -number of Negative values in weights:  12  =  11.538461538461538  %
+        -number of Negative values in weights:  16  =  15.384615384615385  %
         -nb Nan in Laplacian :  0
         -nb Inf in Laplacian :  0
     Boundary Size: (14,)
@@ -137,9 +137,9 @@ Compute distortion measures between original and planar representations
 
  .. code-block:: none
 
-    1.4802973661668754e-17
-    -0.017776906751143608
-    -0.05311587143257269
+    -1.4802973661668754e-17
+    -0.035185156996246476
+    -0.11554822873523402
 
 
 

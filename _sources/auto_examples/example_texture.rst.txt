@@ -88,7 +88,7 @@ import os
 
  .. code-block:: none
 
-    <slam.texture.TextureND object at 0x7f8cb9e8a7e0>
+    <slam.texture.TextureND object at 0x7ff421db3980>
     {'processed': True}
     (1, 2328)
     float32
@@ -128,7 +128,7 @@ import os
  .. code-block:: none
 
     {'processed': True}
-    <slam.texture.TextureND object at 0x7f8cbd368d40>
+    <slam.texture.TextureND object at 0x7ff421db3c50>
     (2, 3)
     float64
     0.0

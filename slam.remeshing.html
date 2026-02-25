@@ -127,12 +127,17 @@
       
   <section id="module-slam.remeshing">
 <span id="slam-remeshing"></span><h1>slam.remeshing<a class="headerlink" href="#module-slam.remeshing" title="Link to this heading">¶</a></h1>
-<p>Tools for remeshing an input mesh</p>
 <p class="rubric">Functions</p>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">spherical_interpolation_nearest_neigbhor</span></code>(...)</p></td>
-<td><p>nearest neighbor interpolation between two spheres For each vertex of target_spherical_mesh, find the nearest one in source_spherical_mesh and use this vertex-level correspondence to pick values in info_to_interpolate :param source_spherical_mesh: spherical Trimesh object :param target_spherical_mesh: spherical Trimesh object :param info_to_interpolate: vector with shape[0] equal to the number of vertices in source_spherical_mesh :return: interpolated info_to_interpolate</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">normalize_sphere_coords</span></code>(mesh)</p></td>
+<td><p>center and normalize the supposed spherical coordinates in mesh.vertices Also check that they are spherical by assessing the min and max of the norm of the coordinates of the vertices.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">spherical_interpolation_nearest_neighbor</span></code>(...)</p></td>
+<td><p>Nearest neighbor interpolation between two spheres For each vertex of target_spherical_mesh, find the nearest one in source_spherical_mesh :param source_spherical_mesh: spherical Trimesh object :param target_spherical_mesh: spherical Trimesh object :param normalize_spheres: check that the two spheres are centered at (0,0,0) with radius=1 :return: index: index of corresponding vertex in the target mesh</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">texture_spherical_interpolation_nearest_neighbor</span></code>(...)</p></td>
+<td><p>Nearest neighbor interpolation between two spheres Use the vertex-level correspondence obtained with spherical_interpolation_nearest_neighbor to select corresponding values in the texture_to_interpolate.</p></td>
 </tr>
 </tbody>
 </table>
@@ -150,7 +155,7 @@
       
     </p>
     <p>
-        &copy; Copyright 2026, slam Developers. Last updated on 2026-02-08.<br/>
+        &copy; Copyright 2026, slam Developers. Last updated on 2026-02-25.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 9.1.0.<br/>
     </p>
   </div>
