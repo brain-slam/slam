@@ -1,8 +1,8 @@
 """
-.. _example_differential_geometry:
+.. _example_sulcal_depth:
 
 ===================================
-example of differential geometry tools in slam
+example of sulcal depth estimation in slam
 ===================================
 """
 

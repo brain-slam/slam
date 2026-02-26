@@ -286,7 +286,7 @@ Below is a gallery of examples
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="example of differential geometry tools in slam">
+    <div class="sphx-glr-thumbcontainer" tooltip="example of sulcal depth estimation in slam">
 
 .. only:: html
 
@@ -297,7 +297,7 @@ Below is a gallery of examples
 
 .. raw:: html
 
-      <div class="sphx-glr-thumbnail-title">example of differential geometry tools in slam</div>
+      <div class="sphx-glr-thumbnail-title">example of sulcal depth estimation in slam</div>
     </div>
 
 
