@@ -2,7 +2,7 @@
 .. _example_distortion:
 
 ===================================
-Example of morphological distortion in slam
+Example of mesh distortion analysis in slam
 ===================================
 """
 
@@ -80,3 +80,4 @@ fig2 = splt.plot_mesh(
     intensity_data=intensity_data,
     display_settings=display_settings)
 fig2.show()
+fig2

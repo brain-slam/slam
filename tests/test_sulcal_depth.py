@@ -12,7 +12,8 @@ class TestSulcalDepth(unittest.TestCase):
     test_dpf = sio.load_texture('examples/data/example_dpf.gii').darray[0]
     test_dpf_star = sio.load_texture('examples/data/example_dpf_star.gii').darray[0]
     dpf = sdepth.depth_potential_function(test_mesh, alphas=[0.3])[0]
-    dpf_star = sdepth.dpf_star(test_mesh)[0]
+    dpf_star_tex, lc = sdepth.dpf_star(test_mesh)
+    dpf_star = dpf_star_tex[0]
 
     def test_basic(self):
         # test size

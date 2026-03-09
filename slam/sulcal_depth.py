@@ -113,4 +113,4 @@ def dpf_star(mesh, alphas=None, adaptation=None, curvature=None):
         dpf_t, info = lgmres(M.tocsr(), B, rtol=solver_tolerance)
         dpf.append(dpf_t)
 
-    return dpf
+    return dpf, lc
