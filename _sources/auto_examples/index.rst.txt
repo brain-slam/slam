@@ -82,7 +82,7 @@ Below is a gallery of examples
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Example of morphological distortion in slam">
+    <div class="sphx-glr-thumbcontainer" tooltip="Example of mesh distortion analysis in slam">
 
 .. only:: html
 
@@ -93,7 +93,7 @@ Below is a gallery of examples
 
 .. raw:: html
 
-      <div class="sphx-glr-thumbnail-title">Example of morphological distortion in slam</div>
+      <div class="sphx-glr-thumbnail-title">Example of mesh distortion analysis in slam</div>
     </div>
 
 
