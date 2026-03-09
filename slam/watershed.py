@@ -29,7 +29,7 @@ def compute_mesh_features(mesh):
     # Compute vertex depth potential function
     print("\n\tComputing the DPF\n")
     # returns a list of dpf for different alpha values
-    dpf = sulcal_depth.dpf_star(mesh,
+    dpf, lc = sulcal_depth.dpf_star(mesh,
                                 alphas=[500],
                                 curvature=mean_curvature)
     dpf = dpf[0]
