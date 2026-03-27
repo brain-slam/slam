@@ -43,7 +43,7 @@ class TestWatershed(unittest.TestCase):
         self.assertIsInstance(ridges, dict)
         self.assertIsInstance(adjacency, np.ndarray)
         self.assertGreater(len(basins), 0, "At least one basin should be detected.")
-        # self.assertEqual(adjacency.shape[0], adjacency.shape[1], "Adjacency matrix should be square.")
+        self.assertEqual(adjacency.shape[0], adjacency.shape[1], "Adjacency matrix should be square.")
         # self.assertTrue(np.array_equal(adjacency, adjacency.T), "Adjacency matrix should be symmetric.")
         basins_with_ridge = []
         [[basins_with_ridge.append(b) for b in ridge_tuple] for ridge_tuple in ridges]

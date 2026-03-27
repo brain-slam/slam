@@ -116,7 +116,7 @@ fig3 = splt.plot_mesh(
 # example: display vertex index on hover and customize vertex color and size
 # over the mesh
 hover_text = [f"vertex {i}" for i in range(len(mesh.vertices))]
-trace_hover = splt.create_hover_trace(
+trace_hover = splt.plot_points(
     mesh.vertices,
     text=hover_text,
     marker={"size": 4, "color": "blue"},

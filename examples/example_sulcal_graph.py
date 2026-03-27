@@ -39,9 +39,16 @@ if path_to_mask is not None:
 else:
     mask = None
 
+thresh_dist_perc=0
+thresh_ridge=0
+thresh_area_perc=0
 ###############################################################################
 # extract the sulcal graph from a mesh
-g = ssg.extract_sulcal_graph(side, mesh, mask=mask)
+g = ssg.extract_sulcal_graph(mesh,
+                             thresh_dist_perc=thresh_dist_perc,
+                             thresh_ridge=thresh_ridge,
+                             thresh_area_perc=thresh_area_perc,
+                             mask=mask)
 
 ###############################################################################
 # add an attribute to nodes
@@ -75,12 +82,9 @@ atex_labels, atex_pits, atex_ridges = ssg.get_textures_from_graph(g, mesh)
 mean_curvature, dpf, voronoi = swat.compute_mesh_features(mesh)
 
 ###############################################################################
-# normalize watershed thresholds
-thresh_dist, thresh_ridge, thresh_area = swat.normalize_thresholds(voronoi, thresh_dist=20.0, thresh_ridge=1.5,
-                                                                   thresh_area=50.0, side=side)
 # extract sulcal pits and associated basins
 basins, ridges, adjacency = swat.watershed(
-    mesh, voronoi, dpf, thresh_dist, thresh_ridge, thresh_area, mask)
+    mesh, voronoi, dpf, thresh_dist_perc, thresh_ridge, thresh_area_perc, mask)
 
 # generate the sulcal graph
 g = ssg.get_sulcal_graph(adjacency, basins, ridges)
@@ -166,6 +170,7 @@ import slam.plot as splt
 mesh_data = {
     "vertices": mesh.vertices,
     "faces": mesh.faces,
+    "opacity": 0.5,
     "title": 'Source'
 }
 intensity_data = {
@@ -175,13 +180,9 @@ intensity_data = {
 fig1 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data)
-# add the pits to the plot
-pits_coords = np.array(list(nx.get_node_attributes(g, '3dcoords').values()))
-trace_hover = splt.create_hover_trace(
-    pits_coords,
-    marker={"size": 6, "color": "black"},
+fig1 = splt.plot_graph(g, coords_attribute='3dcoords', fig=fig1,
+        marker={"size": 6, "color": "white", "line":{"color":"black", "width":2}},
 )
-fig1.add_trace(trace_hover)
 fig1.show()
 fig1
 
@@ -196,11 +197,11 @@ fig2 = splt.plot_mesh(
     intensity_data=intensity_data)
 # add the pits to the plot
 pits_coords = np.array(list(nx.get_node_attributes(g, 'sphere_3dcoords').values()))
-trace_hover = splt.create_hover_trace(
+trace_points = splt.plot_points(
     pits_coords,
-    marker={"size": 6, "color": "black"},
+    marker={"size": 6, "color": "white", "line":{"color":"black", "width":2}},
 )
-fig2.add_trace(trace_hover)
+fig2.add_trace(trace_points)
 fig2.show()
 fig2
 
@@ -218,16 +219,16 @@ fig3 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data)
 # add the pits to the plot
-pits_init = splt.create_hover_trace(
+pits_init = splt.plot_points(
     pits_coords,
-    marker={"size": 6, "color": "black"},
+    marker={"size": 6, "color": "white", "line":{"color":"black", "width":2}},
 )
 fig3.add_trace(pits_init)
 # add the interpolated pits to the plot
 interp_pits_coords_sphere = np.array(list(nx.get_node_attributes(g, 'target_sphere_3dcoords').values()))
-pits_interpolated = splt.create_hover_trace(
+pits_interpolated = splt.plot_points(
     interp_pits_coords_sphere,
-    marker={"size": 6, "color": "red"},
+    marker={"size": 6, "color": "red", "line":{"color":"black", "width":2}},
 )
 fig3.add_trace(pits_interpolated)
 fig3.show()
@@ -248,9 +249,9 @@ fig4 = splt.plot_mesh(
     intensity_data=intensity_data)
 # add the interpolated pits to the plot
 interp_pits_coords_mesh = np.array(list(nx.get_node_attributes(g, 'target_mesh_3dcoords').values()))
-pits_interpolated = splt.create_hover_trace(
+pits_interpolated = splt.plot_points(
     interp_pits_coords_mesh,
-    marker={"size": 6, "color": "red"},
+    marker={"size": 6, "color": "red", "line":{"color":"black", "width":2}}
 )
 fig4.add_trace(pits_interpolated)
 fig4.show()

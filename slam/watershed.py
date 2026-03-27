@@ -30,8 +30,8 @@ def compute_mesh_features(mesh):
     print("\n\tComputing the DPF\n")
     # returns a list of dpf for different alpha values
     dpf, lc = sulcal_depth.dpf_star(mesh,
-                                alphas=[500],
-                                curvature=mean_curvature)
+                                    alphas=[500],
+                                    curvature=mean_curvature)
     dpf = dpf[0]
 
     # Compute vertex voronoi areas
@@ -96,8 +96,8 @@ def normalize_thresholds(voronoi,
     return thresh_dist, thresh_ridge, thresh_area
 
 
-def watershed(mesh, voronoi, dpf, thresh_dist, thresh_ridge,
-              thresh_area, mask=None):
+def watershed(mesh, voronoi, dpf_star, thresh_dist_perc, thresh_ridge,
+              thresh_area_perc, mask=None):
     """
     Sulcal segmentation and sulcal pits extraction using watershed by
     flooding.
@@ -116,11 +116,13 @@ def watershed(mesh, voronoi, dpf, thresh_dist, thresh_ridge,
     ----------
     mesh : white matter triangular mesh of subject (trimesh object)
     voronoi : voronoi area for each vertex (numpy array)
-    dpf : depth measure for each vertex. Deepest points should have
+    dpf_star : depth measure for each vertex. Deepest points should have
      smaller values (numpy array)
-    thresh_dist : threshold on the distance between pits (unit: mm)
-    thresh_ridge : threshold on the ridge height (unit: mm)
-    thresh_area : threshold on the basin area (unit: mm²)
+    thresh_dist_perc : threshold on the distance between pits as a
+        percentage of the characteristic length of the input mesh
+    thresh_ridge : threshold on the ridge height
+    thresh_area_perc : threshold on the basin area as a percentage of
+        the surface area of the input mesh
     mask : binary array for cingular pole exclusion (with ones in the
     region to exclude)
 
@@ -136,24 +138,39 @@ def watershed(mesh, voronoi, dpf, thresh_dist, thresh_ridge,
         ridges[(i,j)] = {}
             'ridge_index': vertex index of the ridge point
             'ridge_depth': depth of the ridge point
-            'ridge_height': depth difference between ridge point and
+            'ridge_depth_diff_min': depth difference between ridge point and
             shallowest pit
+            'ridge_depth_diff_max': depth difference between ridge point and
+            deepest pit
             'ridge_length': number of vertices along the frontier
             between basins
-    adjacency : adjacency matrix of the basins
-        adjacency[i,j] = 1 if basin i and j are adjacent, 0 otherwise
+    adjacency : asymmetric adjacency matrix of the basins
+        np.triu(adjacency)[i,j] = 1 if basin i and j are adjacent, 0 otherwise
     """
+
+    # ====================================================================
+    # NORMALIZE THE THRESHOLD VALUE FOR DISTANCE WRT CHARACTERISTIC LENGTH
+    # compute the 1D characteristic length
+    # as the cubic root of the volume of the convex hull of the input mesh
+    hull = mesh.convex_hull
+    vol_hull = hull.volume
+    charac_length = np.power(vol_hull, 1/3)
+    thresh_dist = thresh_dist_perc * charac_length / 100
+    # =====================================================================
+    # NORMALIZE THE THRESHOLD VALUE FOR AREA WRT THE AREA OF THE INPUT MESH
+    thresh_area = thresh_area_perc * mesh.area / 100
 
     print('Computing watershed by flooding...')
     print('Thresholds provided:')
-    print('-Distance between 2 pits: ', thresh_dist)
-    print('-Ridge height: ', thresh_ridge)
-    print('-Basin area: ', thresh_area)
+    print('-Distance between 2 pits:',
+          thresh_dist_perc, '% <=>', thresh_dist, 'mm')
+    print('-Ridge height:', thresh_ridge)
+    print('-Basin area:', thresh_area_perc, '% <=>', thresh_area, 'mm2')
 
     # Initialize output tables and dictionaries
     n_vertices = mesh.vertices.shape[0]  # vertices coordinates (n, 3) float
     vert_idx = np.arange(n_vertices)  # vertex index
-    vert_depth = dpf.reshape(n_vertices)
+    vert_depth = dpf_star.reshape(n_vertices)
     vert_area = voronoi.reshape(n_vertices)
     # vertex labels (initialized to -1)
     vert_label = np.full(n_vertices, -1, dtype=np.int64)
@@ -165,7 +182,7 @@ def watershed(mesh, voronoi, dpf, thresh_dist, thresh_ridge,
     # All nodes included in the exclusion mask are not taken into
     # account in the watershed process
     if mask is None:
-        mask = np.zeros(dpf.shape)
+        mask = np.zeros(dpf_star.shape)
     mask_indices = np.where(mask == 1)[0]
     nodes = np.vstack((vert_idx, vert_depth)).T
     nodes = np.delete(nodes, mask_indices, axis=0)
@@ -174,14 +191,15 @@ def watershed(mesh, voronoi, dpf, thresh_dist, thresh_ridge,
     # All nodes of the mesh are sorted by their depth
     # (deepest nodes = smallest values first)
     nodes_sorted_by_depth = nodes[nodes[:, 1].argsort()]
-
-    # Initialize with first pit: deepest node
     idx = int(nodes_sorted_by_depth[0, 0])
+    # Initialize of the first basin with first pit: deepest node
+    # the label (and thus the key) of this basin is 0
     new_label = 0
     vert_label[idx] = new_label
-    basins[0] = {}
-    basins[0]['pit_index'] = idx
-    basins[0]['basin_vertices'] = [idx]
+    basins[new_label] = {}
+    basins[new_label]['pit_index'] = idx
+    basins[new_label]['basin_vertices'] = [idx]
+    # print("new basin label: ", new_label)
 
     for node in nodes_sorted_by_depth[1:]:
 
@@ -201,6 +219,7 @@ def watershed(mesh, voronoi, dpf, thresh_dist, thresh_ridge,
         #############################################################
         if len(NL) == 0:
             new_label += 1  # max(basins.keys()) + 1
+            # print("new basin label: ", new_label)
             # Update vertex
             vert_label[idx] = new_label
             # Update basins
@@ -273,9 +292,10 @@ def watershed(mesh, voronoi, dpf, thresh_dist, thresh_ridge,
                         # print("ridge_height=", ridge_height)
                         # print("ridge_height_cus=", ridge_height_cus)
                         # print("ridge_height<ridge_height_cus :: ",
-                        #       ridge_height < ridge_height_cus)
+                        # ridge_height < ridge_height_cus)
+                        # print(ridge_height, thresh_ridge)
                         if ridge_height < thresh_ridge:
-
+                            # print("compute gdist")
                             # Compute distance between pits
                             v = geodesics.compute_gdist(
                                 mesh,
@@ -289,20 +309,20 @@ def watershed(mesh, voronoi, dpf, thresh_dist, thresh_ridge,
                                     np.where(vert_label == label_j)[0]]\
                                     = label_i
                                 # Update basin
-                                [basins[label_i]['basin_vertices'].append(b)
-                                 for b in basins[label_j]['basin_vertices']]
+                                basins[label_i]['basin_vertices'].extend(
+                                    basins[label_j]['basin_vertices'])
                                 del basins[label_j]
-                                # Update ridges
-                                # Add adjacent basins of j to i
+                                # Update adjacency
+                                # Add neighboring basins of j to i
                                 adjacency[label_i, :] = (
                                         adjacency[label_i, :] |
                                         adjacency[label_j, :])
-                                # adjacency[:, label_i] = (
-                                #         adjacency[:, label_i] |
-                                #         adjacency[:, label_j])
+                                adjacency[:, label_i] = (
+                                        adjacency[:, label_i] |
+                                        adjacency[:, label_j])
                                 # clean out adjacency of j
                                 adjacency[label_j, :] = 0
-                                # adjacency[:, label_j] = 0
+                                adjacency[:, label_j] = 0
 
                                 if label_j == lab:
                                     # lab disappears and is replaced by the
@@ -315,17 +335,15 @@ def watershed(mesh, voronoi, dpf, thresh_dist, thresh_ridge,
                         # Create a new entry in the ridge dictionary
                         if not merging:
                             adjacency[label_i, label_j] = 1
-                            # adjacency[label_j, label_i] = 1
+                            adjacency[label_j, label_i] = 1
 
-    print('Number of basins found:', len(basins))
-
+    # print('Number of basins before filtering on basin area:', len(basins))
     #################################################################
     # FILTERING OF SMALL BASINS
     # Last merging step on area criterion after the watershed process
     # Each basin which area is less than thresh_area is merged into the
     # neighbor basin it shares the largest border with.
     ##################################################################
-
     # Select basins with area < thresh_area
     basins2merge = []
     for label in basins:
@@ -336,67 +354,69 @@ def watershed(mesh, voronoi, dpf, thresh_dist, thresh_ridge,
             basins2merge.append([label, basins[label]['basin_area']])
     basins2merge = np.array(basins2merge)
 
-    print('nb of basins to remove:', basins2merge.shape[0])
+    # print('nb of basins to remove:', basins2merge.shape[0])
     if basins2merge.shape[0] > 0:
-
-        print('Filtering of small basins...')
-
+        # print('Filtering of small basins...')
         # Sort by area
         basins2merge = basins2merge[basins2merge[:, 1].argsort()]
-
         # Filtering
         basin_index = 0
         while basin_index != len(basins2merge):
             basin, area = basins2merge[basin_index]
             basin = int(basin)
+            # Find neighboring basins
+            neigh_basins = np.where(adjacency[basin, :] != 0)[0]
+            if basin in neigh_basins:
+                neigh_basins = np.delete(neigh_basins, neigh_basins == basin)
+            # print(neigh_basins)
 
-            # Neighbor basins are those sharing a ridge
-            # point with current basin
-            neigh_basins = np.where(adjacency[basin] != 0)[0]
+            # Find parent_basin as the one sharing the largest border
+            # so the higher ridges_length
             ridges_length = []
-            for nb in neigh_basins:
-                # List all ridge points
+            for n_b in neigh_basins:
+                # List all ridge vertices
                 ridges_vertices = []
                 for v in basins[basin]['basin_vertices']:
                     neighbors_vertices = np.array(vert_neigh[v])
-                    [ridges_vertices.append(v_n)
-                     for v_n in
-                     neighbors_vertices[vert_label[neighbors_vertices] == nb]]
+                    ridges_vertices.extend(
+                        neighbors_vertices[
+                            vert_label[neighbors_vertices] == n_b])
                 # Get ridge length with each neighbor
                 ridges_length.append(len(ridges_vertices))
-            # Parent basin: the one sharing the largest border
-            parent_basin = np.min(neigh_basins[np.argmax(ridges_length)])
+            parent_basin = neigh_basins[np.argmax(ridges_length)]
+            # print('merging basin', basin, 'into', int(parent_basin))
 
-            # print('merging of', basin, 'into', int(parent_basin))
-
-            # Update vertex label
+            # Update vertex label, that is used to find neigbhoring basins
             vert_label[np.where(vert_label == basin)[0]] = parent_basin
             # Update basin
-            [basins[parent_basin]['basin_vertices'].append(b)
-             for b in basins[basin]['basin_vertices']]
+            basins[parent_basin]['basin_vertices'].extend(
+                basins[basin]['basin_vertices'])
             basins[parent_basin]['basin_area'] += area
             del basins[basin]
-            # Update ridges matrix
+            # Update adjacency
+            # Add neighboring basins of j to i
             adjacency[parent_basin, :] = (
                     adjacency[parent_basin, :] |
                     adjacency[basin, :])
-            # adjacency[:, parent_basin] = (
-            #         adjacency[:, parent_basin] |
-            #         adjacency[:, basin])
+            adjacency[:, parent_basin] = (
+                    adjacency[:, parent_basin] |
+                    adjacency[:, basin])
             adjacency[basin, :] = 0
-            # adjacency[:, basin] = 0
+            adjacency[:, basin] = 0
 
-            # Update basins2merge
+            # basins2merge must be updated:
+            # if parent_basin was in the list of basins2merge,
+            # its area has increased and the updated area of
+            # parent_basin can now be larger than the threshold
+            # In this case, we remove it from the list of basins2merge
             if parent_basin in basins2merge[:, 0]:
-                # If new area of parent basin is now above the threshold,
-                # remove it from the list of basin to merge
                 if basins[parent_basin]['basin_area'] > thresh_area:
                     basins2merge = (
                         np.delete(basins2merge,
                                   np.where(basins2merge[:, 0]
                                            == parent_basin)[0],
                                   axis=0))
-                # Else, update its area and sort the table again
+                # Else, update and sort the table again
                 else:
                     basins2merge[
                         np.where(basins2merge[:, 0] == parent_basin)[0], 1]\
@@ -405,13 +425,18 @@ def watershed(mesh, voronoi, dpf, thresh_dist, thresh_ridge,
 
             basin_index += 1
 
-        print('Number of basins after filtering:', len(basins))
+        # print('Number of basins after filtering:', len(basins))
+    # keep only the uper triangle of the adjacency matrix to avoid
+    # the duplication of edges and ridges
+    # k=1 excludes the diagonal to avoid possible self adjacency
+    adjacency_triu = np.triu(adjacency, k=1)
 
     # Create a dictionary with ridge properties
     ridges = {}
-    adjacency_index = np.array(np.where(adjacency != 0)).T
+    adjacency_index = np.array(np.where(adjacency_triu != 0)).T
     for i, j in adjacency_index:
-        # list all ridge points between basin i and basin j
+        # ridge_vertices correspond to the indices of the vertices
+        # located on the boundary between the two basins
         ridges_vertices = []
         for v in basins[i]['basin_vertices']:
             neighbors_vertices = np.array(vert_neigh[v])
@@ -419,46 +444,57 @@ def watershed(mesh, voronoi, dpf, thresh_dist, thresh_ridge,
              for v in neighbors_vertices[vert_label[neighbors_vertices] == j]]
         ridges[(i, j)] = {}
         ridges[(i, j)]['ridge_vertices'] = np.unique(ridges_vertices)
+        # ridge_length is the number of vertices in ridge_vertices
+        # it is thus an approximation of the length of
+        # the boundary between the two basins
+        ridges[(i, j)]['ridge_length'] = len(ridges[(i, j)]['ridge_vertices'])
+        # ridge_index is the index of the deepest point across ridge vertices
+        # print((i, j))
+        # print(ridges[(i, j)])
+        # print(np.argmin(vert_depth[ridges[(i, j)]['ridge_vertices']]))
         ridges[(i, j)]['ridge_index'] = (
             ridges[(i, j)]['ridge_vertices'])[np.argmin(
                 vert_depth[ridges[(i, j)]['ridge_vertices']])]
+        # ridge_depth is the depth of the vertex at ridge_index
         ridges[(i, j)]['ridge_depth'] = np.min(
             vert_depth[ridges[(i, j)]['ridge_vertices']])
-        # depth difference between ridge point and corresponding pits
+        # compute depth difference between ridge point and corresponding pits
         diff_i = abs(basins[i]['pit_depth'] - ridges[(i, j)]['ridge_depth'])
         diff_j = abs(basins[j]['pit_depth'] - ridges[(i, j)]['ridge_depth'])
         ridges[(i, j)]['ridge_depth_diff_min'] = min(diff_i, diff_j)
         ridges[(i, j)]['ridge_depth_diff_max'] = max(diff_i, diff_j)
-        ridges[(i, j)]['ridge_length'] = len(ridges[(i, j)]['ridge_vertices'])
 
-    for i, j in adjacency_index:
-        print("-------------------------")
-        print(i, " -> ", j)
-        print(ridges[(i, j)]['ridge_vertices'])
-        print('ridge_length=', ridges[(i, j)]['ridge_length'])
-        print('ridge_index=', ridges[(i, j)]['ridge_index'])
-        print('ridge_depth', ridges[(i, j)]['ridge_depth'])
-        print('ridge_depth_diff_min=',
-              ridges[(i, j)]['ridge_depth_diff_min'])
-        print('ridge_depth_diff_max=',
-              ridges[(i, j)]['ridge_depth_diff_max'])
-        print(j, " -> ", i)
-        try:
-            print(ridges[(j, i)]['ridge_vertices'])
-            print('ridge_length=', ridges[(j, i)]['ridge_length'])
-            print('ridge_index=', ridges[(j, i)]['ridge_index'])
-            print('ridge_depth', ridges[(j, i)]['ridge_depth'])
-            print('ridge_depth_diff_min=',
-                  ridges[(j, i)]['ridge_depth_diff_min'])
-            print('ridge_depth_diff_max=',
-                  ridges[(j, i)]['ridge_depth_diff_max'])
-            depth_i = ridges[(i, j)]['ridge_depth']
-            depth_j = ridges[(j, i)]['ridge_depth']
-            print('depth_i<depth_j', depth_i < depth_j)
-        except KeyError:
-            print('edge does not exist, as expected')
+    # for i, j in adjacency_index:
+    #     print("-------------------------")
+    #     print(i, " -> ", j)
+    #     print(ridges[(i, j)]['ridge_vertices'])
+    #     print('ridge_length =', ridges[(i, j)]['ridge_length'])
+    #     print('ridge_index =', ridges[(i, j)]['ridge_index'])
+    #     print('ridge_depth =', ridges[(i, j)]['ridge_depth'])
+    #     print('ridge_depth_diff_min =',
+    #           ridges[(i, j)]['ridge_depth_diff_min'])
+    #     print('ridge_depth_diff_max =',
+    #           ridges[(i, j)]['ridge_depth_diff_max'])
+    #     print(j, " -> ", i)
+    #     try:
+    #         print(ridges[(j, i)]['ridge_vertices'])
+    #         print('ridge_length =', ridges[(j, i)]['ridge_length'])
+    #         print('ridge_index =', ridges[(j, i)]['ridge_index'])
+    #         print('ridge_depth =', ridges[(j, i)]['ridge_depth'])
+    #         print('ridge_depth_diff_min =',
+    #               ridges[(j, i)]['ridge_depth_diff_min'])
+    #         print('ridge_depth_diff_max =',
+    #               ridges[(j, i)]['ridge_depth_diff_max'])
+    #         depth_i = ridges[(i, j)]['ridge_depth']
+    #         depth_j = ridges[(j, i)]['ridge_depth']
+    #         print('depth_i<depth_j', depth_i < depth_j)
+    #     except KeyError:
+    #         print('edge does not exist, as expected')
 
-    return basins, ridges, adjacency
+    # reindex the adjacency matrix to delete removed basins
+    basins_labels = list(basins.keys())
+    adjacency_reind = adjacency_triu[basins_labels, :][:, basins_labels]
+    return basins, ridges, adjacency_reind
 
 
 def get_textures_from_dict(mesh, basins, ridges):
@@ -513,3 +549,41 @@ def get_texture_boundaries_from_dict(mesh, ridges):
         atex_ridges_vert[ridges[(i, j)]['ridge_vertices']] = 1
 
     return atex_ridges_vert
+
+
+def get_basins_attribute(basins, attribute='pit_index'):
+    """
+    get basins attribute as a list across basins.
+    Parameters
+    ----------
+    basins
+    attribute
+
+    Returns
+    -------
+
+    """
+    attr_out = list()
+    for label, basin in basins.items():
+        attr_out.append(basin[attribute])
+
+    return attr_out
+
+
+def get_ridges_attribute(ridges, attribute='ridge_index'):
+    """
+    get ridges attribute as a list across ridgess.
+    Parameters
+    ----------
+    ridges
+    attribute
+
+    Returns
+    -------
+
+    """
+    attr_out = list()
+    for ind_tuple, ridge in ridges.items():
+        attr_out.append(ridge[attribute])
+
+    return attr_out

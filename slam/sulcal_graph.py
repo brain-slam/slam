@@ -8,35 +8,35 @@ import slam.watershed as swat
 import slam.remeshing as sre
 
 
-def extract_sulcal_graph(side, mesh, mask=None):
+def extract_sulcal_graph(mesh,
+                         thresh_dist_perc,
+                         thresh_ridge,
+                         thresh_area_perc,
+                         mask=None):
     """
     Main Function that extracts the sulcal graph from a mesh and saves
     it in the given directory.
     Parameters
     ----------
-    side
     mesh
+    thresh_dist_perc
+    thresh_ridge
+    thresh_area_perc
     mask
 
     Returns
     -------
-
+        g : sulcal graph as a networkx graph
     """
     _, dpf, voronoi = swat.compute_mesh_features(mesh)
-    thresh_dist, thresh_ridge, thresh_area = (
-        swat.normalize_thresholds(voronoi,
-                                  thresh_dist=20.0,
-                                  thresh_ridge=1.5,
-                                  thresh_area=50.0,
-                                  side=side))
 
     basins, ridges, adjacency = (
         swat.watershed(mesh,
                        voronoi,
                        dpf,
-                       thresh_dist,
+                       thresh_dist_perc,
                        thresh_ridge,
-                       thresh_area, mask))
+                       thresh_area_perc, mask))
     g = get_sulcal_graph(adjacency,
                          basins,
                          ridges)
@@ -48,42 +48,21 @@ def get_sulcal_graph(adjacency, basins, ridges):
     """
     Function that creates a graph from the outputs of the watershed.
 
-    Node attributes are:
-    - pit_index: index of the pit
-    - pit_depth: depth of the pit
-    - basin_vertices: list of vertices in the basin
-    - basin_area: area of the basin
-    - basin_label: label of the basin
-
-    Edge attributes are:
-    - ridge_index: index of the ridge
-    - ridge_depth: depth of the ridge point
-    - ridge_height: depth difference between ridge point and shallowest pit
-    - ridge_length: number of vertices along the frontier between basins
-
+    Node and edges attributes are inherited from basins and ridges.
+    See slam/watershed.py for more details.
     Parameters
     ----------
     adjacency
     basins
     ridges
-    save
-    outdir
 
     Returns
     -------
-
+        graph : sulcal graph as a networkx graph
     """
-
     ##############################################################
     # Initialize the graph using adjacency matrix
     ##############################################################
-
-    # As the adjacency matrix concerns all created basins during watershed,
-    # it still contains merged basins that should not appear in the graph.
-    # Thus, we first remove rows and columns corresponding to unconnected
-    # basins (only zeros inside)
-    labels = list(basins.keys())
-    adjacency = adjacency[labels, :][:, labels]
     # np.fill_diagonal(adjacency, 1.)  # ensure systematic self connection
     graph = nx.from_numpy_array(adjacency)  # , nodelist=basins)
     # nodelist not adapted to attribution of labels in plotly_visu.py
@@ -91,7 +70,6 @@ def get_sulcal_graph(adjacency, basins, ridges):
     ####################################################################
     # Set graph attributes
     ####################################################################
-
     # Add node attributes
     node_attributes = {}
     for i, (label, values) in enumerate(basins.items()):
@@ -100,6 +78,7 @@ def get_sulcal_graph(adjacency, basins, ridges):
     nx.set_node_attributes(graph, node_attributes)
 
     # Add edge attributes
+    labels = list(basins.keys())
     edge_attributes = {}
     for pair, values in ridges.items():
         # Get new indices
@@ -148,6 +127,7 @@ def add_node_attribute_from_texture(graph, texture, attribute_name):
     ----------
     graph
     texture
+    attribute_name
 
     Returns
     -------
@@ -174,9 +154,7 @@ def add_edge_attribute_from_texture(graph, texture, attribute_name):
     ----------
     graph
     texture
-    name
-    save
-    outdir
+    attribute_name
 
     Returns
     -------
@@ -210,8 +188,6 @@ def add_geodesic_distances_to_edges(graph, mesh):
     ----------
     graph
     mesh
-    save
-    outdir
 
     Returns
     -------
@@ -247,9 +223,7 @@ def add_mean_value_to_nodes(graph, texture, attribute_name):
     ----------
     graph
     texture
-    name
-    save
-    outdir
+    attribute_name
 
     Returns
     -------
@@ -309,10 +283,17 @@ def vertex_index_interpolation(graph, target_spherical_mesh,
                                ):
     """
     Nearest neighbor interpolation of the nodes spherical coordinates onto the
-     template spherical coordinates
-    :param target_spherical_mesh: target Trimesh mesh object
-    :param interpolated_attribute: name of the new attribute
-    :return: graph with the new node attribute
+         template spherical coordinates
+    Parameters
+    ----------
+    graph
+    target_spherical_mesh : target Trimesh mesh object
+    graph_spherical_coords_attribute : name of the new attribute
+    interpolated_attribute
+
+    Returns
+    -------
+        g : graph with the new node attribute
     """
     nodes_spherical_3D_coords = (
         np.array(list(nx.get_node_attributes(
@@ -339,7 +320,7 @@ def add_coords_attribute(graph, mesh, attribute_vert_index, new_attribute_key):
     Parameters
     ----------
     graph
-    sphere_mesh
+    mesh
     attribute_vert_index
     new_attribute_key
 

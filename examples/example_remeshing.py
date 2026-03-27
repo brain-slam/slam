@@ -72,11 +72,11 @@ mesh_data = {
 fig2 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data)
-source_vert = splt.create_hover_trace(
+source_vert = splt.plot_points(
     source_spherical_mesh.vertices,
     marker={"size": 4, "color": "black"},
 )
-target_vert = splt.create_hover_trace(
+target_vert = splt.plot_points(
     target_spherical_mesh.vertices,
     marker={"size": 4, "color": "white"},
 )
