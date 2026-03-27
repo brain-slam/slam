@@ -8,6 +8,9 @@
 
    .. autosummary::
    
-      create_hover_trace
+      coords_outward_shift
+      plot_graph
+      plot_graph_on_mesh
       plot_mesh
+      plot_points
    
