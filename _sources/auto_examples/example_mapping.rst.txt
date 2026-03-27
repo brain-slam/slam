@@ -137,9 +137,9 @@ Compute distortion measures between original and planar representations
 
  .. code-block:: none
 
-    -2.64338815386942e-18
-    -0.013192508131630925
-    -0.03916328038452616
+    2.64338815386942e-18
+    -0.0240694281015359
+    -0.06724518071656004
 
 
 
@@ -189,7 +189,7 @@ VISUALIZATION USING EXTERNAL TOOLS
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.012 seconds)
+   **Total running time of the script:** (0 minutes 0.010 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_mapping.py:
