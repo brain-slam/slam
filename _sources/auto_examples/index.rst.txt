@@ -5,6 +5,10 @@ Gallery of SLAM
 
 Below is a gallery of examples
 
+.. raw:: html
+
+  <div id='sg-tag-list' class='sphx-glr-tag-list'></div>
+
 
 .. raw:: html
 
@@ -269,6 +273,23 @@ Below is a gallery of examples
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbcontainer" tooltip="Examples of the use of plot for automatic screenshot e.g. for implementing visual quality check">
+
+.. only:: html
+
+  .. image:: /auto_examples/images/thumb/sphx_glr_example_screenshot_for_QC_thumb.png
+    :alt:
+
+  :doc:`/auto_examples/example_screenshot_for_QC`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Examples of the use of plot for automatic screenshot e.g. for implementing visual quality check</div>
+    </div>
+
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="example of SPANGY (spectral decomposition) tools in slam">
 
 .. only:: html
@@ -445,6 +466,7 @@ Below is a gallery of examples
    /auto_examples/example_profile_texture
    /auto_examples/example_registration
    /auto_examples/example_remeshing
+   /auto_examples/example_screenshot_for_QC
    /auto_examples/example_spangy
    /auto_examples/example_sulcal_depth
    /auto_examples/example_sulcal_graph
