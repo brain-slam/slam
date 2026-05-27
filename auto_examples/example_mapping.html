@@ -5,14 +5,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Mapping example in slam &#8212; slam 0.1.1 documentation</title>
+    <title>Mapping example in slam &#8212; slam 0.1.2 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css?v=45361654" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=fd6457a4" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
-    <script src="../_static/documentation_options.js?v=a58bc63e"></script>
+    <script src="../_static/documentation_options.js?v=92734c54"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/sg-tags.js?v=d80f6fa4"></script>
@@ -40,7 +40,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           slam</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.2</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -169,11 +169,11 @@ to download the full example code.</p>
     Computing mesh weights of type conformal
     -edge length threshold needed for  0  values =  0.0  %
     -number of Nan in weights:  0  =  0.0  %
-    -number of Negative values in weights:  10  =  10.0  %
+    -number of Negative values in weights:  10  =  9.615384615384615  %
     -nb Nan in Laplacian :  0
     -nb Inf in Laplacian :  0
-Boundary Size: (13,)
-Laplacian Size: (22, 22)
+Boundary Size: (14,)
+Laplacian Size: (23, 23)
 </pre></div>
 </div>
 <p>Compute distortion measures between original and planar representations</p>
@@ -185,9 +185,9 @@ Laplacian Size: (22, 22)
 <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">edge_diff</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>-2.1055953915304692e-17
--0.021841765930792713
--0.07136009521182536
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>1.7270135938613546e-17
+-0.025366022843101618
+-0.07548269983796836
 </pre></div>
 </div>
 <section id="visualization-using-external-tools">
@@ -238,7 +238,7 @@ visb_sc2.add_to_subplot(l_obj)</p>
 </div></blockquote>
 <p>visb_sc2.preview()</p>
 </div></blockquote>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.011 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.012 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-example-mapping-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/8545bf415fdd090c121a68225e9f1409/example_mapping.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">example_mapping.ipynb</span></code></a></p>

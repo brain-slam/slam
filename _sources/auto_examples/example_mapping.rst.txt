@@ -105,11 +105,11 @@ Mapping onto a planar disk
         Computing mesh weights of type conformal
         -edge length threshold needed for  0  values =  0.0  %
         -number of Nan in weights:  0  =  0.0  %
-        -number of Negative values in weights:  10  =  10.0  %
+        -number of Negative values in weights:  10  =  9.615384615384615  %
         -nb Nan in Laplacian :  0
         -nb Inf in Laplacian :  0
-    Boundary Size: (13,)
-    Laplacian Size: (22, 22)
+    Boundary Size: (14,)
+    Laplacian Size: (23, 23)
 
 
 
@@ -137,9 +137,9 @@ Compute distortion measures between original and planar representations
 
  .. code-block:: none
 
-    -2.1055953915304692e-17
-    -0.021841765930792713
-    -0.07136009521182536
+    1.7270135938613546e-17
+    -0.025366022843101618
+    -0.07548269983796836
 
 
 
@@ -189,7 +189,7 @@ VISUALIZATION USING EXTERNAL TOOLS
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.011 seconds)
+   **Total running time of the script:** (0 minutes 0.012 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_mapping.py:
