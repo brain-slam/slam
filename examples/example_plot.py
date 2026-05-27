@@ -109,7 +109,7 @@ fig3 = splt.plot_mesh(
     mesh_data,
     intensity_data,
     display_settings,
-    caption=True,  # snapshot, default is None
+    show_two_sides=True,  # show two sides of a surface, default is None
 )
 
 # add an additional trace

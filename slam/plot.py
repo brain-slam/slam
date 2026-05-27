@@ -193,7 +193,7 @@ def plot_points(points, text=None, **kwargs):
 
 
 def plot_mesh(
-    mesh_data, intensity_data=None, display_settings=None, caption=None
+    mesh_data, intensity_data=None, display_settings=None, show_two_sides=None
 ):
     """
     Creates a 3D projection of a mesh, with or without intensity data.
@@ -229,11 +229,11 @@ def plot_mesh(
     template = display_settings.get("template", None)
 
     lighting = {
-        "ambient": 0.7,
-        "diffuse": 0.8,
-        "specular": 0.5,
-        "roughness": 0.2,
-        "fresnel": 0.1,
+        "ambient": 0.3,
+        "diffuse": 0.5,
+        #"specular": 0.1,
+        #"roughness": 0.1,
+        #"fresnel": 0.1,
     }
 
     mesh_kwargs = {
@@ -243,15 +243,16 @@ def plot_mesh(
         "i": faces[:, 0],
         "j": faces[:, 1],
         "k": faces[:, 2],
-        "color": "ghostwhite",
+        "color": "lightgray",
         "opacity": opacity,
         "flatshading": False,
         "lighting": lighting,
+        "lightposition": {"x": 1000, "y": 1000, "z": 100},
     }
 
     camera = {
         # Camera position from lateral side
-        "eye": {"x": 2.5, "y": 0, "z": 0.0},
+        "eye": {"x": 2.5, "y": 0, "z": 0},
         # Looking at center
         "center": {"x": 0, "y": 0, "z": 0},
         # Up vector points in positive z direction
@@ -292,7 +293,7 @@ def plot_mesh(
                     "ambient": 1,
                     "diffuse": 0,
                     "specular": 0,
-                    "roughness": 1,
+                    "roughness": 0.8,
                     "fresnel": 0,
                 },
                 "colorbar_tickvals": display_settings.get("tickvals", None),
@@ -300,12 +301,12 @@ def plot_mesh(
             }
         )
 
-    if caption:
+    if show_two_sides:
         fig = make_subplots(
             rows=1,
             cols=2,
             specs=[[{"type": "scene"}, {"type": "scene"}]],
-            horizontal_spacing=0.03,
+            horizontal_spacing=0,
         )
         for col in [1, 2]:
             fig.add_trace(go.Mesh3d(**mesh_kwargs), row=1, col=col)
@@ -313,12 +314,17 @@ def plot_mesh(
         aff_dict["scene2"] = {
             "camera": {
                 # Camera position from lateral side
-                "eye": {"x": -2.5, "y": 0, "z": 0.0},
+                "eye": {"x": -2.5, "y": 0, "z": 0},
                 # Looking at center
                 "center": {"x": 0, "y": 0, "z": 0},
                 # Up vector points in positive z direction
                 "up": {"x": 0, "y": 0, "z": 1},
-            }
+            },
+            "aspectmode": "data",
+            "xaxis": {"visible": False},
+            "yaxis": {"visible": False},
+            "zaxis": {"visible": False},
+
         }
 
     else:
