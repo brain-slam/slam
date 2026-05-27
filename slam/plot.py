@@ -231,9 +231,9 @@ def plot_mesh(
     lighting = {
         "ambient": 0.3,
         "diffuse": 0.5,
-        #"specular": 0.1,
-        #"roughness": 0.1,
-        #"fresnel": 0.1,
+        # "specular": 0.1,
+        # "roughness": 0.1,
+        # "fresnel": 0.1,
     }
 
     mesh_kwargs = {
