@@ -88,7 +88,7 @@ import os
 
  .. code-block:: none
 
-    <slam.texture.TextureND object at 0x7f6c7b1c8650>
+    <slam.texture.TextureND object at 0x7f493e244e30>
     {'processed': True}
     (1, 2328)
     float32
@@ -128,7 +128,7 @@ import os
  .. code-block:: none
 
     {'processed': True}
-    <slam.texture.TextureND object at 0x7f6c905355b0>
+    <slam.texture.TextureND object at 0x7f493e247290>
     (2, 3)
     float64
     0.0
@@ -145,7 +145,7 @@ import os
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.050 seconds)
+   **Total running time of the script:** (0 minutes 0.061 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_texture.py:

@@ -321,6 +321,7 @@ fig_edges_ridge_depth_max.update_layout(
 )
 fig.add_trace(fig_edges_ridge_depth_max.data[0], row=2, col=3)
 fig.show()
+fig
 
 #############################################################################
 # VISUALIZATION USING plotly
