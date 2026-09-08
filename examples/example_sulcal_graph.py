@@ -63,39 +63,23 @@ print("Edge attributes:\n", g.edges[list(g.edges)[0]].keys())
 print("First edge:\n", g.edges[list(g.edges)[0]])
 
 ###############################################################################
-##### compute Euclidian distance between pits
+##### compute Euclidian distance between pits and to the ridge
 print("compute Euclidian dist")
-g = ssg.add_edge_attribute_euclidian_distances_to_ridge(g,mesh)
+g = ssg.add_edge_attribute_euclidian_distances(g,mesh)
 
-##### compute geodesic distance between pits
+##### compute geodesic distance between pits and to the ridge
 print("compute geodesic dist")
 import time
 t1=time.time()
-g = ssg.add_edge_attribute_geodesic_distances_btw_pits(g,mesh)
+g = ssg.add_edge_attribute_geodesic_distances(g,mesh)
 t2=time.time()
 print(t2-t1)
 
-##### compute geodesic distance to the ridge
-print("compute geodesic dist with potpouuri")
-import time
-t1=time.time()
-g1 = ssg.add_edge_attribute_geodesic_distances_to_ridge_potpourri(g,mesh)
-t2=time.time()
-print(t2-t1)
-
-print("compute geodesic dist to the ridge")
-import time
-t1=time.time()
-g2 = ssg.add_edge_attribute_geodesic_distances_to_ridge(g,mesh)
-t2=time.time()
-print(t2-t1)
 
 edges_euclidian_dist = (np.array(list(nx.get_edge_attributes(
             g, "euclidian_distance_btw_pits").values())))
 edges_geo_dist = (np.array(list(nx.get_edge_attributes(
-            g1, "geodesic_distance_btw_pits").values())))
-edges_geo_pp_dist = (np.array(list(nx.get_edge_attributes(
-            g2, "geodesic_distance_btw_pits").values())))
+            g, "geodesic_distance_btw_pits").values())))
 
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
@@ -107,15 +91,6 @@ fig_comp1 = go.Figure(data=[go.Scatter(
 
 )])
 fig_comp1.show()
-
-fig_comp2 = go.Figure(data=[go.Scatter(
-    x=edges_geo_dist,
-    y=edges_geo_pp_dist,
-    mode='markers',
-    marker_color='red',
-
-)])
-fig_comp2.show()
 
 ###############################################################################
 # add mean value to nodes attributes

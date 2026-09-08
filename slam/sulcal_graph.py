@@ -199,7 +199,7 @@ def add_edge_attribute_euclidian_distances(graph, mesh):
     # Create and fill a new edge dictionary with the geodesic distance
     eudistances = {}
     for i, j in graph.edges:
-        print("Euclidian distance of edge", (i, j))
+        # print("Euclidian distance of edge", (i, j))
         # Compute the Euclidian distance between the pits
         coords_ridge = mesh.vertices[graph.edges[(i, j)]['ridge_index'], :]
         coords_i = mesh.vertices[graph.nodes[i]['pit_index'], :]
