@@ -47,6 +47,7 @@ def plot_graph_on_mesh(graph, mesh, vertex_index_attribute="pit_index",
         marker=dict(
             color='red',
             size=6,
+            symbol='square',
             line=dict(
                 color='black',
                 width=2

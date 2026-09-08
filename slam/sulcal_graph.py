@@ -1,7 +1,5 @@
-import os
 import pickle
 import numpy as np
-from slam import geodesics
 import networkx as nx
 import trimesh
 import slam.watershed as swat
@@ -98,25 +96,37 @@ def get_sulcal_graph(adjacency, basins, ridges):
     return graph
 
 
-def save_graph(graph, outdir):
+def write_graph(graph, out_graph_file):
     """
-    Save sulcal pits graph in the given directory under the
-    name "graph.gpickle"
+    Save sulcal pits graph as a .gpickle file
     Parameters
     ----------
     graph
-    outdir
+    out_graph_file
 
     Returns
     -------
 
     """
-
-    file_path = os.path.join(outdir, "graph.gpickle")
-    with open(file_path, 'wb') as f:
+    with open(out_graph_file, 'wb') as f:
         pickle.dump(graph, f, pickle.HIGHEST_PROTOCOL)
-    print("Graph saved in", file_path)
+    print("Graph saved in", out_graph_file)
     return 0
+
+
+def load_graph(pitgraph_file):
+    """
+    Load a graph from a .gpickle file on the disk
+    Parameters
+    ----------
+    pitgraph_file
+
+    Returns
+    -------
+
+    """
+    g = pickle.load(open(pitgraph_file, "rb"))
+    return g
 
 
 def add_node_attribute_from_texture(graph, texture, attribute_name):
@@ -173,7 +183,120 @@ def add_edge_attribute_from_texture(graph, texture, attribute_name):
     return graph
 
 
-def add_geodesic_distances_to_edges(graph, mesh):
+def add_edge_attribute_euclidian_distances(graph, mesh):
+    """
+        Add the Euclidian distance between pits to the corresponding
+     edge attributes in the graph
+    Parameters
+    ----------
+    graph
+    mesh
+
+    Returns
+    -------
+
+    """
+    # Create and fill a new edge dictionary with the geodesic distance
+    eudistances = {}
+    for i, j in graph.edges:
+        print("Euclidian distance of edge", (i, j))
+        # Compute the Euclidian distance between the pits
+        coords_ridge = mesh.vertices[graph.edges[(i, j)]['ridge_index'], :]
+        coords_i = mesh.vertices[graph.nodes[i]['pit_index'], :]
+        coords_j = mesh.vertices[graph.nodes[j]['pit_index'], :]
+        dist_i_r = np.sqrt(np.sum(np.power(coords_ridge - coords_i, 2)))
+        dist_j_r = np.sqrt(np.sum(np.power(coords_ridge - coords_j, 2)))
+        dist_i_j = np.sqrt(np.sum(np.power(coords_i - coords_j, 2)))
+        eudistances[(i, j)] = {}
+        eudistances[(i, j)]['euclidian_distance_btw_ridge_pit_i'] = dist_i_r
+        eudistances[(i, j)]['euclidian_distance_btw_ridge_pit_j'] = dist_j_r
+        eudistances[(i, j)]['euclidian_distance_btw_pits'] = dist_i_j
+        eudistances[(i, j)]['euclidian_distance_btw_pits_via_ridge'] = (
+                dist_i_r + dist_j_r)
+
+    # Add the attribute to the graph
+    nx.set_edge_attributes(graph, eudistances)
+
+    return graph
+
+##################################################################
+#   old versions of geodesic distances computations based on
+#   gdist that is 20x slower than potpourri3d
+# def add_edge_attribute_geodesic_distances_btw_pits(graph, mesh):
+#     """
+#         Add the geodesic distancesbetween pits to the corresponding
+#      edge attributes in the graph:
+#     Parameters
+#     ----------
+#     graph
+#     mesh
+#
+#     Returns
+#     -------
+#
+#     """
+#     # Create and fill a new edge dictionary with the geodesic distance
+#     geodistances = {}
+#     for i, j in graph.edges:
+#         print("Geodesic distance of edge", (i,j))
+#         # Compute the geodesic distances between the pits
+#         v = geodesics.compute_gdist(
+#                                 mesh,
+#                                 graph.nodes[i]['pit_index'],
+#                                 graph.nodes[j]['pit_index'])
+#         geodistances[(i, j)] = {}
+#         geodistances[(i, j)]['geodesic_distance_btw_pits'] = v[0]
+#
+#     # Add the attribute to the graph
+#     nx.set_edge_attributes(graph, geodistances)
+#
+#     return graph
+#
+#
+# def add_edge_attribute_geodesic_distances_to_ridge(graph, mesh):
+#     """
+#      Add the geodesic distances between ridge and pits to the corresponding
+#      ridge attributes in the graph:
+#
+#     - geodesic_distance_btw_ridge_pit_i: geodesic distance between the
+#     ridge and the first pit
+#     - geodesic_distance_btw_ridge_pit_j: geodesic distance between the
+#     ridge and the second pit
+#     - geodesic_distance_btw_pits: geodesic distance between the two pits
+#     connected by the ridge (sum of previous values)
+#     Parameters
+#     ----------
+#     graph
+#     mesh
+#
+#     Returns
+#     -------
+#
+#     """
+#     # Create and fill a new edge dictionary with the geodesic distances
+#     geodistances = {}
+#     for i, j in graph.edges:
+#         print("Geodesic distance to the ridge for edge", (i,j))
+#         ridge = graph.edges[(i, j)]['ridge_index']
+#         pit_i = graph.nodes[i]['pit_index']
+#         pit_j = graph.nodes[j]['pit_index']
+#         # Compute the geodesic distances between ridge and both pits
+#         gd_from_ridge = geodesics.compute_gdist(mesh, ridge)
+#         geodistances[(i, j)] = {}
+#         geodistances[(i, j)]['geodesic_distance_btw_ridge_pit_i'] = (
+#             float(gd_from_ridge[pit_i]))
+#         geodistances[(i, j)]['geodesic_distance_btw_ridge_pit_j'] = (
+#             float(gd_from_ridge[pit_j]))
+#         geodistances[(i, j)]['geodesic_distance_btw_pits'] = (
+#                 float(gd_from_ridge[pit_i]) + float(gd_from_ridge[pit_j]))
+#
+#     # Add the attribute to the graph
+#     nx.set_edge_attributes(graph, geodistances)
+#
+#     return graph
+
+
+def add_edge_attribute_geodesic_distances(graph, mesh):
     """
         Add the geodesic distances between ridge and pits to the corresponding
      ridge attributes in the graph:
@@ -193,21 +316,24 @@ def add_geodesic_distances_to_edges(graph, mesh):
     -------
 
     """
+    import potpourri3d as pp3d
+    solver = pp3d.MeshHeatMethodDistanceSolver(mesh.vertices, mesh.faces)
     # Create and fill a new edge dictionary with the geodesic distances
     geodistances = {}
     for i, j in graph.edges:
+        # print("Geodesic distance to the ridge for edge", (i,j))
         ridge = graph.edges[(i, j)]['ridge_index']
         pit_i = graph.nodes[i]['pit_index']
         pit_j = graph.nodes[j]['pit_index']
         # Compute the geodesic distances between ridge and both pits
-        gd_from_ridge = geodesics.compute_gdist(mesh, ridge)
+        v_pp = solver.compute_distance(int(ridge))
         geodistances[(i, j)] = {}
         geodistances[(i, j)]['geodesic_distance_btw_ridge_pit_i'] = (
-            float(gd_from_ridge[pit_i]))
+            float(v_pp[int(pit_i)]))
         geodistances[(i, j)]['geodesic_distance_btw_ridge_pit_j'] = (
-            float(gd_from_ridge[pit_j]))
+            float(v_pp[int(pit_j)]))
         geodistances[(i, j)]['geodesic_distance_btw_pits'] = (
-                float(gd_from_ridge[pit_i]) + float(gd_from_ridge[pit_j]))
+                float(v_pp[int(pit_i)]) + float(v_pp[int(pit_j)]))
 
     # Add the attribute to the graph
     nx.set_edge_attributes(graph, geodistances)
@@ -264,17 +390,24 @@ def get_textures_from_graph(graph, mesh):
             graph.nodes)[b]['basin_label']
 
     # texture of pits
-    atex_pits = np.zeros((len(vert), 1))
+    atex_pits = np.zeros((len(vert), ))
     pits_indices = list(nx.get_node_attributes(graph, 'pit_index').values())
     atex_pits[pits_indices] = 1
 
     # texture of ridges
-    atex_ridges = np.zeros((len(vert), 1))
+    atex_ridges = np.zeros((len(vert), ))
     ridges_indices = (
         list(nx.get_edge_attributes(graph, 'ridge_index').values()))
     atex_ridges[ridges_indices] = 1
 
-    return atex_labels, atex_pits, atex_ridges
+    # texture of boundaries
+    atex_boundaries = np.zeros((len(vert), ))
+    boundaries_indices = (
+        list(nx.get_edge_attributes(graph, 'ridge_vertices').values()))
+    for bound in boundaries_indices:
+        atex_boundaries[bound] = 1
+
+    return atex_labels, atex_pits, atex_ridges, atex_boundaries
 
 
 def vertex_index_interpolation(graph, target_spherical_mesh,
@@ -336,5 +469,5 @@ def add_coords_attribute(graph, mesh, attribute_vert_index, new_attribute_key):
     for node, coords in zip(graph.nodes, attribute_array):
         node_att[node] = coords
     nx.set_node_attributes(graph, values=node_att, name=new_attribute_key)
-    print(graph.nodes[0])
+    # print(graph.nodes[0])
     return graph

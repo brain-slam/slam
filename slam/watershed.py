@@ -1,7 +1,7 @@
 import numpy as np
-from slam import (geodesics,
-                  curvature, vertex_voronoi,
+from slam import (curvature, vertex_voronoi,
                   sulcal_depth, utils)
+import potpourri3d as pp3d
 
 
 def compute_mesh_features(mesh):
@@ -27,7 +27,7 @@ def compute_mesh_features(mesh):
     mean_curvature = filt_mean_curv[0]
 
     # Compute vertex depth potential function
-    print("\n\tComputing the DPF\n")
+    print("\n\tComputing the DPF*\n")
     # returns a list of dpf for different alpha values
     dpf, lc = sulcal_depth.dpf_star(mesh,
                                     alphas=[500],
@@ -41,59 +41,59 @@ def compute_mesh_features(mesh):
     return mean_curvature, dpf, voronoi
 
 
-def normalize_thresholds(voronoi,
-                         thresh_dist=20.0,
-                         thresh_ridge=1.5,
-                         thresh_area=50.0,
-                         side="left"):
-    """
-    Function that normalizes the thresholds for the watershed algorithm.
-    Threshold on basin's area is normalized by the surface area of the mesh.
-    Threshold on distance between pits is normalized by the square root of
-    the surface area.
-
-    :args: voronoi(numpy array): voronoi areas of the mesh
-    :args: thresh_dist(float): distance threshold for the watershed algorithm
-    :args: thresh_ridge(float): ridge threshold for the watershed algorithm
-    :args: thresh_area(float): area threshold for the watershed algorithm
-    :args: side: side of the brain (left or right)
-    :return: normalized thresholds (thresh_dist, thresh_ridge, thresh_area)
-
-    Parameters
-    ----------
-    voronoi
-    thresh_dist
-    thresh_ridge
-    thresh_area
-    side
-
-    Returns
-    -------
-    Normalized watershed parameters
-    """
-
-    # normalization
-    print("\n\tComputing the surface area\n")
-    mesh_area = np.sum(voronoi)
-    mesh_area_sqrt = np.sqrt(mesh_area)
-
-    # Set group average values
-    # from OASIS database
-    # group_average_fiedler_length = 238.25 if side == "right" else 235.95
-    # group_average_surface_area = 91433.68 if side == "right" else 91369.33
-    # from HCP database
-    group_average_surface_area = 92161.30 if side == "right" else 91530.63
-    group_average_surface_area_sqrt = 303.20 if side == "right" else 302.16
-
-    # Normalize the thresholds regarding brain size
-    thresh_dist *= mesh_area_sqrt / group_average_surface_area_sqrt
-    thresh_area *= mesh_area / group_average_surface_area
-
-    # Stay at input precision level
-    thresh_dist = round(thresh_dist, 1)
-    thresh_area = round(thresh_area, 1)
-
-    return thresh_dist, thresh_ridge, thresh_area
+# def normalize_thresholds(voronoi,
+#                          thresh_dist=20.0,
+#                          thresh_ridge=1.5,
+#                          thresh_area=50.0,
+#                          side="left"):
+#     """
+#     Function that normalizes the thresholds for the watershed algorithm.
+#     Threshold on basin's area is normalized by the surface area of the mesh.
+#     Threshold on distance between pits is normalized by the square root of
+#     the surface area.
+#
+#     :args: voronoi(numpy array): voronoi areas of the mesh
+#     :args: thresh_dist(float): distance threshold for the watershed algorithm
+#     :args: thresh_ridge(float): ridge threshold for the watershed algorithm
+#     :args: thresh_area(float): area threshold for the watershed algorithm
+#     :args: side: side of the brain (left or right)
+#     :return: normalized thresholds (thresh_dist, thresh_ridge, thresh_area)
+#
+#     Parameters
+#     ----------
+#     voronoi
+#     thresh_dist
+#     thresh_ridge
+#     thresh_area
+#     side
+#
+#     Returns
+#     -------
+#     Normalized watershed parameters
+#     """
+#
+#     # normalization
+#     print("\n\tComputing the surface area\n")
+#     mesh_area = np.sum(voronoi)
+#     mesh_area_sqrt = np.sqrt(mesh_area)
+#
+#     # Set group average values
+#     # from OASIS database
+#     # group_average_fiedler_length = 238.25 if side == "right" else 235.95
+#     # group_average_surface_area = 91433.68 if side == "right" else 91369.33
+#     # from HCP database
+#     group_average_surface_area = 92161.30 if side == "right" else 91530.63
+#     group_average_surface_area_sqrt = 303.20 if side == "right" else 302.16
+#
+#     # Normalize the thresholds regarding brain size
+#     thresh_dist *= mesh_area_sqrt / group_average_surface_area_sqrt
+#     thresh_area *= mesh_area / group_average_surface_area
+#
+#     # Stay at input precision level
+#     thresh_dist = round(thresh_dist, 1)
+#     thresh_area = round(thresh_area, 1)
+#
+#     return thresh_dist, thresh_ridge, thresh_area
 
 
 def watershed(mesh, voronoi, dpf_star, thresh_dist_perc, thresh_ridge,
@@ -186,6 +186,12 @@ def watershed(mesh, voronoi, dpf_star, thresh_dist_perc, thresh_ridge,
     mask_indices = np.where(mask == 1)[0]
     nodes = np.vstack((vert_idx, vert_depth)).T
     nodes = np.delete(nodes, mask_indices, axis=0)
+
+    # if thresh_dist_perc < 100%, then we will need to compute
+    # geodesic distances, so we initialize the solver that will
+    # be used below
+    if thresh_dist_perc < 100:
+        solver = pp3d.MeshHeatMethodDistanceSolver(mesh.vertices, mesh.faces)
 
     # Sorting step
     # All nodes of the mesh are sorted by their depth
@@ -295,12 +301,21 @@ def watershed(mesh, voronoi, dpf_star, thresh_dist_perc, thresh_ridge,
                         # ridge_height < ridge_height_cus)
                         # print(ridge_height, thresh_ridge)
                         if ridge_height < thresh_ridge:
-                            # print("compute gdist")
-                            # Compute distance between pits
-                            v = geodesics.compute_gdist(
-                                mesh,
-                                basins[label_i]['pit_index'],
-                                basins[label_j]['pit_index'])
+                            if thresh_dist_perc < 100:
+                                # print("compute gdist")
+                                # Compute distance between pits
+                                v_pp = solver.compute_distance(
+                                    int(basins[label_i]['pit_index']))
+                                v = float(
+                                    v_pp[int(basins[label_j]['pit_index'])])
+                                # from slam import geodesics
+                                # v_old = geodesics.compute_gdist(
+                                #     mesh,
+                                #     basins[label_i]['pit_index'],
+                                #     basins[label_j]['pit_index'])
+                                # print(v_old, v, abs(v_old-v)/v_old)
+                            else:
+                                v = 0
                             if v < thresh_dist:
                                 # print('merging of',label_j,'into',label_i)
                                 merging = 1
@@ -461,8 +476,8 @@ def watershed(mesh, voronoi, dpf_star, thresh_dist_perc, thresh_ridge,
         # compute depth difference between ridge point and corresponding pits
         diff_i = abs(basins[i]['pit_depth'] - ridges[(i, j)]['ridge_depth'])
         diff_j = abs(basins[j]['pit_depth'] - ridges[(i, j)]['ridge_depth'])
-        ridges[(i, j)]['ridge_depth_diff_min'] = min(diff_i, diff_j)
-        ridges[(i, j)]['ridge_depth_diff_max'] = max(diff_i, diff_j)
+        ridges[(i, j)]['ridge_height_min'] = min(diff_i, diff_j)
+        ridges[(i, j)]['ridge_height_max'] = max(diff_i, diff_j)
 
     # for i, j in adjacency_index:
     #     print("-------------------------")

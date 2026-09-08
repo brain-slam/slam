@@ -53,28 +53,30 @@ class TestSulcalGraph(unittest.TestCase):
 
     def test_get_textures_from_graph(self):
         # Test de la fonction get_textures_from_graph
-        atex_labels, atex_pits, atex_ridges = sulcal_graph.get_textures_from_graph(self.graph, self.mesh)
+        atex_labels, atex_pits, atex_ridges, atex_boundaries = sulcal_graph.get_textures_from_graph(self.graph, self.mesh)
 
         self.assertIsInstance(atex_labels, np.ndarray)
         self.assertIsInstance(atex_pits, np.ndarray)
         self.assertIsInstance(atex_ridges, np.ndarray)
+        self.assertIsInstance(atex_boundaries, np.ndarray)
         self.assertEqual(atex_labels.shape[0], len(self.mesh.vertices))
         self.assertEqual(atex_pits.shape[0], len(self.mesh.vertices))
         self.assertEqual(atex_ridges.shape[0], len(self.mesh.vertices))
+        self.assertEqual(atex_boundaries.shape[0], len(self.mesh.vertices))
 
-    def test_add_geodesic_distances(self):
-        def mock_compute_gdist(mesh, ridge):
-            return np.array([0.0, 1.0, 2.0, 3.0, 4.0])
-
-        # Use unittest.mock.patch as a context manager (with) to ensures that the original function compute_gdist
-        # is automatically restored after the block ends.
-        with patch('slam.geodesics.compute_gdist', side_effect=mock_compute_gdist):
-            g = sulcal_graph.add_geodesic_distances_to_edges(self.graph, self.mesh)
-            print(g.edges[list(g.edges)[0]])
-
-            self.assertIn("geodesic_distance_btw_ridge_pit_i", g.edges[list(g.edges)[0]].keys())
-            self.assertIn("geodesic_distance_btw_ridge_pit_j", g.edges[list(g.edges)[0]].keys())
-            self.assertIn("geodesic_distance_btw_pits", g.edges[list(g.edges)[0]].keys())
+    # def test_add_geodesic_distances(self):
+    #     def mock_compute_gdist(mesh, ridge):
+    #         return np.array([0.0, 1.0, 2.0, 3.0, 4.0])
+    #
+    #     # Use unittest.mock.patch as a context manager (with) to ensures that the original function compute_gdist
+    #     # is automatically restored after the block ends.
+    #     with patch('slam.geodesics.compute_gdist', side_effect=mock_compute_gdist):
+    #         g = sulcal_graph.add_geodesic_distances_to_edges(self.graph, self.mesh)
+    #         print(g.edges[list(g.edges)[0]])
+    #
+    #         self.assertIn("geodesic_distance_btw_ridge_pit_i", g.edges[list(g.edges)[0]].keys())
+    #         self.assertIn("geodesic_distance_btw_ridge_pit_j", g.edges[list(g.edges)[0]].keys())
+    #         self.assertIn("geodesic_distance_btw_pits", g.edges[list(g.edges)[0]].keys())
 
 
 if __name__ == '__main__':

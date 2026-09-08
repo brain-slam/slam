@@ -18,7 +18,7 @@ DOC_REQUIREMENTS = ['sphinx',
                     'plotly',
                     'kaleido']
 
-DIST = ["tvb-gdist"]
+DIST = ["potpourri3d", "tvb-gdist"]
 
 TRIMESH_FULL = ["rtree", "shapely"]
 

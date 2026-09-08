@@ -20,7 +20,7 @@ Slam is an extension of [Trimesh](https://github.com/mikedh/trimesh), an open so
 
 + ``generate_parametric_surfaces``: generation of parametric surfaces with random sampling
 
-+ ``geodesics``: geodesic distance computation using tvb-gdist and networkx
++ ``geodesics``: geodesic distance computation using tvb-gdist, potpourri3d and networkx
 
 + ``differential_geometry``: several implementations of graph Laplacian (conformal, authalic, FEM...), texture Gradient
 
@@ -40,7 +40,9 @@ Slam is an extension of [Trimesh](https://github.com/mikedh/trimesh), an open so
 
 ## News in last release
 
-+ acceleration of the computation of the vertex voronoi that is used in many algorithms
++ Deep update of the watershed algorithm that impact many aspects, more details coming
++ Acceleration of the watershed algorithm by using potpourri3d for computing geodesic distances
++ Acceleration of the computation of the vertex voronoi that is used in many algorithms
 
 ## For contributors
 
@@ -97,6 +99,7 @@ In order to work fine, slam requires:
 + trimesh 
 + nibabel
 + networkx
++ potpourri3d
 
 
     
