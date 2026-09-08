@@ -34,7 +34,7 @@ mesh = sio.load_mesh(mesh_file)
 ###############################################################################
 # The dpf* can be computed using a single function.
 # The outuput of this function are
-# dpf_star, a texture (vetcor of size equal to the number of vertices in the mesh)
+# dpf_star, a texture (vector of size equal to the number of vertices in the mesh)
 # corresponding to the normalized sulcal depth;
 # lc, the estimated characteristic length of the mesh
 dpf_star, lc = sdepth.dpf_star(mesh)

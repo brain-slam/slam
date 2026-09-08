@@ -62,7 +62,7 @@ print('range of basins area:', min(bas_area), '-', max(bas_area))
 
 ###############################################################################
 # print statistics regarding the height of ridges
-rid_height = swat.get_ridges_attribute(ridges, attribute='ridge_depth_diff_min')
+rid_height = swat.get_ridges_attribute(ridges, attribute='ridge_height_min')
 print('average ridges height:', np.mean(rid_height))
 print('range of ridges height:', min(rid_height), '-', max(rid_height))
 
@@ -73,7 +73,7 @@ atex_labels, atex_pits, atex_ridges = swat.get_textures_from_dict(
 
 ###############################################################################
 # print the labels present in the texture of basin labels
-print(np.unique(atex_labels))
+print('labels of basins: ',np.unique(atex_labels))
 
 ###############################################################################
 # generate the texture of the boundaries between basins from watershed outputs
@@ -130,14 +130,14 @@ fig = splt.plot_mesh(
 ridges_coords = splt.coords_outward_shift(atex_ridges==1, mesh, out_shift=0.5)
 trace_ridges = splt.plot_points(
     ridges_coords,
-    marker={"size": 6, "color": "white", "line":{"color":"black", "width":2}},
+    marker={"size": 6, "color": "white", "symbol": "diamond", "line":{"color":"black", "width":2}},
 )
 fig.add_trace(trace_ridges)
 # add the pits to the plot
-pits_coords = splt.coords_outward_shift(atex_pits==1, mesh, out_shift=1)
+pits_coords = splt.coords_outward_shift(atex_pits==1, mesh, out_shift=0.5)
 trace_pits = splt.plot_points(
     pits_coords,
-    marker={"size": 6, "color": "red", "line":{"color":"black", "width":2}}
+    marker={"size": 6, "color": "red", "symbol": "square", "opacity":0.8, "line":{"color":"black", "width":2}}
 )
 fig.add_trace(trace_pits)
 fig.show()
@@ -146,7 +146,6 @@ fig
 # create a texture showing the basins label and boundaries
 tex_plot = atex_labels.copy()
 tex_plot[atex_boundaries==1] = -1
-print(np.unique(tex_plot))
 
 display_settings = {}
 display_settings['colorbar_label'] = 'Basins label'
@@ -178,7 +177,7 @@ fig3 = splt.plot_mesh(
     mesh_data=mesh_data,
     intensity_data=intensity_data,
     display_settings=display_settings)
-fig3 = splt.plot_graph_on_mesh(g, mesh, vertex_index_attribute='pit_index', out_shift=1, show_edge_ridge=True, fig=fig3)
+fig3 = splt.plot_graph_on_mesh(g, mesh, vertex_index_attribute='pit_index', out_shift=0.5, show_edge_ridge=True, fig=fig3)
 # add the ridges to the plot
 fig3.add_trace(trace_ridges)
 fig3.show()

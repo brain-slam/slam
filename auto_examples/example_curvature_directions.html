@@ -162,7 +162,7 @@ to download the full example code.</p>
     <span class="n">ay</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
     <span class="n">random_sampling</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">ratio</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
-    <span class="n">random_distribution_type</span><span class="o">=</span><span class="s2">&quot;gaussian&quot;</span><span class="p">,</span>
+    <span class="n">random_distribution_type</span><span class="o">=</span><span class="s2">"gaussian"</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -187,14 +187,14 @@ Finished Calculating principal components
 </div>
 <p>Visualization of vector fields with matplotlib</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">visualize</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">vector_field</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Visualize a mesh and a vector field over it</span>
 <span class="sd">    :param mesh: a mesh with n points</span>
 <span class="sd">    :param vector_field: (n,3) array</span>
 <span class="sd">    :param colors: (n,3) array</span>
 <span class="sd">    :param params: params[0] is the length of the quivers</span>
 <span class="sd">    :return:</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">n</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">colors</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">colors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
@@ -203,7 +203,7 @@ Finished Calculating principal components
         <span class="n">params</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">params</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
 
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="s1">'3d'</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">plot_trisurf</span><span class="p">(</span>
         <span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
         <span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
@@ -228,7 +228,7 @@ Finished Calculating principal components
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../_images/sphx_glr_example_curvature_directions_001.png" srcset="../_images/sphx_glr_example_curvature_directions_001.png" alt="example curvature directions" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.679 seconds)</p>
+<img src="../_images/sphx_glr_example_curvature_directions_001.png" srcset="../_images/sphx_glr_example_curvature_directions_001.png" alt="example curvature directions" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.412 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-example-curvature-directions-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/47df33371a4b89c63be7ddf037147f46/example_curvature_directions.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">example_curvature_directions.ipynb</span></code></a></p>
@@ -256,7 +256,7 @@ Finished Calculating principal components
       
     </p>
     <p>
-        &copy; Copyright 2026, slam Developers. Last updated on 2026-05-27.<br/>
+        &copy; Copyright 2026, slam Developers. Last updated on 2026-09-08.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 9.1.0.<br/>
     </p>
   </div>

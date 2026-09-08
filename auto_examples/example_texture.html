@@ -150,8 +150,8 @@ import os</p>
 <span class="kn">from</span><span class="w"> </span><span class="nn">slam</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot</span> <span class="k">as</span> <span class="n">proj</span>
 </pre></div>
 </div>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">tex</span> <span class="o">=</span> <span class="n">sio</span><span class="o">.</span><span class="n">load_texture</span><span class="p">(</span><span class="s2">&quot;../examples/data/example_dpf.gii&quot;</span><span class="p">)</span>
-<span class="n">mesh</span> <span class="o">=</span> <span class="n">sio</span><span class="o">.</span><span class="n">load_mesh</span><span class="p">(</span><span class="s2">&quot;../examples/data/example_mesh.gii&quot;</span><span class="p">)</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">tex</span> <span class="o">=</span> <span class="n">sio</span><span class="o">.</span><span class="n">load_texture</span><span class="p">(</span><span class="s2">"../examples/data/example_dpf.gii"</span><span class="p">)</span>
+<span class="n">mesh</span> <span class="o">=</span> <span class="n">sio</span><span class="o">.</span><span class="n">load_mesh</span><span class="p">(</span><span class="s2">"../examples/data/example_mesh.gii"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">tex</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tex</span><span class="o">.</span><span class="n">metadata</span></a><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#tuple" title="builtins.tuple" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tex</span><span class="o">.</span><span class="n">shape</span></a><span class="p">)</span>
@@ -160,8 +160,8 @@ import os</p>
 <span class="nb">print</span><span class="p">(</span><span class="n">tex</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;slam.texture.TextureND object at 0x7f126872e030&gt;
-{&#39;processed&#39;: True}
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;slam.texture.TextureND object at 0x7f6c7b1c8650&gt;
+{'processed': True}
 (1, 2328)
 float32
 -1.6247417
@@ -176,18 +176,18 @@ float32
 <span class="nb">print</span><span class="p">(</span><span class="n">tex2</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">tex2</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">tex2</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
-<span class="n">sio</span><span class="o">.</span><span class="n">write_texture</span><span class="p">(</span><span class="n">tex2</span><span class="p">,</span> <span class="s2">&quot;test.gii&quot;</span><span class="p">)</span>
+<span class="n">sio</span><span class="o">.</span><span class="n">write_texture</span><span class="p">(</span><span class="n">tex2</span><span class="p">,</span> <span class="s2">"test.gii"</span><span class="p">)</span>
 
 <span class="c1">#############</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;extremum texture&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;maximum&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"extremum texture"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"maximum"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">tex</span><span class="o">.</span><span class="n">extremum</span><span class="p">(</span><span class="n">mesh</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;minimum&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"minimum"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">tex</span><span class="o">.</span><span class="n">extremum</span><span class="p">(</span><span class="n">mesh</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>{&#39;processed&#39;: True}
-&lt;slam.texture.TextureND object at 0x7f126a2d1730&gt;
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>{'processed': True}
+&lt;slam.texture.TextureND object at 0x7f6c905355b0&gt;
 (2, 3)
 float64
 0.0
@@ -199,7 +199,7 @@ minimum
 34
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.068 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.050 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-example-texture-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/86cfc2efe9100cd822bc5845b30f6bf6/example_texture.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">example_texture.ipynb</span></code></a></p>
@@ -226,7 +226,7 @@ minimum
       
     </p>
     <p>
-        &copy; Copyright 2026, slam Developers. Last updated on 2026-05-27.<br/>
+        &copy; Copyright 2026, slam Developers. Last updated on 2026-09-08.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 9.1.0.<br/>
     </p>
   </div>

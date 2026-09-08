@@ -63,8 +63,34 @@ print("Edge attributes:\n", g.edges[list(g.edges)[0]].keys())
 print("First edge:\n", g.edges[list(g.edges)[0]])
 
 ###############################################################################
-# add geodesic distances attribute to edges
-g = ssg.add_geodesic_distances_to_edges(g, mesh)
+##### compute Euclidian distance between pits and to the ridge
+print("compute Euclidian dist")
+g = ssg.add_edge_attribute_euclidian_distances(g,mesh)
+
+##### compute geodesic distance between pits and to the ridge
+print("compute geodesic dist")
+import time
+t1=time.time()
+g = ssg.add_edge_attribute_geodesic_distances(g,mesh)
+t2=time.time()
+print(t2-t1)
+
+
+edges_euclidian_dist = (np.array(list(nx.get_edge_attributes(
+            g, "euclidian_distance_btw_pits").values())))
+edges_geo_dist = (np.array(list(nx.get_edge_attributes(
+            g, "geodesic_distance_btw_pits").values())))
+
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+fig_comp1 = go.Figure(data=[go.Scatter(
+    x=edges_geo_dist,
+    y=edges_euclidian_dist,
+    mode='markers',
+    marker_color='red',
+
+)])
+fig_comp1.show()
 
 ###############################################################################
 # add mean value to nodes attributes
@@ -72,7 +98,7 @@ g = ssg.add_mean_value_to_nodes(g, dpf, attribute_name='basin_mean_depth')
 
 ###############################################################################
 # get textures from graph
-atex_labels, atex_pits, atex_ridges = ssg.get_textures_from_graph(g, mesh)
+atex_labels, atex_pits, atex_ridges, atex_boundaries = ssg.get_textures_from_graph(g, mesh)
 
 ###############################################################################
 # A more detailed computation of the sulcal graph
@@ -91,7 +117,7 @@ g = ssg.get_sulcal_graph(adjacency, basins, ridges)
 
 ###############################################################################
 # generate the textures from graph
-atex_labels_graph, atex_pits_graph, atex_ridges_graph = (ssg.get_textures_from_graph
+atex_labels_graph, atex_pits_graph, atex_ridges_graph, atex_boundaries = (ssg.get_textures_from_graph
                                     (g, mesh))
 # compare the textures extracted from the watershed with the ones extarcted from the graph
 # they should be identical
@@ -139,7 +165,13 @@ interpolated_dpf = srem.texture_spherical_interpolation_nearest_neighbor(
 g = ssg.vertex_index_interpolation(g, target_spherical_mesh,
                                               graph_spherical_coords_attribute='sphere_3dcoords',
                                               interpolated_attribute='interpolated_pits_index')
-print("First node:\n", g.nodes[0])
+print("Get the number of nodes in the graph:\n", g.number_of_nodes())
+print("Get the number of edges in the graph:\n", g.number_of_edges())
+print("Get the number of edges incident to the node 1:\n", g.degree[1])
+print("Show the first node:\n", g.nodes[0])
+print("Print the attributes of the first node:\n", g.nodes[0].keys())
+print("Show the first edge:\n", g.edges[0,4])
+print("Print the attributes of the first edge:\n", g.edges[0,4].keys())
 
 ###############################################################################
 # Here is the way to get the list of 'interpolated_pits_index' for all nodes
@@ -151,7 +183,7 @@ interp_pits_inds = np.array(list(nx.get_node_attributes(g, 'interpolated_pits_in
 g = ssg.add_coords_attribute(g, target_spherical_mesh,
                                     attribute_vert_index='interpolated_pits_index',
                                     new_attribute_key='target_sphere_3dcoords')
-print("First node:\n", g.nodes[0])
+print("Show the first node to see the impact of the previous command:\n", g.nodes[0])
 
 ###############################################################################
 # add as a new node attribute the 3D coordinates of the vertex corresponding to
@@ -159,7 +191,136 @@ print("First node:\n", g.nodes[0])
 g = ssg.add_coords_attribute(g, target_mesh,
                                     attribute_vert_index='interpolated_pits_index',
                                     new_attribute_key='target_mesh_3dcoords')
-print("First node:\n", g.nodes[0])
+print("Show the first node to see the impact of the previous command:\n", g.nodes[0])
+
+###############################################################################
+# Get and visualize the distribution of some attirbutes on nodes and edges
+nodes_pit_depth = (np.array(list(nx.get_node_attributes(
+            g, "pit_depth").values())))
+nodes_basin_area = (np.array(list(nx.get_node_attributes(
+            g, "basin_area").values())))
+nodes_basin_label = (np.array(list(nx.get_node_attributes(
+            g, "basin_label").values())))
+
+edges_ridge_depth = (np.array(list(nx.get_edge_attributes(
+            g, "ridge_depth").values())))
+edges_ridge_depth_min = (np.array(list(nx.get_edge_attributes(
+            g, "ridge_depth_diff_min").values())))
+edges_ridge_depth_max = (np.array(list(nx.get_edge_attributes(
+            g, "ridge_depth_diff_max").values())))
+
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+
+fig = make_subplots(rows=2, cols=4)
+## nodes_pit_depth
+fig_nodes_pit_depth = go.Figure(data=[go.Histogram(
+    x=nodes_pit_depth,
+    nbinsx=10,  # Number of bins
+    histnorm='probability',
+    marker_color='blue',  # Bar color
+    opacity=0.4  # Bar opacity
+)])
+# Update layout
+fig_nodes_pit_depth.update_layout(
+    title='nodes_pit_depth',
+    xaxis_title='dpf*',
+    yaxis_title='Count'
+)
+fig.add_trace(fig_nodes_pit_depth.data[0], row=1, col=1)
+## pits depth
+fig_nodes_basin_area = go.Figure(data=[go.Histogram(
+    x=nodes_basin_area,
+    nbinsx=10,  # Number of bins
+    histnorm='probability',
+    marker_color='green',  # Bar color
+    opacity=0.4  # Bar opacity
+)])
+# Update layout
+fig_nodes_basin_area.update_layout(
+    title='nodes_basin_area',
+    xaxis_title='mm2',
+    yaxis_title='Count'
+)
+fig.add_trace(fig_nodes_basin_area.data[0], row=1, col=2)
+## pits depth VS label
+fig_nodes_pit_depth_vs_label = go.Figure(data=[go.Scatter(
+    x=nodes_basin_label,
+    y=nodes_pit_depth,
+    mode='markers',
+    marker_color='red',
+
+)])
+# Update layout
+fig_nodes_pit_depth_vs_label.update_layout(
+    title='pit_depth VS bassin_label',
+    xaxis_title='label',
+    yaxis_title='pit_depth'
+)
+fig.add_trace(fig_nodes_pit_depth_vs_label.data[0], row=1, col=3)
+## basin_area VS label
+fig_nodes_basin_area_vs_label = go.Figure(data=[go.Scatter(
+    x=nodes_basin_label,
+    y=nodes_basin_area,
+    mode='markers',
+    marker_color='black',
+)])
+# Update layout
+fig_nodes_basin_area_vs_label.update_layout(
+    title='basin_area VS bassin_label',
+    xaxis_title='label',
+    yaxis_title='basin_area'
+)
+fig.add_trace(fig_nodes_basin_area_vs_label.data[0], row=1, col=4)
+
+
+### edges
+## edges_ridge_depth
+fig_edges_ridge_depth = go.Figure(data=[go.Histogram(
+    x=edges_ridge_depth,
+    nbinsx=10,  # Number of bins
+    histnorm='probability',
+    marker_color='yellow',  # Bar color
+    opacity=0.4  # Bar opacity
+)])
+# Update layout
+fig_edges_ridge_depth.update_layout(
+    title='edges_ridge_depth',
+    xaxis_title='dpf*',
+    yaxis_title='Count'
+)
+fig.add_trace(fig_edges_ridge_depth.data[0], row=2, col=1)
+## edges_ridge_depth_min
+fig_edges_ridge_depth_min = go.Figure(data=[go.Histogram(
+    x=edges_ridge_depth_min,
+    nbinsx=10,  # Number of bins
+    histnorm='probability',
+    marker_color='cyan',  # Bar color
+    opacity=0.4  # Bar opacity
+)])
+# Update layout
+fig_edges_ridge_depth_min.update_layout(
+    title='edges_ridge_depth_min',
+    xaxis_title='dpf*',
+    yaxis_title='Count'
+)
+fig.add_trace(fig_edges_ridge_depth_min.data[0], row=2, col=2)
+## edges_ridge_depth_max
+fig_edges_ridge_depth_max = go.Figure(data=[go.Histogram(
+    x=edges_ridge_depth_max,
+    nbinsx=10,  # Number of bins
+    histnorm='probability',
+    marker_color='violet',  # Bar color
+    opacity=0.4  # Bar opacity
+)])
+# Update layout
+fig_edges_ridge_depth_max.update_layout(
+    title='edges_ridge_depth_max',
+    xaxis_title='dpf*',
+    yaxis_title='Count'
+)
+fig.add_trace(fig_edges_ridge_depth_max.data[0], row=2, col=3)
+fig.show()
 
 #############################################################################
 # VISUALIZATION USING plotly
